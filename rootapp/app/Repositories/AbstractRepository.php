@@ -1,0 +1,117 @@
+<?php
+
+namespace App\Repositories;
+
+use Carbon\Carbon;
+
+abstract class AbstractRepository {
+
+    protected $model;
+
+    protected abstract function definedModel();
+
+    public function __construct($id = null) {
+
+        $this->model = $this->definedModel();
+        if($id != null) {
+            $this->model = $this->model->find($id);
+        }
+    }
+
+    protected function beforeCreate(&$model) {return false;}
+    protected function afterCreate() {return false;}
+
+    public function findById($id) {
+        $this->model = $this->model->find($id);
+        
+        return $this;
+    }
+
+    public function orderBy($orderBy,$ordered) {
+        $this->model = $this->model->orderBy($orderBy,$ordered);
+
+        return $this;
+    }
+
+    public function getAll() {
+        $result = $this->model->all();
+        $this->model = $this->definedModel();
+        return $result;
+    }
+
+    public function get() {
+
+        $result = $this->model->get();
+        $this->model = $this->defineModel();
+        return $result;
+    }
+
+    public function instance() {
+        $model = $this->model;
+        $this->model = $this->definedModel();
+        return $model;
+    }
+
+    public function find($id){
+        return $this->model->find($id);
+    }
+
+    public function ownedBy($userId) {
+
+        $this->model = $this->model->where('user_id',$userId);
+
+        return $this;
+    }
+
+    public function explicitQuery($field,$value,$opt='=') {
+        $this->model = $this->model->where($field,$opt,$value);
+        return $this;
+    }
+
+
+    //command operation*******************************************
+    /**
+     * @param $model
+     * @param string $state
+     * @param array $exclude
+     * @return $this
+     */
+    public function attach($model) {
+        
+        if(!isset($model['id']) || $model['id'] == 0) {
+            $state = "create";
+        }
+        else {
+            $state = "modify";
+        }
+                
+        try {
+
+            if($state == "create") {
+
+                $this->beforeCreate($model);
+                $this->model = $this->definedModel();
+                $this->model->toMap($model)->save();
+                $this->afterCreate();
+            }
+            else if($state == "modify") {
+
+                $this->model = $this->model->find($model['id']);
+                $this->model->toMap($model)->save();
+
+            }
+        }
+        catch(Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+        return $this;
+    }
+
+    public function remove($id) {
+        return $this->model->find($id)->delete();
+    }
+
+
+
+
+}

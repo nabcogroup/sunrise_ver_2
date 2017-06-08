@@ -1,0 +1,33 @@
+@import "variables";
+
+.x-panel {
+  background: $panel-bg;
+  border: 1px solid #E6E9ED;
+
+  > .panel-heading {
+    border-bottom: 2px solid #e6e9ed;
+     padding: $panel-padding;
+    margin-bottom: 10px;
+  }
+  > .panel-body {
+      padding: $panel-padding;
+  }
+
+  > .panel-footer {
+    border-bottom: 2px solid #e6e9ed;
+    padding: $panel-padding;
+    margin-top: 10px;
+    background: transparent;
+  }
+}
+
+
+.x-lite-panel {
+  padding: 15px 0;
+}
+
+.x-total-panel {
+  background: #e3e3e3;
+  padding: $padding-half;
+  border: 1px solid #f5f5f5;
+}

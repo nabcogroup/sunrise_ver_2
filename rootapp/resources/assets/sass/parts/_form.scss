@@ -1,0 +1,37 @@
+@import "variables";
+
+.x-read-group {
+  width: 100%;
+  margin-bottom: 5px;
+  
+  .x-label {
+    background: #eeeeee;
+    padding: 10px;
+    text-align: right;
+  }
+  
+  .x-desc {
+    border-bottom: 1px solid $line-color;
+    padding: 10px;
+    height: 41px;
+    line-height: 1em;
+  }
+  &:after {
+    content:"";
+    display: table;
+    clear: both;
+  }
+
+  .x-total-label {
+    
+    font-weight: bold;
+    text-align: left;
+    
+  }
+
+  .x-total-desc {
+    text-align: right;
+    font-weight: bold;
+  }
+
+}

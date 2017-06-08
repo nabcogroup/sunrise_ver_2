@@ -1,0 +1,58 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500');
+@import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+table {
+  font-size: 14px;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.page-wrapper {
+  padding: 15px;
+}
+
+.has-small-padding {
+  padding: 10px;
+}
+
+//button group
+.nb-button-group {
+  width: 100%;
+  float:left;
+  a.nb-menu {
+    display: block;
+    float:left;
+    width: 20%;
+    text-align: center;
+    color: gray;
+    text-decoration: none;
+    margin: 0 auto;
+  }
+  &.after {
+    display: table;
+    clear: both;
+    content: '';
+  }
+
+}
+
+
+@import 'parts/sidebar';
+
+@import 'parts/xpanel';
+
+@import 'parts/form';
+
+@import 'parts/helper';
+
+@import "node_modules/toastr/toastr.scss";
+

@@ -5,7 +5,7 @@
         </div>
         <div class="panel-body">
             <div class='form-group'>
-                <label class='col-md-3'>Tenant Type</label>
+                <label class='col-md-3 text-right'>Tenant Type:</label>
                 <div class='col-md-9'>
                     <select class='form-control' name='type'
                             v-model='tenant.type'>
@@ -15,7 +15,7 @@
             </div>
 
             <div class='form-group'>
-                <label class='col-md-3'>{{labels.fullName}}</label>
+                <label class='col-md-3 text-right'>{{labels.fullName}}: <span class="text-danger">*</span></label>
                 <div class='col-md-9'>
                     <input type='text' class='form-control' name='register_tenant.full_name'
                            v-model='tenant.full_name'>
@@ -26,8 +26,8 @@
             </div>
 
             <!-- Company / Representative -->
-            <div class='form-group'>
-                <label for='reg_name' class='col-md-3'>{{labels.regName}}</label>
+            <div class='form-group text-right'>
+                <label for='reg_name' class='col-md-3'>{{labels.regName}}: </label>
                 <div class='col-md-9'>
                     <input type='text' class='form-control' name='register_tenant.reg_name'
                            v-model='tenant.reg_name' id='reg_name'>
@@ -35,8 +35,8 @@
             </div>
 
             <!-- Qatar Id / CR No -->
-            <div class='form-group'>
-                <label for='reg_id' class='col-md-3'>{{labels.regNo}}</label>
+            <div class='form-group text-right'>
+                <label for='reg_id' class='col-md-3 text-right'>{{labels.regNo}}: <span class="text-danger">*</span></label>
                 <div class='col-md-9'>
                     <input type='text' class='form-control' name='register_tenant.reg_id'
                            v-model='tenant.reg_id'>
@@ -48,7 +48,7 @@
 
             <!-- Birthday / Validity Date -->
             <div class="form-group">
-                <label class="col-md-3">{{labels.regDate}}</label>
+                <label class="col-md-3 text-right">{{labels.regDate}}: <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                     <dtpicker dp-name="register_tenant.reg_date" @pick="tenant.reg_date = $event"
                               :value="tenant.reg_date"></dtpicker>
@@ -59,7 +59,7 @@
             </div>
 
             <div class="form-group" v-show="showGender">
-                <label class="col-md-3">Gender:</label>
+                <label class="col-md-3 text-right">Gender:</label>
                 <div class="col-md-9">
                     <select class="form-control" name="gender" v-model="tenant.gender">
                         <option value="male" selected="true">Male</option>
@@ -70,7 +70,7 @@
             <hr/>
 
             <div class="form-group">
-                <label class="col-md-3">Email Address:</label>
+                <label class="col-md-3 text-right">Email Address: <span class="text-danger">*</span></label>
                 <div class="col-md-9">
                     <input name="register_tenant.email_address" type="text" class="form-control"
                            v-model="tenant.email_address">
@@ -81,7 +81,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-3">Tel No:</label>
+                <label class="col-md-3 text-right">Tel No:</label>
                 <div class="col-md-9">
                     <input name="tel_no" type="text" class="form-control"
                            v-model="tenant.tel_no">
@@ -89,7 +89,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-3">Mobile No:</label>
+                <label class="col-md-3 text-right">Mobile No: <span class="text-danger">(tel no or mobile)*</span></label>
                 <div class="col-md-9">
                     <input name="register_tenant.mobile_no" type="text" class="form-control"
                            v-model="tenant.mobile_no">
@@ -100,7 +100,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-3">Fax No:</label>
+                <label class="col-md-3 text-right">Fax No:</label>
                 <div class="col-md-9">
                     <input name="fax_no" type="text" class="form-control"
                            v-model="tenant.fax_no">
@@ -109,7 +109,7 @@
             <hr/>
 
             <div class="form-group">
-                <label class="col-md-3">Address 1:</label>
+                <label class="col-md-3 text-right">Address 1: <span class="text-danger">*</span> </label>
                 <div class="col-md-9">
                     <input name="register_tenant.address_instance.address_1"
                            type="text" class="form-control"
@@ -121,7 +121,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-3">Address 2:</label>
+                <label class="col-md-3 text-right">Address 2:</label>
                 <div class="col-md-9">
                     <input name="address_2" type="text" class="form-control"
                            v-model="tenant.address_instance.address_2">
@@ -129,8 +129,8 @@
             </div>
 
             <div class="form-group">
-                <label class="col-md-3">City:</label>
-                <div class="col-md-3">
+                <label class="col-md-3 text-right">City: <span class="text-danger">*</span></label>
+                <div class="col-md-3 text-right">
                     <input name="register_tenant.address_instance.city" id="register_tenant.address_instance.city"
                            type="text" class="form-control"
                            v-model="tenant.address_instance.city">
@@ -138,7 +138,7 @@
                         {{errors.get('register_tenant.address_instance.city')}}
                     </error>
                 </div>
-                <label class="col-md-3">Postal Code:</label>
+                <label class="col-md-3 text-right">Postal Code: <span class="text-danger">*</span></label>
                 <div class="col-md-3">
                     <input name="register_tenant.address_instance.postal_code"
                            id="register_tenant.address_instance.postal_code" type="text" class="form-control"

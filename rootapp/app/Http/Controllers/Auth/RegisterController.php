@@ -73,8 +73,6 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
 
-
-
         $role =  Role::find($data['user_role']);
         if($role) {
             $user->roles()->attach($role);
@@ -98,7 +96,16 @@ class RegisterController extends Controller
         return view('auth.register',compact('users'));
     }
 
-    public function apiRemove(Request $request) {
+    public function remove(Request $request) {
 
     }
+
+    public function edit($userId) {
+        
+        $user = \App\User::find($userId);
+
+        return view('auth.register',compact('users'));
+    }
+
+
 }

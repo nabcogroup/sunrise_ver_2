@@ -2,12 +2,12 @@
     <modal modal-id="search" dialog-title="Bill Search" ftype="search" size="lg" @dismiss="" :unfold="toggle">
         <div class="form-inline">
             <div class="form-group">
-                <input type="text" v-model="filterValue" class="form-control search-width" name="search" placeholder="Search">
+                <input type="text" v-model="searchData.value" class="form-control search-width" name="search" placeholder="Search">
             </div>
             <div class="form-group">
-                <v-select  v-model="filterField" :options="options"></v-select>
+                <v-select  v-model="searchData.filter" :options="searchData.options"></v-select>
             </div>
-            <button type="submit" class="btn btn-default">Search</button>
+            <button type="button" class="btn btn-default" @click="search">Search</button>
         </div>
         <div>
             <table class="table table-condensed">
@@ -15,16 +15,18 @@
                     <tr>
                         <th>Tenant Code</th>
                         <th>Name</th>
-                        <th>Contact No</th>
+                        <th>Contract No</th>
                         <th>Bill No</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <tr v-for="item in searchData.list">
+                        <td>{{item.code}}</td>
+                        <td>{{item.full_name}}</td>
+                        <td>{{item.contract_no}}</td>
+                        <td>{{item.bill_no}}</td>
+                        <td><button class="btn btn-info" @click="select(item.bill_no)">Select</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -35,8 +37,9 @@
 <script>
 
     import Modal from '../Modal.vue';
-
     import vSelect from "vue-select"
+
+    import {SearchModel} from "./BillModel";
 
     export default {
         props: ["toggle"],
@@ -46,9 +49,21 @@
         },
         data() {
             return {
-                options: [ {value: 'bill_no',label:'Bill No'},{value: 'contract_no',label:'Contract No'}],
-                filterValue: '',
-                filterField: ''
+                searchModel: new SearchModel()
+            }
+        },
+        methods: {
+            search() {
+                this.searchModel.search();
+            },
+            select(billNo) {
+                this.$emit("select",billNo);
+
+            }
+        },
+        computed: {
+            searchData() {
+                return this.searchModel.data;
             }
         }
     }

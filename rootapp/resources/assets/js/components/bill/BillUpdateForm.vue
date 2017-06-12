@@ -45,8 +45,9 @@
                                     <label for="billSearch">Bill No:</label>
                                     <input type="text" class="input"  placeholder="XXX" name="billSearch" v-model="viewModel.options.billNo" />
                                     <button class="btn btn-info " @click="search"><i class="fa fa-fw " :class="viewModel.options.loadingSearch ? 'fa-refresh fa-spin' : 'fa-search'"></i></button>
+                                    <button class="btn btn-info" @click="print" :disabled="viewModel.options.billNo.length === 0"><i class="fa fa-fw fa-print"></i> </button>
                                 </div>
-                                <search-bill :toggle="searchToggle"></search-bill>
+                                <search-bill :toggle="searchToggle" @select="onSelect"></search-bill>
                             </div>
                         </div>
                         <div class="x-panel">
@@ -74,7 +75,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div v-if="bill.id" class="col-md-12">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" >
@@ -122,7 +122,6 @@
             </div>    
         </div>
     </div>
-    
 </template>
 
 <script>
@@ -148,9 +147,11 @@
         },
         data() {
             let gridColumn = createGridColumn();
+
             gridColumn.footers =[
                 {span: 8},
                 {span: 1, label: 'Total', slot:true}];
+
 
             return {
                 viewModel: new BillState(),
@@ -159,8 +160,8 @@
                 unfoldModal: false,
                 unfoldReplacementModal: false
             }
-        },
 
+        },
         computed: {
             contract() {
                 return this.viewModel.data.contract;
@@ -177,15 +178,38 @@
             footerAmount() {
                 return _.sumBy(this.viewModel.data.filteredPayments,(p) => { return parseInt(p.amount) });
             }
-
         },
         methods: {
             search() {
-                this.searchToggle = true;
-                //this.viewModel.getBill();
+                if(this.viewModel.options.billNo.length == 0) {
+                    this.searchToggle = true;
+                }
+                else {
+                    this.viewModel.getBill();
+                }
+            },
+            print() {
+                this.viewModel.redirectToPrint(this.viewModel.options.billNo);
             },
             save() {
-                this.viewModel.update();
+                window.bbox.confirm({
+                    message: "Do you want to update payment?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: (result) => {
+                        if(result) {
+                            this.viewModel.update();
+                        }
+                    }
+                });
             },
             changeTab(tabIndex,status) {
                 this.viewModel.filterPayment(status,tabIndex);
@@ -201,7 +225,6 @@
                 }
             },
             onReplacementDismissal(result) {
-                
                 if(result) {
                     this.viewModel.addNewCheque();
                     this.changeTab('received',0);
@@ -233,6 +256,11 @@
                     }
                 })
                
+            },
+            onSelect(billNo) {
+                this.viewModel.options.billNo = billNo;
+                this.viewModel.getBill();
+                this.searchToggle = false;
             }
         }
 

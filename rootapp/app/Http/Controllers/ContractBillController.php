@@ -25,6 +25,7 @@ class ContractBillController extends Controller
 
     public function __construct(BillRepository $repository)
     {
+
         $this->billRepository = $repository;
         $this->selection = new Selection();
 
@@ -87,6 +88,7 @@ class ContractBillController extends Controller
 
             $bundle = new Bundle();
             $bundle->add("contractId",$inputs['contract_id']);
+            
             event(new OnGetContract($bundle,new EventListenerRegister(["GetContract"])));
 
             if(!$bundle->hasOutput()) {
@@ -107,7 +109,7 @@ class ContractBillController extends Controller
             $bundle->add('contract',$contract);
 
             //notify update
-            event(new NotifyUpdate($bundle,new EventListenerRegister(["UpdateContractStatus"])));
+            event(new NotifyUpdate($bundle,new EventListenerRegister(["UpdateContractStatus","EmailNewContract"])));
 
             return Result::ok('Successfully Save',["billNo" => $bill->bill_no]);
         }
@@ -138,7 +140,9 @@ class ContractBillController extends Controller
             return $dompdf->stream(); 
         }
         catch(Exception $e) {
+
             return Result::badRequestWeb($e);
+
         }
     }
 
@@ -151,12 +155,17 @@ class ContractBillController extends Controller
     public function apiEdit($billNo = null)  {
 
         if($billNo == null) {
+
             return Result::badRequest(["message" => "Invalid Bill No"]);
+
         }
 
         $bill = $this->billRepository->includePayments()->findByBillNo($billNo)->first();
+
         if(!$bill) {
+
             return Result::badRequest(["message" => "Invalid Bill No"]);
+
         }
 
         $paymentInstance = $bill->createInstanceOfPayment();
@@ -194,26 +203,28 @@ class ContractBillController extends Controller
         }
     }
 
-    public function apiSearch($filter,$value) {
+    public function apiSearch($filter='bill',$value='') {
 
         try {
+
             if ($filter == 'contract') {
-
-                $bundle = new Bundle();
-                $bundle->add("contractNo", $value);
-                event(new OnGetContract($bundle, new EventListenerRegister(["GetContract"])));
-
-                $contract = $bundle->getOutput("contract");
-
-
-
+                $field = 'contracts.contract_no';
             }
+            else if($filter == 'tenant') {
+                $field = 'tenants.code';
+            }
+            else {
+                $field = 'contract_bills.bill_no';
+            }
+
+            $results = $this->billRepository->search($field,$value);
+
+            return $results;
+
         }
         catch(Exception $e) {
 
         }
-
-
     }
 
 }

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
@@ -75,5 +76,13 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    public function isPasswordMatch($attempt) {
+         if(Hash::check($attempt,$this->getAuthPassword())) {
+             return true;
+         }
+         return false;
+
     }
 }

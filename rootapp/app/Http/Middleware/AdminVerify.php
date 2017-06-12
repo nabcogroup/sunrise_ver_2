@@ -16,7 +16,9 @@ class AdminVerify
     public function handle($request, Closure $next)
     {
         if($request->user() != null && $request->user()->isAdmin()) {
+
             return $next($request);
+
         }
 
         return abort(404,"Permision denied");

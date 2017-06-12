@@ -8,11 +8,13 @@ use App\Events\OnCreating;
 use App\Http\Requests\ContractCalcForm;
 use App\Http\Requests\ContractForm;
 use App\Http\Requests\RenewalForm;
+use App\Http\Requests\TerminateForm;
 use App\Repositories\ContractRepository;
 use App\Selection;
 use App\Services\Bundle;
 use App\Services\EventListenerRegister;
 use App\Services\Result;
+use App\User;
 use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
@@ -52,7 +54,6 @@ class ContractController extends Controller
         }
     }
 
-
     public function register() {
         return view("contract.register");
     }
@@ -65,7 +66,12 @@ class ContractController extends Controller
         
         try {
             $periods = $request->all();
-            $contracts = $this->contractRepo->includeAssociates()->activeOnly()->getExpiryContracts(Carbon::parse($periods['start']), Carbon::parse($periods['end']))->get();
+
+            $contracts = $this->contractRepo->includeAssociates()
+                ->activeOnly()
+                ->getExpiryContracts(Carbon::parse($periods['start']), Carbon::parse($periods['end']))
+                ->get();
+
             $events = array();
 
             if($contracts) {
@@ -212,6 +218,7 @@ class ContractController extends Controller
 
                 $bundle = new Bundle();
 
+
                 $bundleValue = ["id" => $villaId, "status" => "vacant"];
 
                 $bundle->add("villa",$bundleValue);
@@ -233,6 +240,7 @@ class ContractController extends Controller
     public function apiRenew($id) {
 
         try {
+
             //get the old contract including villa
             $oldContract = $this->contractRepo->includeAssociates()->find($id);
 
@@ -254,6 +262,7 @@ class ContractController extends Controller
             $oldContract->setDefaultPeriod(Carbon::now(),self::DEFAULT_PERIOD,$remainingPeriodDay);
 
             return $oldContract;
+
         }
         catch(Exception $e) {
             return Result::badRequest(['message' => $e->getMessage()]);
@@ -309,11 +318,54 @@ class ContractController extends Controller
         }
     }
 
-    public function apiTerminate(Request $request) {
+    public function apiTerminate(TerminateForm $request) {
 
-        $id = $request->input('id');
-        
+        try {
+
+            $inputs = $request->all();
+
+            //validate password
+            $userId = Auth::user()->getAuthIdentifier();
+            $user = User::find($userId);
+
+            //verify password
+            if(!$user->isPasswordMatch($inputs['password'])) {
+                throw new Exception('Password does not match');
+            }
+
+            $contract = $this->contractRepo->find($inputs['id']);
+
+            if(!$contract->isActive()) {
+                throw new Exception('Contract is not active');
+            }
+
+            //terminate the contract
+            $contract->terminate($inputs['description'], $inputs['ref_no'],$user->id);
+
+            if($contract->isTerminated()) {
+
+                //update villa event
+                $bundle = new Bundle();
+                $bundleValue = ["id" => $contract->villa()->first()->id, "status" => "vacant"];
+                $bundle->add("villa", $bundleValue);
+                $bundle->add('contract',$contract);
+                $bundle->add('user',$user);
+
+                event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus","EmailTerminate"])));
+
+                return Result::ok('Succefully terminated!!!');
+            }
+            else {
+                throw new Exception('Contract failed to terminate');
+            }
+        }
+
+        catch(Exception $e) {
+            return Result::badRequest(['message' => $e->getMessage()]);
+        }
     }
+
+
 
 
 

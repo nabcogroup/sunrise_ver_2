@@ -87,7 +87,9 @@ class Contract extends BaseModel
     }
 
     public function bill() {
+        
         return $this->hasMany(ContractBill::class,'contract_id','id');
+
     }
     /* end navigation */
 
@@ -148,10 +150,13 @@ class Contract extends BaseModel
         return $this;
     }
 
-    public function terminate() {
+    public function terminate($description,$ref_no,$userId) {
 
         $this->status = "terminated";
 
+        $this->save();
+
+        $this->contractTerminations()->create(['description' => $description,'ref_no' => $ref_no,'user_id' => $userId]);
         return $this;
     }
 
@@ -179,6 +184,15 @@ class Contract extends BaseModel
 
     public function isPending() {
         return $this->hasStatusOf('pending');
+    }
+
+    public function isTerminated() {
+        if($this->hasStatusOf('terminated') && $this->contractTerminations()->get()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public function getRemainingBalance() {

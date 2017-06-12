@@ -215,6 +215,40 @@ export class BillState {
 
 }
 
+
+export class SearchModel {
+
+    constructor() {
+        this.data = {
+            filter: "",
+            value:"",
+            options:[
+                {value: 'bill', label:'Bill No'},
+                {value: 'contract', label:'Contract No'},
+                {value: 'tenant', label:'Tenant Id'}
+            ],
+            list: []
+        }
+    }
+    clear() {
+        this.data.list = [];
+    }
+    search() {
+        this.clear();
+        axiosRequest.get('bill','search',this.data.filter.value,this.data.value)
+            .then((r) => {
+                this.data.list = r.data;
+            })
+            .catch((e) => {
+                toastr.errors(e.response.data.message);
+            });
+
+    }
+
+
+}
+
+
 export const createGridColumn = function(value) {
         function columnFactory(value) {
             let grid = {};

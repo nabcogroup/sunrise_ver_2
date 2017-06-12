@@ -17,7 +17,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\UpdateVillaStatus',
             'App\Listeners\RemoveTenant',
             'App\Listeners\UpdateContractStatus',
-            'App\Listeners\EmailNewContract'
+            'App\Listeners\EmailNewContract',
+            'App\Listeners\EmailTerminate'
         ],
         'App\Events\OnCreating' => [
             'App\Listeners\CreateTenant',

@@ -6,3 +6,4 @@
         <bill-register contract-no="{{$contractNo}}" redirect-no="{{$billNo}}" ></bill-register>
     </div>
 @endsection
+

@@ -7,7 +7,7 @@
             <div class="col-md-12" style="margin-bottom: 10px">
                 <select class="form-control" @change="selected()" v-model="contract.villa_id">
                     <option value="0" selected="true">--SELECT VILLA--</option>
-                    <option v-for="villa in villas" :value="villa.id">{{ villa.villa_no }}</option>
+                    <option v-for="villa in villas" :value="villa.id">{{villa.full_location}} - {{villa.villa_no }}</option>
                 </select>
                 <error :errorDisplay="errors.get('villa_id')">{{errors.get('villa_id')}}</error>
             </div>

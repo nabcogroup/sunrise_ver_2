@@ -5,7 +5,7 @@
         </div>
         <div class="panel-body">
             <div class='form-group'>
-                <label for='tenant_type' class='col-md-3'>Contract Type:</label>
+                <label for='tenant_type' class='col-md-3 text-right'>Contract Type:</label>
                 <div class='col-md-9'>
                     <select class="form-control" v-model="contract.contract_type">
                         <option v-for="lookup in lookups.contract_type"
@@ -16,7 +16,7 @@
             </div>
 
             <div class='form-group'>
-                <label for='tenant_type' class='col-md-3'>Period Start:</label>
+                <label for='tenant_type' class='col-md-3 text-right'>Period Start: <span class="text-right">*</span> </label>
                 <div class='col-md-9'>
                     <dtpicker dp-name="period_start" @pick="contract.period_start = $event"
                               :value="contract.period_start"></dtpicker>
@@ -27,7 +27,7 @@
 
 
             <div class='form-group'>
-                <label for='tenant_type' class='col-md-3'>Periord End:</label>
+                <label for='tenant_type' class='col-md-3 text-right'>Periord End: <span class="text-right">*</span></label>
                 <div class='col-md-9'>
                     <dtpicker dp-name="period_end" @pick="contract.period_end = $event"
                               :value="contract.period_end"></dtpicker>
@@ -37,7 +37,7 @@
             </div>
 
             <div class='form-group'>
-                <label for='tenant_type' class='col-md-3'>Amount:</label>
+                <label for='tenant_type' class='col-md-3 text-right'>Amount: <span class="text-right">*</span></label>
                 <div class='col-md-9'>
                     <div class='input-group'>
                         <input name="amount" type="text" class="form-control" placeholder="AMOUNT *"

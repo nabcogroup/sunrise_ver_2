@@ -24,6 +24,8 @@ class CreateContractTerminationsTable extends Migration
 
             $table->primary('contract_id');
 
+            $table->integer('user_id')->unsigned()->index();
+
              //foreign key
             $table->foreign('contract_id')
 

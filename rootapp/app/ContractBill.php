@@ -84,6 +84,7 @@ class ContractBill extends BaseModel
     }
 
     public function getSummary() {
+
         return $this->Payments()->where("status","clear")->sum("amount");
 
     }
@@ -108,6 +109,7 @@ class ContractBill extends BaseModel
                 $this->Payments()->saveMany(array_map(function ($item) use($userId) {
                     $payment = new Payment();
                     $payment->toMap($item);
+                    $payment->payment_no = $item['payment_no'];
                     $payment->user_id = $userId;  //manually
 
                     return $payment;
@@ -118,7 +120,7 @@ class ContractBill extends BaseModel
             return true;
         }
         catch (Exception $e) {
-            abort(500,$e->getMessage());
+           Result::badRequest(['exception' => $e->getMessage()]);
         }
     }
 

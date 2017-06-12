@@ -15,15 +15,15 @@ class CreateUserRolesTable extends Migration
     {
           Schema::create('user_roles', function (Blueprint $table) {
             
-            $table->integer('user_id')->unique()->unsigned();
+            $table->integer('user_id')->unsigned()->index();
             
-            $table->integer('role_id')->unique()->unsigned();
+            $table->integer('role_id')->unsigned()->index();
 
             $table->timestamps();
 
             $table->primary(['user_id','role_id']);
 
-              //foreign key
+            //foreign key
             $table->foreign('user_id')
 
                 ->references('id')

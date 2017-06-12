@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Payment;
 use Carbon\Carbon;
 use Dompdf\Exception;
+use Illuminate\Support\Facades\DB;
 
 class BillRepository extends AbstractRepository
 {
@@ -44,6 +45,8 @@ class BillRepository extends AbstractRepository
         return $this;
     }
 
+
+
     public function findByBillNo($billNo) {
 
         return $this->model->where('bill_no',$billNo);
@@ -68,13 +71,17 @@ class BillRepository extends AbstractRepository
         return true;
     }
 
-    public function search($source) {
-        if($source == 'bill') {
-            return $this->model->where('bill_no',$source)->get();
-        }
-        else if($source == 'contract') {
+    public function search($field, $value) {
 
-        }
+        $dbraw = DB::table('contracts')
+                    ->join('contract_bills','contract_bills.contract_id','=','contracts.id')
+                    ->join('tenants','contracts.tenant_id','=','tenants.id')
+                    ->select('contracts.contract_no','contracts.id','tenants.code','tenants.full_name','contract_bills.bill_no')
+                    ->where('contracts.status','active')
+                    ->where('contracts.deleted_at',null)
+                    ->where($field,'like','%'.$value.'%');
+
+        return $dbraw->get();
     }
 
 }

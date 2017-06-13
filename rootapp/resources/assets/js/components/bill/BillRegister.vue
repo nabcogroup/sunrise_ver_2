@@ -70,12 +70,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <button class="btn btn-info" @click="showModal" style="margin-bottom: 10px;"><i
-                                        class="fa fa-plus-circle"></i> Add New
+                                        class="fa fa-plus-circle"></i> New Payment
                                 </button>
                                 <modal modal-id="payment" size="" dialog-title="Payment Entry" @dismiss="onDismissal"
                                        :unfold="unfoldModal">
                                     <payment-modal :state="bill"></payment-modal>
                                 </modal>
+                                
                                 <gridview :data="bill.data.bill.payments"
                                           :grid="gridColumn"
                                           :lookups="bill.data.lookups"

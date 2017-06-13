@@ -11,10 +11,11 @@ Management of contract and payment status is the current version.
 
 ### v3.x
 1. Contract Management 
-    - auto notification with sms everytime contract created
-    - realtime monitoring and auto renewal system
-2. Account Management
-    - 
+    - Auto notification with sms everytime contract created
+    - Realtime monitoring and auto renewal system
+2. Account Receivable
+    - Posting of payment with sms and email notification
+    - Bill - create a bill for any additional charges incurred by tenant.
 
 
 ### Contract Registration
@@ -26,6 +27,12 @@ Management of contract and payment status is the current version.
 5. Save contract
 
 ### Creating Bill
+
+1. After registration completed it will automatically redirect to contract billing
+2. click the new payment to add payment
+3. complete the payment and click save to post all payments
+4. print the bill receipt
+
 
 
 

@@ -3993,6 +3993,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -13058,7 +13059,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-plus-circle"
-  }), _vm._v(" Add New\n                            ")]), _vm._v(" "), _c('modal', {
+  }), _vm._v(" New Payment\n                            ")]), _vm._v(" "), _c('modal', {
     attrs: {
       "modal-id": "payment",
       "size": "",

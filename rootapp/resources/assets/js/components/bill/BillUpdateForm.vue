@@ -47,7 +47,7 @@
                                     <button class="btn btn-info " @click="search"><i class="fa fa-fw " :class="viewModel.options.loadingSearch ? 'fa-refresh fa-spin' : 'fa-search'"></i></button>
                                     <button class="btn btn-info" @click="print" :disabled="viewModel.options.billNo.length === 0"><i class="fa fa-fw fa-print"></i> </button>
                                 </div>
-                                <search-bill :toggle="searchToggle" @select="onSelect"></search-bill>
+                                <search-bill :toggle="searchToggle" @select="onSelect" @cancel="cancelSearch"></search-bill>
                             </div>
                         </div>
                         <div class="x-panel">
@@ -90,8 +90,7 @@
                         <div class="tab-content">
                             <div class="tab-pane active">
                                 <div class="col-md-2 col-md-offset-10 is-margin-bottom">
-                                    <button v-if="tabIndex == 0" class="btn btn-info btn-block" @click="onAddNewClick">Add New Cheque</button>
-                                    <button v-if="tabIndex == 1" class="btn btn-warning btn-block" @click="onReplacementClick">Replacement</button>
+                                    <button v-if="tabIndex == 0" class="btn btn-info btn-block" @click="onAddNewClick">Add New Payment</button>
                                 </div>
 
                                 <div class="col-md-12" id="main">
@@ -102,12 +101,15 @@
                                         <label>{{footerAmount | toCurrencyFormat}}</label>
                                     </gridview>
                                 </div>
+
                                 <modal size="" modal-id="paymentEntry" dialog-title="Payment Entry" @dismiss="onDismissal" :unfold="unfoldModal">
                                     <payment-modal :state="viewModel" ></payment-modal>
                                 </modal>
+
                                 <modal size="" modal-id="replacement" dialog-title="Replacement" @dismiss="onReplacementDismissal" :unfold="unfoldReplacementModal">
                                     <replacement :state="viewModel" ></replacement>
                                 </modal>
+
                                 <hr/>
                                 <div class="col-md-3 col-md-offset-9">
                                     <total-payment :payment="totalPayment"></total-payment>
@@ -125,7 +127,7 @@
 </template>
 
 <script>
-
+    
     import GridView from '../GridView.vue';
     import Modal from '../Modal.vue';
 
@@ -260,6 +262,9 @@
             onSelect(billNo) {
                 this.viewModel.options.billNo = billNo;
                 this.viewModel.getBill();
+                this.searchToggle = false;
+            },
+            cancelSearch() {
                 this.searchToggle = false;
             }
         }

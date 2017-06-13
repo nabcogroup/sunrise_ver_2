@@ -1350,13 +1350,15 @@ var SearchModel = function () {
         key: 'clear',
         value: function clear() {
             this.data.list = [];
+            this.data.filter = "";
+            this.data.value = "";
         }
     }, {
         key: 'search',
         value: function search() {
             var _this6 = this;
 
-            this.clear();
+            this.data.list = [];
             axiosRequest.get('bill', 'search', this.data.filter.value, this.data.value).then(function (r) {
                 _this6.data.list = r.data;
             }).catch(function (e) {
@@ -3769,7 +3771,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['logo', 'menus'],
+    props: ['logo', 'menus', 'title'],
     mounted: function mounted() {
         var dropdowns = this.$refs.dropdown;
         $('.nb-dropdown-menu').hide();
@@ -4243,6 +4245,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -4377,6 +4381,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         onSelect: function onSelect(billNo) {
             this.viewModel.options.billNo = billNo;
             this.viewModel.getBill();
+            this.searchToggle = false;
+        },
+        cancelSearch: function cancelSearch() {
             this.searchToggle = false;
         }
     }
@@ -4665,11 +4672,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         select: function select(billNo) {
             this.$emit("select", billNo);
+        },
+        onDismiss: function onDismiss(result) {
+            this.$emit("cancel");
         }
     },
     computed: {
         searchData: function searchData() {
             return this.searchModel.data;
+        }
+    },
+    watch: {
+        toggle: function toggle(val) {
+            console.log(val);
+            if (val) {
+                this.searchModel.clear();
+            }
         }
     }
 });
@@ -10305,7 +10323,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "unfold": _vm.toggle
     },
     on: {
-      "dismiss": function($event) {}
+      "dismiss": _vm.onDismiss
     }
   }, [_c('div', {
     staticClass: "form-inline"
@@ -10495,7 +10513,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "src": _vm.logo.imgPath
     }
-  }), _vm._v("\n                SUNRISE WEB PORTAL\n            ")])])]), _vm._v(" "), _c('ul', {
+  }), _vm._v("\n                " + _vm._s(_vm.title) + "\n            ")])])]), _vm._v(" "), _c('ul', {
     staticClass: "nb-sidebar-nav"
   }, _vm._l((_vm.menus), function(menu) {
     return _c('li', {
@@ -10856,7 +10874,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.dismiss(false)
       }
     }
-  }, [_vm._v("Close")]), _vm._v(" "), _c('button', {
+  }, [_vm._v("Close")]), _vm._v(" "), (_vm.ftype != 'search') ? _c('button', {
     staticClass: "btn btn-primary",
     attrs: {
       "type": "button"
@@ -10866,7 +10884,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.dismiss(true)
       }
     }
-  }, [(_vm.ftype == 'search') ? _c('span', [_vm._v("Search")]) : _c('span', [_vm._v("Save changes")])])])])])])
+  }, [_vm._v("\n                    Save changes\n                ")]) : _vm._e()])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -12267,7 +12285,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "toggle": _vm.searchToggle
     },
     on: {
-      "select": _vm.onSelect
+      "select": _vm.onSelect,
+      "cancel": _vm.cancelSearch
     }
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "x-panel"
@@ -12357,12 +12376,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.onAddNewClick
     }
-  }, [_vm._v("Add New Cheque")]) : _vm._e(), _vm._v(" "), (_vm.tabIndex == 1) ? _c('button', {
-    staticClass: "btn btn-warning btn-block",
-    on: {
-      "click": _vm.onReplacementClick
-    }
-  }, [_vm._v("Replacement")]) : _vm._e()]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Add New Payment")]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "col-md-12",
     attrs: {
       "id": "main"

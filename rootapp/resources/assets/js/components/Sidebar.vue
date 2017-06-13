@@ -4,7 +4,7 @@
             <div class="wrapper">
                 <a :href="logo.url" id="logo">
                     <img :src="logo.imgPath" class="circle">
-                    SUNRISE WEB PORTAL
+                    {{title}}
                 </a>
             </div>
         </div>
@@ -25,7 +25,7 @@
 
 <script>
     export default {
-        props: ['logo','menus'],
+        props: ['logo','menus','title'],
         mounted() {
             let dropdowns = this.$refs.dropdown;
             $('.nb-dropdown-menu').hide();

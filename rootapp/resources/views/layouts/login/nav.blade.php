@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">SUNRISE WEB PORTAL</a>
+            <a class="navbar-brand" href="#">{{config('app.name')}} v{{config('app.version')}}</a>
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">

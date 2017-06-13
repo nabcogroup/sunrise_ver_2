@@ -36,7 +36,7 @@
 </head>
 <body>
     <div id="mainApp">
-        <sidebar :logo="{{json_encode($sidebar['logos'])}}" :menus="{{$sidebar['menus']}}"></sidebar>
+        <sidebar title="{{config('app.name')}}" :logo="{{json_encode($sidebar['logos'])}}"  :menus="{{$sidebar['menus']}}"></sidebar>
         <div class="container-fluid" style="padding:0">
                 <nav class="navbar navbar-default">
                     <div class="container-fluid">

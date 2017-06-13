@@ -4,17 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Events\NotifyUpdate;
 use App\Events\OnGetContract;
+
 use App\Http\Requests\BillForm;
 use App\Listeners\GetContract;
 use App\Repositories\BillRepository;
 use App\Selection;
+
 use App\Services\Bundle;
 use App\Services\EventListenerRegister;
 use App\Services\Result;
+
 use Dompdf\Exception;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+
 use PDF;
 
 class ContractBillController extends Controller
@@ -34,6 +39,7 @@ class ContractBillController extends Controller
     public function create($contractNo) {
 
         $contract = $this->billRepository->findExistingContract($contractNo);
+        
         $isSaved = false;
         $billNo = "";
         
@@ -43,6 +49,7 @@ class ContractBillController extends Controller
         }
 
         return view("bill.create",compact("contractNo","billNo"));
+
     }
 
     public function apiCreate($contractNo) {

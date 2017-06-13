@@ -232,9 +232,11 @@ export class SearchModel {
     }
     clear() {
         this.data.list = [];
+        this.data.filter = "";
+        this.data.value ="";
     }
     search() {
-        this.clear();
+        this.data.list = [];
         axiosRequest.get('bill','search',this.data.filter.value,this.data.value)
             .then((r) => {
                 this.data.list = r.data;

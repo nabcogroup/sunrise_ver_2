@@ -12,8 +12,8 @@
                 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" @click="dismiss(false)"  >Close</button>
-                    <button type="button" class="btn btn-primary" @click="dismiss(true)">
-                        <span v-if="ftype=='search'">Search</span><span v-else>Save changes</span>
+                    <button type="button" class="btn btn-primary" @click="dismiss(true)" v-if="ftype!='search'">
+                        Save changes
                     </button>
                 </div>
                 

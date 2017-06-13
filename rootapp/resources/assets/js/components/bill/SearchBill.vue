@@ -1,5 +1,5 @@
 <template>
-    <modal modal-id="search" dialog-title="Bill Search" ftype="search" size="lg" @dismiss="" :unfold="toggle">
+    <modal modal-id="search" dialog-title="Bill Search" ftype="search" size="lg" @dismiss="onDismiss" :unfold="toggle">
         <div class="form-inline">
             <div class="form-group">
                 <input type="text" v-model="searchData.value" class="form-control search-width" name="search" placeholder="Search">
@@ -59,11 +59,22 @@
             select(billNo) {
                 this.$emit("select",billNo);
 
+            },
+            onDismiss(result) {
+                this.$emit("cancel");
             }
         },
         computed: {
             searchData() {
                 return this.searchModel.data;
+            }
+        },
+        watch: {
+            toggle(val) {
+                console.log(val);
+                if(val) {
+                    this.searchModel.clear();
+                }
             }
         }
     }

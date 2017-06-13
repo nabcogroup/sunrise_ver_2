@@ -8,6 +8,7 @@ Keeping track of tenant rental period is now easy to gain
 
 1. Click add new Contract
 2. Enter new tenant 
+3.
 
 
 

@@ -1,8 +1,21 @@
 # Sunrise ver2.1 
 
 ## Description
-Monitoring of contract and payments for sunrise properties. 
-Keeping track of tenant rental period is now easy to gain
+Sunrise Portal is a villa property management designed and developed for Sunrise Villa in Qatar.
+Management of contract and payment status is the current version.
+
+### v2.x 
+1. Contract Management - these includes register of contract,renewal and termination
+2. Accounts Management - posting of payment status.
+3. Masterfile - Villa management (create,update)
+
+### v3.x
+1. Contract Management 
+    - auto notification with sms everytime contract created
+    - realtime monitoring and auto renewal system
+2. Account Management
+    - 
+
 
 ### Contract Registration
 

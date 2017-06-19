@@ -27,9 +27,16 @@ class VillaRepository extends AbstractRepository {
         return $this->model->where('status','vacant')->get();
     }
 
+    public function searchVilla($field,$value) {
+        return $this->model
+            ->where($field,'like','%'.$value.'%')
+            ->select('id','created_at','villa_no','electricity_no','water_no','qtel_no','rate_per_month','location','status','villa_class')
+            ->get();
+    }
+
     public function getStatusCount() {
         
-       return $this->model->statusCount();
+        return $this->model->statusCount();
 
     }
 
@@ -44,8 +51,6 @@ class VillaRepository extends AbstractRepository {
 
         return true;
     }
-
-  
 
     public function saveVilla($entity) {
         try {
@@ -72,7 +77,8 @@ class VillaRepository extends AbstractRepository {
                         return new VillaGallery($item);
                     },$collectionGallery));
                 }
-
+                
+                //deleting gallery
                 if(sizeof($deleteMarks) > 0) {
                     foreach ($deleteMarks as $mark)
                     {

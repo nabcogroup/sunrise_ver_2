@@ -29,25 +29,44 @@ class VillaController extends Controller
         return view("villa.index",compact('villas'));
     }
 
-    public function apiList() {
-        try {
-            $villas =  $this->villaRepo->getAll();
-            $status = $this->villaRepo->getStatusCount();
-            return compact("villas","status");
-        }
-        catch(Exception $e) {
-            return Result::badRequest(["message" => $e->getMessage()]);
-        }
+
+    
+    public function imageSource($fileName) {
+        return Response($this->fileManager->getFilePath($fileName),200);
     }
 
     public function register($id = 0) {
         return view("villa.register",compact('id'));
     }
 
+    public function apiList($field='',$value='') {
+        try {
+
+            if(strlen($field) > 0) {
+
+                $value = strtolower($value);
+
+                $villas = $this->villaRepo->searchVilla($field,$value);
+
+            }
+            else {
+                $villas =  $this->villaRepo->getAll();
+            }
+            
+            $status = $this->villaRepo->getStatusCount();
+            
+            return compact("villas","status");
+        }
+        catch(Exception $e) {
+            return Result::badRequest(["message" => $e->getMessage()]);
+
+        }
+    }
+
     public function apiCreate($id = 0) {
 
         $model = array();
-
+        
         if($id == 0) {
             //create an instace
             $model['instance'] = $this->villaRepo->create();
@@ -63,26 +82,55 @@ class VillaController extends Controller
     }
 
     public function apiStore(VillaForm $request) {
+        
         $inputs = $request->all();
+
         try {
+
             $files =   isset($request->galleries) ? $request->galleries : [];
             $inputs['galleries'] = $this->storeImages($files,$inputs['villa_no']);
+
             if(!isset($inputs['id'])) {
                 $inputs['id'] = 0;
             }
+
             $this->villaRepo->saveVilla($inputs);
+
+            return Result::ok();
 
         }
         catch(Exception $e) {
             Result::badRequest(['message' => $e->getMessage()]);
         }
-
-        return Result::ok();
     }
 
-    public function imageSource($fileName) {
-        return Response($this->fileManager->getFilePath($fileName),200);
+    public function apiCancel(Request $request) {
+        
+        $id = $request->input('id');
 
+        try{
+            $villa = $this->villaRepo->find($id);
+
+            if($villa == null) {
+
+                throw new Exception("Villa cannot find");
+
+            }
+            else if($villa->isActive()) {
+
+                throw new Exception("Villa is active");
+            }
+
+            $villa->delete();
+
+            return Result::ok();
+
+        }
+        catch(Exception $e) {
+
+            Result::badRequest(['message' => $e->getMessage()]);
+
+        }
     }
 
     private function storeImages($files,$villaNo) {
@@ -106,10 +154,6 @@ class VillaController extends Controller
 
         return $galleries;
     }
-
-
-
-
-
     
+
 }

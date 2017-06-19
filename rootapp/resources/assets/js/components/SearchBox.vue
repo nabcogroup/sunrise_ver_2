@@ -1,12 +1,12 @@
 <template>
     <form class="form-inline" @submit.prevent="onClickSearch">
         <div class="form-group">
-            <input  name="fieldSearch" type="text" class="form-control" placeholder="Search" v-model="searchField"/>
+            <input  name="fieldSearch" type="text" class="form-control" placeholder="Search" v-model="searchValue"/>
         </div>
         <div class="form-group">
-            <select name="fieldKey" id="fieldKey" class="form-control">
+            <select name="searchField" id="searchField" class="form-control" v-model="searchField">
                 <option>--Select Field--</option>
-                <option  v-for="field in fieldList" value="field.value">{{field.text}}</option>
+                <option  v-for="field in fieldList" :value="field.name">{{field.text}}</option>
             </select>
         </div>
         <div class="form-group">
@@ -16,19 +16,22 @@
 </template>
 
 <script>
+
     export default {
         props: {
             fieldList: {}
         },
         data() {
             return {
+                searchValue: '',
                 searchField: ''
             }
         },
         methods: {
             onClickSearch: function() {
-                this.$emit("trigger",this.searchField);
+                this.$emit("trigger",this.searchField,this.searchValue);
             }
         }
     }
+    
 </script>

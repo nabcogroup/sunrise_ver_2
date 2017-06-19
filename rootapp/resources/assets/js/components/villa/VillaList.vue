@@ -12,14 +12,14 @@
         <div class="row">
             <div class="col-md-9">
                 <gridview
-                    :data="viewModel.data.list"
+                    :data="villas"
                     :grid="gridView"
                     @action="doAction">
                 </gridview>
             </div>
             <div class="col-md-3">
                 <div class="list-group">
-                    <a href="#" class="list-group-item" v-for="count in statusCount">
+                    <a href="#" class="list-group-item" v-for="count in statuses">
                         <i class="fa fa-home fa-fw fa-lg"></i> {{count.status}}
                         <span class="badge">{{count.count}}</span>
                     </a>
@@ -36,8 +36,11 @@
 
     import {VillaListViewModel} from './VillaViewModel';
 
+    import {villaListStore} from '../../store/villa';
+    
     export default {
         name: 'list',
+        store: villaListStore,
         components: {
             'searchbox' : SearchBox,
             'gridview'  : GridView
@@ -72,7 +75,8 @@
             }
         },
         mounted() {
-            this.viewModel.getList();
+            this.$store.dispatch('load');
+            //this.viewModel.getList();
         },
         methods: {
             doAction(a,id) {
@@ -90,10 +94,15 @@
 
             }
         },
-
         computed: {
           statusCount() {
               return this.viewModel.data.status;
+          },
+          villas() {
+              return this.$store.getters.villas;
+          },
+          statuses() {
+              return this.$store.getters.statuses;
           }
         }
     }

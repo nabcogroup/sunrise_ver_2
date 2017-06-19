@@ -76,7 +76,7 @@
                                        :unfold="unfoldModal">
                                     <payment-modal :state="bill"></payment-modal>
                                 </modal>
-                                
+
                                 <gridview :data="bill.data.bill.payments"
                                           :grid="gridColumn"
                                           :lookups="bill.data.lookups"
@@ -109,7 +109,6 @@
 
 <script>
 
-
     import GridView from '../GridView.vue';
     import Modal from '../Modal.vue';
 
@@ -120,8 +119,11 @@
     import {BillState, createGridColumn} from './BillModel';
 
     export default {
+        
         name: 'billForm',
+        
         props: ['contractNo','redirectNo'],
+        
         components: {
             "contractInfo": ContractInfo,
             "gridview": GridView,
@@ -129,6 +131,7 @@
             "paymentModal": PaymentModal,
             "totalPayment": TotalPayment
         },
+        
         data() {
             const bill = new BillState();
             const gridColumn = createGridColumn(3);
@@ -144,11 +147,13 @@
                 isSaved: false
             }
         },
+        
         mounted() {
             this.bill.createBill(this.contractNo);
             this.billNo = this.redirectNo;
             
         },
+        
         computed: {
             contract() {
                 return this.bill.data.contract;
@@ -192,7 +197,6 @@
                 else {
                     this.unfoldModal = false;
                 }
-
             },
             onDelete(a, id) {
                 const that = this;

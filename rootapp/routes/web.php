@@ -32,8 +32,7 @@ Route::group(['prefix' => 'villa', 'middleware' => ['auth','roles'],'roles' => [
 //api villa
 Route::group(['prefix' => 'api/villa', 'middleware' => ['auth','roles'],'roles' => ['admin','contract','account']],function() {
 
-    Route::get('/list',"VillaController@apiList");
-    Route::get('/search',"VillaController@apiList");
+    Route::get('/list/{field?}/{value?}',"VillaController@apiList");
     Route::get('/create/{id?}', "VillaController@apiCreate");
 
     Route::post('/store', "VillaController@apiStore");

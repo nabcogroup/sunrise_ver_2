@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Selection extends BaseModel
 {
+
+    protected $hidden = ["created_at","updated_at"];
      //
     public static function getSelections(Array $categories = array()) {
 
@@ -21,15 +23,10 @@ class Selection extends BaseModel
     public static function getValue($category,$key) {
 
         $values = Selection::where('category',$category)->where('code',$key)->orderBy('category')->get();
-        
         $retValue = ""; 
-        
         foreach($values as $value) {
-
             $retValue = $value->name;
-
         }
-
         return $retValue;
     }
 

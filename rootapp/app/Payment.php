@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class Payment extends BaseModel
 {
-    protected $appends = ['full_status','full_payment_type','full_payment_mode','selected','status_flag'];
+    protected $appends = ['full_status','full_payment_type','full_payment_mode','selected','status_flag','full_bank'];
 
     //
     public function __construct(array $attributes = [])
@@ -19,6 +19,7 @@ class Payment extends BaseModel
     }
 
     public static function createInstance() {
+        
         $p = new Payment([
             "effectivity_date"      =>  Carbon::now()->toDateTimeString(),
             "payment_type"          =>  "cheque",
@@ -28,25 +29,32 @@ class Payment extends BaseModel
             "reference_no"          =>  "",
             "amount"                =>  "0.00",
             "remarks"               =>  "",
-            "status"                =>  "received"]);
+            "status"                =>  "received",
+            "deposited_bank"        =>  "",
+            "date_deposited"        =>  Carbon::now()->toDateTimeString(),
+            "bank_account"          =>  ""]);
 
         return $p;
+
     }
 
     /**Mutator*/
     protected function getFullStatusAttribute()
     {
-        return $this->attributes['full_status'] = Selection::convertCode($this->status);
+        return $this->appends['full_status'] = Selection::convertCode($this->status);
     }
 
-    protected function getFullPaymentTypeAttribute()
-    {
-        return $this->attributes['full_payment_type'] = Selection::convertCode($this->payment_type);
+    protected function getFullPaymentTypeAttribute() {
+        return $this->appends['full_payment_type'] = Selection::convertCode($this->payment_type);
     }
 
     protected function getFullPaymentModeAttribute()
     {
-        return $this->attributes['full_payment_mode'] = Selection::convertCode($this->payment_mode);
+        return $this->appends['full_payment_mode'] = Selection::convertCode($this->payment_mode);
+    }
+
+    protected function getFullBankAttribute() {
+         return $this->appends['full_bank'] = Selection::getValue('bank',$this->bank);
     }
 
     protected function getSelectedAttribute() {

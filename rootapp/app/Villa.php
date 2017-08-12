@@ -38,8 +38,19 @@ class Villa extends BaseModel
 
         return $this->hasMany(VillaGallery::class);
     }
-    
-    
+
+    public function contracts() {
+        return $this->hasMany(Contract::class,'villa_id');
+
+    }
+
+    public function engageContracts() {
+        return $this->hasMany(Contract::class,'villa_id')->whereIn('status',['active','pending']);
+    }
+
+
+
+
     //*******************mutator****************************
 
     protected function getFullRatePerMonthAttribute() {
@@ -47,7 +58,7 @@ class Villa extends BaseModel
     }
 
     protected function getFullLocationAttribute() {
-        
+
         return $this->attributes['full_location'] = Selection::getValue('villa_location',$this->location);
 
     }

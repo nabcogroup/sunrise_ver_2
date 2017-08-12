@@ -20,8 +20,7 @@ class Contract extends BaseModel
     const CANCELLED = 'cancelled';
 
     protected $table = "contracts";
-
-    protected $appends = ['full_status','full_contract_type','payable_per_month','full_period_start','full_period_end'];
+    protected $appends = ['full_status','full_contract_type','payable_per_month','full_period_start','full_period_end','total_year_month','total_received_payment'];
 
     //factory method
     public static function createInstance($defaultMonths) {
@@ -69,6 +68,36 @@ class Contract extends BaseModel
         return $this->attributes['full_period_end'] = Carbon::parse($this->period_end)->toDateTimeString();
     }
 
+    protected function getTotalYearMonthAttribute() {
+
+        $totalDays = (Carbon::parse($this->period_end)->diffInDays(Carbon::parse($this->period_start)));
+        $totalMonths = floor($totalDays / 30);
+        $totalRemaining = $totalMonths % 12;
+
+        $totalYear = ($totalMonths - $totalRemaining) / 12;
+        if($totalRemaining > 0) {
+            if($totalYear > 0)
+                return  $totalYear .".".$totalRemaining." / ".$totalMonths;
+            else
+                return  $totalYear .".".$totalRemaining." / ".$totalMonths;
+        }
+        else {
+            return $totalYear." / ".$totalMonths;
+        }
+    }
+
+    protected function getTotalReceivedPaymentAttribute() {
+        $bills = $this->bill()->get();
+        if($bills->count() > 0) {
+            foreach ($bills as $bill) {
+                $amount = $bill->Payments()->get()->sum('amount');
+            }
+           return $amount;
+        }
+
+        return 0;
+    }
+
     /******** end mutators ********/
 
     /* navigation */
@@ -92,6 +121,8 @@ class Contract extends BaseModel
 
     }
     /* end navigation */
+
+
 
     public function searchByNo($contractNo) {
 
@@ -127,6 +158,18 @@ class Contract extends BaseModel
 
         $this->amount = $rate * $totalMonth;
 
+    }
+
+    public function getWithTotalPayment() {
+
+        $payments = DB::table('contracts')
+            ->join('bills','contracts.id','=', 'bills.contract_id')
+            ->join('payments','bills.id','=','payments.bill_id')
+            ->select(DB::raw('sum(payments.amount) as total_amount,contracts.contract_no,contracts.period_start,contracts.period_end'))
+            ->grouBy('')
+            ->get();
+
+        return $payments;
     }
 
     public function saveContract($entity,$userId) {
@@ -196,11 +239,9 @@ class Contract extends BaseModel
     }
 
     public function getRemainingBalance() {
-        
         if($this->bill()->first() == null) {
             return 0;
         }
-
         //got to bill
         return $this->bill()->first()->withPendingPayments()->sum("amount");
 
@@ -209,7 +250,6 @@ class Contract extends BaseModel
     public function getRemainingPeriod() {
         $endPeriod = Carbon::parse($this->period_end);
         $remaining = $endPeriod->diffInDays(Carbon::now());
-
         return $remaining;
     }
 }

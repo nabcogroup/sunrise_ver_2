@@ -36,6 +36,14 @@ class Tenant extends BaseModel
 
     }
 
+
+    /*****************
+     *  mutators
+    ***************************/
+    public function getFullNameAttribute($value) {
+        return ucwords($value);
+    }
+
     public function saveTenant($entity) {
         
         $addressInstance = isset($entity['address_instance']) ? $entity['address_instance'] : false;
@@ -52,5 +60,7 @@ class Tenant extends BaseModel
 
         return $address;
     }
+
+
 
 }

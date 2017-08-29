@@ -29,8 +29,9 @@ To create a web base application system that will centralize the operation of Na
 
 ### Contract Registration
 
-1. Click add new Contract
-2. Enter new tenant information
+1. Click add new Contract to redirect to contract entry
+2. Check if Customer is exist 
+3. If Not add new Information, else select tenant
 3. Select villa 
 4. Enter contract period
 5. Save contract
@@ -38,7 +39,7 @@ To create a web base application system that will centralize the operation of Na
 ### Creating Bill
 
 1. After registration completed it will automatically redirect to contract billing
-2. click the new payment to add payment
+2. Payment per month will automatically generated
 3. complete the payment and click save to post all payments
 4. Print bill receipt.
 

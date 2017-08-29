@@ -1,8 +1,9 @@
 @component('layouts.report')
     @slot('report_title')
         <div class="text-right">
-            <h3>Contract Master List</h3>
-            <p>Year: {{$datasource['year']}}</p>
+            <h3>Contract Value</h3>
+            <p>Year: {{ $datasource['year'] == '' ? 'All' : $datasource['year']}}</p>
+            <p>Date: {{\Carbon\Carbon::now()->format('d, M, Y')}}</p>
         </div>
     @endslot
 
@@ -17,8 +18,8 @@
                 <th class="text-center">Contract Period</th>
                 <th class="text-center">No Years / No Months</th>
                 <th class="text-center">Rate per Month</th>
-                <th class="text-center">Full Value</th>
-                <th class="text-center">Status</th>
+                <th class="text-center">Contract Value</th>
+                <th class="text-center">Contract<br/>Status</th>
             </tr>
             </thead>
             <tbody>

@@ -11,5 +11,15 @@ namespace App\Traits;
 
 trait StringTrait
 {
+    public function formatUnderscore($value) {
+
+        $underscore_pos = strpos("$value","_");
+        if($underscore_pos) {
+            $values = explode("_",$value);
+            return ucfirst($values[0]) . " " . ucfirst($values[1]);
+        }
+
+        return $value;
+    }
 
 }

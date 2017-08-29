@@ -29,9 +29,13 @@ class EmailTerminate
     {
         if($event->eventListener->isRegistered("EmailTerminate")) {
             $contract = $event->bundle->get('contract');
+            $tenant = $contract->tenant()->first();
             $user = $event->bundle->get('user');
+
             if($contract) {
-                Mail::to(config('app.email_destination'))->send(new \App\Mail\TerminateNotification($contract,$user));
+                Mail::to($tenant->email_address)
+                    ->cc(config('app.email_destination'))
+                    ->send(new \App\Mail\TerminateNotification($contract,$user));
             }
         }
     }

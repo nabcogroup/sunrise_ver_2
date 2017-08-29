@@ -25,14 +25,23 @@ class Tenant extends BaseModel
         parent::__construct($attributes);
     }
 
+
+
+    public static function createInstance() {
+        $tenant = new Tenant();
+        $tenant->tenant_address = TenantAddress::createInstance();
+        return $tenant;
+
+    }
+
+    /*****************
+     *  Navigation
+     ***************************/
     public function TenantAddress() {
         return $this->hasOne(TenantAddress::class);
     }
 
-    public static function createInstance() {
-        $tenant = new Tenant();
-        $tenant->address_instance = TenantAddress::createInstance();
-        return $tenant;
+    public function Villas() {
 
     }
 
@@ -46,8 +55,8 @@ class Tenant extends BaseModel
 
     public function saveTenant($entity) {
         
-        $addressInstance = isset($entity['address_instance']) ? $entity['address_instance'] : false;
-        unset($entity['address_instance']);
+        $addressInstance = isset($entity['tenant_address']) ? $entity['tenant_address'] : false;
+        unset($entity['tenant_address']);
         $tenant = $this->toMap($entity)->save();
         $address = new TenantAddress($addressInstance);
         $this->TenantAddress()->save($address);

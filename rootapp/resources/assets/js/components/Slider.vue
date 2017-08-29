@@ -78,49 +78,49 @@
 </script>
 
 <style>
-    .slider-wrapper {
-        position: relative;
-        overflow: hidden;
-        height: 242px;
+        .slider-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 242px;
+        }
+        .slider-wrapper .sliders img {
+            width: 484px;
+            height: 242px;
+        }
+        .slider-wrapper ::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        .slider-wrapper .slider {
+            width: 99999999px;
+            transition: all 0.5s;
+            position:absolute;
+            top:0;
+            left:0;
+        }
+        .slider-wrapper ul.slider-nav {
+                position: absolute;
+                right: 1rem;
+            bottom: 1rem;
+            list-style: none;
     }
-    .slider-wrapper .sliders img {
-        width: 484px;
-        height: 242px;
+    .slider-wrapper ul.slider-nav li {
+    float: left;
+    margin: 0 3px;
     }
-    .slider-wrapper ::after {
-        content: '';
-        display: block;
-        clear: both;
+    .slider-wrapper ul.slider-nav li .circle {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: transparent;
     }
-    .slider-wrapper .slider {
-        width: 99999999px;
-        transition: all 0.5s;
-        position:absolute;
-        top:0;
-        left:0;
+    .slider-wrapper ul.slider-nav li .circle.active {
+    background: #fb83ac;
+    border-color: #fb83ac;
     }
-    .slider-wrapper ul.slider-nav {
-            position: absolute;
-            right: 1rem;
-        bottom: 1rem;
-        list-style: none;
-}
-.slider-wrapper ul.slider-nav li {
-  float: left;
-  margin: 0 3px;
-}
-.slider-wrapper ul.slider-nav li .circle {
-  display: block;
-  width: 10px;
-  height: 10px;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  background: transparent;
-}
-.slider-wrapper ul.slider-nav li .circle.active {
-  background: #fb83ac;
-  border-color: #fb83ac;
-}
 
 </style>
 

@@ -62,9 +62,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <gridview :data="bill.data.payments"
+                                <grid-view :data="bill.data.payments"
                                           :columns="gridColumn">
-                                </gridview>
+                                </grid-view>
                                 <div class="col-md-4 pull-right">
                                     <strong class="col-md-6">Payment Total:</strong> <strong class="col-md-3 text-right text-warning">{{totalPayment}}</strong>
                                 </div>
@@ -88,9 +88,6 @@
     export default {
         props: {
             billNo:0
-        },
-        components:{
-            'gridview': GridView
         },
         data() {
             return {

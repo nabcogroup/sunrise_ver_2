@@ -2,11 +2,15 @@
 
 namespace App\Http\Requests;
 
+
+use App\Traits\UnsetterTrait;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BillForm extends FormRequest
 {
+
+    use UnsetterTrait;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -32,9 +36,9 @@ class BillForm extends FormRequest
     public function getValidatorInstance()
     {
         $validator =  parent::getValidatorInstance();
+
         $validator->after(function() use ($validator) {
             $inputs = $this->all();
-
             $payments = isset($inputs['payments']) ? $inputs['payments'] : [];
 
             //check payment
@@ -43,6 +47,7 @@ class BillForm extends FormRequest
             }
             else {
                 foreach ($payments as $payment) {
+
                     if(!strtotime($payment['effectivity_date'])) {
                         $validator->errors()->add('payments','Effective Date must be valid date');
                     }
@@ -53,6 +58,21 @@ class BillForm extends FormRequest
 
                     if(!strtotime($payment['period_end'])) {
                         $validator->errors()->add('payments','Period End must be valid date');
+                    }
+
+                    if($payment['payment_type'] == 'cheque') {
+                        if($payment['bank'] == null) {
+                            $validator->errors()->add('payments','Please Enter Bank Accounts');
+                        }
+                    }
+
+                    if($payment['status'] == 'clear') {
+
+                        //check if the accounts entered
+                        if($payment['bank_account'] == null) {
+                            $validator->errors()->add('payments','Please enter Bank Accounts');
+                        }
+
                     }
                 }
             }
@@ -65,11 +85,26 @@ class BillForm extends FormRequest
     public function filterInput() {
 
         $inputs = $this->all();
+
+        $this->unsetDateStamp($inputs);
+
+        $this->unsetCustom(['instance','settled_amount','balance'],$inputs);
+
         if(isset($inputs['payments']) && sizeof($inputs['payments']) > 0) {
+
             foreach ($inputs['payments'] as &$payment) {
+
                 $payment['effectivity_date'] = Carbon::parse($payment['effectivity_date']);
                 $payment['period_start'] = Carbon::parse($payment['period_start']);
                 $payment['period_end'] = Carbon::parse($payment['period_end']);
+
+                if($payment['status'] == 'clear') {
+                    $payment['date_deposited'] = Carbon::parse($payment['date_deposited']);
+                }
+
+                $payment['bank'] = $this->sanitizeInput($payment['bank']);
+                $payment['bank_account'] = $this->sanitizeInput($payment['bank_account']);
+                $payment['deposited_bank'] = $this->sanitizeInput($payment['deposited_bank']);
             }
         }
 

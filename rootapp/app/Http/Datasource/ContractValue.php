@@ -4,7 +4,7 @@ namespace App\Http\Datasource;
 use App\Contract;
 
 
-class ContractMasterDatasource implements IDataSource
+class ContractValue implements IDataSource
 {
     private $params;
 
@@ -32,6 +32,7 @@ class ContractMasterDatasource implements IDataSource
         $rows = [];
 
         foreach($contracts as $key => $contract) {
+
             $row = [
                 'villa_no'      =>  $contract->villa()->first()->villa_no,
                 'contract_no'   =>  $contract->contract_no,

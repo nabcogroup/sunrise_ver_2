@@ -1,15 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnold.mercado
- * Date: 8/19/2017
- * Time: 12:26 PM
- */
 
 namespace App\Http\Datasource;
 
 
-class ContractPending
-{
+use App\Traits\QuerySoftDeleteTrait;
 
+class ContractPending implements IDataSource
+{
+    use QuerySoftDeleteTrait;
+
+
+    public function execute()
+    {
+        $dbRaw = $this->createDb('contracts')
+                ->join('villas','contracts.villa_id','=','villas.id')
+                ->join('tenants','contracts.tenant_id','=','tenants.id')
+                ->select('contracts.created_at', 'contracts.contract_no','period_start','period_end','amount','villas.villa_no','tenants.full_name')
+                ->where('contracts.status','pending')
+                ->orderBy('villas.villa_no')->get();
+
+        return $dbRaw;
+
+
+
+    }
 }

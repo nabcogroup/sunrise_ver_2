@@ -60,14 +60,16 @@ class  FileManager
 
     public function singleStore($file) {
 
-        $this->fileName = isset($this->configs['filename']) ? $this->configs['filename'] : $file->getClientOriginalName();
-
+        //setting up the file
+        $fileName = isset($this->configs['filename']) ? $this->configs['filename'] : $file->getClientOriginalName();
+        $extension = $file->getClientOriginalExtension();
         if (isset($this->configs['enc']) && $this->configs['enc'] == true) {
-            $this->fileName = hash("md5", $this->fileName);
+            $fileName = hash("md5", $fileName);
         }
-
-        $fullFilePath = isset($this->configs['path']) ? $this->configs['path'].'/'.$this->fileName  : $this->fileName;
+        $origFile = $fileName . "." . $extension;
+        $fullFilePath = isset($this->configs['path']) ? $this->configs['path'].'/'. $origFile  : $origFile;
         Storage::disk('local')->put($fullFilePath, File::get($file));
+        
         return $this;
     }
 

@@ -1,6 +1,7 @@
-@extends('layouts.pdf')
+@component('layouts.pdf')
+    @slot('report_title')
 
-@section('content')
+    @endslot
 <div class="row">
     <div col-xs-12>
         <div class="row nb-panel">
@@ -8,7 +9,7 @@
                 <p><strong>Code: </strong> <span>{{$contract->Tenant()->first()->code}}</span></p>
                 <p>Full Name: {{$contract->Tenant()->first()->full_name}}</p>
                 <p>Email Address: {{$contract->Tenant()->first()->email_address}}</p>
-                <p>Address: {{$contract->Tenant()->first()->fullAddress()}}</p>
+                {{--<p>Address: {{$contract->Tenant()->first()->fullAddress()}}</p>--}}
             </div>
             <div class="col-xs-4">
                 <p><strong>Bill No: {{$bill->bill_no}}</strong></p>
@@ -38,7 +39,7 @@
             <td style="width: 10% " class="text-center">{{$payment->payment_no}}</td>
             <td style="width:15%" class="text-center">{{\Carbon\Carbon::parse($payment->effectivity_date)->format('m/d/Y')}}</td>
             <td style="width:15%" class="text-center">{{$payment->full_payment_mode}}</td>
-            <td>{{$payment->bank}}</td>
+            <td>{{$payment->full_bank}}</td>
             <td class="text-center">
                 {{\Carbon\Carbon::parse($payment->period_start)->format('m/d/Y')}} -
                 {{\Carbon\Carbon::parse($payment->period_end)->format('m/d/Y')}}</td>
@@ -111,7 +112,7 @@
     </div>
 </div>
 
-@endsection
+@endcomponent
 
 
 

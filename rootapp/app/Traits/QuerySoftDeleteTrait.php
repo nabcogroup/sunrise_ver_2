@@ -9,7 +9,13 @@
 namespace App\Traits;
 
 
-class QuerySoftDeleteTrait
+trait QuerySoftDeleteTrait
 {
+    public function createDb($table) {
 
+        return \DB::table($table)
+                ->whereNull($table.'.deleted_at');
+
+
+    }
 }

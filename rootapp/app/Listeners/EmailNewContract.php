@@ -31,7 +31,9 @@ class EmailNewContract
         if($event->eventListener->isRegistered("EmailNewContract")) {
             $contract = $event->bundle->get('contract');
             if($contract) {
-                Mail::to($contract->Tenant()->first()->email_address)->send(new \App\Mail\NewContract($contract));
+                Mail::to($contract->Tenant()->first()->email_address)
+                    ->cc(config('app.email_destination'))
+                    ->send(new \App\Mail\NewContract($contract));
             }
         }
     }

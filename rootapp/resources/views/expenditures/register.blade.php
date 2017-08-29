@@ -1,5 +1,5 @@
 @extends('layouts.master')
 
 @section('content')
-    <div></div>
+    <expenditure-register index="{{isset($id) ? $id : ''}}"></expenditure-register>
 @endsection

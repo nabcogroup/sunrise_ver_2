@@ -27,6 +27,11 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/';
+    protected $userRedirectPath = [
+        'contract'  => '/contract',
+        'account'   => '/bill',
+        'admin'     =>  '/register'
+    ];
 
     /**
      * Create a new controller instance.
@@ -43,6 +48,17 @@ class LoginController extends Controller
         return 'username';
     }
 
+    protected function authenticated(Request $request, $user)
+    {
+        foreach ($this->userRedirectPath as $key => $path) {
+            if($user->hasRole($key)) {
+                $this->redirectTo = $path;
+                break;
+            }
+        }
+
+        return redirect($this->redirectTo);
+    }
 
 
 }

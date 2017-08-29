@@ -38,10 +38,12 @@ class Payment extends BaseModel
 
     }
 
+
+
     /**Mutator*/
     protected function getFullStatusAttribute()
     {
-        return $this->appends['full_status'] = Selection::convertCode($this->status);
+        return $this->appends['full_status'] = Selection::getValue('payment_status', $this->status);
     }
 
     protected function getFullPaymentTypeAttribute() {
@@ -53,41 +55,69 @@ class Payment extends BaseModel
         return $this->appends['full_payment_mode'] = Selection::convertCode($this->payment_mode);
     }
 
+    /**Mutator*/
     protected function getFullBankAttribute() {
-         return $this->appends['full_bank'] = Selection::getValue('bank',$this->bank);
+         return Selection::getValue('bank',$this->bank);
     }
 
     protected function getSelectedAttribute() {
-        return $this->attributes['selected'] = isset($this->attributes['selected']) ? $this->attributes['selected'] : false;
+        return isset($this->attributes['selected']) ? $this->attributes['selected'] : false;
     }
 
     protected function setSelectedAttribute($value) {
         $this->attributes['selected'] = $value;
     }
 
+
     /* status flag  */
     public function getStatusFlagAttribute() {
-        return $this->attributes['status_flag'] = $this->status;
+        return $this->status;
     }
+
     /* */
-    /**Mutator*/
 
     public function initPeriod($defaultMonth = 12) {
-
         $this->period_start = Carbon::now()->toDateTimeString();
         $this->period_end = Carbon::now()->addMonth($defaultMonth)->toDateTimeString();
         return $this;
-
     }
+
+    public function setPaymentPeriod($period_start) {
+        $this->period_start = Carbon::parse($period_start);
+        $this->period_end = Carbon::parse($period_start)->addMonth()->subDay();
+    }
+
+
+
+
 
     public function isClear() {
         return $this->hasStatusOf('clear');
     }
+
     public function isCancel() {
         return $this->hasStatusOf('cancel');
     }
 
+    public function isBounce() {
+        return $this->hasStatusOf('bounce');
+    }
+
     public function isPending() {
         return $this->hasStatusOf('received');
+    }
+
+    public function isDeposit() {
+        return $this->hasStatusOf('deposit');
+    }
+
+
+    public function toOutputArray()
+    {
+        $this->period_start = $this->period_start->toDateString();
+        $this->period_end = $this->period_end->toDateString();
+        $this->effectivity_date = $this->effectivity_date->toDateString();
+
+        return $this->toArray();
     }
 }

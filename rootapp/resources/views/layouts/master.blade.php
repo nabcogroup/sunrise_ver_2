@@ -11,10 +11,10 @@
     <title>{{ config("app.name")}}</title>
 
     <link rel="stylesheet" href="{{asset('lib/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}"/>
-    <link rel="stylesheet" href="{{asset('lib/font-awesome/css/font-awesome.min.css') }}" />
     <link rel="stylesheet" href="{{asset('lib/fullcalendar/dist/fullcalendar.min.css') }}" />
     <link rel="stylesheet" href="{{asset('lib/fullcalendar/dist/fullcalendar.print.min.css') }}" media="print" />
     <link rel="stylesheet" href="{{asset('css/sidebar.css') }}" />
+    <link rel="stylesheet" href="{{asset('css/vendor.css') }}" />
     <link rel="stylesheet" href="{{asset('css/app.css') }}" />
 
     <script>
@@ -78,7 +78,6 @@
                     @yield('content')
                 </div>
             </div>
-
     </div>
 
     <!-- /#wrapper -->
@@ -86,13 +85,7 @@
     <script src="{{asset('lib/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
     <script src="{{asset('lib/fullcalendar/dist/fullcalendar.min.js')}}"></script>
     <script src="{{asset('js/app.js')}}"></script>
-
-    <script>
-
-
-    </script>
-
     @yield('scripts')
 </body>
-
+    
 </html>

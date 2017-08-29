@@ -1,5 +1,5 @@
 <template>
-    <form class="form-inline" @submit.prevent="onClickSearch">
+    <div class="form-inline">
         <div class="form-group">
             <input  name="fieldSearch" type="text" class="form-control" placeholder="Search" v-model="searchValue"/>
         </div>
@@ -10,9 +10,9 @@
             </select>
         </div>
         <div class="form-group">
-            <button class="btn btn-info" type="submit">Search</button>
+            <button class="btn btn-info" @click="onClickSearch">Search</button>
         </div>
-    </form>
+    </div>
 </template>
 
 <script>

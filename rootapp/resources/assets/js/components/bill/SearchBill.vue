@@ -1,13 +1,13 @@
 <template>
-    <modal modal-id="search" dialog-title="Bill Search" ftype="search" size="lg" @dismiss="onDismiss" :unfold="toggle">
+    <v-dialog modal-id="search" dialog-title="Bill Search" ftype="search" size="lg" @dismiss="onDismiss" v-model="searchToggle">
         <div class="form-inline">
             <div class="form-group">
-                <input type="text" v-model="searchData.value" class="form-control search-width" name="search" placeholder="Search">
+                <input type="text" v-model="search.value" class="form-control search-width" name="search" placeholder="Search">
             </div>
             <div class="form-group">
-                <v-select  v-model="searchData.filter" :options="searchData.options"></v-select>
+                <v-select  v-model="search.field" :options="search.options"></v-select>
             </div>
-            <button type="button" class="btn btn-default" @click="search">Search</button>
+            <button type="button" class="btn btn-default" @click="onSearch">Search</button>
         </div>
         <div>
             <table class="table table-condensed">
@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in searchData.list">
+                    <tr v-for="item in search.data">
                         <td>{{item.code}}</td>
                         <td>{{item.full_name}}</td>
                         <td>{{item.contract_no}}</td>
@@ -31,49 +31,44 @@
                 </tbody>
             </table>
         </div>
-    </modal>
+    </v-dialog>
 </template>
 
 <script>
 
-    import Modal from '../Modal.vue';
-    import vSelect from "vue-select"
+    import {EventBus} from "../../eventbus";
 
-    import {SearchModel} from "./BillModel";
 
     export default {
-        props: ["toggle"],
-        components: {
-            "modal": Modal,
-            "vSelect" : vSelect
-        },
         data() {
             return {
-                searchModel: new SearchModel()
+               searchToggle: false
             }
         },
         methods: {
-            search() {
-                this.searchModel.search();
+            onSearch() {
+                this.$store.dispatch('payments/search');
             },
             select(billNo) {
+                this.searchToggle = false;
                 this.$emit("select",billNo);
-
             },
             onDismiss(result) {
                 this.$emit("cancel");
             }
         },
+        mounted() {
+            EventBus.$on("openSearchBillDialog", () => this.searchToggle = true);
+        },
         computed: {
-            searchData() {
-                return this.searchModel.data;
+            search() {
+                return this.$store.getters['payments/search'];
             }
         },
         watch: {
-            toggle(val) {
-                console.log(val);
+            searchToggle(val) {
                 if(val) {
-                    this.searchModel.clear();
+                    this.$store.commit('payments/clear');
                 }
             }
         }

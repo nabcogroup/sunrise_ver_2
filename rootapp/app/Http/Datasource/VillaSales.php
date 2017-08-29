@@ -11,7 +11,7 @@ namespace App\Http\Datasource;
 
 use Carbon\Carbon;
 
-class VillaMasterPaymentDataSource implements IDataSource
+class VillaSales implements IDataSource
 {
 
     private $params;

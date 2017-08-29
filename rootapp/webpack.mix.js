@@ -14,7 +14,9 @@ mix.js('resources/assets/js/app.js', '../../js')
 
    .sass('resources/assets/sass/app.scss', '../../css');
 
+mix.sass('resources/assets/sass/vendor.scss', '../../css');
 mix.js('resources/assets/js/vendor.js', '../../js');
+
 
 mix.sass('resources/assets/sass/login.scss','../../css');
 

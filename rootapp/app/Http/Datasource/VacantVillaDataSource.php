@@ -9,11 +9,13 @@
 namespace App\Http\Datasource;
 
 
-class VacantVilla implements IDataSource
+use App\Villa;
+
+class VacantVillaDataSource implements IDataSource
 {
     public function execute()
     {
-        $villas = Villa::with('contracts')->where('status','vacant');
+        $villas = Villa::with('contracts')->where('status','vacant')->get();
 
         return $villas;
 

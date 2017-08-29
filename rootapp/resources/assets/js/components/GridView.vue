@@ -3,6 +3,7 @@
         <table id="grid" class="table table-condensed table-hover">
             <thead>
             <tr class="active">
+                <th>No</th>
                 <th v-for="key in grid.columns"
                     :style="key.style"
                     @click="sortBy(key)"
@@ -19,37 +20,37 @@
             </tr>
             </thead>
             <tbody>
-
             <tr  v-if="data.length == 0">
                 <td :colspan="grid.columns.length" class="text-center"><h3 class="text-warning">No Record found</h3></td>
             </tr>
-
-            <tr v-for="entry in filteredData">
+            <tr v-for="(entry,index) in filteredData" :key="index">
+                <td>{{index + 1}}</td>
                 <td v-for="key in grid.columns" :class="key.class" :style="key.style">
-
                     <span v-if="isIncludeEdit(key) ? false : true">{{render(entry,key)}}</span>
 
                     <!-- whole input -->
                     <div v-if="isIncludeEdit(key)">
+
                         <!-- checkbox -->
-                        <input v-if="key.itype== 'selector'" type="checkbox" v-model="entry[key.bind]"/>
+                        <input v-if="key.itype == 'selector'" type="checkbox" v-model="entry[key.bind]"/>
 
                         <!-- plain text -->
                         <input type="text" class="form-control"
                                v-if="key.itype == 'text'"
                                v-model="entry[key.bind]">
 
+                        <!-- text area -->
                         <textarea class="form-control"
                                   v-if="key.itype == 'textarea'"
-                                  v-model="entry[key.bind]"></textarea>
+                                  v-model="entry[key.bind]">
+                        </textarea>
 
                         <!-- dropdown -->
-                        <select v-model="entry[key.bind]" v-if="key.itype == 'dropdown'" class="form-control" >
-                            <option value="">--SELECT--</option>
+                        <select v-model="entry[key.bind]" v-if="key.itype == 'dropdown'" class="form-control">
+                            <option v-if="key.customDefault === undefined" value="">--SELECT--</option>
                             <option v-for="lookup in lookups[key.selection]" :value="lookup.code">{{lookup.name}}</option>
                         </select>
 
-                        <!-- date -->
                     </div>
 
                     <div v-if="key.name=='action'" class="btn-group">
@@ -108,11 +109,6 @@
         },
         mounted() {
 
-        },
-        filters: {
-            dynamicFilter() {
-
-            }
         },
         computed: {
             filteredData() {

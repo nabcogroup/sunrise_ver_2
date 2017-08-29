@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div></div>
+    <div>
+        <expense-list></expense-list>
+    </div>
 @endsection

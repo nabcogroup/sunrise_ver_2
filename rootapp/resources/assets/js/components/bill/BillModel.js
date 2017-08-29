@@ -3,6 +3,7 @@ import {validatePayment} from './PaymentValidation';
 import {ErrorValidations, cloneObject} from '../../helpers/helpers';
 
 export class BillState {
+
     constructor() {
         this.data = {
             bill: {
@@ -34,6 +35,7 @@ export class BillState {
     createBill(contractNo) {
         axiosRequest.get('bill', 'create', contractNo)
             .then(r => {
+
                 this.data.bill = r.data.bill;
                 this.data.bill.paymentSummary = r.data.paymentSummary;
                 this.data.contract = r.data.contract;
@@ -50,6 +52,7 @@ export class BillState {
 
         this.options.loadingSearch = true;
         this.options.currentTabIndex = 0;
+
         axiosRequest.get('bill','edit',this.options.billNo)
             .then(res => {
 
@@ -121,9 +124,7 @@ export class BillState {
         const paymentMode = this.data.lookups.payment_mode.find( item => {
             return item.code == this.data.cloneOfInstance.payment_mode;
         });
-
         this.data.cloneOfInstance.full_payment_mode = paymentMode.name;
-
         const paymentType = this.data.lookups.payment_term.find( item => {
             return item.code == this.data.cloneOfInstance.payment_type;
         });
@@ -134,7 +135,6 @@ export class BillState {
         if(this.data.cloneOfInstance.isCash !== undefined) {
             delete this.data.cloneOfInstance.isCash
         }
-
         this.data.bill.payments.push(this.data.cloneOfInstance);
 
     }
@@ -292,7 +292,7 @@ export const createGridColumn = function(value) {
                         {name: 'effectivity_date', column: 'Date', style:'width:10%', class:'text-center', dtype: 'date'},
                         {name: 'payment_no', column: 'Payment No',style:'width:10%',class:'text-center',editable:true, bind:'payment_no', itype:'text'},
                         {name: 'reference_no', column: 'Reference No',style:"width:10%",class:"text-center",editable:true, bind:'reference_no', itype:'text'},
-                        {name: 'bank', column: 'Bank', editable:true,bind:'bank',editable:true, bind:'bank', itype:'text'},
+                        {name: 'bank', column: 'Bank', editable:true,bind:'bank',editable:true, bind:'bank', itype:'dropdown',selection:'bank'},
                         {name: 'full_payment_mode', column: 'Payment Mode',class:'text-center',
                             editable:true,bind:'payment_mode', itype:'dropdown',selection:'payment_mode'},
                         {name: 'full_payment_type', column: 'Payment Type',class:'text-center'},
@@ -306,13 +306,13 @@ export const createGridColumn = function(value) {
                     grid.columns = [
                         {name: 'effectivity_date', column: 'Date', style:'width:10%', class:'text-center', default:true, dtype:'date'},
                         {name: 'payment_no', column: 'No',style:'width:10%',class:'text-center'},
-                        {name: 'full_payment_mode', column: 'Payment Mode',class:'text-center'},
-                        {name: 'full_payment_type', column: 'Payment Type',class:'text-center'},
-                        {name: 'bank', column: 'Bank',style:'width:10%',class:'text-center'},
+                        {name: 'bank', column: 'Bank',style:'width:10%',class:'text-center' },
                         {name: 'amount', column: 'Amount', style:"width:10%",class:'text-right', dtype:'currency'},
                         {name: 'reference_no', column: 'Reference No',style:"width:10%",class:"text-center" },
                         {name: 'full_status', column: 'Status',style:"width:10%", class:'text-center', editable:true,bind:'status',itype:'dropdown',selection:'payment_status'},
                         {name: 'remarks', column: 'Remarks',style:'width:20%',class:'text-center', editable:true,bind:'remarks',itype:'textarea'},
+                        {name: 'deposited_bank', column: 'Deposited',class:'text-center', editable:true,bind:'deposited_bank',itype:'text'},
+                        {name: 'bank_account', column: 'Bank',class:'text-center', editable:true,bind:'bank_account',itype:'text'},
                         {name: '$custom',column: '',static:true}];
                     grid.footers =[
                         {span: 8},

@@ -14,6 +14,7 @@ class CreateSelectionsTable extends Migration
     public function up()
     {
         Schema::create('selections', function (Blueprint $table) {
+
             $table->increments('id');
             
             $table->timestamps();
@@ -23,6 +24,8 @@ class CreateSelectionsTable extends Migration
             $table->string('name',150);
             
             $table->string('category',50)->index();
+
+            $table->integer('sort_order');
 
             $table->integer('parent')
                 ->index()

@@ -19,6 +19,7 @@ class EventListenerRegister
     }
 
     public function isRegistered($name) {
+
         foreach($this->eventNames as $eventName) {
             if(strtolower($eventName) == strtolower($name)) return true;
         }

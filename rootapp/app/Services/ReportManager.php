@@ -9,7 +9,173 @@
 namespace App\Services;
 
 
+
+use App\Http\Reports\ContractReport;
+use App\Http\Reports\ExpenseMasterReport;
+use App\Http\Reports\VillaFormReport;
+use App\Http\Reports\VillaSalesReport;
+
+use Carbon\Carbon;
+
 class ReportManager
 {
+    protected static $reports = [];
 
+    public static function get($key, $params)
+    {
+        self::$reports = [
+            'villa_master' => new VillaFormReport($params),
+            'contract_value' => new ContractReport($params,'value'),
+            'contract_pending' => new ContractReport($params,'pending'),
+            'contract_expiry'   => new ContractReport($params,'expiry'),
+            'contract_active'   =>  new ContractReport($params,'active'),
+            'villa_payment' => new VillaSalesReport($params),
+            'expense_property' => new ExpenseMasterReport($params)
+        ];
+
+        return self::$reports[$key];
+    }
+
+    public static function getReportList()
+    {
+        $reportList = [
+            'contract' => [
+                'title' =>  'Contract Report',
+                'data' =>  [
+                    [
+                        'id' => 2,
+                        'report_title' => 'Villa Master List - Contract Value',
+                        'report_name' => 'contract_value',
+                        'created' => Carbon::now()->toDateString()
+                    ],
+                    [
+                        'id' => 7,
+                        'report_title' => 'Contract Master File - Active',
+                        'report_name' => 'contract_active',
+                        'created' => Carbon::now()->toDateString()
+                    ],
+                    [
+                        'id' => 5,
+                        'report_title' => 'Contract Master File - Pending',
+                        'report_name' => 'contract_pending',
+                        'created' => Carbon::now()->toDateString()
+                    ],
+                    [
+                        'id' => 6,
+                        'report_title' => 'Contract Master File - Expiring Contract',
+                        'report_name' => 'contract_expiry',
+                        'created' => Carbon::now()->toDateString()
+                    ]
+
+                ]
+            ],
+            'villa' => [
+                'title' =>  'Villa Report',
+                'data'  =>  [
+                    [
+                        'id' => 1,
+                        'report_title' => 'Villa Master List - Villa',
+                        'report_name' => 'villa_master',
+                        'created' => Carbon::now()->toDateString()
+                    ],
+                    [
+                        'id' => 3,
+                        'report_title' => 'Villa Master List - Payments',
+                        'report_name' => 'villa_payment',
+                        'created' => Carbon::now()->toDateString()
+                    ],
+
+                ]
+            ],
+            'expenses' => [
+                'title' =>  'Expenses Report',
+                'data'  =>  [
+                    [
+                        'id' => 4,
+                        'report_title' => 'Expenses Master List - Property',
+                        'report_name' => 'expense_property',
+                        'created' => Carbon::now()->toDateString(),
+                    ]
+                ],
+            ]
+        ];
+
+        return $reportList;
+    }
+
+
+    public static function getParameter() {
+        $params = [
+            [
+                'report_id' => 2,
+                'inputs' => [
+                    ['label' => 'Status', 'type' => 'dropdown','selection' => 'statuses', 'model' => 'contract_status','default_text' => 'All','default' => ''],
+                    ['label' => 'Year', 'type' => 'number', 'model' => 'contract_year', 'placeholder' => 'Enter Year (2017)']
+                ],
+                'models' => [
+                    'contract_status' => '',
+                    'contract_year' => '',
+                ],
+                'lookups' => [],
+            ],
+            [
+                'report_id' => 1,
+                'inputs' => [
+                    ['label' => 'Enter Villa No', 'type' => 'dropdown','selection' => 'villas','model' => 'villa_no','default_text' => 'All','default' => ''],
+                ],
+                'models' => [
+                    'villa_no' => ''
+                ],
+                'lookups' => []
+            ],
+            [
+                'report_id' => 3,
+                'inputs' =>
+                    [
+                        ['label' => 'Month From', 'type' => 'number','model' => 'month_from','placeholder' => 'Enter Month From'],
+                        ['label' => 'Month To', 'type' => 'number', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
+                        ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year']
+                    ],
+                'models' => [
+                    'month_from' => '',
+                    'month_to' => '',
+                    'year' => ''
+                ],
+            ],
+            [
+                'report_id' => 4,
+                'inputs' => [
+                        ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                        ['label' => 'Villa No', 'type' => 'dropdown','selection' => 'villas','model' => 'villa_id','default_text' => 'All','default' => '' ],
+                        ['label' => 'Date From', 'type' => 'date','model' => 'date_from'],
+                        ['label' => 'Date To', 'type' => 'date','model' => 'date_to'],
+                    ],
+                'models' => [
+                    'location'  =>  '',
+                    'villa_id'  =>  '',
+                    'date_from' =>  Carbon::now()->toDateString(),
+                    'date_to'   =>  Carbon::now()->toDateString()
+                ],
+                'lookups' => []
+            ],
+            [
+                'report_id' => 6,
+                'inputs' => [
+                    ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                    ['label' => 'Date From', 'type' => 'date','model' => 'date_from'],
+                    ['label' => 'Date To', 'type' => 'date','model' => 'date_to'],
+                ],
+                'models' => [
+                    'location'  =>  '',
+                    'date_from' =>  Carbon::now()->toDateString(),
+                    'date_to'   =>  Carbon::now()->toDateString()
+                ],
+                'lookups' => []
+            ]
+        ];
+
+        return [
+            'params'    => $params,
+        ];
+    }
 }

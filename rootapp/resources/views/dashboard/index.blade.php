@@ -1,47 +1,33 @@
 @extends('layouts.master')
 @section('content')
+
     <div class="page-header">
         Dashboard
     </div>
     <div class="row">
-        <div class="col-md-5">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Contract Module
-                </div>
-                <div class="panel-body">
-                    <div class="nb-button-group">
-                        <a href="{{route('contract.manage')}}" class="nb-menu" >
-                            <i class="fa fa-align-justify fa-3x fa-fw"></i><br/>
-                            Manage
-                        </a>
-                        <a href="{{route('contract.create')}}" class="nb-menu">
-                            <i class="fa fa-pencil-square-o fa-3x fa-fw"></i><br/>
-                            Add
-                        </a>
-                        <a href="{{route('contract.calendar')}}" class="nb-menu">
-                            <i class="fa fa-calendar fa-3x fa-fw"></i><br/>
-                            Calendar
-                        </a>
+        @foreach($menus as $menu)
+            @if($menu['visible'])
+                <div class="col-md-8 col-lg-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <i class="fa {{$menu['icon']}}"></i> {{$menu['name']}}
+                        </div>
+                        <div class="panel-body">
+                            <div class="sr-menu-button">
+                                @foreach($menu['submenus'] as $submenu)
+                                    @if($submenu['name'] != '$separator')
+                                        <a href="{{$submenu['url']}}" class="sr-menu">
+                                            <i class="fa fa-3x fa-fw fa-github"></i><br/>
+                                            {{$submenu['name']}}
+                                        </a>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    Accounts Module
-                </div>
-                <div class="panel-body">
-                    <div class="nb-button-group">
-                        <a href="{{route('bill.edit')}}" class="nb-menu">
-                            <i class="fa fa-pencil-square-o fa-3x fa-fw"></i><br/>
-                            Receivable
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+            @endif
+        @endforeach
     </div>
 @endsection
 

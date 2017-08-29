@@ -1,9 +1,11 @@
 @component('mail::message')
-# has been posted Reference Bill No {{$bill->bill_no}}
+#Bill No {{$bill->bill_no}} payment has been posted
+
+@foreach($bill->payments()->get() as $payment)
+#   Payment No {{$payment->payment_no}} with amount of {{$payment->amount}} was {{$payment->status}}
+@endforeach
 
 
-
-@endcomponent
 
 Thanks,<br>
 {{ config('app.name') }}

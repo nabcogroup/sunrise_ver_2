@@ -24,6 +24,8 @@ class CreateContractBillsTable extends Migration
 
             $table->integer('user_id')->index();
 
+            $table->boolean('posted')->index();
+
             $table->softDeletes();
 
               //foreign key

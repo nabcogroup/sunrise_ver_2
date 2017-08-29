@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\NotifyUpdate;
 use App\Events\OnCalculation;
 use App\Events\OnCreating;
+use App\Events\Verify;
 use App\Http\Requests\ContractCalcForm;
 use App\Http\Requests\ContractForm;
 use App\Http\Requests\RenewalForm;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 class ContractController extends Controller
 {
     private $contractRepo;
+
     const DEFAULT_PERIOD = 12;
     const DEFAULT_EXPIRED_PERIOD = 3;
 
@@ -33,15 +35,15 @@ class ContractController extends Controller
     }
 
     public function index() {
+
         return view('contract.index');
+
     }
 
     public function show($id) {
         try {
 
-            $contract = $this->contractRepo->find($id);
-
-            if ($contract) {
+            if ($contract = $this->contractRepo->find($id)) {
                 $billNo = $contract->bill()->first()->bill_no;
                 return redirect()->route("bill.show", $billNo);
             }
@@ -55,16 +57,31 @@ class ContractController extends Controller
     }
 
     public function register() {
+
+        //check if the has a vacant villa
+        //if not redirect back to list
+        $bundle = new Bundle();
+
+        event(new Verify($bundle,new EventListenerRegister(["VerifyVillaVacancy"])));
+
+        $count = $bundle->getOutput("count");
+
+        if($count == 0) {
+            return redirect()->route('contract.manage');
+        }
         return view("contract.register");
     }
 
     public function calendar() {
+
         return view("contract.calendar");
+
     }
 
     public function apiCalendar(Request $request) {
         
         try {
+
             $periods = $request->all();
 
             $contracts = $this->contractRepo->includeAssociates()
@@ -75,7 +92,6 @@ class ContractController extends Controller
             $events = array();
 
             if($contracts) {
-
                 foreach($contracts as $contract) {
                     $event = [ 
                         "id"            =>  $contract->getId(),
@@ -101,20 +117,21 @@ class ContractController extends Controller
     
     }
 
-    public function apiGetList($status = 'pending') {
+    public function apiGetList(Request $request,$status = 'pending') {
+
         try {
-
-            //make sure contract with current user
-            $userId = Auth::user()->getAuthIdentifier();
-
             //get user contracts
-            $contracts = $this->contractRepo->ownedBy($userId)->getContracts($status);
+            $contracts = $this->contractRepo->getContracts($status,$request->input('filter_field'),$request->input('filter_value'));
+
+            //evaluate contract pending
 
 
             return $contracts;
         }
         catch(Exception $e) {
+
             Result::badRequest(["message" => $e->getMessage()]);
+
         }
     }
 
@@ -170,6 +187,7 @@ class ContractController extends Controller
             $bundle = new Bundle();
             $bundle->add('tenant', $inputs['register_tenant']);
             $bundle->add('villaId', $inputs['villa_id']);
+
             event(new OnCreating($bundle, new EventListenerRegister(["GetVilla", "CreateTenant"])));
 
             if(!$bundle->hasOutput()) {
@@ -182,13 +200,10 @@ class ContractController extends Controller
             //remove tenant
             unset($inputs['register_tenant']);
 
-            //temp manually add user id
-            $userId = Auth::user()->getAuthIdentifier();
-
             $inputs['tenant_id'] = $tenantOutput->id;
             $inputs['villa_no']  = $villaOutput->villa_no;
+            $contract = $this->contractRepo->saveContract($inputs);
 
-            $contract = $this->contractRepo->saveContract($inputs,$userId);
             $bundle->clearAll();
 
             $bundleValue = ['id' => $contract->villa_id,'status' => 'occupied'];
@@ -209,20 +224,16 @@ class ContractController extends Controller
 
             $contract = $this->contractRepo->find($request->input('id'));
             if($contract->isPending()) {
-                
                 $tenantId = $contract->tenant_id;
                 $villaId = $contract->villa_id;
-
+                $contract->cancel();
+                $contract->save();
                 //cancel and delete
                 $contract->delete();
 
                 $bundle = new Bundle();
-
-
                 $bundleValue = ["id" => $villaId, "status" => "vacant"];
-
                 $bundle->add("villa",$bundleValue);
-
                 event(new NotifyUpdate($bundle,new EventListenerRegister(["UpdateVillaStatus"])));
 
                 return Result::ok('Succefully cancelled!!!');
@@ -240,7 +251,6 @@ class ContractController extends Controller
     public function apiRenew($id) {
 
         try {
-
             //get the old contract including villa
             $oldContract = $this->contractRepo->includeAssociates()->find($id);
 
@@ -323,43 +333,31 @@ class ContractController extends Controller
         try {
 
             $inputs = $request->all();
-
             //validate password
             $userId = Auth::user()->getAuthIdentifier();
             $user = User::find($userId);
-
             //verify password
             if(!$user->isPasswordMatch($inputs['password'])) {
                 throw new Exception('Password does not match');
             }
 
-            $contract = $this->contractRepo->find($inputs['id']);
-
-            if(!$contract->isActive()) {
-                throw new Exception('Contract is not active');
-            }
+            $contract = $this->contractRepo->terminate($inputs);
 
             //terminate the contract
-            $contract->terminate($inputs['description'], $inputs['ref_no'],$user->id);
-
             if($contract->isTerminated()) {
-
                 //update villa event
                 $bundle = new Bundle();
                 $bundleValue = ["id" => $contract->villa()->first()->id, "status" => "vacant"];
                 $bundle->add("villa", $bundleValue);
                 $bundle->add('contract',$contract);
                 $bundle->add('user',$user);
-
                 event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus","EmailTerminate"])));
-
                 return Result::ok('Succefully terminated!!!');
             }
             else {
                 throw new Exception('Contract failed to terminate');
             }
         }
-
         catch(Exception $e) {
             return Result::badRequest(['message' => $e->getMessage()]);
         }

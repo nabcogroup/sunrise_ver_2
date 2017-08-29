@@ -11,7 +11,7 @@ class Selection extends BaseModel
      //
     public static function getSelections(Array $categories = array()) {
 
-        $categories = static::wherein('category',$categories)->get();
+        $categories = static::wherein('category',$categories)->orderBy('sort_order')->get();
         $lookups = array();
         
         foreach($categories as $key => $value) {
@@ -24,9 +24,11 @@ class Selection extends BaseModel
 
         $values = Selection::where('category',$category)->where('code',$key)->orderBy('category')->get();
         $retValue = ""; 
+
         foreach($values as $value) {
             $retValue = $value->name;
         }
+
         return $retValue;
     }
 

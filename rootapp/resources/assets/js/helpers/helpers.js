@@ -3,7 +3,6 @@ export class ErrorValidations {
     constructor() {
         let that = this;
         this.errors = {};
-
         this.exceptions = {
             errors:[],
             add: function(name,description) {
@@ -25,7 +24,6 @@ export class ErrorValidations {
             else {
                 return this.errors[field];
             }
-
         }
         return "";
     }
@@ -35,7 +33,6 @@ export class ErrorValidations {
     }
 
     clear(field) {
-
         if(this.errors[field]) {
             delete this.errors[field][0];
         }
@@ -47,6 +44,7 @@ export class ErrorValidations {
 }
 
 export class AxiosRequest {
+
     post(controller,action,data) {
         return axios.post('/api/'+controller+'/'+action,data);
     }
@@ -61,10 +59,17 @@ export class AxiosRequest {
         qs = qs.substring(0,qs.length-1);
 
         var url = '/api/'+controller+'/'+ action + (qs!=="" ? "/" + qs : qs);
-        
         return axios.get(url);
-
     }
+
+    dispatchGet(url,parameters) {
+        if(parameters) {
+            url = url + "?" + $.param(parameters);
+        }
+        return axios.get(url);
+    }
+
+
 
     route(url) {
         var img = window.imagePath;

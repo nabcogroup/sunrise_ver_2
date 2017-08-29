@@ -37,6 +37,7 @@ export const villaListStore = new Vuex.Store({
             commit,
             state
         }, payload) {
+
             axiosRequest.get('villa', 'list', state.search.field, state.search.value)
                 .then((res) => {
                     commit('load', res.data);

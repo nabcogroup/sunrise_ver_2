@@ -9,6 +9,7 @@
 
 <script>
     export default {
+        name: "dtPicker",
         props:{
             dpName: "",
             value: "",

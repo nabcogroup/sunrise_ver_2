@@ -1,59 +1,48 @@
 <template>
     <div>
-        <modal dialog-title="Terminate Contract" modal-id="terminateContract" :unfold="unfoldModal" @dismiss="onDismissal">
+        <v-dialog dialog-title="Terminate Contract" modal-id="terminateContract" v-model="unfoldModal" @dismiss="onDismissal">
             <form class="form-horizontal" @keydown="validations.clear($event.target.name)">
                 <div class="x-read-group">
                     <label class="col-md-3 x-label">Contract No:</label>
-                    <label class="col-md-9 x-desc">{{info.contract_no}}</label>
+                    <label class="col-md-9 x-desc">{{contractForTerminate.contract_no}}</label>
                 </div>
                 <div class="x-read-group">
                     <label class="col-md-3 x-label">Tenant Name:</label>
-                    <label class="col-md-9 x-desc">{{info.tenant_name}}</label>
+                    <label class="col-md-9 x-desc">{{contractForTerminate.tenant_name}}</label>
                 </div>
                 <div class="form-group">
                     <label for="description" class="col-md-3">Description</label>
                     <div class="col-md-9">
-                        <textarea name="description" id="description" rows="5" class="form-control" v-model="info.description"></textarea>
-                        <error :errorDisplay="validations.get('description')">
-                            {{validations.get('description')}}
-                        </error>
+                        <textarea name="description" id="description" rows="5" class="form-control" v-model="contractForTerminate.description"></textarea>
+                        <error-span :value="errors" name="description"></error-span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="ref_no" class="col-md-3">Ref No:</label>
                     <div class="col-md-9">
-                        <input type="text" name="ref_no" id="ref_no" class="form-control" v-model="info.ref_no" />
+                        <input type="text" name="ref_no" id="ref_no" class="form-control" v-model="contractForTerminate.ref_no" />
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="col-md-3">Password:</label>
                     <div class="col-md-9">
-                        <input type="password" name="password" id="password" class="form-control" v-model="info.password" />
-                        <error :errorDisplay="validations.get('password')">
-                            {{validations.get('password')}}
-                        </error>
+                        <input type="password" name="password" id="password" class="form-control" v-model="contractForTerminate.password" />
+                        <error-span :value="errors" name="password"></error-span>
                     </div>
                 </div>
             </form>
-        </modal>
+        </v-dialog>
     </div>
 </template>
 
 <script>
 
-import Modal from '../Modal.vue';
-import ErrorLabel from '../ErrorLabel.vue';
 
-import { contractTerminateStore } from '../../store/contract';
 import { ErrorValidations } from '../../helpers/helpers';
+import {mapGetters,mapState} from 'vuex';
 
 export default {
-    props: ['isOpen', 'initValue'],
-    store: contractTerminateStore,
-    components: {
-        'error': ErrorLabel,
-        'modal': Modal
-    },
+    props: ['isOpen', 'value'],
     data() {
         return {
             validations: new ErrorValidations(),
@@ -77,14 +66,13 @@ export default {
                         this.$emit("save",result);
                     }
                 };
-                this.$store.dispatch("save",onResult);
+                this.$store.dispatch("contracts/terminate",onResult);
             }
             else {
                 this.$emit('cancel');
             }
         },
         open() {
-            this.$store.commit('create', this.initValue);
             this.unfoldModal = true;
         },
         close() {
@@ -92,9 +80,12 @@ export default {
         }
     },
     computed: {
-        info() {
-            return this.$store.getters.info;
-        }
+        ...mapGetters('contracts', {
+            contractForTerminate: 'contractForTerminate',
+        }),
+        ...mapState('contracts', {
+            errors: state => state.errors.terminateError
+        })
     },
     watch: {
         isOpen(nv, ov) {

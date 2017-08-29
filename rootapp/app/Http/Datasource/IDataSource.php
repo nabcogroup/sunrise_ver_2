@@ -6,10 +6,10 @@
  * Time: 10:08 AM
  */
 
-namespace Http\Datasource;
+namespace App\Http\Datasource;
 
 
 interface IDataSource
 {
-
+    public function execute();
 }

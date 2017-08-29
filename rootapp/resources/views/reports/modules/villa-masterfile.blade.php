@@ -2,40 +2,45 @@
 
 @section('content')
     <div class="row">
-        <h3>Contract Master List</h3>
-        <table class="table table-condensed table-bordered">
-            <thead>
-            <tr class="info">
-                <th class="text-center">Villa No</th>
-                <th class="text-center">Contract No</th>
-                <th class="text-center">Entry Date</th>
-                <th class="text-center">Tenant Name</th>
-                <th class="text-center">Contract Period</th>
-                <th class="text-center">No Years / No Months</th>
-                <th class="text-center">Rate per Month</th>
-                <th class="text-center">Full Value</th>
-                <th class="text-center">Status</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($datasource as $contract)
-                <tr>
-                    <td class="text-center">{{$contract->villa()->first()->villa_no}}</td>
-                    <td style="width: 10% " class="text-center">{{$contract->contract_no}}</td>
-                    <td style="width:10%" class="text-center">{{\Carbon\Carbon::parse($contract->created_at)->format('d M y')}}</td>
-                    <td style="width:15%" class="text-left">{{$contract->tenant()->first()->full_name}}</td>
-                    <td class="text-center">
-                        {{\Carbon\Carbon::parse($contract->period_start)->format('d M y')}} -
-                        {{\Carbon\Carbon::parse($contract->period_end)->format('d M y')}}
-                    </td>
-                    <th class="text-center">{{$contract->total_year_month}}</th>
-                    <td class="text-right" style="width:10%">{{number_format($contract->villa()->first()->rate_per_month,2)}}</td>
-                    <td class="text-right" style="width:10%">{{number_format($contract->amount,2)}}</td>
-                    <td style="width: 8% " class="text-center">{{ucfirst($contract->status)}}</td>
+        <h3>Villa Master List</h3>
+        <hr/>
+        @foreach($datasource as $key => $rows)
+            <strong>Location: {{$key == 'sv1' ? 'Sunrise 1' : 'Sunrise 2'}}</strong>
+            <table class="table table-condensed table-bordered">
+                <thead>
+                <tr class="info">
+                    <th class="text-center">Villa No</th>
+                    <th class="text-center">Electricity No</th>
+                    <th class="text-center">Water No</th>
+                    <th class="text-center">Qtel No</th>
+                    <th class="text-center">Villa Class</th>
+                    <th class="text-center">Rate per Month</th>
+                    <th class="text-center">Villa Status</th>
+                    <th class="text-center">Tenant Name</th>
+                    <th class="text-center">Contact</th>
+                    <th class="text-center">Email Address</th>
+
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                @foreach($rows as $villa)
+                    <tr>
+                        <td class="text-center">{{$villa['villa_no']}}</td>
+                        <td  class="text-center">{{$villa['electricity_no']}}</td>
+                        <td  class="text-center">{{$villa['water_no']}}</td>
+                        <td  class="text-center">{{$villa['qtel_no']}}</td>
+                        <td class="text-center">{{$villa['villa_class']}}</td>
+                        <td  class="text-center">{{$villa['rate_per_month']}}</td>
+                        <td  class="text-center">{{$villa['villa_status']}}</td>
+                        <td class="text-center">{{$villa['tenant_name']}}</td>
+                        <td  class="text-center">{{$villa['contact_no']}}</td>
+                        <td  class="text-center">{{$villa['email_address']}}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            <div class="page-break"></div>
+        @endforeach
     </div>
 @endsection
 

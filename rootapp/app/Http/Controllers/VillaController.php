@@ -8,6 +8,7 @@ use App\Selection;
 use App\Services\FileManager;
 use App\Services\Result;
 use Dompdf\Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -28,8 +29,6 @@ class VillaController extends Controller
     public function index() {
         return view("villa.index",compact('villas'));
     }
-
-
     
     public function imageSource($fileName) {
         return Response($this->fileManager->getFilePath($fileName),200);
@@ -39,27 +38,16 @@ class VillaController extends Controller
         return view("villa.register",compact('id'));
     }
 
-    public function apiList($field='',$value='') {
+    public function apiList(Request $request) {
         try {
-
-            if(strlen($field) > 0) {
-
-                $value = strtolower($value);
-
-                $villas = $this->villaRepo->searchVilla($field,$value);
-
-            }
-            else {
-                $villas =  $this->villaRepo->getAll();
-            }
-            
+            $inputs = $request->all();
+            $villas =  $this->villaRepo->getVillas($inputs);
             $status = $this->villaRepo->getStatusCount();
             
             return compact("villas","status");
         }
         catch(Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
-
         }
     }
 
@@ -110,11 +98,8 @@ class VillaController extends Controller
 
         try{
             $villa = $this->villaRepo->find($id);
-
             if($villa == null) {
-
                 throw new Exception("Villa cannot find");
-
             }
             else if($villa->isActive()) {
 

@@ -2,11 +2,14 @@
 
 namespace App\Repositories;
 
+use App\Traits\PaginationTrait;
 use App\VillaGallery;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class VillaRepository extends AbstractRepository {
+
+    use PaginationTrait;
 
     protected $villaObject;
     
@@ -19,8 +22,27 @@ class VillaRepository extends AbstractRepository {
         return $this;
     }
 
-    public function getAll() {
-        return $this->model->select('id','created_at','villa_no','electricity_no','water_no','qtel_no','rate_per_month','location','status','villa_class')->get();
+    public function getVillas($inputs) {
+        $model = $this->model->select('id','created_at','villa_no',
+                                'electricity_no','water_no','qtel_no','rate_per_month','location','status','villa_class');
+        if(isset($inputs['filter_field'])) {
+
+            if($inputs['filter_field'] == 'full_status') {
+                $model = $model->where('status','LIKE' ,'%'.strtolower($inputs['filter_value'].'%'));
+            }
+            else if ($inputs['filter_field'] == 'full_location') {
+                 $locations = \App\Selection::where('category', 'villa_location')->where('name','LIKE','%'.$inputs['filter_value'].'%')->get();
+                 foreach ($locations as $location) {
+                     $model = $model->where('location',$location->code);
+                 }
+            }
+            else {
+                $model = $model->where($inputs['filter_field'],'LIKE','%'.$inputs['filter_value'].'%');
+            }
+        }
+
+        return $this->createPagination($model,null,$inputs);
+
     }
 
     public function getAllVacant() {

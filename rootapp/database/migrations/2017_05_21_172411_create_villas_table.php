@@ -39,6 +39,8 @@ class CreateVillasTable extends Migration
 
             $table->decimal("rate_per_month")->default(0);
 
+            $table->enum('type',['public','private']);
+
             $table->softDeletes();
             
             $table->string("status",20);

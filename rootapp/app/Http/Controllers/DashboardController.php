@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\MenuRepository;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    
-    public function __construct() {
-        
+    public $repo;
+    public function __construct(MenuRepository $repo) {
+        $this->repo = $repo;
     }
 
     public function index() {
 
-        return view("dashboard.index");
+        $menus = $this->repo->getMenus();
+
+        return view("dashboard.index",compact('menus'));
 
     }
 }

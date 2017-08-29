@@ -13,6 +13,8 @@ require('./bootstrap');
  * using reactive data binding and reusable components. Vue's API is clean
  * and simple, leaving you to focus on building your next great project.
  */
+
+
 window.Vue = require('vue');
 
 
@@ -28,9 +30,13 @@ window.VueEvent = new Vue();
  */
 import VeeValidate from 'vee-validate';
 import Vuex from 'vuex';
+import MyPlugins from './plugins/plugins';
+
+import {store} from './store/modules';
 
 Vue.use(VeeValidate);
 Vue.use(Vuex);
+Vue.use(MyPlugins);
 
 /**************************
 *
@@ -44,6 +50,14 @@ import ContractRegister from './components/contract/ContractRegister.vue';
 import ContractCalendarEntry from './components/contract/CalendarEntry.vue';
 import BillRegister from './components/bill/BillRegister.vue';
 import BillUpdateForm from './components/bill/BillUpdateForm.vue';
+import ReportList from './components/reports/ReportList.vue';
+import ExpenditureRegister from "./components/expenditures/Register.vue";
+import ExpenseList from "./components/expenditures/ExpenseList.vue";
+import PayeeRegister from "./components/payee/Register.vue";
+import PayeeList from "./components/payee/PayeeList.vue";
+import BillList from "./components/bill/BillList.vue";
+import TenantList from "./components/tenant/TenantList.vue";
+import TenantRegister from "./components/tenant/TenantReg.vue";
 
 Vue.filter('toDateFormat', (value) => {
     
@@ -62,8 +76,11 @@ Vue.filter('toCurrencyFormat', (value) => {
     return accounting.formatNumber(value)
 });
 
+
+
 new Vue({
     el: "#mainApp",
+    store,
     components: {
         'villaList': VillaList,
         'villaRegister': VillaRegister,
@@ -72,7 +89,15 @@ new Vue({
         'billRegister': BillRegister,
         'billUpdateForm': BillUpdateForm,
         'contractCalendarEntry': ContractCalendarEntry,
-        'sidebar' : Sidebar
+        'sidebar' : Sidebar,
+        'reportList': ReportList,
+        ExpenditureRegister,
+        ExpenseList,
+        PayeeRegister,
+        PayeeList,
+        BillList,
+        TenantList,
+        TenantRegister
     }
 });
 

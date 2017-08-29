@@ -40,9 +40,9 @@ class ContractForm extends FormRequest
             'register_tenant.reg_date.required'         => $message['reg_date'],
             'register_tenant.email_address.email.required'       => 'Email must be valid',
             'register_tenant.mobile_no.required_without_all'                 =>  'Please enter mobile no or tel no',
-            "register_tenant.address_instance.address_1.required"          =>  'Address is required',
-            "register_tenant.address_instance.city.required"                =>  'City is required',
-            "register_tenant.address_instance.postal_code.required"         =>  'Postal Code is required'
+            "register_tenant.tenant_address.address_1.required"          =>  'Address is required',
+            "register_tenant.tenant_address.city.required"                =>  'City is required',
+            "register_tenant.tenant_address.postal_code.required"         =>  'Postal Code is required'
         ];
     }
 
@@ -70,11 +70,11 @@ class ContractForm extends FormRequest
 
             "register_tenant.mobile_no" =>  "required_without_all:register_tenant.tel_no",
 
-            "register_tenant.address_instance.address_1"        =>  'required',
+            "register_tenant.tenant_address.address_1"        =>  'required',
 
-            "register_tenant.address_instance.city"             =>  'required',
+            "register_tenant.tenant_address.city"             =>  'required',
 
-            "register_tenant.address_instance.postal_code"      =>  'required'
+            "register_tenant.tenant_address.postal_code"      =>  'required'
         ];
     }
 

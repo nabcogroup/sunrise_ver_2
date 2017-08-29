@@ -71,18 +71,21 @@
           <div class="col-xs-3"><strong>QID / CR No</strong></div>
           <div class="col-xs-11"><span>:  {{$villa['tenant_reg_id']}}</span></div>
         </div>
-  <div class="row" style="position:absolute; bottom:50;">
+        @slot("report_footer")
+            <div class="row" style="position:absolute; bottom:50;">
 
-        <div class="col-xs-12">
+                <div class="col-xs-12">
 
-        <div class="row"  style="border-bottom: 1px solid lightgray;margin-top: 20px; margin-bottom:20px;"> </div>
-        <p style="position:absolute; top:20px; font-size:12px;">Doha, Qatar</p>
-        <p style="position:absolute;  top:35px; font-size:12px;">Tel No: +974 4466 6646</p>
-        <p style="position:absolute;  top:50px; font-size:12px;font-style:italic;">  Email: info@sunriseresidence.co</p>
-        <p style="position:absolute; top:65px; font-size:12px;">Website: <a href="#">http://www.sunriseresidence.co</a></p>
+                    <div class="row"  style="border-bottom: 1px solid lightgray;margin-top: 20px; margin-bottom:20px;"> </div>
+                    <p style="position:absolute; top:20px; font-size:12px;">Doha, Qatar</p>
+                    <p style="position:absolute;  top:35px; font-size:12px;">Tel No: +974 4466 6646</p>
+                    <p style="position:absolute;  top:50px; font-size:12px;font-style:italic;">  Email: info@sunriseresidence.co</p>
+                    <p style="position:absolute; top:65px; font-size:12px;">Website: <a href="#">http://www.sunriseresidence.co</a></p>
 
-      </div>
-  </div>
+                </div>
+            </div>
+        @endslot
+
 
     @endforeach
 @endcomponent

@@ -9,7 +9,15 @@
 namespace App\Repositories;
 
 
-class BankAccountRepository
+use App\BankAccount;
+
+class BankAccountRepository extends AbstractRepository
 {
+
+    protected function definedModel()
+    {
+        return new BankAccount();
+    }
+
 
 }

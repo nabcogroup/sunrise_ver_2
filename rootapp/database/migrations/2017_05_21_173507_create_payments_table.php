@@ -38,11 +38,23 @@ class CreatePaymentsTable extends Migration
 
             $table->string('remarks');
 
+            $table->string('deposited_bank');
+
+            $table->string('bank_account');
+
+            $table->date('date_deposited');
+
             $table->string('reference_no');
+
+            $table->date('posted_date');
 
             $table->string('status',20)->index();
 
             $table->integer('user_id')->index();
+
+            $table->integer('parent_id')->index();
+
+
 
             $table->timestamps();
 

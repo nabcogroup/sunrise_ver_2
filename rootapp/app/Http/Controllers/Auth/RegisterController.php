@@ -53,8 +53,9 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'full_name' => 'required|string|max:255',
             'username' => 'required|string|max:30',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6|confirmed',
+            'user_role'=> 'required|exists:roles,id'
         ]);
     }
 
@@ -74,6 +75,8 @@ class RegisterController extends Controller
         ]);
 
         $role =  Role::find($data['user_role']);
+        
+        
         if($role) {
             $user->roles()->attach($role);
         }
@@ -81,31 +84,57 @@ class RegisterController extends Controller
         return $user;
     }
 
+
+
     public function register(Request $request)
     {
+
         $this->validator($request->all())->validate();
         event(new Registered($user = $this->create($request->all())));
-
+        
         return redirect()->back();
     }
 
     public function showRegistrationForm()
     {
         $users = \App\User::with('roles')->get();
+        $user = [
+            'full_name' =>  '',
+            'username'  =>  '',
+            'email'     =>  '',
+            'id'        =>  '0'
+        ];
 
-        return view('auth.register',compact('users'));
+        $roles =  \App\Role::all();
+        $action = route('register');
+        return view('auth.register',compact('users','user','roles','action'));
     }
 
-    public function remove(Request $request) {
-
-    }
 
     public function edit($userId) {
         
-        $user = \App\User::find($userId);
+        $user = \App\User::with('roles')->where('id',$userId)->first();
+        $users = \App\User::with('roles')->get();
+        $roles =  \App\Role::all();
+        $action = route('user.update');
 
-        return view('auth.register',compact('users'));
+
+        return view('auth.register',compact('user','users','roles','action'));
     }
 
+    public function update(Request $request) {
+         
+        $this->validator($request->all())->validate();
+        $inputs = $request->all();
+        
+        $user = User::find($inputs['id']);
+        $user->full_name = $inputs['full_name'];
+        $user->username = $inputs['username'];
+        $user->email = $inputs['email'];
+        $user->password = bcrypt($inputs['password']);
+        $user->save();
+
+        return redirect()->back();
+    }
 
 }

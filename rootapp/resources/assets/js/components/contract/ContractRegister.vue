@@ -1,12 +1,14 @@
 <template>
-    <form class="form-horizontal" @submit.prevent="save()" @keydown="viewModel.errors.clear($event.target.name)">
+    <form class="form-horizontal" @submit.prevent="save()" @keydown="errors.clear($event.target.name)">
         <div class="row">
             <div class="col-md-6">
-                <tenant-register :viewModel="viewModel"></tenant-register>
+                <tenant-register></tenant-register>
             </div>
             <div class="col-md-6">
-                <contract-villa :viewModel="viewModel"></contract-villa>
-                <contract-entry :viewModel="viewModel"></contract-entry>
+                
+                <contract-villa></contract-villa>
+                
+                <contract-entry></contract-entry>
             </div>
             <div class="col-md-3 col-md-offset-9">
                 <button class="btn btn-info btn-block" type="submit">Save</button>
@@ -21,7 +23,28 @@
     import ContractVilla from './ContractVilla.vue';
     import ContractEntry from './ContractEntry.vue';
 
-    import {ContractRegisterModel} from './ContractRegisterModel';
+    const confirmation = {
+        contractSave: (cb) => {
+            bbox.confirm({
+                title: "Create Contract",
+                message: "Do you want to create contract? Note: Please review your detail before saving..",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: (result) => {
+                    cb(result)
+                }
+            })
+        }
+    }
+
 
     export default {
         name: "Register",
@@ -30,17 +53,21 @@
             'contractVilla': ContractVilla,
             'contractEntry': ContractEntry
         },
-        data() {
-            return {
-                viewModel: new ContractRegisterModel()
-            }
-        },
         mounted() {
-            this.viewModel.create();
+            this.$store.dispatch('contracts/create');
         },
         methods: {
             save() {
-                this.viewModel.save();
+                confirmation.contractSave((result) => {
+                    if (result) {
+                        this.$store.dispatch('contracts/save');
+                    }
+                });
+            }
+        },
+        computed: {
+            errors() {
+                return this.$store.getters['contracts/stateContractError']
             }
         }
     }

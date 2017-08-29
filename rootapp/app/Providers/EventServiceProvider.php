@@ -18,7 +18,9 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\RemoveTenant',
             'App\Listeners\UpdateContractStatus',
             'App\Listeners\EmailNewContract',
-            'App\Listeners\EmailTerminate'
+            'App\Listeners\EmailTerminate',
+            'App\Listeners\EmailPayment',
+            'App\Listeners\SMSNotification'
         ],
         'App\Events\OnCreating' => [
             'App\Listeners\CreateTenant',
@@ -31,7 +33,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\GetContract',
             'App\Listeners\GetContractPayments'],
         'App\Events\Verify' => [
-            'App\Listeners\VerifyBalance'
+            'App\Listeners\VerifyBalance',
+            'App\Listeners\VerifyVillaVacancy'
         ]
     ];
 

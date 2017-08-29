@@ -5,7 +5,7 @@ namespace App\Http\Datasource;
 
 use App\Villa;
 
-class VillaMasterDatasource implements IDataSource
+class VillaForm implements IDataSource
 {
     private $params;
     public function __construct($params)

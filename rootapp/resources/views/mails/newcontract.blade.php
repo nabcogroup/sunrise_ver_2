@@ -5,6 +5,6 @@
     Amount: {{number_format($contract->amount,2)}} QR
 
 
-    Thanks,<br>
+    Thanks, <br/>
     {{ config('app.name') }}
 @endcomponent

@@ -28,7 +28,7 @@
             modalType: String,
             modalId: String,
             unfold: Boolean,
-
+            value: Boolean
         },
         data() {
             return {
@@ -37,7 +37,13 @@
         },
         methods: {
             dismiss(result) {
-                this.$emit("dismiss",result);
+                if(result) {
+                    this.$emit("dismiss",result);
+                }
+                else {
+                    this.$emit("input",false);
+                }
+
             }
         },
         mounted() {
@@ -52,7 +58,7 @@
             $("#"+this.modalId).modal({backdrop:false,show:false,keyboard:false});
         },
         watch: {
-            unfold(val) {
+            value(val) {
                 if(val) {
                     $("#"+this.modalId).modal('show');
                 }

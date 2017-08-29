@@ -24,6 +24,17 @@ return [
     'email_destination' => 'manager@sunrise.co',
 
     /*
+     |--------------------------------------------------------------------------
+     | SMS Gateway
+     |--------------------------------------------------------------------------
+    */
+    'sms_email_address' => "arnold.mercado@outlook.com",
+
+    'sms_password'          => "agm54312",
+
+    'sms_device_id'         => 52631,
+
+    /*
     |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
@@ -34,7 +45,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'dev'),
 
     /*
     |--------------------------------------------------------------------------
@@ -263,6 +274,9 @@ return [
 
         //Breadcrumbs
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,
+
+        //sms
+
     ],
 
 ];

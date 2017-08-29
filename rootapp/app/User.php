@@ -72,7 +72,7 @@ class User extends Authenticatable
     }
 
     public function isAdmin() {
-        if($this->roles()->where('name','superadmin')->first()) {
+        if($this->roles()->where('name','admin')->first()) {
             return true;
         }
         return false;

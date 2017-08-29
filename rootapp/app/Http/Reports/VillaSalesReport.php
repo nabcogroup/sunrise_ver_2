@@ -9,7 +9,29 @@
 namespace App\Http\Reports;
 
 
-class VillaSales
+use App\Http\Datasource\VillaSales;
+
+class VillaSalesReport extends BaseReport
 {
 
+    public function __construct($params)
+    {
+        $this->dataSource = new VillaSales($params);
+    }
+
+    public function getTemplateSource()
+    {
+        return "villa-sales";
+    }
+
+    public function isPdfRender()
+    {
+        return false;
+    }
+
+    public function getLookups()
+    {
+        // TODO: Implement getLookups() method.
+        return [];
+    }
 }

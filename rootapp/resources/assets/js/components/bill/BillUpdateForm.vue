@@ -1,10 +1,11 @@
 <template>
-    <div class="x-panel">
-        <div class="x-body">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Payment Update</div>
+        <div class="panel-body">
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-7">
-                        <div class="x-lite-panel">   
+                        <div class="x-lite-panel">
                             <p class="x-read-group">
                                 <strong class="col-md-3 x-label">Tenant Code:</strong>
                                 <span class="col-md-9 x-desc">{{contract.tenant.code}}</span>
@@ -19,8 +20,8 @@
                             </p>
                             <p class="x-read-group">
                                 <strong class="col-md-3 x-label">Tel No: / Mobile No:</strong>
-                                <span class="col-md-9 x-desc">{{contract.tenant.tel_no}} 
-                                <span v-if="contract.tenant.tel_no != ''">/</span> {{contract.tenant.mobile_no}}</span>
+                                <span class="col-md-9 x-desc">{{contract.tenant.tel_no}}
+                                    <span v-if="contract.tenant.tel_no != ''">/</span> {{contract.tenant.mobile_no}}</span>
                             </p>
                         </div>
                         <div class="x-lite-panel">
@@ -43,11 +44,15 @@
                             <div class="col-md-12">
                                 <div class="column-group">
                                     <label for="billSearch">Bill No:</label>
-                                    <input type="text" class="input"  placeholder="XXX" name="billSearch" v-model="viewModel.options.billNo" />
-                                    <button class="btn btn-info " @click="search"><i class="fa fa-fw " :class="viewModel.options.loadingSearch ? 'fa-refresh fa-spin' : 'fa-search'"></i></button>
-                                    <button class="btn btn-info" @click="print" :disabled="viewModel.options.billNo.length === 0"><i class="fa fa-fw fa-print"></i> </button>
+                                    <input disabled type="text" class="input" placeholder="XXX" name="billSearch" v-model="bill.bill_no" />
+                                    <button class="btn btn-info " @click="onSearch(true)">
+                                        <i class="fa fa-fw " :class="options.loadingSearch ? 'fa-refresh fa-spin' : 'fa-search'"></i>
+                                    </button>
+                                    <button class="btn btn-info" @click="print" :disabled="bill.bill_no.length === 0">
+                                        <i class="fa fa-fw fa-print"></i>
+                                    </button>
                                 </div>
-                                <search-bill :toggle="searchToggle" @select="onSelect" @cancel="cancelSearch"></search-bill>
+                                <search-bill @select="onSelect"></search-bill>
                             </div>
                         </div>
                         <div class="x-panel">
@@ -62,7 +67,9 @@
                                 </p>
                                 <p class="x-read-group">
                                     <strong class="col-md-3 x-label">Period:</strong>
-                                    <span class="col-md-9 x-desc">{{contract.period_start | toDateFormat}} - {{contract.period_end | toDateFormat}}</span>
+                                    <span class="col-md-9 x-desc">
+                                        {{contract.period_start | toDateFormat}} - {{contract.period_end | toDateFormat}}
+                                    </span>
                                 </p>
                                 <p class="x-read-group">
                                     <strong class="col-md-3 x-label">Amount:</strong>
@@ -75,220 +82,307 @@
                             </div>
                         </div>
                     </div>
+
                     <div v-if="bill.id" class="col-md-12">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" >
-                            <li :class="{active:tabIndex == 0}">
-                                <a href="#" @click="changeTab(0, 'received')">For Clearing</a>
-                            </li>
-                            <li :class="{active:tabIndex == 1}">
-                                <a href="#" @click="changeTab(1,'bounce')">Cancelled</a></li>
-                            <li :class="{active:tabIndex == 2}">
-                                <a href="#" @click="changeTab(2,'clear')">Completed</a>
-                            </li>
-                        </ul>
+
+                        <v-tab-group v-model="options.currentTabIndex">
+                            <v-tab tab-id="received">For Clearing</v-tab>
+                            <v-tab tab-id="deposit">Deposited</v-tab>
+                            <v-tab tab-id="clear">Cleared</v-tab>
+                            <v-tab tab-id="bounce">Bounced</v-tab>
+                        </v-tab-group>
+
                         <div class="tab-content">
                             <div class="tab-pane active">
                                 <div class="col-md-2 col-md-offset-10 is-margin-bottom">
-                                    <button v-if="tabIndex == 0" class="btn btn-info btn-block" @click="onAddNewClick">Add New Payment</button>
+                                    <button v-if="isPaymentStatusReplace" class="btn btn-info btn-block" @click="openReplaceModal">Replace New Payment</button>
                                 </div>
-
                                 <div class="col-md-12" id="main">
-                                    <gridview
-                                            :data="viewModel.data.filteredPayments"
-                                            :grid="gridColumn"
-                                            :lookups="viewModel.data.lookups">
-                                        <label>{{footerAmount | toCurrencyFormat}}</label>
-                                    </gridview>
+                                    <data-view :grid="gridColumn">
+                                        <template slot="body" scope="props">
+                                            <tr v-for="(entry,index) in filtered" :key="index">
+                                                <td class="text-center">{{index + 1}}</td>
+                                                <td v-for="column in props.items.columns" :key="column.id" :style="column.style" :class="column.class">
+                                                    <div v-if="column.custom">
+                                                        <!--status -->
+                                                        <div v-if="column.name === 'status'">
+                                                            <select v-model="entry.status" class="form-control">
+                                                                <option v-for="status in lookups.payment_status" :value="status.code">{{status.name}}</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <!-- bank account -->
+                                                        <div v-else-if="column.name === 'bank_account'">
+                                                            <div v-if="entry.status==='clear'" class="form-group text-center">
+                                                                <select v-model="entry.bank_account" class="form-control" @change="onChange(entry.id)">
+                                                                    <option value="">--Select Bank Account--</option>
+                                                                    <option v-for="bank_account in lookups.bank_accounts" :value="bank_account.account_no">{{bank_account.account_no}}</option>
+                                                                </select>
+                                                                <small class="label label-info">{{getBank(entry.bank_account)}}</small>
+                                                            </div>
+                                                            <div v-else class="text-center">
+                                                                <span>---</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- date deposited -->
+                                                        <div v-else-if="column.name === 'date_deposited'">
+                                                            <div v-if="entry.status ==='clear' || entry.status === 'bounce'">
+                                                                <dt-picker dp-name="date_deposited"
+                                                                           :value="entry.date_deposited"
+                                                                            @pick="entry.date_deposited = $event"></dt-picker>
+                                                            </div>
+                                                            <div v-else class="text-center">
+                                                                <span>---</span>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <!-- remarks -->
+                                                        <div v-else>
+                                                            <div v-if="entry.status==='clear' || entry.status === 'bounce'" class="form-group">
+                                                                <textarea v-model="entry.remarks" class="form-control"></textarea>
+                                                            </div>
+                                                            <div v-else class="text-center">
+                                                                <span>---</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div v-else="">
+                                                        <div v-if="column.editable">
+                                                            <input v-model="entry[column.name]" class="form-control text-center" disabled/>
+                                                        </div>
+                                                        <div v-else="">
+                                                            <span v-if="column.format=='date'">{{entry[column.name] | toDateFormat}}</span>
+                                                            <span v-else-if="column.format=='currency'">{{entry[column.name] | toCurrencyFormat}}</span>
+                                                            <span v-else="">{{entry[column.name]}}</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </data-view>
                                 </div>
 
-                                <modal size="" modal-id="paymentEntry" dialog-title="Payment Entry" @dismiss="onDismissal" :unfold="unfoldModal">
-                                    <payment-modal :state="viewModel" ></payment-modal>
-                                </modal>
-
-                                <modal size="" modal-id="replacement" dialog-title="Replacement" @dismiss="onReplacementDismissal" :unfold="unfoldReplacementModal">
-                                    <replacement :state="viewModel" ></replacement>
-                                </modal>
-
+                                <replace-modal
+                                        :clone-of-instance="cloneOfInstance"
+                                        :lookups="lookups">
+                                </replace-modal>
                                 <hr/>
-                                <div class="col-md-3 col-md-offset-9">
-                                    <total-payment :payment="totalPayment"></total-payment>
-                                </div>
                             </div>
                         </div>
-                        <div class="col-md-3 pull-right">
-                            <button v-if="tabIndex == 0" class="btn btn-info btn-block" @click="save"><i class="fa fa-fw fa-lg" :class="viewModel.options.loadingSave ? 'fa-refresh fa-spin' : 'fa-save'"></i> Save</button>
+                        <div class="row">
+                            <div class="col-md-4 pull-right">
+                                <total-payment :payment="totalPayment"></total-payment>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 pull-right">
+                                <button v-if="options.currentTabIndex == 'received'" class="btn btn-info btn-block" @click="save" :disabled="options.loadingSave">
+                                    <i class="fa fa-fw fa-lg" :class="options.loadingSave ? 'fa-refresh fa-spin' : 'fa-save'"></i> Save
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>    
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    
-    import GridView from '../GridView.vue';
-    import Modal from '../Modal.vue';
-
-    import TotalPayment from './TotalPayment.vue';
-    import PaymentModal from './PaymentModal.vue';
-    import ReplaceModal from './ReplaceModal.vue';
-    import SearchBill from './SearchBill.vue';
-
-    import {BillState,createGridColumn} from './BillModel';
-
-    export default {
-        components: {
-            "gridview": GridView,
-            'totalPayment': TotalPayment,
-            "modal": Modal,
-            "paymentModal": PaymentModal,
-            "replacement": ReplaceModal,
-            "searchBill": SearchBill
-        },
-        data() {
-            let gridColumn = createGridColumn();
-
-            gridColumn.footers =[
-                {span: 8},
-                {span: 1, label: 'Total', slot:true}];
 
 
-            return {
-                viewModel: new BillState(),
-                searchToggle: false,
-                gridColumn: gridColumn,
-                unfoldModal: false,
-                unfoldReplacementModal: false
+import TotalPayment from './TotalPayment.vue';
+import PaymentModal from './PaymentModal.vue';
+import ReplaceModal from './ReplaceModal.vue';
+import SearchBill from './SearchBill.vue';
+
+import {EventBus} from '../../eventbus';
+
+import { mapGetters, mapMutations } from "vuex";
+
+
+const createGridColumn = function (value) {
+    function columnFactory(value) {
+        let grid = {};
+        switch (value) {
+            case 'received': {
+                grid.columns = [
+                    { name: 'effectivity_date', column: 'Date', style: 'width:10%', class: 'text-center', default: true, format: 'date' },
+                    { name: 'payment_no', column: 'C/P No.', style: 'width:10%', class: 'text-center', editable: true },
+                    { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', editable: true },
+                    { name: 'status', column: 'Status', style: "width:10%", class: 'text-center', custom:true },
+                    { name: 'bank_account', column: 'Accounts', class: 'text-center',  custom:true },
+                    { name: 'date_deposited', column: 'Date Deposit', class: 'text-center',custom:true },
+                    { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center', custom:true },
+                ]
+                break;
             }
-
-        },
-        computed: {
-            contract() {
-                return this.viewModel.data.contract;
-            },
-            bill() {
-                return this.viewModel.data.bill;
-            },
-            tabIndex() {
-                return this.viewModel.options.currentTabIndex;
-            },
-            totalPayment() {
-                return this.viewModel.data.bill.paymentSummary;
-            },
-            footerAmount() {
-                return _.sumBy(this.viewModel.data.filteredPayments,(p) => { return parseInt(p.amount) });
+            case 'bounce': {
+                grid.columns = [
+                    { name: 'effectivity_date', column: 'Date', style: 'width:10%', class: 'text-center', default: true, format: 'date' },
+                    { name: 'payment_no', column: 'C/P No.', style: 'width:10%', class: 'text-center', editable: true },
+                    { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', editable: true },
+                    { name: 'status', column: 'Status', style: "width:10%", class: 'text-center', custom:true },
+                    { name: 'bank_account', column: 'Accounts', class: 'text-center' },
+                    { name: 'date_deposited', column: 'Bounce Date', class: 'text-center',format: 'date' },
+                    { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center', }
+                ]
+                break;
             }
-        },
-        methods: {
-            search() {
-                if(this.viewModel.options.billNo.length == 0) {
-                    this.searchToggle = true;
-                }
-                else {
-                    this.viewModel.getBill();
-                }
-            },
-            print() {
-                this.viewModel.redirectToPrint(this.viewModel.options.billNo);
-            },
-            save() {
-                window.bbox.confirm({
-                    message: "Do you want to update payment?",
-                    buttons: {
-                        confirm: {
-                            label: 'Yes',
-                            className: 'btn-success'
-                        },
-                        cancel: {
-                            label: 'No',
-                            className: 'btn-danger'
-                        }
-                    },
-                    callback: (result) => {
-                        if(result) {
-                            this.viewModel.update();
-                        }
-                    }
-                });
-            },
-            changeTab(tabIndex,status) {
-                this.viewModel.filterPayment(status,tabIndex);
-                this.gridColumn = createGridColumn(tabIndex);
-            },
-            onDismissal(result) {
-                if(result) {
-                    this.viewModel.addNewCheque();
-                    this.unfoldModal = false;
-                }
-                else {
-                    this.unfoldModal = false;
-                }
-            },
-            onReplacementDismissal(result) {
-                if(result) {
-                    this.viewModel.addNewCheque();
-                    this.changeTab('received',0);
-                }
-                this.unfoldReplacementModal = false;
-            },
-            onAddNewClick() {
-                 this.unfoldModal = true;
-            },
-            onReplacementClick() {
-                const that = this;
-                bbox.confirm({
-                    title: "Confirmation",
-                    message: "Do you want to replace new cheque?",
-                     buttons: {
-                        confirm: {
-                            label: 'Yes',
-                            className: 'btn-success'
-                        },
-                        cancel: {
-                            label: 'No',
-                            className: 'btn-danger'
-                        }
-                    },
-                    callback: function (result) {
-                        if(!result) return; 
-                        that.viewModel.mergeCheque();
-                        that.unfoldReplacementModal = true;
-                    }
-                })
-               
-            },
-            onSelect(billNo) {
-                this.viewModel.options.billNo = billNo;
-                this.viewModel.getBill();
-                this.searchToggle = false;
-            },
-            cancelSearch() {
-                this.searchToggle = false;
-            }
+            default:
+                grid.columns = [{ name: 'effectivity_date', column: 'Date', style: 'width:10%', class: 'text-center', default: true, format: 'date' },
+                { name: 'payment_no', column: 'C/P No.', style: 'width:10%', class: 'text-center', editable: false },
+                { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', editable: false,format: 'currency' },
+                { name: 'full_status', column: 'Status', style: "width:10%", class: 'text-center', },
+                { name: 'bank_account', column: 'Accounts', class: 'text-center',  },
+                { name: 'date_deposited', column: 'Date Deposit', class: 'text-center',format: 'date'},
+                { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center',  },
+                ];
         }
-
+        return grid
     }
+
+    return columnFactory(value);
+}
+
+const confirmation = {
+    updatePayment: (cb) => {
+        bbox.confirm({
+            title: "Update Payment",
+            message: "Do you want to update payment?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: (result) => {
+                cb(result)
+            }
+        })
+    }
+}
+
+export default {
+    props: ["billNo"],
+    components: {
+        'totalPayment': TotalPayment,
+        "paymentModal": PaymentModal,
+        "searchBill": SearchBill,
+        "replaceModal": ReplaceModal
+    },
+    data() {
+        let gridColumn = createGridColumn();
+        return {
+            searchToggle: false,
+            gridColumn: gridColumn,
+            unfoldModal: false,
+            unfoldReplacementModal: false,
+        }
+    },
+    computed: {
+        ...mapGetters('payments', {
+            contract: 'contract',
+            bill: 'bill',
+            filtered: 'filtered',
+            totalPayment: 'totalPayment',
+            cloneOfInstance: 'cloneOfInstance',
+            footerAmount: 'footerAmount',
+            options: 'options',
+            lookups: 'lookups',
+            isPaymentStatusReplace: 'isPaymentStatusReplace'
+        })
+    },
+    mounted() {
+        if(this.billNo) {
+            this.$store.state.payments.bill.bill_no = this.billNo;
+            this.onSearch(false);
+        }
+    },
+    methods: {
+        onSearch(openToggle) {
+
+            if (openToggle) {
+                EventBus.$emit('openSearchBillDialog');
+            }
+            else {
+                this.$store.dispatch('payments/edit');
+            }
+        },
+        print() {
+            this.$store.commit('payments/redirectToPrint');
+        },
+        save() {
+            confirmation.updatePayment((result) => {
+                if (result) {
+                    this.$store.dispatch('payments/update', {
+                        done: (r) => {
+                            this.$store.dispatch('payments/edit')
+                        }
+                    })
+                }
+            });
+        },
+        onDismissal(result) {
+            if (result) {
+                this.$store.commit('payments/addNew');
+                this.unfoldModal = false;
+            }
+            else {
+                this.unfoldModal = false;
+            }
+        },
+        onSelect(billNo) {
+            this.$store.state.payments.bill.bill_no = billNo;
+            this.$store.dispatch('payments/edit');
+            this.searchToggle = false;
+
+        },
+        getBank(account_no) {
+            const bank = _.find(this.lookups.bank_accounts, (item) => {
+                return item.account_no === account_no;
+            });
+            return bank !== undefined ? bank.bank_name : '';
+        },
+        onChange(id) {
+            this.$store.commit('payments/updateDeposit', { id });
+        },
+        openReplaceModal() {
+            this.$store.commit('payments/calculateReplace',() => EventBus.$emit('openReplaceModal'));
+        }
+    },
+    watch: {
+        filtered(nv) {
+            this.gridColumn = createGridColumn(this.options.currentTabIndex);
+        },
+        selectedTab(nv) {
+            this.options.currentTabIndex
+        }
+    }
+}
 </script>
 
 <style>
-    .column-group {
-        width:100%;
-        padding:10px;
-    }
+.column-group {
+    width: 100%;
+    padding: 10px;
+}
 
-    .column-group label {
-        font-size: 1.8em;
-        font-weight: 400;
-    }
+.column-group label {
+    font-size: 1.8em;
+    font-weight: 400;
+}
 
-    .column-group .input {
-        border: 0px;
-        background: transparent;
-        border-bottom: 2px solid #cecece;
-        font-size: 1.8em;
-        width:230px;
-    }
-
+.column-group .input {
+    border: 0px;
+    background: transparent;
+    border-bottom: 2px solid #cecece;
+    font-size: 1.8em;
+    width: 230px;
+}
 </style>

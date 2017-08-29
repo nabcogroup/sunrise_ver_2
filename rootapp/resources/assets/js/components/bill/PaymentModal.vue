@@ -5,7 +5,7 @@
             <div class="col-md-9">
                 <select id="payment_type" name="payment_type" v-model="cloneOfInstance.payment_type"
                         class="form-control" @change="changePaymentType()">
-                    <option v-for="lookup in lookups.payment_term" v-bind:value="lookup.code">{{lookup.name}}</option>
+                    <option v-for="lookup in lookups.payment_term" :value="lookup.code" :key="lookup.code">{{lookup.name}}</option>
                 </select>
             </div>
         </div>
@@ -14,7 +14,7 @@
             <div class="col-md-9">
                 <select id="payment_mode" name="payment_mode" v-model="cloneOfInstance.payment_mode"
                         class="form-control">
-                    <option v-for="lookup in lookups.payment_mode" v-bind:value="lookup.code">{{lookup.name}}</option>
+                    <option v-for="lookup in lookups.payment_mode" :value="lookup.code" :key="lookup.code">{{lookup.name}}</option>
                 </select>
             </div>
         </div>
@@ -31,7 +31,7 @@
             <div class="col-md-9">
                  <select name="bank" v-model="cloneOfInstance.bank" class="form-control">
                     <option value="">--SELECT BANK--</option> 
-                    <option v-for="lookup in lookups.bank" :value="lookup.code">{{lookup.name}}</option>
+                    <option v-for="lookup in lookups.bank" :value="lookup.code" :key="lookup.code">{{lookup.name}}</option>
                 </select>
             </div>
         </div>
@@ -82,7 +82,6 @@
 
     export default {
         props: ["cloneOfInstance","lookups"],
-
         components:  {
             'error' : ErrorLabel,
         },

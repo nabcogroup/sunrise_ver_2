@@ -4,10 +4,12 @@ namespace App\Repositories;
 
 use App\Payment;
 use App\Selection;
+
 use App\Traits\PaginationTrait;
 use App\Traits\QuerySoftDeleteTrait;
 use App\Traits\QueryTemplateTrait;
 use App\Traits\UserTrait;
+
 use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Support\Facades\DB;
@@ -15,14 +17,8 @@ use Illuminate\Support\Facades\DB;
 class BillRepository extends AbstractRepository
 {
 
-    use QuerySoftDeleteTrait;
-
-    use PaginationTrait;
-
-    use UserTrait;
-
-    use QueryTemplateTrait;
-
+    use QuerySoftDeleteTrait, PaginationTrait, UserTrait,QueryTemplateTrait;
+    
     protected function definedModel()
     {
         return new \App\ContractBill();
@@ -41,19 +37,24 @@ class BillRepository extends AbstractRepository
         $total_month = abs(floor($days_total / 30));
         $period_start = Carbon::parse($contract->period_start);
         $effectivity_date = Carbon::parse($contract->period_start);
+        $payment_no = 1;
 
         $items = [];
+
         for($i=0;$i < $total_month; $i++) {
 
             $item = Payment::createInstance();
             $item->setPaymentPeriod($period_start->toDateString());
             $item->effectivity_date = $effectivity_date;
+            $item->payment_no = $payment_no;
 
             $period_start = Carbon::parse($item->period_start)->addMonth();
             $effectivity_date = Carbon::parse($item->effectivity_date->toDateString())->addMonth(1);
             $item->amount = $contract->payable_per_month;
+            $payment_no++;
 
             array_push($items,$item->toOutputArray());
+
         }
 
         $model->payments = $items;

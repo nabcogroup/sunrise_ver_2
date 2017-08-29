@@ -1,4 +1,5 @@
-import {ErrorValidations, cloneObject} from "../../../helpers/helpers";
+
+import {ErrorValidations, cloneObject, copiedValue} from "../../../helpers/helpers";
 
 const validatePayment = function () {
 
@@ -79,13 +80,13 @@ const validatePayment = function () {
             return result;
         }
 
-        if (payments.length > 0 && entity.payment_type.toLowerCase() === 'cheque') {
-            //check duplicate cheque no
-            if (duplicateOrEmpty(entity, payments, 'payment_no')) {
-                result.error("Duplicate cheque no", "payment_no");
-                return result;
-            }
-        }
+        // if (payments.length > 0 && entity.payment_type.toLowerCase() === 'cheque') {
+        //     //check duplicate cheque no
+        //     if (duplicateOrEmpty(entity, payments, 'payment_no')) {
+        //         result.error("Duplicate cheque no", "payment_no");
+        //         return result;
+        //     }
+        // }
 
         //check if valid date
         let vdate = validateDate(entity, 'created_at', 'period_start', 'period_end');
@@ -106,6 +107,7 @@ const validatePayment = function () {
         validateAll: validateAll
     }
 }
+
 const reIndexing = (payments) => {
     payments.forEach(function (payment, index) {
         index = index + 1;
@@ -139,14 +141,11 @@ const state = {
 }
 
 const mutations = {
-    create(state, payload) {
-        state.bill = payload.bill;
-        state.contract = payload.contract;
-        state.lookups = payload.lookups;
-    },
     createInstance(state) {
         state.cloneOfInstance = cloneObject(state.bill.instance);
-        state.cloneOfInstance.isCash = false;
+    },
+    clearPayment(state) {
+        state.bill.payments = [];
     },
     validate(state, payload) {
         //validate on client side
@@ -154,19 +153,25 @@ const mutations = {
         payload.cb(result);
     },
     insert(state, payload) {
-        const payment_type = state.lookups.payment_term.find(item => {
-            return item.code == state.cloneOfInstance.payment_type;
-        })
-        state.cloneOfInstance.full_payment_type = payment_type.name;
-        //delete object isCash property
-        if (state.cloneOfInstance.isCash !== undefined) {
-            delete state.cloneOfInstance.isCash
-        }
         state.bill.payments.push(state.cloneOfInstance);
         reIndexing(state.bill.payments);
     },
-    removePayment(state, id) {
+    edit(state,payload) {
+        copiedValue(payload.payment,state.cloneOfInstance);
+    },
+    update(state,payload) {
+        let p = state.bill.payments.find( item => item.id === state.cloneOfInstance.id);
+        copiedValue(state.cloneOfInstance,p);
+    },
+    convertPayment(state,payload) {
+        
+        const convertion = state.lookups[payload.source].find(item => {
+            return item.code == state.cloneOfInstance[payload.needle];
+        });
 
+        state.cloneOfInstance[payload.target] = convertion.name;
+    },
+    removePayment(state, id) {
         state.bill.payments = state.bill.payments.filter((payment) => {
             return payment.id !== id
         });
@@ -179,16 +184,14 @@ const mutations = {
 
 const actions = {
     create({commit, state}, payload) {
-        axiosRequest.get('bill', 'create', payload.contractNo)
-            .then(r => {
-                state.bill = r.data.bill;
-                state.contract = r.data.contract;
-                state.lookups = r.data.lookups;
-                commit('createInstance');
-            })
-            .catch(e => {
-                toastr.errors(e.response.message);
-            });
+        
+        state.bill = payload.bill;
+        state.contract = payload.contract;
+        state.lookups = payload.lookups;
+        
+        reIndexing(state.bill.payments);
+        commit('createInstance');
+
     },
     save({commit, state}, payload) {
         state.options.loadingSave = true;
@@ -209,7 +212,6 @@ const actions = {
     },
     prepare({commit, state}) {
         const cloneOfInstance = state.cloneOfInstance;
-
         axiosRequest.dispatchGet('/api/bill/prepare', cloneOfInstance)
             .then(r => {
                 state.bill.payments = r.data;
@@ -218,7 +220,6 @@ const actions = {
             .catch(e => {
                 toastr.error("Internal errors occured");
             })
-
     }
 }
 

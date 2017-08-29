@@ -57,7 +57,6 @@ export class AxiosRequest {
             }
         }
         qs = qs.substring(0,qs.length-1);
-
         var url = '/api/'+controller+'/'+ action + (qs!=="" ? "/" + qs : qs);
         return axios.get(url);
     }
@@ -100,4 +99,10 @@ export class AxiosRequest {
 
 export const cloneObject = function(objInstance) {
     return JSON.parse(JSON.stringify(objInstance));
+}
+
+export const copiedValue = (source,target, exclude = new Array()) => {
+    _.forEach(source, (value,key) => {
+        target[key] = value;
+    });
 }

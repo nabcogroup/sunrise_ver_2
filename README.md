@@ -46,7 +46,7 @@ To create a web base application system that will centralize the operation of Na
 
 ### Update Payment
 1. Select Bill by entering bill no to update
-2. Update the status of the payment (Clear,Cancel)
+2. Update the status of the payment (Deposit, Clear,Bounce,Replace)
 3. if there's any cancel or need to add new cheque click add payment then enter payment
 4. Click save to post the payment
 

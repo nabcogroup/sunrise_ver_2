@@ -36,7 +36,6 @@ class ContractBill extends BaseModel
         $bill->instance->initPeriod(self::DEFAULT_PERIOD);
         $bill->payments = [];
 
-
         return $bill;
     }
 

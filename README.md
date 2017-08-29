@@ -5,10 +5,10 @@ To create a web base application system that will centralize the operation of Na
 
 ## Primary Objective
 
-•	Provide the higher management a comprehensive report to update the sales and expenses in a timely manner and support for decision making. 
-•	Secure financial transactions by aligning all operation into smooth and manageable system; thus minimizing errors in daily operation and preventing anomaly in daily transaction.
-•	Keeping all in-sync by monitoring all expiring contracts and notifying concerned user. 
-•	Provide status for payment to monitor payments movement especially cheque payments.  
+* Provide the higher management a comprehensive report to update the sales and expenses in a timely manner and support for decision making. 
+* Secure financial transactions by aligning all operation into smooth and manageable system; thus minimizing errors in daily operation and preventing anomaly in daily transaction.
+* Keeping all in-sync by monitoring all expiring contracts and notifying concerned user. 
+* Provide status for payment to monitor payments movement especially cheque payments.  
 
 
 ### v2.x 

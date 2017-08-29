@@ -1,8 +1,15 @@
 # Sunrise ver2.1 
 
 ## Description
-Sunrise Portal is a villa property management designed and developed for Sunrise Villa in Qatar.
-Management of contract and payment status is the current version.
+To create a web base application system that will centralize the operation of Nabco Real State.  The system will manage rental contract, account receivable and expenditures thru out the entire operation. 
+
+## Primary Objective
+
+•	Provide the higher management a comprehensive report to update the sales and expenses in a timely manner and support for decision making. 
+•	Secure financial transactions by aligning all operation into smooth and manageable system; thus minimizing errors in daily operation and preventing anomaly in daily transaction.
+•	Keeping all in-sync by monitoring all expiring contracts and notifying concerned user. 
+•	Provide status for payment to monitor payments movement especially cheque payments.  
+
 
 ### v2.x 
 1. Contract Management - these includes register of contract,renewal and termination

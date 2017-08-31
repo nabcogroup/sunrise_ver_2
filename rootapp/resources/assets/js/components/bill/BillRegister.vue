@@ -85,6 +85,7 @@
                 </div>
             </div>
         </div>
+        
         <template slot="panel-footer">
             <div class="row">
                 <div class="col-md-2 pull-right">
@@ -97,6 +98,7 @@
                 </div>
             </div>
         </template>
+
     </v-panel>
 </template>
 
@@ -219,11 +221,15 @@ export default {
         "totalPayment": TotalPayment
     },
     data() {
+
         let colType = 0;
+        
         if (this.instance.bill_no !== '') {
             colType = 1;
         }
+        
         const gridColumn = createGridColumn(colType);
+       
         return {
             gridColumn: gridColumn,
             unfoldModal: false,
@@ -232,39 +238,42 @@ export default {
         }
     },
     mounted() {
-
+        
         this.$store.dispatch('bills/create', {
             bill: this.instance,
             contract: this.instanceContract,
             lookups: this.instanceLookups
         });
 
+        /************************************************/
         //watch payment type
+        /***********************************************/
         this.$store.watch(state => state.bills.cloneOfInstance.payment_type, (value) => {
             this.$store.commit('bills/convertPayment', { source: 'payment_term', needle: 'payment_type', target: 'full_payment_type' })
-            if (value.toLowerCase() === 'cash')
-                this.$store.state.bills.cloneOfInstance.payment_no = 'Cash';
+            if (value.toLowerCase() === "cash")
+                this.$store.state.bills.cloneOfInstance.payment_no = "Cash";
             else
                 this.$store.state.bills.cloneOfInstance.payment_no = '';
         });
-
+        
         this.$store.watch(state => state.bills.cloneOfInstance.payment_mode,
             (value) => this.$store.commit('bills/convertPayment', { source: 'payment_mode', needle: 'payment_mode', target: 'full_payment_mode' }))
-
         this.$store.watch(state => state.bills.cloneOfInstance.bank,
             (value) => this.$store.commit('bills/convertPayment', { source: 'bank', needle: 'bank', target: 'full_bank' }))
-
+        //*******************************************************************/
     },
-    computed: mapGetters('bills', {
-        contract: 'contract',
-        lookups: 'lookups',
-        bill: 'bill',
-        totalPayment: 'totalPayment',
-        viewIcon: 'viewIcon',
-        payments: 'payments',
-        option: 'option',
-        cloneOfInstance: 'cloneOfInstance'
-    }),
+    computed: {
+        ...mapGetters('bills', {
+            contract: 'contract',
+            lookups: 'lookups',
+            bill: 'bill',
+            totalPayment: 'totalPayment',
+            viewIcon: 'viewIcon',
+            payments: 'payments',
+            option: 'option',
+            cloneOfInstance: 'cloneOfInstance'
+        })
+    },
     methods: {
         clearPayment() {
             confirmation.clearPayment(result => {
@@ -277,7 +286,6 @@ export default {
             this.unfoldModal = true;
         },
         onDismissal(result) {
-            
             if (this.gridColumn.selected < 0) {
                 this.$store.commit('bills/validate', {
                     cb: (r) => {
@@ -301,7 +309,6 @@ export default {
         },
         onAction(a, item, index) {
             const that = this;
-
             if (a === 'remove') {
                 confirmation.removePayment((result) => {
                     if (result) {
@@ -309,12 +316,12 @@ export default {
                     }
                 })
             }
-            else {
+            else 
+            {
                 this.gridColumn.selected = index;
                 this.$store.commit('bills/edit', { payment: item });
                 this.unfoldModal = true;
             }
-
         },
         save() {
             this.$store.dispatch('bills/save');
@@ -331,5 +338,4 @@ export default {
         }
     }
 }
-
 </script>

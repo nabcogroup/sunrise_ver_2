@@ -13733,6 +13733,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TotalPayment_vue__ = __webpack_require__(136);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__TotalPayment_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__TotalPayment_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex__ = __webpack_require__(2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 //
 //
 //
@@ -13927,11 +13929,15 @@ const createGridColumn = value => {
         "totalPayment": __WEBPACK_IMPORTED_MODULE_2__TotalPayment_vue___default.a
     },
     data() {
+
         let colType = 0;
+
         if (this.instance.bill_no !== '') {
             colType = 1;
         }
+
         const gridColumn = createGridColumn(colType);
+
         return {
             gridColumn: gridColumn,
             unfoldModal: false,
@@ -13957,7 +13963,7 @@ const createGridColumn = value => {
 
         this.$store.watch(state => state.bills.cloneOfInstance.bank, value => this.$store.commit('bills/convertPayment', { source: 'bank', needle: 'bank', target: 'full_bank' }));
     },
-    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["b" /* mapGetters */])('bills', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["b" /* mapGetters */])('bills', {
         contract: 'contract',
         lookups: 'lookups',
         bill: 'bill',
@@ -13966,7 +13972,7 @@ const createGridColumn = value => {
         payments: 'payments',
         option: 'option',
         cloneOfInstance: 'cloneOfInstance'
-    }),
+    })),
     methods: {
         clearPayment() {
             confirmation.clearPayment(result => {

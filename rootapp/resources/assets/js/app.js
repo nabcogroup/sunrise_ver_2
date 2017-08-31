@@ -76,8 +76,6 @@ Vue.filter('toCurrencyFormat', (value) => {
     return accounting.formatNumber(value)
 });
 
-
-
 new Vue({
     el: "#mainApp",
     store,

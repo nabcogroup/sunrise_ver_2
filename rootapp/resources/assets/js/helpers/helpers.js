@@ -106,3 +106,80 @@ export const copiedValue = (source,target, exclude = new Array()) => {
         target[key] = value;
     });
 }
+
+export const validation = () => {
+
+    let duplicateOrEmpty = (entity, compArray, field) => {
+        for (let i = 0; i < compArray.length; i++) {
+            let item = compArray[i];
+            if (entity[field] === item[field]) return true;
+        }
+        return false;
+    }
+
+    let isEmpty = (value, ...args) => {
+        for (let i = 0; i <= args.length; i++) {
+            if (_.trim(value[args[i]]).length === 0) return args[i];
+        }
+        return "";
+    }
+
+    let dateRangePeriod = (startPeriod, startEnd) => {
+        if (moment(startPeriod).isAfter(moment(startEnd)) ||
+            moment(startPeriod).isSame(moment(startEnd))) {
+            return true;
+        }
+        return false;
+    }
+
+    let isNonNumeric = (numValue) => {
+
+        if (isNaN(numValue)) {
+            return true
+        }
+        return false;
+    }
+
+    function validate(entity,items) {
+
+        let result = {
+            key: "",
+            isValid: true,
+            message: "",
+            error(value, key) {
+                this.key = key;
+                this.isValid = false;
+                this.message = value;
+            },
+            ok() {
+                this.message = "";
+                this.isValid = true;
+                this.key = "";
+            }
+        };
+
+        //check required
+        let req = false;
+        if (entity.payment_type === 'bank')
+            req = isEmpty(entity, 'payment_no', 'bank', 'amount');
+        else
+            req = isEmpty(entity, 'payment_no', 'amount');
+
+        if (req) {
+            result.error("field is required", req);
+            return result;
+        }
+
+        if (isNonNumeric(entity.amount)) {
+            result.error("Amount must be numeric", "amount");
+            return result;
+        }
+    }
+}
+
+export const reIndexing = (items,key = 'id') => {
+    items.forEach(function (item, index) {
+        index = index + 1;
+        item[key] = index
+    });
+}

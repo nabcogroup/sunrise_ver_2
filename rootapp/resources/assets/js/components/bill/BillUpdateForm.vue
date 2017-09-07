@@ -84,7 +84,6 @@
                     </div>
 
                     <div v-if="bill.id" class="col-md-12">
-
                         <v-tab-group v-model="options.currentTabIndex">
                             <v-tab tab-id="received">For Clearing</v-tab>
                             <v-tab tab-id="deposit">Deposited</v-tab>
@@ -95,7 +94,10 @@
                         <div class="tab-content">
                             <div class="tab-pane active">
                                 <div class="col-md-2 col-md-offset-10 is-margin-bottom">
-                                    <button v-if="isPaymentStatusReplace" class="btn btn-info btn-block" @click="openReplaceModal">Replace New Payment</button>
+                                    <button
+                                            v-if="isPaymentStatusReplace"
+                                            class="btn btn-info btn-block"
+                                            @click="openReplaceModal">Replace New Payment</button>
                                 </div>
                                 <div class="col-md-12" id="main">
                                     <data-view :grid="gridColumn">
@@ -269,6 +271,7 @@ const confirmation = {
 }
 
 export default {
+
     props: ["billNo"],
     components: {
         'totalPayment': TotalPayment,
@@ -303,6 +306,23 @@ export default {
             this.$store.state.payments.bill.bill_no = this.billNo;
             this.onSearch(false);
         }
+
+
+        /************************************************/
+        //watch payment type
+        /***********************************************/
+        this.$store.watch(state => state.payments.cloneOfInstance.payment_type, (value) => {
+
+            if (value.toLowerCase() === "cash")
+                this.$store.state.payments.cloneOfInstance.payment_no = "Cash";
+            else
+                this.$store.state.payments.cloneOfInstance.payment_no = '';
+
+        });
+
+
+
+
     },
     methods: {
         onSearch(openToggle) {
@@ -345,8 +365,11 @@ export default {
         },
         getBank(account_no) {
             const bank = _.find(this.lookups.bank_accounts, (item) => {
+
                 return item.account_no === account_no;
+
             });
+
             return bank !== undefined ? bank.bank_name : '';
         },
         onChange(id) {

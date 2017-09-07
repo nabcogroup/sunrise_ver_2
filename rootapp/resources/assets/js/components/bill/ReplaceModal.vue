@@ -20,8 +20,10 @@
             <div class="form-group">
                 <label for="bank" class="col-md-3">Bank</label>
                 <div class="col-md-9">
-                    <input type="text" :disabled="cloneOfInstance.isCash" class="form-control" name="bank"
-                           v-model="cloneOfInstance.bank">
+                    <select name="bank" v-model="cloneOfInstance.bank" class="form-control">
+                        <option value="">--SELECT BANK--</option>
+                        <option v-for="lookup in lookups.bank" :value="lookup.code" :key="lookup.code">{{lookup.name}}</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">

@@ -162,9 +162,7 @@ const confirmation = {
 
 const createGridColumn = (value) => {
     function columnFactory(value) {
-        
         let grid = {};
-
         switch (value) {
             case 0:
                 grid.columns = [
@@ -174,7 +172,7 @@ const createGridColumn = (value) => {
                     { name: 'full_bank', column: 'Bank' },
                     { name: 'full_payment_mode', column: 'Payment Mode', class: 'text-center' },
                     { name: 'full_payment_type', column: 'Payment Type', class: 'text-center' },
-                    { name: 'period_start|period_end', column: 'Period', class: 'text-center', dtype: 'date' },
+                    { name: 'period', column: 'Period', class: 'text-center',dtype:'period',from:'period_start',to:'period_end'},
                     { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', dtype: 'currency' },
                     { name: 'full_status', column: 'Status', style: "width:10%", class: 'text-center' },
                     { name: '$action', column: '', static: true }

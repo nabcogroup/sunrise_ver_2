@@ -47,7 +47,7 @@ class BillForm extends FormRequest
             }
             else {
                 foreach ($payments as $payment) {
-
+                    
                     if(!strtotime($payment['effectivity_date'])) {
                         $validator->errors()->add('payments','Effective Date must be valid date');
                     }
@@ -60,14 +60,7 @@ class BillForm extends FormRequest
                         $validator->errors()->add('payments','Period End must be valid date');
                     }
 
-                    if($payment['payment_type'] == 'cheque') {
-                        if($payment['bank'] == null) {
-                            $validator->errors()->add('payments','Please Enter Bank Accounts');
-                        }
-                    }
-
                     if($payment['status'] == 'clear') {
-
                         //check if the accounts entered
                         if($payment['bank_account'] == null) {
                             $validator->errors()->add('payments','Please enter Bank Accounts');

@@ -60,11 +60,10 @@ import TenantList from "./components/tenant/TenantList.vue";
 import TenantRegister from "./components/tenant/TenantReg.vue";
 
 Vue.filter('toDateFormat', (value) => {
-    
     if(isNaN(Date.parse(value))) {
         value = moment().format('L');
     }
-    return moment(value).format('L');
+    return moment(value).format('D-MMM-Y');
 });
 
 Vue.filter('toCurrencyFormat', (value) => {

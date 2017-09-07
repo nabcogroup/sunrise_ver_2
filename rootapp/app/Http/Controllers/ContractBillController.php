@@ -100,7 +100,9 @@ class ContractBillController extends Controller
             //get the contract
             $bundle = new Bundle();
             $bundle->add("contractNo", $contractNo);
+            
             event(new OnGetContract($bundle, new EventListenerRegister(["GetContract"])));
+
             if(!$bundle->hasOutput()) {
                 throw new Exception("Internal Error");
             }
@@ -228,6 +230,7 @@ class ContractBillController extends Controller
         }
 
         $bill = $this->billRepository->includePayments()->findByBillNo($billNo)->first();
+
         if(!$bill) {
             return Result::badRequest(["message" => "Invalid Bill No"]);
         }

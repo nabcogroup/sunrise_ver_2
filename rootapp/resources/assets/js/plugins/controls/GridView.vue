@@ -33,7 +33,10 @@
                             </select>
                         </div>
                         <div v-else>
-                            <span>{{render(entry,key)}}</span>
+                            <span v-if="key.dtype === 'date'">{{entry[key.name] | toDateFormat }}</span>
+                            <span v-else-if="key.dtype === 'currency'">{{entry[key.name] | toCurrencyFormat }}</span>
+                            <span v-else-if="key.dtype === 'period'">{{entry[key.from] | toDateFormat}} - {{entry[key.to] | toDateFormat}}</span>
+                            <span v-else>{{entry[key.name]}}</span>
                         </div>
 
                         <div v-if="key.name=='$action'" class="btn-group">
@@ -85,6 +88,7 @@ export default {
     name: "gridView",
     props: ['data', 'grid', 'lookups'],
     data() {
+
         let sortOrders = {};
         let sortKey = "";
         let that = this;
@@ -107,14 +111,7 @@ export default {
         filteredData() {
             let sortKey = this.sortKey;
             let data;
-            if (this.paginate) {
-                data = this.data.data;
-            }
-            else {
-                data = this.data;
-            }
-
-
+            data = this.data;
             let order = this.sortOrders[sortKey] || 1
             if (sortKey) {
                 data = data.slice().sort(function(a, b) {

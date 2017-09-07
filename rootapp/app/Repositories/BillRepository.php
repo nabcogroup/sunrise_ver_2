@@ -47,7 +47,7 @@ class BillRepository extends AbstractRepository
             $item->setPaymentPeriod($period_start->toDateString());
             $item->effectivity_date = $effectivity_date;
             $item->payment_no = $payment_no;
-
+            
             $period_start = Carbon::parse($item->period_start)->addMonth();
             $effectivity_date = Carbon::parse($item->effectivity_date->toDateString())->addMonth(1);
             $item->amount = $contract->payable_per_month;

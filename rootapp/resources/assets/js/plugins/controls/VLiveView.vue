@@ -121,15 +121,24 @@
             }
         },
         beforeMount() {
+
+            //listen to view fetch will call by the client
             EventBus.$on("onLiveViewFetch", response => {
                 this.$store.commit('liveviews/clearFilter');
                 this.fetchData({grid: this.grid})
             });
 
+            //initialize sorting
             this.$store.commit('liveviews/initSort', {grid: this.grid});
+
         },
         mounted() {
-            this.fetchData({grid: this.grid});
+
+            let lazyLoad = this.grid.lazyLoad || false;
+            if(!lazyLoad) {
+                this.fetchData({grid: this.grid});
+            }
+
         },
         computed: {
             ...mapGetters('liveviews', {filteredData: 'filteredData'}),

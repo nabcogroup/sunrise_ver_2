@@ -115,6 +115,8 @@ const reIndexing = (payments) => {
     });
 }
 
+
+
 const state = {
     bill: {
         bill_no: '',
@@ -184,11 +186,9 @@ const mutations = {
 
 const actions = {
     create({commit, state}, payload) {
-        
         state.bill = payload.bill;
         state.contract = payload.contract;
         state.lookups = payload.lookups;
-        
         reIndexing(state.bill.payments);
         commit('createInstance');
 

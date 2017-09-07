@@ -91,6 +91,7 @@ const actions = {
         }
 
         state.fetchLoading = true;
+
         axiosRequest.dispatchGet(url)
             .then(response => commit('loadData',{data:response.data,pointer: payload.grid.source.pointer || false}))
             .catch(errors => {

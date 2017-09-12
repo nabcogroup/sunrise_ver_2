@@ -25,26 +25,30 @@ class VillaSales implements IDataSource
     {
         $month_from = isset($this->params['month_from']) ? (int)$this->params['month_from'] : '';
         $month_to = isset($this->params['month_to']) ? (int)$this->params['month_to'] : '';
+        $location = isset($this->params['location']) ? $this->params['location'] : 'sv1';
         $year = isset($this->params['year']) ? (int)$this->params['year'] : \Carbon\Carbon::now()->year;
+        
 
         $recordset = \DB::table('villas')
             ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
             ->join('payments', 'payments.bill_id', '=', 'contract_bills.id')
-            ->groupBy(\DB::raw("MONTH(payments.date_deposited),villas.villa_no"))
+            ->groupBy(\DB::raw("MONTH(payments.effectivity_date),villas.villa_no"))
             ->select(
                 \DB::raw("villas.villa_no,
                         villas.description,
                         villas.rate_per_month,
+                        villas.location,
                         COUNT(payments.id) total_cheque,
                         villas.electricity_no,
                         villas.water_no, 
                         SUM(payments.amount) total_payments,
-                        MONTH(payments.date_deposited) total_month,
-                        YEAR(payments.date_deposited) total_year"))
+                        MONTH(payments.effectivity_date) total_month,
+                        YEAR(payments.effectivity_date) total_year"))
+            ->where('villas.location', $location)
             ->where('payments.status', '=', 'clear')
-            ->where(\DB::raw('YEAR(payments.date_deposited)'),$year)
-            ->whereBetween(\DB::raw('MONTH(payments.date_deposited)'), [$month_from, $month_to])
+            ->where(\DB::raw('YEAR(payments.effectivity_date)'),$year)
+            ->whereBetween(\DB::raw('MONTH(payments.effectivity_date)'), [$month_from, $month_to])
             ->orderBy('villas.villa_no')
             ->get();
         
@@ -83,7 +87,7 @@ class VillaSales implements IDataSource
             }
             else {
                 $month[$row['number_month']] = [
-                    'date_name' => date('F', mktime(0, 0, 0, $record->total_month, 10)),
+                    'date_name' => date('M', mktime(0, 0, 0, $record->total_month, 10)),
                     'total'     =>  floatval($record->total_payments)];
             }
 
@@ -92,7 +96,7 @@ class VillaSales implements IDataSource
         }
         ksort($month);
         $rows['months'] = $month;
-
+        $rows['location'] = \App\Selection::getValue("villa_location",$location);
 
         // TODO: Implement execute() method.
 

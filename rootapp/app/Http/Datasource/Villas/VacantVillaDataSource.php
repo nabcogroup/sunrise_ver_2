@@ -16,9 +16,7 @@ class VacantVillaDataSource implements IDataSource
     public function execute()
     {
         $villas = Villa::with('contracts')->where('status','vacant')->get();
-
         return $villas;
-
     }
 
 }

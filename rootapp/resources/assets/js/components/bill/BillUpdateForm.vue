@@ -90,84 +90,96 @@
                             <v-tab tab-id="clear">Cleared</v-tab>
                             <v-tab tab-id="bounce">Bounced</v-tab>
                         </v-tab-group>
-
                         <div class="tab-content">
                             <div class="tab-pane active">
-                                <div class="col-md-2 col-md-offset-10 is-margin-bottom">
-                                    <button
-                                            v-if="isPaymentStatusReplace"
-                                            class="btn btn-info btn-block"
-                                            @click="openReplaceModal">Replace New Payment</button>
+                                <div class="col-md-12 is-margin-bottom">
+                                    <div class="col-md-3 pull-right">
+                                        <button v-if="isPaymentStatusReplace"
+                                        class="btn btn-info btn-block" 
+                                        @click="openReplaceModal">Replace New Payment</button>
+                                    </div>
                                 </div>
+
                                 <div class="col-md-12" id="main">
-                                    <data-view :grid="gridColumn">
+                                    <data-view :grid="gridColumn" :data="filtered">
                                         <template slot="body" scope="props">
-                                            <tr v-for="(entry,index) in filtered" :key="index">
-                                                <td class="text-center">{{index + 1}}</td>
-                                                <td v-for="column in props.items.columns" :key="column.id" :style="column.style" :class="column.class">
-                                                    <div v-if="column.custom">
-                                                        <!--status -->
-                                                        <div v-if="column.name === 'status'">
-                                                            <select v-model="entry.status" class="form-control">
-                                                                <option v-for="status in lookups.payment_status" :value="status.code">{{status.name}}</option>
-                                                            </select>
-                                                        </div>
+                                            <div v-if="props.items.column.custom">
+                                                <!-- selector -->
+                                                <div v-if="props.items.column.name === 'payment_no'">
+                                                    <input type="text" class="form-control" v-model="props.items.items.payment_no"/>
+                                                </div>
+                                                <!--status -->
+                                                <div v-else-if="props.items.column.name === 'status'">
+                                                    <v-combo-box v-model="props.items.items.status" :options="lookups.payment_status" dvalue="code" dtext="name"></v-combo-box>
+                                                </div>
+                                                <!-- bank account -->
+                                                <div v-else-if="props.items.column.name === 'bank_account'">
+                                                    <div v-if="props.items.items.status==='clear'" class="form-group text-center">
+                                                        <v-combo-box v-model="props.items.items.bank_account"
+                                                                     :options="lookups.bank_accounts"
+                                                                     dvalue="account_no"
+                                                                     dtext="account_no"
+                                                                     includeDefault="true"
+                                                                     @change="onChange(props.items.items.id)"></v-combo-box>
+                                                        <small class="label label-info">
+                                                            {{getBank(props.items.items.bank_account)}}
+                                                        </small>
+                                                    </div>
+                                                    <div v-else class="text-center">
+                                                        <span>---</span>
+                                                    </div>
+                                                </div>
 
-                                                        <!-- bank account -->
-                                                        <div v-else-if="column.name === 'bank_account'">
-                                                            <div v-if="entry.status==='clear'" class="form-group text-center">
-                                                                <select v-model="entry.bank_account" class="form-control" @change="onChange(entry.id)">
-                                                                    <option value="">--Select Bank Account--</option>
-                                                                    <option v-for="bank_account in lookups.bank_accounts" :value="bank_account.account_no">{{bank_account.account_no}}</option>
-                                                                </select>
-                                                                <small class="label label-info">{{getBank(entry.bank_account)}}</small>
-                                                            </div>
-                                                            <div v-else class="text-center">
-                                                                <span>---</span>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- date deposited -->
-                                                        <div v-else-if="column.name === 'date_deposited'">
-                                                            <div v-if="entry.status ==='clear' || entry.status === 'bounce'">
-                                                                <dt-picker dp-name="date_deposited"
-                                                                           :value="entry.date_deposited"
-                                                                            @pick="entry.date_deposited = $event"></dt-picker>
-                                                            </div>
-                                                            <div v-else class="text-center">
-                                                                <span>---</span>
-                                                            </div>
-                                                        </div>
+                                                <!-- date deposited -->
+                                                <div v-else-if="props.items.column.name === 'date_deposited'">
+                                                    <div v-if="props.items.items.status ==='clear' || props.items.items.status === 'bounce'">
+                                                        <dt-picker dp-name="date_deposited" :value="props.items.items.date_deposited" @pick="props.items.items.date_deposited = $event"></dt-picker>
+                                                    </div>
+                                                    <div v-else class="text-center">
+                                                        <span>---</span>
+                                                    </div>
+                                                </div>
+                                                <!-- remarks -->
+                                                <div v-else>
+                                                    <div v-if="props.items.items.status==='clear'" class="form-group">
+                                                        <textarea v-model="props.items.items.remarks" class="form-control"></textarea>
+                                                    </div>
+                                                    <div v-else class="text-center">
+                                                        <span>---</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div v-else="">
+                                                <div v-if="props.items.column.editable">
+                                                    <input v-model="props.items.items[column.name]" class="form-control text-center" disabled/>
+                                                </div>
+                                                <div v-else-if="props.items.column.actionable" class="btn-group">
+                                                    <button type="button"
+                                                            class="btn btn-primary dropdown-toggle btn-sm"
+                                                            data-toggle="dropdown"
+                                                            aria-haspopup="true" aria-expanded="false">
+                                                        Action <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#" @click.prevent="actionTrigger('info')">Info</a></li>
+                                                        <li role="separator" class="divider"></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('edit')">Edit</a></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('add')">Add Deposit</a></li>
+                                                        <li role="separator" class="divider"></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('replacement')">Replacement</a></li>
                                                         
-                                                        <!-- remarks -->
-                                                        <div v-else>
-                                                            <div v-if="entry.status==='clear' || entry.status === 'bounce'" class="form-group">
-                                                                <textarea v-model="entry.remarks" class="form-control"></textarea>
-                                                            </div>
-                                                            <div v-else class="text-center">
-                                                                <span>---</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div v-else="">
-                                                        <div v-if="column.editable">
-                                                            <input v-model="entry[column.name]" class="form-control text-center" disabled/>
-                                                        </div>
-                                                        <div v-else="">
-                                                            <span v-if="column.format=='date'">{{entry[column.name] | toDateFormat}}</span>
-                                                            <span v-else-if="column.format=='currency'">{{entry[column.name] | toCurrencyFormat}}</span>
-                                                            <span v-else="">{{entry[column.name]}}</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    </ul>
+                                                </div>
+                                                <div v-else="">
+                                                    <span v-if="props.items.column.format=='date'">{{props.items.items[props.items.column.name] | toDateFormat}}</span>
+                                                    <span v-else-if="props.items.column.format=='currency'">{{props.items.items[props.items.column.name] | toCurrencyFormat}}</span>
+                                                    <span v-else="">{{props.items.items[props.items.column.name]}}</span>
+                                                </div>
+                                            </div>
                                         </template>
                                     </data-view>
                                 </div>
-
-                                <replace-modal
-                                        :clone-of-instance="cloneOfInstance"
-                                        :lookups="lookups">
+                                <replace-modal :clone-of-instance="cloneOfInstance" :lookups="lookups" @dismiss="onDismissal">
                                 </replace-modal>
                                 <hr/>
                             </div>
@@ -198,48 +210,93 @@ import TotalPayment from './TotalPayment.vue';
 import PaymentModal from './PaymentModal.vue';
 import ReplaceModal from './ReplaceModal.vue';
 import SearchBill from './SearchBill.vue';
-
-import {EventBus} from '../../eventbus';
-
+import { EventBus } from '../../eventbus';
 import { mapGetters, mapMutations } from "vuex";
 
 
-const createGridColumn = function (value) {
+const createGridColumn = function(value) {
     function columnFactory(value) {
         let grid = {};
         switch (value) {
             case 'received': {
                 grid.columns = [
-                    { name: 'effectivity_date', column: 'Date', style: 'width:10%', class: 'text-center', default: true, format: 'date' },
-                    { name: 'payment_no', column: 'C/P No.', style: 'width:10%', class: 'text-center', editable: true },
-                    { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', editable: true },
-                    { name: 'status', column: 'Status', style: "width:10%", class: 'text-center', custom:true },
-                    { name: 'bank_account', column: 'Accounts', class: 'text-center',  custom:true },
-                    { name: 'date_deposited', column: 'Date Deposit', class: 'text-center',custom:true },
-                    { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center', custom:true },
+                    {
+                        name: 'effectivity_date',
+                        column: 'Date',
+                        style: 'width:10%',
+                        class: 'text-center',
+                        default: true,
+                        format: 'date'
+                    },
+                    {
+                        name: 'payment_no',
+                        column: 'C/P No.',
+                        style: 'width:10%',
+                        class: 'text-center',
+                        custom: true
+                    },
+                    { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', },
+                    { name: 'status', column: 'Status', style: "width:10%", class: 'text-center', custom: true },
+                    { name: 'bank_account', column: 'Accounts', class: 'text-center', custom: true },
+                    { name: 'date_deposited', column: 'Date Deposit', class: 'text-center', custom: true },
+                    { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center', custom: true },
+                    { name: '', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true }
                 ]
                 break;
             }
             case 'bounce': {
                 grid.columns = [
-                    { name: 'effectivity_date', column: 'Date', style: 'width:10%', class: 'text-center', default: true, format: 'date' },
-                    { name: 'payment_no', column: 'C/P No.', style: 'width:10%', class: 'text-center', editable: true },
+                    {
+                        name: 'effectivity_date',
+                        column: 'Date',
+                        style: 'width:10%',
+                        class: 'text-center',
+                        default: true,
+                        format: 'date'
+                    },
+                    {
+                        name: 'payment_no',
+                        column: 'C/P No.',
+                        style: 'width:10%',
+                        class: 'text-center',
+                        editable: true
+                    },
                     { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', editable: true },
-                    { name: 'status', column: 'Status', style: "width:10%", class: 'text-center', custom:true },
+                    { name: 'status', column: 'Status', style: "width:10%", class: 'text-center', custom: true },
                     { name: 'bank_account', column: 'Accounts', class: 'text-center' },
-                    { name: 'date_deposited', column: 'Bounce Date', class: 'text-center',format: 'date' },
+                    { name: 'date_deposited', column: 'Bounce Date', class: 'text-center', format: 'date' },
                     { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center', }
                 ]
                 break;
             }
             default:
-                grid.columns = [{ name: 'effectivity_date', column: 'Date', style: 'width:10%', class: 'text-center', default: true, format: 'date' },
-                { name: 'payment_no', column: 'C/P No.', style: 'width:10%', class: 'text-center', editable: false },
-                { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', editable: false,format: 'currency' },
+                grid.columns = [{
+                    name: 'effectivity_date',
+                    column: 'Date',
+                    style: 'width:10%',
+                    class: 'text-center',
+                    default: true,
+                    format: 'date'
+                },
+                {
+                    name: 'payment_no',
+                    column: 'C/P No.',
+                    style: 'width:10%',
+                    class: 'text-center',
+                    editable: false
+                },
+                {
+                    name: 'amount',
+                    column: 'Amount',
+                    style: "width:10%",
+                    class: 'text-right',
+                    editable: false,
+                    format: 'currency'
+                },
                 { name: 'full_status', column: 'Status', style: "width:10%", class: 'text-center', },
-                { name: 'bank_account', column: 'Accounts', class: 'text-center',  },
-                { name: 'date_deposited', column: 'Date Deposit', class: 'text-center',format: 'date'},
-                { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center',  },
+                { name: 'bank_account', column: 'Accounts', class: 'text-center', },
+                { name: 'date_deposited', column: 'Date Deposit', class: 'text-center', format: 'date' },
+                { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center', },
                 ];
         }
         return grid
@@ -286,6 +343,7 @@ export default {
             gridColumn: gridColumn,
             unfoldModal: false,
             unfoldReplacementModal: false,
+            paymentStatus: ''
         }
     },
     computed: {
@@ -302,7 +360,8 @@ export default {
         })
     },
     mounted() {
-        if(this.billNo) {
+
+        if (this.billNo) {
             this.$store.state.payments.bill.bill_no = this.billNo;
             this.onSearch(false);
         }
@@ -311,22 +370,23 @@ export default {
         /************************************************/
         //watch payment type
         /***********************************************/
-        this.$store.watch(state => state.payments.cloneOfInstance.payment_type, (value) => {
 
-            if (value.toLowerCase() === "cash")
-                this.$store.state.payments.cloneOfInstance.payment_no = "Cash";
-            else
-                this.$store.state.payments.cloneOfInstance.payment_no = '';
+        this.$store.watch(state => state.payments.cloneOfInstance.payment_type,
+            (value) => {
+                this.$store.commit('payments/convertPayment', { source: 'payment_term', needle: 'payment_type', target: 'full_payment_type' })
+                if (value.toLowerCase() === "cash")
+                    this.$store.state.payments.cloneOfInstance.payment_no = "Cash";
+                else
+                    this.$store.state.payments.cloneOfInstance.payment_no = '';
+            });
+        this.$store.watch(state => state.bills.cloneOfInstance.payment_mode,
+            (value) => this.$store.commit('payments/convertPayment', { source: 'payment_mode', needle: 'payment_mode', target: 'full_payment_mode' }))
 
-        });
-
-
-
-
+        this.$store.watch(state => state.bills.cloneOfInstance.bank,
+            (value) => this.$store.commit('payments/convertPayment', { source: 'bank', needle: 'bank', target: 'full_bank' }))
     },
     methods: {
         onSearch(openToggle) {
-
             if (openToggle) {
                 EventBus.$emit('openSearchBillDialog');
             }
@@ -349,25 +409,17 @@ export default {
             });
         },
         onDismissal(result) {
-            if (result) {
-                this.$store.commit('payments/addNew');
-                this.unfoldModal = false;
-            }
-            else {
-                this.unfoldModal = false;
-            }
+            this.$store.commit('payments/addNew');
+            EventBus.$emit("closeReplaceModal");
         },
         onSelect(billNo) {
             this.$store.state.payments.bill.bill_no = billNo;
             this.$store.dispatch('payments/edit');
             this.searchToggle = false;
-
         },
         getBank(account_no) {
             const bank = _.find(this.lookups.bank_accounts, (item) => {
-
                 return item.account_no === account_no;
-
             });
 
             return bank !== undefined ? bank.bank_name : '';
@@ -376,7 +428,10 @@ export default {
             this.$store.commit('payments/updateDeposit', { id });
         },
         openReplaceModal() {
-            this.$store.commit('payments/calculateReplace',() => EventBus.$emit('openReplaceModal'));
+            this.$store.commit('payments/calculateReplace', () => EventBus.$emit('openReplaceModal'));
+        },
+        get(ob) {
+            console.log(ob);
         }
     },
     watch: {

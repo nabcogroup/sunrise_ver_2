@@ -10,10 +10,12 @@ namespace App\Http\Reports;
 
 
 
-use App\Http\Datasource\ContractActive;
-use App\Http\Datasource\ContractExpiring;
-use App\Http\Datasource\ContractPending;
-use App\Http\Datasource\ContractValue;
+
+use App\Http\Datasource\Contracts\ContractActive;
+use App\Http\Datasource\Contracts\ContractExpiring;
+use App\Http\Datasource\Contracts\ContractPending;
+use App\Http\Datasource\Contracts\ContractValue;
+use App\Http\Datasource\Contracts\PaymentSchedule;
 use App\Selection;
 
 class ContractReport extends BaseReport
@@ -35,10 +37,15 @@ class ContractReport extends BaseReport
             $this->dataSource = new ContractExpiring($params);
             $this->templateSource = "contract-expiry";
         }
+        else if($reportName == 'payment_schedule') {
+            $this->dataSource = new PaymentSchedule($params);
+            $this->templateSource = "payment-schedule";
+        }
         else {
             $this->dataSource = new ContractValue($params);
             $this->templateSource = "contract-value";
         }
+
 
     }
 

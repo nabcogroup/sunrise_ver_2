@@ -30,14 +30,12 @@ class ReportController extends Controller
     public function show($reportId,Request $request) {
 
         $inputs = $request->all();
-
         $report = ReportManager::get($reportId,$inputs);
-
         $datasource = $report->execute();
-
         $template = $report->getTemplateSource();
 
         if($report->isPdfRender()) {
+            PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
             $dompdf = PDF::loadView('reports.modules.'.$template, compact('datasource'));
             return $dompdf->stream();
         }
@@ -49,13 +47,6 @@ class ReportController extends Controller
         }
     }
 
-    public function apiGetReport() {
-        $reportList = [
-            ['report_name' => 'Active Villa Master Report'],
-            ['report_name' => 'Vacant Villa Master Report']
-        ];
-    }
-
-
+    
 
 }

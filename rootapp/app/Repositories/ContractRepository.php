@@ -38,9 +38,11 @@ class ContractRepository extends AbstractRepository
 
     public function getContracts($state,$filter_field = null,$filter_value = null)
     {
+
         $contracts = $this->createDb('contracts')
             ->join('villas', 'contracts.villa_id', '=', 'villas.id')
             ->join('tenants', 'contracts.tenant_id', '=', 'tenants.id')
+            ->leftJoin('contract_bills','contracts.id','=','contract_bills.contract_id')
             ->select(
                 "contracts.id",
                 "contracts.contract_no",
@@ -48,12 +50,15 @@ class ContractRepository extends AbstractRepository
                 "tenants.full_name",
                 "contracts.created_at AS contract_created",
                 "contracts.period_start",
+                "contract_bills.bill_no",
                 "contracts.period_end", "contracts.amount", "contracts.status AS contracts_status")
             ->where('contracts.status', $state);
 
         $params  = [];
         if ($filter_field) {
+            
             $params = ['filter_field' => $filter_field,'filter_value' => $filter_value];
+
             if ($filter_field == 'villa_no') {
                 $contracts->where('villas.villa_no', 'LIKE', '%' . $filter_value . '%');
             }
@@ -65,6 +70,7 @@ class ContractRepository extends AbstractRepository
             }
         }
 
+
         return $this->createPagination($contracts, function ($row) {
             $item = [
                 "id" => $row->id,
@@ -74,6 +80,7 @@ class ContractRepository extends AbstractRepository
                 "created_at" => Carbon::parse($row->contract_created)->format('d, M, Y'),
                 "period" => Carbon::parse($row->period_start)->format('d, M, Y') ." - ". Carbon::parse($row->period_end)->format('d, M, Y'),
                 "amount" => number_format($row->amount,2),
+                "bill_no" => $row->bill_no,
                 "status" => ucfirst($row->contracts_status)
             ];
             return $item;

@@ -9,10 +9,13 @@
 namespace App\Http\Reports;
 
 
-use App\Http\Datasource\VillaSales;
+use App\Http\Datasource\Villas\PaymentSchedule;
+use App\Http\Datasource\Villas\VillaSales;
+use App\Selection;
 
 class VillaSalesReport extends BaseReport
 {
+    private $reportName;
 
     public function __construct($params)
     {
@@ -32,6 +35,12 @@ class VillaSalesReport extends BaseReport
     public function getLookups()
     {
         // TODO: Implement getLookups() method.
-        return [];
+        $lookups = Selection::getSelections(["villa_location"]);
+        return $lookups;
+    }
+
+    public function isApi()
+    {
+        return false;
     }
 }

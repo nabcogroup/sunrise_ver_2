@@ -69,7 +69,7 @@
                 </button>
 
                 <button v-if="payments.length > 0" class="btn btn-danger" @click="clearPayment" style="margin-bottom: 10px;">
-                    <i class="fa fa-plus-circle"></i> Clear Payment
+                    <i class="fa fa-trash-o"></i> Clear Payment
                 </button>
 
                 <v-dialog modal-id="payment" size="" dialog-title="Payment Entry" @dismiss="onDismissal" v-model="unfoldModal">
@@ -285,21 +285,10 @@ export default {
         },
         onDismissal(result) {
             if (this.gridColumn.selected < 0) {
-                this.$store.commit('bills/validate', {
-                    cb: (r) => {
-                        if (r.isValid) {
-                            this.$store.commit('bills/insert')
-                            this.unfoldModal = false;
-                        }
-                        else {
-                            toastr.error(r.message);
-                        }
-                    }
-                })
+                this.$store.commit('bills/insert',(suc) => this.unfoldModal = !suc);
             }
             else {
-                this.$store.commit('bills/update');
-                this.unfoldModal = false;
+                this.$store.commit('bills/update',(suc) => this.unfoldModal = !suc);
             }
         },
         onPrepareDismiss() {

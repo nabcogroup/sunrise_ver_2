@@ -38,7 +38,7 @@ const mutations = {
         axiosRequest.redirect("contract", "register");
     },
     redirectToRead(state, id) {
-        axiosRequest.redirect('contract', 'show', id, '_blank');
+        axiosRequest.redirect('bill', 'show', id, '_blank');
     },
     createBill(state, contract_no) {
         axiosRequest.redirect("bill", "create", contract_no);

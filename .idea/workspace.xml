@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6e0bf404-af6a-4897-a37b-c434d86e8e96" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractBillController.php" afterPath="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractBillController.php" />
-    </list>
+    <list default="true" id="6e0bf404-af6a-4897-a37b-c434d86e8e96" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,32 +14,31 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/bills/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="115" column="1" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="115" selection-end-column="1" />
+            <state relative-caret-position="125">
+              <caret line="153" column="44" lean-forward="true" selection-start-line="153" selection-start-column="44" selection-end-line="153" selection-end-column="44" />
               <folding>
-                <element signature="e#123#2991#0" expanded="false" />
+                <element signature="e#3032#3482#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/payments/index.js">
+      <file leaf-file-name="ContractController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="134">
-              <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-              <folding>
-                <element signature="e#123#195#0" expanded="false" />
-                <element signature="e#211#256#0" expanded="false" />
-                <element signature="e#270#512#0" expanded="false" />
-                <element signature="e#552#585#0" expanded="false" />
-                <element signature="e#636#737#0" expanded="false" />
-                <element signature="e#779#884#0" expanded="false" />
-                <element signature="e#912#1031#0" expanded="false" />
-                <element signature="e#1582#1709#0" expanded="false" />
-                <element signature="e#1745#1959#0" expanded="false" />
-                <element signature="e#1993#2604#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="272">
+              <caret line="123" column="22" lean-forward="false" selection-start-line="123" selection-start-column="12" selection-end-line="123" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ContractRepository.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="297">
+              <caret line="82" column="43" lean-forward="false" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -49,13 +46,9 @@
       <file leaf-file-name="ContractBillController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractBillController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="247" column="0" lean-forward="true" selection-start-line="247" selection-start-column="0" selection-end-line="247" selection-end-column="0" />
-              <folding>
-                <element signature="e#1453#2490#0#PHP" expanded="false" />
-                <element signature="e#2496#3453#0#PHP" expanded="false" />
-                <element signature="e#3791#5515#0#PHP" expanded="false" />
-              </folding>
+            <state relative-caret-position="306">
+              <caret line="211" column="19" lean-forward="false" selection-start-line="211" selection-start-column="19" selection-end-line="211" selection-end-column="19" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -63,27 +56,39 @@
       <file leaf-file-name="BillRepository.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/BillRepository.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="134" column="21" lean-forward="true" selection-start-line="134" selection-start-column="21" selection-end-line="134" selection-end-column="21" />
-              <folding>
-                <element signature="e#5182#5936#0#PHP" expanded="false" />
-                <element signature="e#5942#8520#0#PHP" expanded="false" />
-              </folding>
+            <state relative-caret-position="288">
+              <caret line="143" column="55" lean-forward="true" selection-start-line="143" selection-start-column="55" selection-end-line="143" selection-end-column="55" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="helpers.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js">
+      <file leaf-file-name="BillRegister.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillRegister.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
-              <folding>
-                <element signature="n#AxiosRequest#0" expanded="false" />
-                <element signature="e#2429#2484#0" expanded="false" />
-                <element signature="e#2555#2634#0" expanded="false" />
-                <element signature="e#2668#4417#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="17">
+              <caret line="17" column="35" lean-forward="false" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ContractList.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractList.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="607">
+              <caret line="136" column="20" lean-forward="false" selection-start-line="136" selection-start-column="20" selection-end-line="136" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/contracts/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="38" column="6" lean-forward="true" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -99,7 +104,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>AjaxRequest</find>
       <find>contract</find>
       <find>1</find>
       <find>sendLoginResponse</find>
@@ -127,6 +131,9 @@
       <find>v-dialog</find>
       <find>state</find>
       <find>getRe</find>
+      <find>v-combo</find>
+      <find>effectivity_date</find>
+      <find>entry</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -135,56 +142,56 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rootapp/resources/views/dashboard/index.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Traits/PaginationTrait.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/VillaController.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Repositories/VillaRepository.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillList.vue" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/Auth/LoginController.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/contract-pending.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/contract-value.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/ContractReport.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/contract-active.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Services/ReportManager.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/reports/ReportList.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/reports/ReportForm.vue" />
-        <option value="$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Traits/UnsetterTrait.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Traits/QueryTemplateTrait.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/ContractActive.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/tenant/TenantList.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/ExpenseList.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/villa/VillaList.vue" />
-        <option value="$PROJECT_DIR$/rootapp/app/Listeners/CreateTenant.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Contract.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Traits/HelperTrait.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/plugins.js" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractTerminate.vue" />
-        <option value="$PROJECT_DIR$/rootapp/routes/web.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/PaymentModal.vue" />
-        <option value="$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/SearchBill.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/containers/VDialog.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/payee/PayeeList.vue" />
-        <option value="$PROJECT_DIR$/rootapp/app/ContractBill.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Payment.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Repositories/BillRepository.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Services/Evaluator.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Requests/BillForm.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillRegister.vue" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractEntry.vue" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/containers/VInputWrapper.vue" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/TenantRegister.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/ReplaceModal.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/bills/index.js" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/liveviews/index.js" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Requests/BillForm.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/payments/index.js" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/ReplaceModal.vue" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/ContractActive.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/ContractExpiring.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/ContractPending.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaForm.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VacantVillaDataSource.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Expenses/ExpensesMaster.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaMasterMainDatasource.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaFormReport.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/ExpenseMasterReport.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Traits/ArrayGroupTrait.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/ContractValue.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaSales.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/payment-schedule.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/payment-schedule.blade..php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaPaymentSchedule.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaSalesReport.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Repositories/BillRepository.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/ContractReport.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa-sales.blade.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/payment-schedule.blade.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/PaymentSchedule.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Services/ReportManager.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VCombo.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/plugins.js" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/DataView.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillRegister.vue" />
+        <option value="$PROJECT_DIR$/rootapp/config/database.php" />
+        <option value="$PROJECT_DIR$/rootapp/routes/web.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/Sidebar.vue" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/HomeController.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/home/Info.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/containers/VDialog.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js" />
+        <option value="$PROJECT_DIR$/rootapp/app/Traits/HelperTrait.php" />
+        <option value="$PROJECT_DIR$/rootapp/.env" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/bills/index.js" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractList.vue" />
+        <option value="$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/contracts/index.js" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractBillController.php" />
       </list>
     </option>
@@ -208,6 +215,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
     <handled-path value="$PROJECT_DIR$/rootapp/node_modules" />
   </component>
   <component name="PhpServers">
@@ -252,6 +260,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -263,6 +272,33 @@
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
               <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
@@ -284,6 +320,34 @@
               <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="contract" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="helpers" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
@@ -324,13 +388,12 @@
               <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="store" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="payments" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="contracts" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -344,10 +407,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\experiment\rootapp\app\Http\Datasource\Contracts" />
+      <recent name="C:\xampp\htdocs\experiment\rootapp\app\Http\Datasource\Villas" />
+      <recent name="C:\xampp\htdocs\experiment\rootapp\app\Http\Datasource\Expenses" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\app" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\app\Models" />
-      <recent name="C:\xampp\htdocs\experiment" />
-      <recent name="C:\xampp\htdocs\experiment\rootapp\resources\assets\js\helpers" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\experiment\rootapp\resources\assets\js\plugins\containers" />
@@ -587,12 +651,34 @@
       <workItem from="1504595426938" duration="7000" />
       <workItem from="1504765321705" duration="1758000" />
       <workItem from="1504767152827" duration="1925000" />
-      <workItem from="1504769114752" duration="268000" />
+      <workItem from="1504769114752" duration="1161000" />
+      <workItem from="1504770922123" duration="1799000" />
+      <workItem from="1504772737771" duration="1794000" />
+      <workItem from="1504774550267" duration="1205000" />
+      <workItem from="1505111983534" duration="1781000" />
+      <workItem from="1505113779515" duration="1794000" />
+      <workItem from="1505115585325" duration="1041000" />
+      <workItem from="1505129231366" duration="1283000" />
+      <workItem from="1505132202268" duration="1517000" />
+      <workItem from="1505134010976" duration="2039000" />
+      <workItem from="1505138870213" duration="1680000" />
+      <workItem from="1505140697842" duration="606000" />
+      <workItem from="1505142616627" duration="1793000" />
+      <workItem from="1505144423363" duration="1791000" />
+      <workItem from="1505146228305" duration="1792000" />
+      <workItem from="1505148035365" duration="1793000" />
+      <workItem from="1505149843194" duration="1179000" />
+      <workItem from="1505227083692" duration="1728000" />
+      <workItem from="1505228899314" duration="1677000" />
+      <workItem from="1505230706206" duration="1789000" />
+      <workItem from="1505232518460" duration="721000" />
+      <workItem from="1505234359190" duration="1826000" />
+      <workItem from="1505236235595" duration="1138000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="778567000" />
+    <option name="totallyTimeSpent" value="813226000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -607,14 +693,14 @@
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2525707" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23200513" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2820513" sideWeight="0.38303342" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293011" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1808367" sideWeight="0.6169666" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17004049" sideWeight="0.6169666" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -656,402 +742,386 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="74" />
+      <option name="time" value="75" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/UnsetterTrait.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/ContractExpiring.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+        <state relative-caret-position="153">
+          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/QueryTemplateTrait.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/ContractPending.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="17" column="69" lean-forward="false" selection-start-line="17" selection-start-column="69" selection-end-line="17" selection-end-column="69" />
+        <state relative-caret-position="170">
+          <caret line="10" column="29" lean-forward="true" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/ContractActive.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Expenses/ExpensesMaster.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="39" column="16" lean-forward="false" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+        <state relative-caret-position="714">
+          <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/ContractExpiring.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaMasterMainDatasource.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="79" column="70" lean-forward="false" selection-start-line="79" selection-start-column="47" selection-end-line="79" selection-end-column="70" />
+        <state relative-caret-position="153">
+          <caret line="14" column="50" lean-forward="false" selection-start-line="14" selection-start-column="50" selection-end-line="14" selection-end-column="50" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/ContractPending.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="5" column="35" lean-forward="false" selection-start-line="5" selection-start-column="35" selection-end-line="5" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VacantVillaDataSource.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="19" column="23" lean-forward="true" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaFormReport.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="19" column="42" lean-forward="false" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/ExpenseMasterReport.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/QuerySoftDeleteTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="15" column="33" lean-forward="true" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/ArrayGroupTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1037">
+          <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/ContractValue.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="41" column="52" lean-forward="false" selection-start-line="41" selection-start-column="52" selection-end-line="41" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/reports/modules/payment-schedule.blade..php" />
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaSalesReport.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="26" column="29" lean-forward="false" selection-start-line="26" selection-start-column="29" selection-end-line="26" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/reports/modules/expense-per-prop.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/ContractValue.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaSales.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="44" column="32" lean-forward="false" selection-start-line="44" selection-start-column="17" selection-end-line="44" selection-end-column="32" />
+        <state relative-caret-position="254">
+          <caret line="52" column="20" lean-forward="true" selection-start-line="52" selection-start-column="20" selection-end-line="52" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/villa/VillaList.vue">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/ContractReport.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="51" column="30" lean-forward="false" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="30" />
+        <state relative-caret-position="135">
+          <caret line="43" column="14" lean-forward="false" selection-start-line="43" selection-start-column="14" selection-end-line="43" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/containers/VPanel.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Listeners/CreateTenant.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/ExpenseList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="25" lean-forward="true" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/tenant/TenantList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="39" column="18" lean-forward="true" selection-start-line="39" selection-start-column="18" selection-end-line="39" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/HelperTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/plugins.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="105" column="20" lean-forward="true" selection-start-line="105" selection-start-column="20" selection-end-line="105" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractTerminate.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="42" column="0" lean-forward="false" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="18" lean-forward="false" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="77" column="47" lean-forward="false" selection-start-line="77" selection-start-column="47" selection-end-line="77" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/containers/VDialog.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="65" column="54" lean-forward="false" selection-start-line="65" selection-start-column="54" selection-end-line="65" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/SearchBill.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="54" column="14" lean-forward="true" selection-start-line="54" selection-start-column="14" selection-end-line="54" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Contract.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="250" column="47" lean-forward="true" selection-start-line="250" selection-start-column="47" selection-end-line="250" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/bill/create.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="4" lean-forward="false" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Payee.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/payee/PayeeList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="17" column="8" lean-forward="true" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/ContractBill.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="36" column="29" lean-forward="false" selection-start-line="36" selection-start-column="29" selection-end-line="36" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Payment.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="118" column="74" lean-forward="true" selection-start-line="118" selection-start-column="74" selection-end-line="118" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/.env">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa-sales.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="16" column="28" lean-forward="true" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="28" />
+          <caret line="52" column="79" lean-forward="false" selection-start-line="52" selection-start-column="79" selection-end-line="52" selection-end-column="79" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Services/Evaluator.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportManager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        <state relative-caret-position="427">
+          <caret line="203" column="18" lean-forward="true" selection-start-line="203" selection-start-column="18" selection-end-line="203" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Listeners/VerifyVillaVacancy.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/reports/modules/payment-schedule.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="34" column="15" lean-forward="true" selection-start-line="34" selection-start-column="15" selection-end-line="34" selection-end-column="15" />
+        <state relative-caret-position="17">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/PaymentSchedule.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="92" column="0" lean-forward="true" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+        <state relative-caret-position="498">
+          <caret line="77" column="76" lean-forward="false" selection-start-line="77" selection-start-column="76" selection-end-line="77" selection-end-column="76" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/villas/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-374">
-          <caret line="35" column="0" lean-forward="true" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Requests/BillForm.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="101" column="38" lean-forward="false" selection-start-line="101" selection-start-column="38" selection-end-line="101" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractEntry.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/TenantRegister.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-85">
-          <caret line="13" column="26" lean-forward="true" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/containers/VInputWrapper.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="67" lean-forward="false" selection-start-line="7" selection-start-column="67" selection-end-line="7" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/bill/display.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="19" lean-forward="true" selection-start-line="5" selection-start-column="19" selection-end-line="5" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/villa/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="10" lean-forward="true" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/vendor/notifications/email.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="40" column="0" lean-forward="true" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/expenditures/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/PaymentValidation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/ReplaceModal.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="18" lean-forward="false" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillRegister.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4250">
-          <caret line="254" column="11" lean-forward="false" selection-start-line="245" selection-start-column="7" selection-end-line="254" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="310" column="39" lean-forward="false" selection-start-line="310" selection-start-column="39" selection-end-line="310" selection-end-column="39" />
-          <folding>
-            <element signature="n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
-          </folding>
+        <state relative-caret-position="357">
+          <caret line="36" column="5" lean-forward="true" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/PaymentModal.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="36" column="14" lean-forward="true" selection-start-line="36" selection-start-column="14" selection-end-line="36" selection-end-column="14" />
+        <state relative-caret-position="-357">
+          <caret line="44" column="14" lean-forward="false" selection-start-line="44" selection-start-column="14" selection-end-line="44" selection-end-column="14" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/contract.js">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractEntry.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="6" lean-forward="true" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
+        <state relative-caret-position="17">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/SearchBill.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="53" lean-forward="true" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/liveviews/index.js">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/TenantRegister.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="54" column="38" lean-forward="true" selection-start-line="54" selection-start-column="38" selection-end-line="54" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/bills/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="115" column="1" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="115" selection-end-column="1" />
-          <folding>
-            <element signature="e#123#2991#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="884">
-          <caret line="178" column="0" lean-forward="false" selection-start-line="178" selection-start-column="0" selection-end-line="178" selection-end-column="0" />
-          <folding>
-            <element signature="n#AxiosRequest#0" expanded="false" />
-            <element signature="e#2429#2484#0" expanded="false" />
-            <element signature="e#2555#2634#0" expanded="false" />
-            <element signature="e#2668#4417#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="136">
+          <caret line="86" column="32" lean-forward="false" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/payments/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="134">
-          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+        <state relative-caret-position="357">
+          <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VComboBox.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="8" lean-forward="true" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/plugins.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="37" column="31" lean-forward="false" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="101" column="0" lean-forward="true" selection-start-line="101" selection-start-column="0" selection-end-line="101" selection-end-column="0" />
           <folding>
-            <element signature="e#123#195#0" expanded="false" />
-            <element signature="e#211#256#0" expanded="false" />
-            <element signature="e#270#512#0" expanded="false" />
-            <element signature="e#552#585#0" expanded="false" />
-            <element signature="e#636#737#0" expanded="false" />
-            <element signature="e#779#884#0" expanded="false" />
-            <element signature="e#912#1031#0" expanded="false" />
-            <element signature="e#1582#1709#0" expanded="false" />
-            <element signature="e#1745#1959#0" expanded="false" />
-            <element signature="e#1993#2604#0" expanded="false" />
+            <element signature="n#v-tab-group#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#template#0;n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#template#0;n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#div#0;n#template#0;n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#div#0;n#template#0;n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#div#4;n#div#0;n#template#0;n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/DataView.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="22" column="42" lean-forward="false" selection-start-line="22" selection-start-column="42" selection-end-line="22" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="52" column="33" lean-forward="false" selection-start-line="42" selection-start-column="28" selection-end-line="52" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="29" column="22" lean-forward="false" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/ReplaceModal.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="1" lean-forward="false" selection-start-line="2" selection-start-column="1" selection-end-line="2" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/Sidebar.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="29" lean-forward="false" selection-start-line="6" selection-start-column="29" selection-end-line="6" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/containers/VDialog.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="33" column="25" lean-forward="true" selection-start-line="33" selection-start-column="25" selection-end-line="33" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/home/Info.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="34" column="10" lean-forward="false" selection-start-line="34" selection-start-column="10" selection-end-line="34" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="176" column="0" lean-forward="false" selection-start-line="176" selection-start-column="0" selection-end-line="176" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/HomeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="17" lean-forward="false" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/HelperTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="53" column="9" lean-forward="true" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="47" column="39" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="16" lean-forward="true" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2533">
+          <caret line="49" column="6" lean-forward="true" selection-start-line="49" selection-start-column="6" selection-end-line="49" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Listeners/VerifyVillaVacancy.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="33" column="38" lean-forward="false" selection-start-line="33" selection-start-column="38" selection-end-line="33" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/BillRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="134" column="21" lean-forward="true" selection-start-line="134" selection-start-column="21" selection-end-line="134" selection-end-column="21" />
+        <state relative-caret-position="288">
+          <caret line="143" column="55" lean-forward="true" selection-start-line="143" selection-start-column="55" selection-end-line="143" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="123" column="22" lean-forward="false" selection-start-line="123" selection-start-column="12" selection-end-line="123" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="82" column="43" lean-forward="false" selection-start-line="82" selection-start-column="43" selection-end-line="82" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/bills/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="153" column="44" lean-forward="true" selection-start-line="153" selection-start-column="44" selection-end-line="153" selection-end-column="44" />
           <folding>
-            <element signature="e#5182#5936#0#PHP" expanded="false" />
-            <element signature="e#5942#8520#0#PHP" expanded="false" />
+            <element signature="e#3032#3482#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillRegister.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="17" column="35" lean-forward="false" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="607">
+          <caret line="136" column="20" lean-forward="false" selection-start-line="136" selection-start-column="20" selection-end-line="136" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/contracts/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="38" column="6" lean-forward="true" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractBillController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="247" column="0" lean-forward="true" selection-start-line="247" selection-start-column="0" selection-end-line="247" selection-end-column="0" />
-          <folding>
-            <element signature="e#1453#2490#0#PHP" expanded="false" />
-            <element signature="e#2496#3453#0#PHP" expanded="false" />
-            <element signature="e#3791#5515#0#PHP" expanded="false" />
-          </folding>
+        <state relative-caret-position="306">
+          <caret line="211" column="19" lean-forward="false" selection-start-line="211" selection-start-column="19" selection-end-line="211" selection-end-column="19" />
+          <folding />
         </state>
       </provider>
     </entry>

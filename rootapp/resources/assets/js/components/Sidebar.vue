@@ -2,7 +2,7 @@
     <div class="nb-sidebar cold-md-2">
         <div class="nb-sidebar-brand">
             <div class="wrapper">
-                <a :href="logo.url" id="logo">
+                <a href="#" id="logo" @click="openInfo">
                     <img :src="logo.imgPath" class="circle">
                     {{title}}
                 </a>
@@ -23,11 +23,17 @@
                 </ul>
             </li>
         </ul>
+        <info-modal></info-modal>
     </div>
 </template>
 
 <script>
+
+    import InfoModal from "./home/Info.vue";
+    import {EventBus} from "../eventbus";
+
     export default {
+        components: {InfoModal},
         props: ['logo','menus','title'],
         mounted() {
 
@@ -42,6 +48,11 @@
                 parent.find('ul').show();
 
             });
+        },
+        methods: {
+            openInfo() {
+                EventBus.$emit("openInfo");
+            }
         }
     }
 </script>

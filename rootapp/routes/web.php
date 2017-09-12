@@ -27,6 +27,7 @@ Route::group(['prefix' =>  "register"], function() {
  * Dashboard
  ***********************************************************/
 Route::get('/', "DashboardController@index")->middleware('auth')->name("dashboard");
+Route::get('/api/about', "HomeController@apiInfo");
 
 /********************************************************
  * Villa

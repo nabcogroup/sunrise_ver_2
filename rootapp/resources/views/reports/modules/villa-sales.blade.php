@@ -11,12 +11,13 @@
     @endslot
 
     @if(sizeof($datasource['data']) > 0)
+        <p>{{$datasource['location']}}</p>
         <div class="row">
             <table class="table table-condensed table-bordered">
                 <thead>
                 <tr class="info">
                     <th class="text-center">Villa No</th>
-                    <th class="text-center">Rate Per Month</th>
+                    <th class="text-center">Rate/Month</th>
                     @foreach($datasource['months'] as $row)
                         <th class="text-center">{{$row['date_name']}}</th>
                     @endforeach
@@ -36,8 +37,10 @@
                                 $per_villa[$row['villa_no']][$row['number_month']] = $row['total_payments'];
                             }
                         }
+
                         $villa_no = '';
                     @endphp
+
                     @foreach($datasource['data'] as $row)
                         @if($row['villa_no'] != $villa_no)
                             @php

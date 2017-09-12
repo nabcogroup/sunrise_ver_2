@@ -134,7 +134,8 @@
                     });
                 }
                 else if (a.key == 'view') {
-                    this.$store.commit('contracts/redirectToRead', item.id);
+                    console.log(item);
+                    this.$store.commit('contracts/redirectToRead', item.bill_no);
                 }
             },
             onTerminateCancel() {

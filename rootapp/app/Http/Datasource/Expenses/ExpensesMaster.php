@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Datasource;
+namespace App\Http\Datasource\Expenses;
 
 
 use App\Expenditure;
+use App\Http\Datasource\IDataSource;
 use Carbon\Carbon;
 
 class ExpensesMaster implements IDataSource

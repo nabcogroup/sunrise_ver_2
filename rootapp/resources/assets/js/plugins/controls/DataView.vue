@@ -19,7 +19,12 @@
             </tr>
             </thead>
             <tbody>
-                <slot name="body" :items="grid"></slot>
+                <tr v-for="(entry, rowIndex) in filteredData" :key="rowIndex">
+                    <td class="text-center">{{rowIndex  + 1}}</td>
+                    <td v-for="(column,columnIndex) in grid.columns" :class="column.class" :style="column.style" :key="columnIndex">
+                        <slot name="body" :items="{column: column,items: entry}"></slot>
+                    </td>
+                </tr>
             </tbody>
             <tfoot v-if="grid.footers">
             <tr class="active">
@@ -33,7 +38,7 @@
 <script>
     export default {
         name: "grid",
-        props: ['grid'],
+        props: ['grid','data'],
         data() {
             let sortOrders = {};
             let sortKey = "";

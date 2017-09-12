@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 
+use App\Http\Datasource\Villas\PaymentSchedule;
 use App\Http\Reports\ContractReport;
 use App\Http\Reports\ExpenseMasterReport;
 use App\Http\Reports\VillaFormReport;
@@ -29,6 +30,7 @@ class ReportManager
             'contract_pending' => new ContractReport($params,'pending'),
             'contract_expiry'   => new ContractReport($params,'expiry'),
             'contract_active'   =>  new ContractReport($params,'active'),
+            'payment_schedule'  =>  new ContractReport($params,'payment_schedule'),
             'villa_payment' => new VillaSalesReport($params),
             'expense_property' => new ExpenseMasterReport($params)
         ];
@@ -65,7 +67,13 @@ class ReportManager
                         'report_title' => 'Contract Master File - Expiring Contract',
                         'report_name' => 'contract_expiry',
                         'created' => Carbon::now()->toDateString()
-                    ]
+                    ],
+                    [
+                        'id' => 8,
+                        'report_title' => 'Contact Payment Schedule',
+                        'report_name' => 'payment_schedule',
+                        'created' => Carbon::now()->toDateString()
+                    ],
 
                 ]
             ],
@@ -78,6 +86,7 @@ class ReportManager
                         'report_name' => 'villa_master',
                         'created' => Carbon::now()->toDateString()
                     ],
+
                     [
                         'id' => 3,
                         'report_title' => 'Villa Master List - Payments',
@@ -110,11 +119,13 @@ class ReportManager
                 'report_id' => 2,
                 'inputs' => [
                     ['label' => 'Status', 'type' => 'dropdown','selection' => 'statuses', 'model' => 'contract_status','default_text' => 'All','default' => ''],
-                    ['label' => 'Year', 'type' => 'number', 'model' => 'contract_year', 'placeholder' => 'Enter Year (2017)']
+                    ['label' => 'Year', 'type' => 'number', 'model' => 'contract_year', 'placeholder' => 'Enter Year (2017)'],
+                    ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
                 ],
                 'models' => [
                     'contract_status' => '',
                     'contract_year' => '',
+                    'location' => ''
                 ],
                 'lookups' => [],
             ],
@@ -134,13 +145,17 @@ class ReportManager
                     [
                         ['label' => 'Month From', 'type' => 'number','model' => 'month_from','placeholder' => 'Enter Month From'],
                         ['label' => 'Month To', 'type' => 'number', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
-                        ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year']
+                        ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year'],
+                        ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+
                     ],
                 'models' => [
                     'month_from' => '',
                     'month_to' => '',
-                    'year' => ''
+                    'year' => '',
+                    'location' => ''
                 ],
+                'lookups' => []
             ],
             [
                 'report_id' => 4,
@@ -169,6 +184,23 @@ class ReportManager
                     'location'  =>  '',
                     'date_from' =>  Carbon::now()->toDateString(),
                     'date_to'   =>  Carbon::now()->toDateString()
+                ],
+                'lookups' => []
+            ],
+            [
+                'report_id' => 8,
+                'inputs' =>
+                    [
+                        ['label' => 'Month From', 'type' => 'number','model' => 'month_from','placeholder' => 'Enter Month From'],
+                        ['label' => 'Month To', 'type' => 'number', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
+                        ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year'],
+                        ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                    ],
+                'models' => [
+                    'month_from' => '',
+                    'month_to' => '',
+                    'year' => '',
+                    'location' => ''
                 ],
                 'lookups' => []
             ]

@@ -27,11 +27,9 @@
         .nb-form-group {
 
         }
-
         .nb-total {
 
         }
-
     </style>
 </head>
 <body>

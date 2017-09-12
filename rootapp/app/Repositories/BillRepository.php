@@ -74,7 +74,6 @@ class BillRepository extends AbstractRepository
     {
 
         $userId = $this->getCurrentUserId();
-
         if (!isset($children['id']) || $children['id'] == 0) {
             $model->Payments()->saveMany(array_map(function ($item) use ($userId) {
                 $payment = new Payment();
@@ -88,6 +87,7 @@ class BillRepository extends AbstractRepository
 
     public function saveBill($entity = array(), $userId)
     {
+
         if (isset($entity['id']) && $entity['id'] != 0) {
             $bill = $this->model->find($entity['id']);
             //update its payment
@@ -95,10 +95,12 @@ class BillRepository extends AbstractRepository
             if (sizeof($entityPayments) > 0) {
                 foreach ($entityPayments as $entityPayment) {
                     if (!isset($entityPayment['id']) || $entityPayment['id'] == 0) {
+
                         $paymentModel = new Payment();
                         $paymentModel->toMap($entityPayment);
                         $paymentModel->bill_id = $bill->getId();
                         $paymentModel->saveWithUser();
+
                     }
                     else {
                         //update only without received
@@ -190,19 +192,28 @@ class BillRepository extends AbstractRepository
 
         $dbraw = $this->createDb('contracts')
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
+            ->join('payments','payments.bill_id','=','contract_bills.id')
             ->join('tenants', 'tenants.id', '=', 'contracts.tenant_id')
             ->join('villas', 'villas.id', '=', 'contracts.villa_id')
             ->select(
-                'contract_bills.bill_no','villas.location as location',
+                'contract_bills.bill_no',
+                'villas.location as location',
                 'villas.villa_no as villa_no',
                 'tenants.full_name', 'contracts.contract_no',
                 'contracts.period_start', 'contracts.period_end',
                 'contract_bills.id as contracts_bill_id',
                 'contracts.amount as contract_amount',
-                $this->sqlPaymentDue('contracts_bill_id'))
+                \DB::raw('SUM(payments.amount) as payment_amount'),
+                \DB::raw('contracts.amount - (SUM(payments.amount)) as total_balance'))
+            ->groupBy(
+                'contract_bills.bill_no',
+                'villas.location',
+                'villas.villa_no',
+                'contracts.amount')
             ->where('contracts.status','active')
-            ->distinct();
-
+            ->havingRaw('SUM(payments.amount) < contracts.amount')
+            ->where('payments.status','clear');
+            
         if (isset($filters['filter_field'])) {
             if($filters['filter_field'] == 'full_location') {
                 $filter_locations = Selection::where('category', 'villa_location')->where('name','LIKE','%'.$filters['filter_value'].'%')->get();
@@ -215,8 +226,7 @@ class BillRepository extends AbstractRepository
             }
         }
 
-        return $this->createPagination($dbraw, function ($row) use ($locations){
-
+        return $this->createPagination($dbraw, function ($row)  {
             $item = [
                 'bill_no'           => $row->bill_no,
                 'villa_no'          => $row->villa_no,
@@ -224,16 +234,11 @@ class BillRepository extends AbstractRepository
                 'full_name'         => $row->full_name,
                 'period'            => Carbon::parse($row->period_start)->format('d M Y') . '-' . Carbon::parse($row->period_end)->format('d M Y'),
                 'contract_amount'   => number_format($row->contract_amount, 2),
-                'total_payment'     => number_format($row->gross_sale, 2),
-                'total_balance'     => number_format(floatval($row->contract_amount) - floatval($row->gross_sale), 2)
+                'total_payment'     => number_format($row->payment_amount, 2),
+                'total_balance'     => number_format($row->total_balance, 2),
+                'full_location'     => Selection::getValue('villa_location',$row->location)
             ];
-
-            foreach ($locations['villa_location'] as $location) {
-                if($location->code == $row->location) {
-                    $item['full_location'] = $location->name;
-                    break;
-                }
-            }
+            
 
             return $item;
 

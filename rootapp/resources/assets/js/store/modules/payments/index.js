@@ -33,6 +33,7 @@ const state = {
 }
 
 const mutations = {
+    
     clear(state) {
         state.search.data = [];
         state.search.field = "";
@@ -43,19 +44,15 @@ const mutations = {
         state.cloneOfInstance.isCash = false;
     },
     addNew(state) {
-
-        const paymentMode = state.lookups.payment_mode.find(item => {
-            return item.code == state.cloneOfInstance.payment_mode;
-        })
-        state.cloneOfInstance.full_payment_mode = paymentMode.name;
-
-        const paymentType = state.lookups.payment_term.find(item => {
-            return item.code == state.cloneOfInstance.payment_type;
-        })
-
-        state.cloneOfInstance.full_payment_type = paymentType.name;
-
         state.bill.payments.push(state.cloneOfInstance);
+    },
+    convertPayment(state,payload) {
+        
+        const convertion = state.lookups[payload.source].find(item => {
+            return item.code == state.cloneOfInstance[payload.needle];
+        });
+        
+        state.cloneOfInstance[payload.target] = convertion.name;
     },
     redirectToPrint(state) {
         if (state.bill.bill_no !== '')
@@ -93,18 +90,25 @@ const mutations = {
 }
 
 const actions = {
-
     edit({commit, state}, payload) {
+
         state.options.loadingSearch = true;
         state.options.currentTabIndex = 'received';
 
         axiosRequest.get('bill', 'edit', state.bill.bill_no)
             .then(res => {
+                
                 state.bill = res.data.bill;
                 state.bill.instance = res.data.paymentInstance;
                 state.contract = res.data.contract;
                 state.lookups = res.data.lookups;
+                
+                state.bill.payments.forEach(p => {
+                    
+                });
+
                 state.options.loadingSearch = false;
+
                 commit('createInstance');
             })
             .catch(err => {
@@ -113,13 +117,11 @@ const actions = {
             });
 
     },
-
     search({commit, state}, payload) {
         axiosRequest.get('bill', 'search', state.search.field.value, state.search.value)
             .then((r) => state.search.data = r.data)
             .catch((e) => toastr.errors(e.response.data.message));
     },
-
     update({commit, state}, payload) {
 
         //update only the received portion
@@ -207,7 +209,6 @@ const getters = {
         return state.lookups;
     },
     isPaymentStatusReplace(state) {
-
         const item = state.bill.payments.find((item) => {
             if (item.status === 'replace') {
                 return true

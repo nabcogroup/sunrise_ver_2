@@ -25,10 +25,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
+use App\Traits\HelperTrait;
+
 use PDF;
 
 class ContractBillController extends Controller
 {
+
+    use HelperTrait;
+
     private $billRepository;
     private $contractRepository;
     private $bankAccountRepository;
@@ -39,15 +44,18 @@ class ContractBillController extends Controller
         ContractRepository $contractRepo,
         BankAccountRepository $bankAccountRepository)
     {
+
         $this->billRepository = $repository;
         $this->contractRepository = $contractRepo;
         $this->bankAccountRepository = $bankAccountRepository;
+
         $this->selection = new Selection();
     }
 
     public function index() {
 
         return view("bill.index");
+        
     }
 
     public function apiGetList(Request $request) {
@@ -57,7 +65,6 @@ class ContractBillController extends Controller
         $bills = $this->billRepository->getPendingBills($inputs);
 
         return $bills;
-
     }
 
     public function create($contractNo) {
@@ -76,7 +83,9 @@ class ContractBillController extends Controller
             $contract = $bundle->getOutput("contract");
 
             if($contract) {
+
                 $bill = $contract->bill()->with('payments')->first();
+
                 if(!$bill) {
                     $bill = $this->billRepository->create($contract);
                 }
@@ -100,21 +109,17 @@ class ContractBillController extends Controller
             //get the contract
             $bundle = new Bundle();
             $bundle->add("contractNo", $contractNo);
-            
             event(new OnGetContract($bundle, new EventListenerRegister(["GetContract"])));
-
             if(!$bundle->hasOutput()) {
                 throw new Exception("Internal Error");
             }
-
             $contract = $bundle->getOutput("contract");
-
+            
             //create bill instance
             $bill = $this->billRepository->create($contract);
             $bill->instance->amount = $contract->payable_per_month;
-
             $lookups = $this->selection->getSelections(array("payment_mode","payment_term","payment_status","bank"));
-
+            
             //return bill and contract
             return compact("bill","contract","lookups");
 
@@ -140,7 +145,6 @@ class ContractBillController extends Controller
 
             $bundle = new Bundle();
             $bundle->add("contractId",$inputs['contract_id']);
-
             //is there any balance still
             if(!isset($inputs['payments'])) {
                 throw new Exception('No payment was entered');
@@ -150,16 +154,13 @@ class ContractBillController extends Controller
             event(new OnGetContract($bundle,new EventListenerRegister(["GetContract"])));
             $contract = $bundle->getOutput("contract");
 
-            if(!$contract) {
-                throw new Exception("Internal error unable to find contract");
-            }
-            
-            if($this->billRepository->hasBalance($inputs['payments'],$contract->amount)) {
-                throw new Exception('Total payment amount is insufficient');
-            }
+            if(!$contract) throw new Exception("Internal error unable to find contract");
 
+            if(!$contract->isReconcile($this->calculateTotal($inputs['payments']))) throw new Exception('Total payment amount is insufficient');
+
+            //save bill
             $bill = $this->billRepository->saveBill($inputs,Auth::user()->getAuthIdentifier());
-
+            
             //create an sms
             $smsArgs = [
                 'mobile_no' =>  $contract->tenant()->first()->mobile_no,
@@ -175,7 +176,6 @@ class ContractBillController extends Controller
             event(new NotifyUpdate($bundle,new EventListenerRegister(["UpdateContractStatus"])));
 
             return Result::ok('Successfully Save',["bill" => $bill]);
-
         }
         catch (Exception $e) {
 
@@ -207,9 +207,9 @@ class ContractBillController extends Controller
 
             $contract = $bundle->getOutput("contract");
 
-            $dompdf = PDF::loadView('bill.display', compact('bill', 'contract'));
+            //$dompdf = PDF::loadView('bill.display', compact('bill', 'contract'));
 
-            return $dompdf->stream(); 
+            return view('bill.display',compact('bill', 'contract')); //$dompdf->stream();
         }
         catch(Exception $e) {
 
@@ -230,7 +230,6 @@ class ContractBillController extends Controller
         }
 
         $bill = $this->billRepository->includePayments()->findByBillNo($billNo)->first();
-
         if(!$bill) {
             return Result::badRequest(["message" => "Invalid Bill No"]);
         }
@@ -249,6 +248,7 @@ class ContractBillController extends Controller
         $contract = $bundle->getOutput("contract");
         $lookups = $this->selection->getSelections(array("payment_mode","payment_term","payment_status","bank"));
         $lookups['bank_accounts'] = $this->bankAccountRepository->getAll();
+
         $paymentSummary = [
             "total_payment" => $bill->settled_amount,
             "total_cost" => $contract->amount
@@ -269,10 +269,10 @@ class ContractBillController extends Controller
             $inputs = $request->filterInput();
             $currentBill = $this->billRepository->saveBill($inputs, Auth::user()->getAuthIdentifier());
 
-            //$bundle = new Bundle();
-            //$bundle->add("bill",$currentBill);
-            //$bundle->add('smsArgs',$smsArgs);
-            //event(new NotifyUpdate($bundle,new EventListenerRegister(["EmailPayment"])));
+//            $bundle = new Bundle();
+//            $bundle->add("bill",$currentBill);
+//            $bundle->add('smsArgs',$smsArgs);
+//            event(new NotifyUpdate($bundle,new EventListenerRegister(["EmailPayment"])));
 
             return Result::ok('update successfully');
 
@@ -287,7 +287,6 @@ class ContractBillController extends Controller
     public function apiSearch($filter='bill',$value='') {
 
         try {
-
             if ($filter == 'contract') {
                 $field = 'contracts.contract_no';
             }
@@ -297,9 +296,7 @@ class ContractBillController extends Controller
             else {
                 $field = 'contract_bills.bill_no';
             }
-
             $results = $this->billRepository->search($field,$value);
-
             return $results;
 
         }
@@ -308,44 +305,5 @@ class ContractBillController extends Controller
         }
     }
 
-    public function apiPrepareCheques(Request $request) {
 
-        $effectivity_date = Carbon::parse($request->input('effectivity_date'));
-        $ref_no = $request->input('reference_no');
-        $payment_type = $request->input('payment_type');
-
-        $cheque_no_start = floatval($request->input('payment_no','1'));
-        $period_start = Carbon::parse($request->input('period_start'));
-        $period_end = Carbon::parse($request->input('period_end'));
-
-        $days_total = $period_start->diffInDays($period_end,true);
-
-        //count how many cycle
-        $total_month = abs(floor($days_total / 30));
-        if($total_month <= 1) {
-            $total_month = 12;
-        }
-
-        $items = [];
-        if($total_month > 1) {
-            for($i=0;$i < $total_month; $i++) {
-
-                $item = \App\Payment::createInstance();
-                $item->setPaymentPeriod($period_start->toDateString());
-                $item->payment_no = $cheque_no_start;
-                $item->effectivity_date = $effectivity_date;
-                $item->reference_no = $request->input('reference_no');
-                $item->bank = $request->input('bank');
-
-                $period_start = Carbon::parse($item->period_start->toDateString())->addMonth();
-                $effectivity_date = Carbon::parse($item->effectivity_date->toDateString())->addMonth(1);
-                $cheque_no_start++;
-
-                array_push($items,$item->toOutputArray());
-            }
-        }
-
-        return $items;
-
-    }
 }

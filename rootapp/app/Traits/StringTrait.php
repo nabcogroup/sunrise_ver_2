@@ -8,7 +8,6 @@
 
 namespace App\Traits;
 
-
 trait StringTrait
 {
     public function formatUnderscore($value) {

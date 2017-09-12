@@ -33,7 +33,6 @@ trait PaginationTrait
     public function createPagination(&$model,$callback = null,$params = array()) {
 
         $data = $model->paginate(20);
-
         $items = [];
         foreach ($data as $key => $row) {
             if($callback == null) {
@@ -42,7 +41,10 @@ trait PaginationTrait
             else {
                 $item = $callback($row);
             }
-            array_push($items, $item);
+            
+            if(!empty($item))
+                array_push($items, $item);
+            
         }
 
         return $this->createOutput($data,$items,$params);

@@ -56,4 +56,15 @@ trait HelperTrait
         return $value;
     }
 
+    public function calculateTotal(Array $fields,$fieldName = 'amount') {
+        $totalAmount = 0;
+        if (sizeof($fields) > 0) { 
+            foreach ($fields as $field) {
+                $totalAmount += (float)$field[$fieldName];
+            }
+        }
+        return $totalAmount;
+            
+    }
+
 }

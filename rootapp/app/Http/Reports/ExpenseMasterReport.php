@@ -9,7 +9,7 @@
 namespace App\Http\Reports;
 
 
-use App\Http\Datasource\ExpensesMaster;
+use App\Http\Datasource\Expenses\ExpensesMaster;
 use App\Selection;
 use App\Villa;
 

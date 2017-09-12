@@ -11,9 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contract extends BaseModel
 {
-    use SoftDeletes;
-
-    use HelperTrait;
+    use SoftDeletes,HelperTrait;
 
     const PENDING = 'pending';
     const ACTIVE = 'active';
@@ -28,7 +26,6 @@ class Contract extends BaseModel
     {
 
         $contract = new Contract();
-        
         $contract->contract_type = "legalized";
         $contract->tenant_id = 0;
         $contract->villa_id = 0;
@@ -56,13 +53,12 @@ class Contract extends BaseModel
 
     protected function getPayablePerMonthAttribute()
     {
-
+        
         if ($this->amount > 0) {
-
             $totalAmountPerDays = $this->calculatePayableAmount($this->period_start,$this->period_end,$this->amount);
-
             return $totalAmountPerDays;
         }
+        
         return 0;
     }
 
@@ -99,9 +95,7 @@ class Contract extends BaseModel
     /* navigation */
     public function contractTerminations()
     {
-
         return $this->hasOne(ContractTermination::class, 'contract_id');
-
     }
 
     public function villa()
@@ -192,49 +186,36 @@ class Contract extends BaseModel
         return $this;
     }
 
-    public function pending()
-    {
+    public function pending() {
 
         $this->status = "pending";
-
         return $this;
     }
-
-    public function terminate()
-    {
+    public function terminate() {
         $this->status = "terminated";
         return $this;
     }
-    public function cancel()
-    {
+    public function cancel() {
         $this->status = "cancelled";
         return $this;
     }
-    public function completed()
-    {
+    public function completed() {
         $this->status = "completed";
 
         return $this;
     }
-    public function active()
-    {
+    public function active() {
         $this->status = "active";
 
         return $this;
     }
-
-    public function isActive()
-    {
+    public function isActive() {
         return $this->hasStatusOf('active');
     }
-
-    public function isPending()
-    {
+    public function isPending() {
         return $this->hasStatusOf('pending');
     }
-
-    public function isTerminated()
-    {
+    public function isTerminated() {
         if ($this->hasStatusOf('terminated') && $this->contractTerminations()->get()) {
             return true;
         } else {
@@ -249,13 +230,19 @@ class Contract extends BaseModel
         }
         //got to bill
         return $this->bill()->first()->withPendingPayments()->sum("amount");
-
     }
 
-    public function getRemainingPeriod()
-    {
+    public function getRemainingPeriod() {
         $endPeriod = Carbon::parse($this->period_end);
         $remaining = $endPeriod->diffInDays(Carbon::now());
         return $remaining;
+    }
+
+    public function isReconcile($total_payment) {
+
+        if($total_payment >= $this->amount) {
+            return true;
+        }
+        return false;
     }
 }

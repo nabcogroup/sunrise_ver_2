@@ -174,6 +174,12 @@ export const validation = () => {
             result.error("Amount must be numeric", "amount");
             return result;
         }
+
+        return result;
+    }
+
+    return {
+        validate: validate
     }
 }
 

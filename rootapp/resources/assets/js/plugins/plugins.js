@@ -8,6 +8,7 @@ import ErrorSpan from "./controls/ErrorSpan.vue";
 import DataView from "./controls/DataView.vue";
 import GridView from "./controls/GridView.vue";
 import VLiveView from "./controls/VLiveView.vue";
+import VComboBox from "./controls/VComboBox.vue";
 
 import VInput from "./controls/VInput.vue";
 
@@ -34,6 +35,7 @@ const MyPlugins = {
         Vue.component(VTab.name,VTab);
         Vue.component(VTabGroup.name,VTabGroup);
         Vue.component(VInputWrapper.name,VInputWrapper);
+        Vue.component(VComboBox.name,VComboBox);
 
     }
 }

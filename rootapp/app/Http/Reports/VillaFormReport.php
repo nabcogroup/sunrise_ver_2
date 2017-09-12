@@ -9,7 +9,7 @@
 namespace App\Http\Reports;
 
 
-use App\Http\Datasource\VillaForm;
+use App\Http\Datasource\Villas\VillaForm;
 use App\Villa;
 
 class VillaFormReport extends BaseReport

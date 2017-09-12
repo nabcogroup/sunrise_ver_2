@@ -1,5 +1,5 @@
 
-import {ErrorValidations, cloneObject, copiedValue} from "../../../helpers/helpers";
+import {ErrorValidations, cloneObject, copiedValue, reIndexing,validation} from "../../../helpers/helpers";
 
 const validatePayment = function () {
 
@@ -108,13 +108,6 @@ const validatePayment = function () {
     }
 }
 
-const reIndexing = (payments) => {
-    payments.forEach(function (payment, index) {
-        index = index + 1;
-        payment.id = index
-    });
-}
-
 
 
 const state = {
@@ -151,26 +144,40 @@ const mutations = {
     },
     validate(state, payload) {
         //validate on client side
-        const result = validatePayment().validateAll(state.cloneOfInstance, state.bill.payments);
+        const result = validation().validate(state.cloneOfInstance, state.bill.payments);
         payload.cb(result);
     },
-    insert(state, payload) {
-        state.bill.payments.push(state.cloneOfInstance);
-        reIndexing(state.bill.payments);
+    insert(state, sucCb) {
+        const result = validation().validate(state.cloneOfInstance, state.bill.payments);
+        if(result.isValid) {
+            state.bill.payments.push(state.cloneOfInstance);
+            reIndexing(state.bill.payments);
+            sucCb(true);
+        }
+        else {
+            toastr.error(result.message);
+            sucCb(false);
+        }
     },
     edit(state,payload) {
-        copiedValue(payload.payment,state.cloneOfInstance);
+        copiedValue(payload.payment, state.cloneOfInstance);
+        sucCb(true);
     },
     update(state,payload) {
         let p = state.bill.payments.find( item => item.id === state.cloneOfInstance.id);
-        copiedValue(state.cloneOfInstance,p);
+        const result = validation().validate(state.cloneOfInstance, state.bill.payments);
+        if(result.isValid) {
+            copiedValue(state.cloneOfInstance,p);
+            sucCb(true);
+        }
+        else {
+            sucCb(false);
+        }
     },
     convertPayment(state,payload) {
-        
         const convertion = state.lookups[payload.source].find(item => {
             return item.code == state.cloneOfInstance[payload.needle];
         });
-
         state.cloneOfInstance[payload.target] = convertion.name;
     },
     removePayment(state, id) {
@@ -186,12 +193,14 @@ const mutations = {
 
 const actions = {
     create({commit, state}, payload) {
+
         state.bill = payload.bill;
         state.contract = payload.contract;
         state.lookups = payload.lookups;
-        reIndexing(state.bill.payments);
-        commit('createInstance');
 
+        reIndexing(state.bill.payments);
+
+        commit('createInstance');
     },
     save({commit, state}, payload) {
         state.options.loadingSave = true;
@@ -199,8 +208,8 @@ const actions = {
             .post('bill', 'store', state.bill)
             .then(r => {
                 state.options.loadingSave = false;
-                commit('redirectToPrint', {billNo: state.bill.bill_no});
-                axiosRequest.redirect('bill', 'create', state.contract.contract_no);
+                commit('redirectToPrint', {billId: r.data.bill.billNo});
+                //axiosRequest.redirect('contract', '');
             })
             .catch(e => {
                 if (e.response.status === 422)

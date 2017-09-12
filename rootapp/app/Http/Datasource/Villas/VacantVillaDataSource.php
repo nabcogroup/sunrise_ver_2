@@ -6,9 +6,10 @@
  * Time: 10:56 AM
  */
 
-namespace App\Http\Datasource;
+namespace App\Http\Datasource\Villas;
 
 
+use App\Http\Datasource\IDataSource;
 use App\Villa;
 
 class VacantVillaDataSource implements IDataSource

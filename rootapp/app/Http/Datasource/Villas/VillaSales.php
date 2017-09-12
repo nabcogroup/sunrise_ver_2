@@ -6,9 +6,10 @@
  * Time: 5:12 PM
  */
 
-namespace App\Http\Datasource;
+namespace App\Http\Datasource\Villas;
 
 
+use App\Http\Datasource\IDataSource;
 use Carbon\Carbon;
 
 class VillaSales implements IDataSource
@@ -27,7 +28,6 @@ class VillaSales implements IDataSource
         $month_to = isset($this->params['month_to']) ? (int)$this->params['month_to'] : '';
         $location = isset($this->params['location']) ? $this->params['location'] : 'sv1';
         $year = isset($this->params['year']) ? (int)$this->params['year'] : \Carbon\Carbon::now()->year;
-        
 
         $recordset = \DB::table('villas')
             ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
@@ -68,6 +68,7 @@ class VillaSales implements IDataSource
 
         $total = 0;
         $number_month = 0;
+
         foreach ($recordset as $record) {
             $row = [
                 'villa_no' => $record->villa_no,
@@ -94,6 +95,7 @@ class VillaSales implements IDataSource
             $rows['total'] = $rows['total'] + $row['total_payments'];
             array_push($rows['data'], $row);
         }
+
         ksort($month);
         $rows['months'] = $month;
         $rows['location'] = \App\Selection::getValue("villa_location",$location);

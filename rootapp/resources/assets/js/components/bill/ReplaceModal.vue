@@ -1,5 +1,5 @@
 <template>
-    <v-dialog modal-id="replacement" dialog-title="Replacement Entry" v-model="unfoldModal">
+    <v-dialog modal-id="replacement" dialog-title="Replacement Entry" v-model="unfoldModal" @dismiss="onDismissal">
         <div class="form-horizontal">
             <div class="form-group">
                 <label for="payment_type" class="col-md-3">Payment Type</label>
@@ -78,6 +78,12 @@
         },
         mounted() {
             EventBus.$on("openReplaceModal",() => this.unfoldModal = true);
+            EventBus.$on("closeReplaceModal", () => this.unfoldModal = false);
+        },
+        methods: {
+            onDismissal() {
+                this.$emit("dismiss");
+            }
         }
     }
 </script>

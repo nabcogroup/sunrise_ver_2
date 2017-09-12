@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 347);
+/******/ 	return __webpack_require__(__webpack_require__.s = 353);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1899,7 +1899,7 @@ function loadLocale(name) {
             module && module.exports) {
         try {
             oldLocale = globalLocale._abbr;
-            __webpack_require__(239)("./" + name);
+            __webpack_require__(241)("./" + name);
             // because defineLocale currently also sets the global locale, we
             // want to undo that for lazy loaded locales
             getSetGlobalLocale(oldLocale);
@@ -4540,7 +4540,8 @@ return hooks;
 /* 1 */,
 /* 2 */,
 /* 3 */,
-/* 4 */
+/* 4 */,
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4651,7 +4652,7 @@ const copiedValue = (source, target, exclude = new Array()) => {
         target[key] = value;
     });
 };
-/* harmony export (immutable) */ __webpack_exports__["d"] = copiedValue;
+/* harmony export (immutable) */ __webpack_exports__["f"] = copiedValue;
 
 
 const validation = () => {
@@ -4717,9 +4718,15 @@ const validation = () => {
             result.error("Amount must be numeric", "amount");
             return result;
         }
+
+        return result;
     }
+
+    return {
+        validate: validate
+    };
 };
-/* unused harmony export validation */
+/* harmony export (immutable) */ __webpack_exports__["d"] = validation;
 
 
 const reIndexing = (items, key = 'id') => {
@@ -4728,11 +4735,10 @@ const reIndexing = (items, key = 'id') => {
         item[key] = index;
     });
 };
-/* unused harmony export reIndexing */
+/* harmony export (immutable) */ __webpack_exports__["e"] = reIndexing;
 
 
 /***/ }),
-/* 5 */,
 /* 6 */,
 /* 7 */,
 /* 8 */,
@@ -26151,15 +26157,15 @@ module.exports = function(module) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment_range__ = __webpack_require__(238);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment_range__ = __webpack_require__(240);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment_range___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment_range__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_helpers__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_helpers__ = __webpack_require__(5);
 
-window._ = __webpack_require__(237);
+window._ = __webpack_require__(239);
 
-window.bbox = __webpack_require__(223);
+window.bbox = __webpack_require__(225);
 
-window.toastr = __webpack_require__(241);
+window.toastr = __webpack_require__(243);
 
 /**
  * Moment Js
@@ -26172,7 +26178,7 @@ window.moment = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_moment_range__
 try {
     window.$ = window.jQuery = __webpack_require__(10);
 
-    __webpack_require__(224);
+    __webpack_require__(226);
 } catch (e) {}
 
 window.accounting = __webpack_require__(144);
@@ -26684,7 +26690,9 @@ window.axiosRequest = new __WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["a" /* 
 /* 220 */,
 /* 221 */,
 /* 222 */,
-/* 223 */
+/* 223 */,
+/* 224 */,
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -27678,7 +27686,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 224 */
+/* 226 */
 /***/ (function(module, exports) {
 
 /*!
@@ -30061,8 +30069,6 @@ if (typeof jQuery === 'undefined') {
 
 
 /***/ }),
-/* 225 */,
-/* 226 */,
 /* 227 */,
 /* 228 */,
 /* 229 */,
@@ -30073,7 +30079,9 @@ if (typeof jQuery === 'undefined') {
 /* 234 */,
 /* 235 */,
 /* 236 */,
-/* 237 */
+/* 237 */,
+/* 238 */,
+/* 239 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -47165,7 +47173,7 @@ if (typeof jQuery === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(138)(module)))
 
 /***/ }),
-/* 238 */
+/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 (function webpackUniversalModuleDefinition(root, factory) {
@@ -48090,7 +48098,7 @@ function extendMoment(moment) {
 //# sourceMappingURL=moment-range.js.map
 
 /***/ }),
-/* 239 */
+/* 241 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -48339,11 +48347,11 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 239;
+webpackContext.id = 241;
 
 /***/ }),
-/* 240 */,
-/* 241 */
+/* 242 */,
+/* 243 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -48775,12 +48783,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
         })();
     }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-}(__webpack_require__(345)));
+}(__webpack_require__(351)));
 
 
 /***/ }),
-/* 242 */,
-/* 243 */,
 /* 244 */,
 /* 245 */,
 /* 246 */,
@@ -48882,7 +48888,13 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
 /* 342 */,
 /* 343 */,
 /* 344 */,
-/* 345 */
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -48891,8 +48903,8 @@ module.exports = function() {
 
 
 /***/ }),
-/* 346 */,
-/* 347 */
+/* 352 */,
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(140);

@@ -25,4 +25,16 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function apiInfo() {
+
+        $info = [
+            'ver'           => config('app.version'),
+            'dev'     => "Nabco Web Developer Team...",
+            'repo'    =>  "https://github.com/lyndonkieljerymiah/sunrise-ver2.1.git",
+            'env'           =>  config("app.env"),
+        ];
+
+        return $info;
+    }
 }

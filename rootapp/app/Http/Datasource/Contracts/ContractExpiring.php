@@ -30,7 +30,7 @@ class ContractExpiring implements IDataSource
         $date_from = isset($this->params['date_from']) ? Carbon::parse($this->params['date_from']) : '';
         $date_to = isset($this->params['date_to']) ? Carbon::parse($this->params['date_to']) : '';
         $location = isset($this->params['location']) ? $this->params['location'] : '';
-
+        
 
         $dbRaw = $this->createDb('contracts')
             ->join('villas','contracts.villa_id','=','villas.id')

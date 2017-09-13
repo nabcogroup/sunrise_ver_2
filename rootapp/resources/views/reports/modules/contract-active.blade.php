@@ -24,8 +24,8 @@
                 <th class="text-center">Period</th>
                 <th class="text-center">Yrs./Months</th>
                 <th class="text-center">Contract Value</th>
-                <th class="text-center">Gross Sale</th>
-                <th class="text-center">Credit Sale</th>
+                <th class="text-center">Deposited</th>
+                <th class="text-center">Balance</th>
             </tr>
             </thead>
             <tbody>

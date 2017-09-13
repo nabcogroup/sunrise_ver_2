@@ -9,7 +9,6 @@
     @endslot
 
     @foreach($datasource['data'] as $key => $items)
-
         <div>{{\App\Selection::getValue('villa_location',$key)}}</div>
 
         <table class="table table-condensed table-bordered">

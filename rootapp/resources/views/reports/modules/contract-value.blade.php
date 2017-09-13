@@ -8,6 +8,7 @@
     @endslot
 
     <div class="row">
+        <p>{{$datasource['location']}}</p>
         <table class="table table-condensed table-bordered">
             <thead>
             <tr class="info">

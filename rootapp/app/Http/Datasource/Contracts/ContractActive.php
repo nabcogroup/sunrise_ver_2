@@ -30,6 +30,7 @@ class ContractActive implements IDataSource
                     'contracts.amount as contract_value',
                     'contract_bills.id as contract_bill_id',
                     $this->sqlPaymentDue('contract_bill_id'))
+                ->where('villas.location','sv1')
                 ->where('contracts.status','active')->distinct()
                 ->orderBy('villa_no');
 

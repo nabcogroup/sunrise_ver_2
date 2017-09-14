@@ -25,7 +25,8 @@ class TerminateForm extends FormRequest
     {
         return [
             "description"   =>  'required',
-            "password"      =>  'required'
+            "password"      =>  'required',
+            'ref_no'        =>  'required'
         ];
     }
 }

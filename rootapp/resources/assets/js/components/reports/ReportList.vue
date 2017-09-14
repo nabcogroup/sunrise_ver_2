@@ -41,7 +41,7 @@
     export default {
         components: {ReportForm},
         props: ['list', 'params'],
-        name: "generalReports",
+        name: "reportList",
         methods: {
             viewReport(selected) {
                 if (selected.report_name) {

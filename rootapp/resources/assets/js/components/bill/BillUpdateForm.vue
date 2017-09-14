@@ -45,10 +45,10 @@
                                 <div class="column-group">
                                     <label for="billSearch">Bill No:</label>
                                     <input disabled type="text" class="input" placeholder="XXX" name="billSearch" v-model="bill.bill_no" />
-                                    <button class="btn btn-info " @click="onSearch(true)">
+                                    <button class="btn btn-info " @click="openSearchModal(true)">
                                         <i class="fa fa-fw " :class="options.loadingSearch ? 'fa-refresh fa-spin' : 'fa-search'"></i>
                                     </button>
-                                    <button class="btn btn-info" @click="print" :disabled="bill.bill_no.length === 0">
+                                    <button class="btn btn-info" @click="printBill" :disabled="bill.bill_no.length === 0">
                                         <i class="fa fa-fw fa-print"></i>
                                     </button>
                                 </div>
@@ -161,10 +161,10 @@
                                                         Action <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#" @click.prevent="actionTrigger('info')">Info</a></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('info',props.items.items)">Info</a></li>
                                                         <li role="separator" class="divider"></li>
-                                                        <li><a href="#" @click.prevent="actionTrigger('edit')">Edit</a></li>
-                                                        <li><a href="#" @click.prevent="actionTrigger('add')">Add Deposit</a></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('edit',props.items.items)">Edit</a></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('deposit',props.items.items)">Add Deposit</a></li>
                                                         <li role="separator" class="divider"></li>
                                                         <li><a href="#" @click.prevent="actionTrigger('replacement')">Replacement</a></li>
                                                         
@@ -179,8 +179,13 @@
                                         </template>
                                     </data-view>
                                 </div>
-                                <replace-modal :clone-of-instance="cloneOfInstance" :lookups="lookups" @dismiss="onDismissal">
-                                </replace-modal>
+
+                                <!-- modal -->
+                                <replace-modal :clone-of-instance="cloneOfInstance" :lookups="lookups" @dismiss="onDismissal"></replace-modal>
+                                <payment-info-modal></payment-info-modal>
+                                <payment-modal namespace="payments"></payment-modal>
+                                <deposit-modal namespace="payments"></deposit-modal>
+                                <!-- end modal -->
                                 <hr/>
                             </div>
                         </div>
@@ -208,8 +213,10 @@
 
 import TotalPayment from './TotalPayment.vue';
 import PaymentModal from './PaymentModal.vue';
+import PaymentInfoModal from "./PaymentInfoModal.vue";
 import ReplaceModal from './ReplaceModal.vue';
 import SearchBill from './SearchBill.vue';
+import DepositModal from './DepositModal.vue';
 import { EventBus } from '../../eventbus';
 import { mapGetters, mapMutations } from "vuex";
 
@@ -219,22 +226,9 @@ const createGridColumn = function(value) {
         let grid = {};
         switch (value) {
             case 'received': {
-                grid.columns = [
-                    {
-                        name: 'effectivity_date',
-                        column: 'Date',
-                        style: 'width:10%',
-                        class: 'text-center',
-                        default: true,
-                        format: 'date'
-                    },
-                    {
-                        name: 'payment_no',
-                        column: 'C/P No.',
-                        style: 'width:10%',
-                        class: 'text-center',
-                        custom: true
-                    },
+                grid.columns = [ 
+                    { name: 'effectivity_date',column: 'Date',style: 'width:10%',class: 'text-center', default: true, format: 'date'},
+                    { name: 'payment_no', column: 'C/P No.', style: 'width:10%', class: 'text-center' },
                     { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', },
                     { name: 'status', column: 'Status', style: "width:10%", class: 'text-center', custom: true },
                     { name: 'bank_account', column: 'Accounts', class: 'text-center', custom: true },
@@ -331,10 +325,12 @@ export default {
 
     props: ["billNo"],
     components: {
-        'totalPayment': TotalPayment,
-        "paymentModal": PaymentModal,
-        "searchBill": SearchBill,
-        "replaceModal": ReplaceModal
+        TotalPayment,
+        PaymentModal,
+        SearchBill,
+        ReplaceModal,
+        PaymentInfoModal,
+        DepositModal
     },
     data() {
         let gridColumn = createGridColumn();
@@ -360,33 +356,13 @@ export default {
         })
     },
     mounted() {
-
         if (this.billNo) {
             this.$store.state.payments.bill.bill_no = this.billNo;
-            this.onSearch(false);
+            this.openSearchModal(false);
         }
-
-
-        /************************************************/
-        //watch payment type
-        /***********************************************/
-
-        this.$store.watch(state => state.payments.cloneOfInstance.payment_type,
-            (value) => {
-                this.$store.commit('payments/convertPayment', { source: 'payment_term', needle: 'payment_type', target: 'full_payment_type' })
-                if (value.toLowerCase() === "cash")
-                    this.$store.state.payments.cloneOfInstance.payment_no = "Cash";
-                else
-                    this.$store.state.payments.cloneOfInstance.payment_no = '';
-            });
-        this.$store.watch(state => state.bills.cloneOfInstance.payment_mode,
-            (value) => this.$store.commit('payments/convertPayment', { source: 'payment_mode', needle: 'payment_mode', target: 'full_payment_mode' }))
-
-        this.$store.watch(state => state.bills.cloneOfInstance.bank,
-            (value) => this.$store.commit('payments/convertPayment', { source: 'bank', needle: 'bank', target: 'full_bank' }))
     },
     methods: {
-        onSearch(openToggle) {
+        openSearchModal(openToggle) {
             if (openToggle) {
                 EventBus.$emit('openSearchBillDialog');
             }
@@ -394,7 +370,10 @@ export default {
                 this.$store.dispatch('payments/edit');
             }
         },
-        print() {
+        openPaymentInfoModal() {
+            EventBus.$emit("payment.info.open");
+        },
+        printBill() {
             this.$store.commit('payments/redirectToPrint');
         },
         save() {
@@ -432,6 +411,17 @@ export default {
         },
         get(ob) {
             console.log(ob);
+        },
+        actionTrigger(action,value) {
+           if(action === 'info') {
+                EventBus.$emit('payment.info.open',value);
+           }  
+           else if(action == 'edit') {
+               EventBus.$emit('payment.register.open',"edit", value);
+           }
+           else if(action == 'deposit') {
+               EventBus.$emit("payment.deposit.open",value)
+           }
         }
     },
     watch: {

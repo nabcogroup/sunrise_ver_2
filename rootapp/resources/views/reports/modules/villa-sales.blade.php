@@ -18,6 +18,7 @@
                 <tr class="info">
                     <th class="text-center">Villa No</th>
                     <th class="text-center">Rate/Month</th>
+                    <th class="text-center">Status</th>
                     @foreach($datasource['months'] as $row)
                         <th class="text-center">{{$row['date_name']}}</th>
                     @endforeach
@@ -29,16 +30,13 @@
                         $month = [];
                         $per_villa = [];
                         foreach($datasource['data'] as $row) {
-                            if($villa_no != $row['villa_no']) {
-                                $villa_no = $row['villa_no'];
+                            if(!isset($per_villa[$row['villa_no']])) {
                                 $per_villa[$row['villa_no']] = [$row['number_month'] => $row['total_payments']];
                             }
                             else {
                                 $per_villa[$row['villa_no']][$row['number_month']] = $row['total_payments'];
                             }
                         }
-
-                        $villa_no = '';
                     @endphp
 
                     @foreach($datasource['data'] as $row)
@@ -49,6 +47,7 @@
                             <tr>
                                 <td class="text-center" style="width:10%">{{$row['villa_no']}}</td>
                                 <td class="text-center" style="width:10%">{{number_format($row['rate_per_month'],2)}}</td>
+                                <td>{{ucfirst($row['villa_status'])}}</td>
                                 @foreach($datasource['months'] as $key => $value)
                                     <td style="width: 10% " class="text-right">
                                         {{(isset($per_villa[$villa_no][$key]) ? number_format($per_villa[$villa_no][$key],2) : '-')}}

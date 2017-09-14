@@ -8,9 +8,6 @@
 
 namespace App\Http\Reports;
 
-
-
-
 use App\Http\Datasource\Contracts\ContractActive;
 use App\Http\Datasource\Contracts\ContractExpiring;
 use App\Http\Datasource\Contracts\ContractPending;
@@ -26,7 +23,7 @@ class ContractReport extends BaseReport
     public function __construct($params,$reportName = 'value')
     {
         if($reportName == 'active') {
-            $this->dataSource = new ContractActive();
+            $this->dataSource = new ContractActive($params);
             $this->templateSource = "contract-active";
         }
         else if($reportName == 'pending') {
@@ -45,8 +42,7 @@ class ContractReport extends BaseReport
             $this->dataSource = new ContractValue($params);
             $this->templateSource = "contract-value";
         }
-
-
+        
     }
 
     public function getTemplateSource()

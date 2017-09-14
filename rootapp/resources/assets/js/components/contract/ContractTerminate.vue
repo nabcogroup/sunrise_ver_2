@@ -21,6 +21,7 @@
                     <label for="ref_no" class="col-md-3">Ref No:</label>
                     <div class="col-md-9">
                         <input type="text" name="ref_no" id="ref_no" class="form-control" v-model="contractForTerminate.ref_no" />
+                        <error-span :value="errors" name="ref_no"></error-span>
                     </div>
                 </div>
                 <div class="form-group">

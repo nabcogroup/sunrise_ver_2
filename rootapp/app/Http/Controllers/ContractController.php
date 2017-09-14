@@ -333,26 +333,32 @@ class ContractController extends Controller
         try {
 
             $inputs = $request->all();
+            
             //validate password
             $userId = Auth::user()->getAuthIdentifier();
             $user = User::find($userId);
+            
             //verify password
             if(!$user->isPasswordMatch($inputs['password'])) {
                 throw new Exception('Password does not match');
             }
 
             $contract = $this->contractRepo->terminate($inputs);
-
             //terminate the contract
             if($contract->isTerminated()) {
+                
                 //update villa event
                 $bundle = new Bundle();
                 $bundleValue = ["id" => $contract->villa()->first()->id, "status" => "vacant"];
+                
                 $bundle->add("villa", $bundleValue);
                 $bundle->add('contract',$contract);
                 $bundle->add('user',$user);
-                event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus","EmailTerminate"])));
+                
+                event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus"])));
+                
                 return Result::ok('Succefully terminated!!!');
+
             }
             else {
                 throw new Exception('Contract failed to terminate');

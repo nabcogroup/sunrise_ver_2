@@ -223,6 +223,7 @@ class Contract extends BaseModel
         }
     }
 
+    
     public function getRemainingBalance()
     {
         if ($this->bill()->first() == null) {

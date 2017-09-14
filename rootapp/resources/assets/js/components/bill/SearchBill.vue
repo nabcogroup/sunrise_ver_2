@@ -68,7 +68,7 @@
         watch: {
             searchToggle(val) {
                 if(val) {
-                    this.$store.commit('payments/clear');
+                    this.$store.commit('payments/clearPayment');
                 }
             }
         }

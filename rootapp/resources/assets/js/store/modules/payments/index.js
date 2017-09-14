@@ -33,19 +33,38 @@ const state = {
 }
 
 const mutations = {
-    
-    clear(state) {
+    clearSearch(state) {
         state.search.data = [];
         state.search.field = "";
         state.search.value = "";
     },
     createInstance(state) {
         state.cloneOfInstance = cloneObject(state.bill.instance);
-        state.cloneOfInstance.isCash = false;
     },
-    addNew(state) {
-        state.bill.payments.push(state.cloneOfInstance);
+    edit(state,payload) {
+        copiedValue(payload.payment, state.cloneOfInstance);
     },
+    store(state,payload) {
+        const trigger = payload.trigger;
+        const result = validation().validate(state.cloneOfInstance, state.bill.payments);
+        if(result.isValid) {
+            if(trigger === 'createInstance') {
+                state.bill.payments.push(state.cloneOfInstance);
+                payload.cb(true);
+            }
+            else {
+                let p = state.bill.payments.find( item => item.id === state.cloneOfInstance.id);
+                copiedValue(state.cloneOfInstance,p);
+                payload.cb(true);
+            }    
+        }
+        else {
+            toastr.error(result.error);
+            payload.cb(false);
+        }
+        
+    },
+
     convertPayment(state,payload) {
         
         const convertion = state.lookups[payload.source].find(item => {
@@ -91,24 +110,18 @@ const mutations = {
 
 const actions = {
     edit({commit, state}, payload) {
-
         state.options.loadingSearch = true;
         state.options.currentTabIndex = 'received';
-
         axiosRequest.get('bill', 'edit', state.bill.bill_no)
             .then(res => {
-                
                 state.bill = res.data.bill;
                 state.bill.instance = res.data.paymentInstance;
                 state.contract = res.data.contract;
                 state.lookups = res.data.lookups;
-                
                 state.bill.payments.forEach(p => {
                     
                 });
-
                 state.options.loadingSearch = false;
-
                 commit('createInstance');
             })
             .catch(err => {
@@ -123,7 +136,6 @@ const actions = {
             .catch((e) => toastr.errors(e.response.data.message));
     },
     update({commit, state}, payload) {
-
         //update only the received portion
         const payments = state.bill.payments;
 

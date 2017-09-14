@@ -16,8 +16,18 @@ class ContractActive implements IDataSource
         HelperTrait,
         QueryTemplateTrait;
 
+
+    private $params;
+        
+
+
+    public function __construct($params) {
+        $this->params = $params;
+    }
     public function execute()
     {
+
+        $location = isset($this->params['location']) ? $this->params['location'] : 'sv1';
 
         $records = \DB::table('contracts')
                 ->join('villas', 'contracts.villa_id','=','villas.id')
@@ -30,7 +40,7 @@ class ContractActive implements IDataSource
                     'contracts.amount as contract_value',
                     'contract_bills.id as contract_bill_id',
                     $this->sqlPaymentDue('contract_bill_id'))
-                ->where('villas.location','sv1')
+                ->where('villas.location',$location)
                 ->where('contracts.status','active')->distinct()
                 ->orderBy('villa_no');
 

@@ -188,6 +188,16 @@ class ReportManager
                 'lookups' => []
             ],
             [
+                'report_id' => 7,
+                'inputs' => [
+                    ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                ],
+                'models' => [
+                    'location'  =>  '',
+                ],
+                'lookups' => []
+            ],
+            [
                 'report_id' => 8,
                 'inputs' =>
                     [

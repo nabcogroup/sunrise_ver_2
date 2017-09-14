@@ -8,7 +8,4 @@ class BankAccount extends BaseModel
 {
     protected $table = "bank_accounts";
 
-
-
-
 }

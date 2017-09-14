@@ -72,14 +72,11 @@
                     <i class="fa fa-trash-o"></i> Clear Payment
                 </button>
 
-                <v-dialog modal-id="payment" size="" dialog-title="Payment Entry" @dismiss="onDismissal" v-model="unfoldModal">
-                    <payment-modal :cloneOfInstance="cloneOfInstance" :lookups="lookups"></payment-modal>
-                </v-dialog>
-
-                <grid-view :data="payments" :grid="gridColumn" :lookups="lookups" @action="onAction">
+                <!-- payment modal -->
+                <payment-modal namespace="bills"></payment-modal>
+                <grid-view :data="payments" :grid="gridColumn" @action="onAction">
                     <label>{{totalPayment.total_payment | toCurrencyFormat}}</label>
                 </grid-view>
-
                 <div class="col-md-4 pull-right">
                     <total-payment :payment="totalPayment"></total-payment>
                 </div>
@@ -108,7 +105,10 @@ import PaymentModal from './PaymentModal.vue';
 import ContractInfo from './ContractInfo.vue';
 import TotalPayment from './TotalPayment.vue';
 
+
 import { mapGetters, mapMutations } from "vuex";
+
+import {EventBus} from "../../eventbus";
 
 const confirmation = {
     removePayment: (cb) => {
@@ -236,40 +236,20 @@ export default {
         }
     },
     mounted() {
-        
         this.$store.dispatch('bills/create', {
             bill: this.instance,
             contract: this.instanceContract,
             lookups: this.instanceLookups
         });
-
-        /************************************************/
-        //watch payment type
-        /***********************************************/
-        this.$store.watch(state => state.bills.cloneOfInstance.payment_type, (value) => {
-            this.$store.commit('bills/convertPayment', { source: 'payment_term', needle: 'payment_type', target: 'full_payment_type' })
-            if (value.toLowerCase() === "cash")
-                this.$store.state.bills.cloneOfInstance.payment_no = "Cash";
-            else
-                this.$store.state.bills.cloneOfInstance.payment_no = '';
-        });
-        
-        this.$store.watch(state => state.bills.cloneOfInstance.payment_mode,
-            (value) => this.$store.commit('bills/convertPayment', { source: 'payment_mode', needle: 'payment_mode', target: 'full_payment_mode' }))
-        this.$store.watch(state => state.bills.cloneOfInstance.bank,
-            (value) => this.$store.commit('bills/convertPayment', { source: 'bank', needle: 'bank', target: 'full_bank' }))
-        //*******************************************************************/
     },
     computed: {
         ...mapGetters('bills', {
             contract: 'contract',
-            lookups: 'lookups',
             bill: 'bill',
             totalPayment: 'totalPayment',
             viewIcon: 'viewIcon',
             payments: 'payments',
-            option: 'option',
-            cloneOfInstance: 'cloneOfInstance'
+            option: 'option'
         })
     },
     methods: {
@@ -280,34 +260,22 @@ export default {
             });
         },
         addPayment() {
-            this.gridColumn.selected = -1;
-            this.unfoldModal = true;
-        },
-        onDismissal(result) {
-            if (this.gridColumn.selected < 0) {
-                this.$store.commit('bills/insert',(suc) => this.unfoldModal = !suc);
-            }
-            else {
-                this.$store.commit('bills/update',(suc) => this.unfoldModal = !suc);
-            }
-        },
-        onPrepareDismiss() {
-            this.$store.dispatch('bills/prepare');
+            this.gridColumn.selected = -1; //clear payment grid selection
+            EventBus.$emit("payment.register.open","createInstance")
         },
         onAction(a, item, index) {
             const that = this;
             if (a === 'remove') {
                 confirmation.removePayment((result) => {
                     if (result) {
-                        that.$store.commit('bills/removePayment', id)
+                        that.$store.commit('bills/removePayment', item.id);
                     }
                 })
             }
             else 
             {
                 this.gridColumn.selected = index;
-                this.$store.commit('bills/edit', { payment: item });
-                this.unfoldModal = true;
+                EventBus.$emit("payment.register.open","edit",item);
             }
         },
         save() {
@@ -315,13 +283,6 @@ export default {
         },
         print() {
             this.$store.commit('bills/redirectToPrint');
-        }
-    },
-    watch: {
-        unfoldModal(nv) {
-            if (nv && this.gridColumn.selected < 0) {
-                this.$store.commit('bills/createInstance');
-            }
         }
     }
 }

@@ -37,8 +37,6 @@
                             $per_villa[$row['villa_no']][$row['number_month']] = $row['total_payments'];
                         }
                     }
-                    $villa_no = '';
-
                 @endphp
 
                 @foreach($datasource['data'] as $row)
@@ -50,7 +48,6 @@
                             <td class="text-center" style="width:10%">{{$row['villa_no']}}</td>
                             <td class="text-center" style="width:10%">{{$row['contract_no'],2}}</td>
                             @foreach($datasource['column_month'] as $key => $value)
-
                                 <td style="width: 10% " class="text-right">
                                     {{(isset($per_villa[$villa_no][$key]) ? number_format($per_villa[$villa_no][$key],2) : '-')}}
                                 </td>

@@ -3,19 +3,19 @@
         <div class="x-lite-panel">
             <p class="x-read-group">
                 <strong class="col-md-3 x-label">Payment No:</strong>
-                <strong class="col-md-9 x-desc text-danger">{{cloneInstance.payment_no}}</strong>
+                <strong class="col-md-9 x-desc text-danger">{{cloneOfInstance.payment_no}}</strong>
             </p>
             <p class="x-read-group">
                 <strong class="col-md-3 x-label">Due Date:</strong>
-                <span class="col-md-9 x-desc">{{cloneInstance.effectivity_date | toDateFormat}}</span>
+                <span class="col-md-9 x-desc">{{cloneOfInstance.effectivity_date | toDateFormat}}</span>
             </p>
             <p class="x-read-group">
                 <strong class="col-md-3 x-label">Amount:</strong>
-                <strong class="col-md-9 x-desc text-danger">{{cloneInstance.amount | toCurrencyFormat}}</strong>
+                <strong class="col-md-9 x-desc text-danger">{{cloneOfInstance.amount | toCurrencyFormat}}</strong>
             </p>
             <p class="x-read-group">
                 <strong class="col-md-3 x-label">Period:</strong>
-                <span class="col-md-9 x-desc">{{cloneInstance.period_start | toDateFormat}} - {{cloneInstance.period_end | toDateFormat}}</span>
+                <span class="col-md-9 x-desc">{{cloneOfInstance.period_start | toDateFormat}} - {{cloneOfInstance.period_end | toDateFormat}}</span>
             </p>
         </div>
         <hr/>
@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label for="payment_type" class="col-md-3">Accounts:</label>
                 <div class="col-md-9">
-                    <select id="bank_accounts" name="bank_accounts" v-model="cloneInstance.bank_account" class="form-control">
+                    <select id="bank_accounts" name="bank_accounts" v-model="cloneOfInstance.bank_account" class="form-control">
                         <option value="">--Select Account--</option>
                         <option v-for="lookup in lookups.bank_accounts" :value="lookup.account_no" :key="lookup.account_no">{{lookup.account_no}}</option>
                     </select>
@@ -32,19 +32,19 @@
             <div class="form-group">
                 <label for="" class="col-md-3">Bank:</label>
                 <div class="col-md-9">
-                    <input type="text" disabled :value="bankName" class="form-control">
+                    <input type="text" disabled :value="bankDeposited" class="form-control">
                 </div>
             </div>
             <div class="form-group">
                 <label for="" class="col-md-3">Date Deposit:</label>
                 <div class="col-md-9">
-                    <dt-picker dp-name="date_deposited" :value="cloneInstance.date_deposited" @pick="cloneInstance.date_deposited = $event"></dt-picker>
+                    <dt-picker dp-name="date_deposited" :value="cloneOfInstance.date_deposited" @pick="cloneOfInstance.date_deposited = $event"></dt-picker>
                 </div>
             </div>
             <div class="form-group">
                 <label for="" class="col-md-3">Remarks:</label>
                 <div class="col-md-9">
-                    <textarea v-model="cloneInstance.remarks" class="form-control"></textarea>
+                    <textarea v-model="cloneOfInstance.remarks" class="form-control"></textarea>
                 </div>
             </div>
         </div>
@@ -59,7 +59,6 @@ import { mapGetters } from "vuex";
 
 export default {
     name: "depositModal",
-    props: ["namespace"],
     mixins: [toggleModal],
     data() {
         return {
@@ -68,27 +67,34 @@ export default {
     },
     beforeMount() {
         EventBus.$on("payment.deposit.open", (item) => {
-            this.$store.commit(this.namespace+"/edit",{payment:item});
+            this.$store.commit("payments/edit",{
+                payment:item
+            });
+
+            if(this.cloneOfInstance.date_deposited == "0000-00-00") {
+                this.cloneOfInstance.date_deposited = moment().format('L');
+            }
+            
             this.openDialog();
         });
     },
     computed: {
         lookups() {
-            return this.$store.getters[this.namespace + "/lookups"] || [];
+            return this.$store.getters["payments/lookups"] || [];
         },
-        cloneInstance() {
-            return this.$store.getters[this.namespace + "/cloneOfInstance"] || {};
+        cloneOfInstance() {
+            return this.$store.getters["payments/cloneOfInstance"] || {};
         },
-        bankName() {
-            const bank = _.find(this.lookups.bank_accounts, (item) => {
-                return item.account_no === this.cloneInstance.bank_account;
-            });
-            return bank !== undefined ? bank.bank_name : '';
+        bankDeposited() {
+            return this.$store.getters["payments/bankDeposited"] || "";
         }
     },
     methods: {
         save() {
-            this.$store.commit(this.namespace + "/store",{
+            
+            this.cloneOfInstance.status = "clear";
+            this.cloneOfInstance.full_status = "Clear";
+            this.$store.commit("payments/store",{
                 trigger: "edit",
                 cb: (res) => {
                     if(res) this.closeDialog();

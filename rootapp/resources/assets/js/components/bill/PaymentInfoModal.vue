@@ -40,14 +40,14 @@
                     <div class="row">
                         <div class="col-md-12">
                             <p class="x-read-group">
+                                 <strong class="col-md-2 x-label">Date Deposited:</strong>
+                                <span class="col-md-4 x-desc">{{data.date_deposited | toDateFormat}}</span>
                                 <strong class="col-md-2 x-label">Account No:</strong>
                                 <span class="col-md-4 x-desc">{{data.bank_account}}</span>
-                                <strong class="col-md-2 x-label">Date Deposited:</strong>
-                                <span class="col-md-4 x-desc">{{data.date_deposited | toDateFormat}}</span>
                             </p>
                             <p class="x-read-group">
-                                <strong class="col-md-2 x-label">Bank:</strong>
-                                <span class="col-md-4 x-desc">{{data.deposited_bank}}</span>
+                                <strong class="col-md-2 x-label">Remarks:</strong>
+                                <span class="col-md-10 x-desc">{{data.remarks}}</span>
                             </p>
                         </div>
                     </div>

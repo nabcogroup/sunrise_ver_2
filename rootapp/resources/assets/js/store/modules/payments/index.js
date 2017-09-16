@@ -44,6 +44,14 @@ const mutations = {
     edit(state,payload) {
         copiedValue(payload.payment, state.cloneOfInstance);
     },
+    replace(state,payload) {
+        let p = state.bill.payments.find( item => item.id === payload.item.id);
+        p.replace_ref = cloneObject(p);
+        p.date_deposited = "0000-00-00";
+        state.cloneOfInstance.id = p.id;
+        copiedValue(state.cloneOfInstance,p);
+        payload.cb(true);
+    },
     store(state,payload) {
         const trigger = payload.trigger;
         const result = validation().validate(state.cloneOfInstance, state.bill.payments);
@@ -228,6 +236,12 @@ const getters = {
         });
 
         return (item === undefined) ? false : true;
+    },
+    bankDeposited(state) {
+        const bank = _.find(state.lookups.bank_accounts, (item) => {
+            return item.account_no === state.cloneOfInstance.bank_account;
+        });
+        return bank !== undefined ? bank.bank_name : '';
     }
 }
 

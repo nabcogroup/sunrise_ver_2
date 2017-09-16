@@ -89,13 +89,15 @@ class BillRepository extends AbstractRepository
     {
 
         if (isset($entity['id']) && $entity['id'] != 0) {
+            
             $bill = $this->model->find($entity['id']);
             //update its payment
             $entityPayments = isset($entity['payments']) ? $entity['payments'] : [];
             if (sizeof($entityPayments) > 0) {
                 foreach ($entityPayments as $entityPayment) {
+                    
                     if (!isset($entityPayment['id']) || $entityPayment['id'] == 0) {
-
+                        //insert payment
                         $paymentModel = new Payment();
                         $paymentModel->toMap($entityPayment);
                         $paymentModel->bill_id = $bill->getId();
@@ -106,11 +108,12 @@ class BillRepository extends AbstractRepository
                         //update only without received
                         $paymentModel = Payment::find($entityPayment['id']);
                         if ($paymentModel != null) {
-                            $paymentModel->status = $entityPayment['status'];
-                            $paymentModel->remarks = $entityPayment['remarks'];
-                            $paymentModel->deposited_bank = $entityPayment['deposited_bank'];
-                            $paymentModel->date_deposited = $entityPayment['date_deposited'];
-                            $paymentModel->bank_account = $entityPayment['bank_account'];
+                            //check if there is a replace payment value
+                            if(isset($entityPayment['replace_ref'])) {
+                                $paymentModel->replace_ref = $entityPayment['replace_ref'];
+                                unset($entityPayment['replace_ref']);
+                            }
+                            $paymentModel->toMap($entityPayment);
                             $paymentModel->saveWithUser();
                         }
                         else {

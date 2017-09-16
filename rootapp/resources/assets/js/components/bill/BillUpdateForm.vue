@@ -126,7 +126,7 @@
                                                         </small>
                                                     </div>
                                                     <div v-else class="text-center">
-                                                        <span>---</span>
+                                                        <span>{{props.items.items.bank_account}}</span>
                                                     </div>
                                                 </div>
 
@@ -136,7 +136,7 @@
                                                         <dt-picker dp-name="date_deposited" :value="props.items.items.date_deposited" @pick="props.items.items.date_deposited = $event"></dt-picker>
                                                     </div>
                                                     <div v-else class="text-center">
-                                                        <span>---</span>
+                                                        <span>{{props.items.items.date_deposited}}</span>
                                                     </div>
                                                 </div>
                                                 <!-- remarks -->
@@ -145,7 +145,7 @@
                                                         <textarea v-model="props.items.items.remarks" class="form-control"></textarea>
                                                     </div>
                                                     <div v-else class="text-center">
-                                                        <span>---</span>
+                                                        <span>{{props.items.items.remarks}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -162,12 +162,12 @@
                                                     </button>
                                                     <ul class="dropdown-menu">
                                                         <li><a href="#" @click.prevent="actionTrigger('info',props.items.items)">Info</a></li>
+                                                        <li v-if="props.items.items.replace_ref"><a href="#" @click.prevent="actionTrigger('rep-info',props.items.items)">Replacement - Info</a></li>
                                                         <li role="separator" class="divider"></li>
                                                         <li><a href="#" @click.prevent="actionTrigger('edit',props.items.items)">Edit</a></li>
                                                         <li><a href="#" @click.prevent="actionTrigger('deposit',props.items.items)">Add Deposit</a></li>
                                                         <li role="separator" class="divider"></li>
-                                                        <li><a href="#" @click.prevent="actionTrigger('replacement')">Replacement</a></li>
-                                                        
+                                                        <li v-if="props.items.items.replace_ref === undefined || props.items.items.replace_ref === null"><a href="#" @click.prevent="actionTrigger('replacement',props.items.items)">Replacement</a></li>
                                                     </ul>
                                                 </div>
                                                 <div v-else="">
@@ -184,7 +184,7 @@
                                 <replace-modal :clone-of-instance="cloneOfInstance" :lookups="lookups" @dismiss="onDismissal"></replace-modal>
                                 <payment-info-modal></payment-info-modal>
                                 <payment-modal namespace="payments"></payment-modal>
-                                <deposit-modal namespace="payments"></deposit-modal>
+                                <deposit-modal></deposit-modal>
                                 <!-- end modal -->
                                 <hr/>
                             </div>
@@ -230,10 +230,10 @@ const createGridColumn = function(value) {
                     { name: 'effectivity_date',column: 'Date',style: 'width:10%',class: 'text-center', default: true, format: 'date'},
                     { name: 'payment_no', column: 'C/P No.', style: 'width:10%', class: 'text-center' },
                     { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', },
-                    { name: 'status', column: 'Status', style: "width:10%", class: 'text-center', custom: true },
-                    { name: 'bank_account', column: 'Accounts', class: 'text-center', custom: true },
-                    { name: 'date_deposited', column: 'Date Deposit', class: 'text-center', custom: true },
-                    { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center', custom: true },
+                    { name: 'full_status', column: 'Status', style: "width:10%", class: 'text-center' },
+                    { name: 'bank_account', column: 'Accounts', class: 'text-center',  },
+                    { name: 'date_deposited', column: 'Date Deposit', class: 'text-center', },
+                    { name: 'remarks', column: 'Remarks', style: 'width:20%', class: 'text-center',},
                     { name: '', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true }
                 ]
                 break;
@@ -421,6 +421,12 @@ export default {
            }
            else if(action == 'deposit') {
                EventBus.$emit("payment.deposit.open",value)
+           }
+           else if(action == 'replacement') {
+               EventBus.$emit("payment.replace.open",value)
+           }
+           else {
+               
            }
         }
     },

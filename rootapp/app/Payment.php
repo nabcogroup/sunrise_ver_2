@@ -4,10 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Traits\DeserializeTrait;
 
 class Payment extends BaseModel
 {
+    use DeserializeTrait;
+
     protected $appends = ['full_status','full_payment_type','full_payment_mode','selected','status_flag','full_bank'];
+    protected $guarded = ['id','created_at','updated_at','deleted_at','replace_ref','bill_id'];
 
     //
     public function __construct(array $attributes = [])
@@ -19,7 +23,6 @@ class Payment extends BaseModel
     }
 
     public static function createInstance() {
-        
         $p = new Payment([
             "effectivity_date"      =>  Carbon::now()->toDateTimeString(),
             "payment_type"          =>  "cheque",
@@ -33,9 +36,7 @@ class Payment extends BaseModel
             "deposited_bank"        =>  "",
             "date_deposited"        =>  Carbon::now()->toDateTimeString(),
             "bank_account"          =>  ""]);
-
         return $p;
-
     }
 
 
@@ -67,11 +68,21 @@ class Payment extends BaseModel
     protected function setSelectedAttribute($value) {
         $this->attributes['selected'] = $value;
     }
-
-
     /* status flag  */
     public function getStatusFlagAttribute() {
         return $this->status;
+    }
+
+
+    /* replace object*/
+    public function setReplaceRefAttribute($value) {
+        if(is_array($value)) {
+            $this->setMetaValue($this->attributes['replace_ref'],$value);
+        }
+    }
+
+    public function getReplaceRefAttribute($value) {
+        return $this->getMetaValue($value);
     }
 
     /* */

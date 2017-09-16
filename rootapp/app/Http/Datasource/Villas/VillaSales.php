@@ -40,7 +40,7 @@ class VillaSales implements IDataSource
             ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
             ->join('payments', 'payments.bill_id', '=', 'contract_bills.id')
-            ->groupBy(\DB::raw("MONTH(payments.effectivity_date),villas.villa_no"))
+            ->groupBy('villas.villa_no','villas.rate_per_month',\DB::raw("MONTH(payments.period_start)"))
             ->select(
                 \DB::raw("villas.villa_no,
                         villas.rate_per_month,
@@ -52,7 +52,7 @@ class VillaSales implements IDataSource
             ->where('payments.status', '=', 'clear')
             ->where(\DB::raw('YEAR(payments.period_start)'),$year)
             ->whereBetween(\DB::raw('MONTH(payments.period_start)'), [$month_from, $month_to])
-            ->orderBy('villas.villa_no','villas.rate_per_month',\DB::raw("MONTH(payments.period_start)"))
+            ->orderBy('villas.villa_no')
             ->get();
         
         $rows = [

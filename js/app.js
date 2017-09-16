@@ -1358,14 +1358,20 @@ class AxiosRequest {
 
 
 const cloneObject = function (objInstance) {
-    return JSON.parse(JSON.stringify(objInstance));
+    if (typeof objInstance === "object") return JSON.parse(JSON.stringify(objInstance));else return false;
 };
 /* harmony export (immutable) */ __webpack_exports__["c"] = cloneObject;
 
 
 const copiedValue = (source, target, exclude = new Array()) => {
     _.forEach(source, (value, key) => {
-        target[key] = value;
+        if (exclude.length > 0) {
+            if (_.indexOf(exclude, key) < 0) {
+                target[key] = value;
+            }
+        } else {
+            target[key] = value;
+        }
     });
 };
 /* harmony export (immutable) */ __webpack_exports__["d"] = copiedValue;
@@ -1374,10 +1380,12 @@ const copiedValue = (source, target, exclude = new Array()) => {
 const validation = () => {
 
     let duplicateOrEmpty = (entity, compArray, field) => {
+
         for (let i = 0; i < compArray.length; i++) {
             let item = compArray[i];
             if (entity[field] === item[field]) return true;
         }
+
         return false;
     };
 
@@ -1396,7 +1404,6 @@ const validation = () => {
     };
 
     let isNonNumeric = numValue => {
-
         if (isNaN(numValue)) {
             return true;
         }
@@ -19581,7 +19588,7 @@ const mutations = {
         p.replace_ref = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* cloneObject */])(p);
         p.date_deposited = "0000-00-00";
         state.cloneOfInstance.id = p.id;
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* copiedValue */])(state.cloneOfInstance, p);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* copiedValue */])(state.cloneOfInstance, p, ["replace_ref"]);
         payload.cb(true);
     },
     store(state, payload) {
@@ -19607,8 +19614,7 @@ const mutations = {
         const convertion = state.lookups[payload.source].find(item => {
             return item.code == state.cloneOfInstance[payload.needle];
         });
-
-        state.cloneOfInstance[payload.target] = convertion.name;
+        if (convertion) state.cloneOfInstance[payload.target] = convertion.name;else state.cloneOfInstance[payload.target] = "";
     },
     redirectToPrint(state) {
         if (state.bill.bill_no !== '') axiosRequest.redirect('bill', 'show', state.bill.bill_no, "_blank");

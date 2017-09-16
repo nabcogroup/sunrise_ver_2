@@ -4642,14 +4642,20 @@ class AxiosRequest {
 
 
 const cloneObject = function (objInstance) {
-    return JSON.parse(JSON.stringify(objInstance));
+    if (typeof objInstance === "object") return JSON.parse(JSON.stringify(objInstance));else return false;
 };
 /* harmony export (immutable) */ __webpack_exports__["c"] = cloneObject;
 
 
 const copiedValue = (source, target, exclude = new Array()) => {
     _.forEach(source, (value, key) => {
-        target[key] = value;
+        if (exclude.length > 0) {
+            if (_.indexOf(exclude, key) < 0) {
+                target[key] = value;
+            }
+        } else {
+            target[key] = value;
+        }
     });
 };
 /* harmony export (immutable) */ __webpack_exports__["d"] = copiedValue;
@@ -4658,10 +4664,12 @@ const copiedValue = (source, target, exclude = new Array()) => {
 const validation = () => {
 
     let duplicateOrEmpty = (entity, compArray, field) => {
+
         for (let i = 0; i < compArray.length; i++) {
             let item = compArray[i];
             if (entity[field] === item[field]) return true;
         }
+
         return false;
     };
 
@@ -4680,7 +4688,6 @@ const validation = () => {
     };
 
     let isNonNumeric = numValue => {
-
         if (isNaN(numValue)) {
             return true;
         }

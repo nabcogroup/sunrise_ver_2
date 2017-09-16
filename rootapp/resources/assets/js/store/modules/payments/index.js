@@ -49,7 +49,7 @@ const mutations = {
         p.replace_ref = cloneObject(p);
         p.date_deposited = "0000-00-00";
         state.cloneOfInstance.id = p.id;
-        copiedValue(state.cloneOfInstance,p);
+        copiedValue(state.cloneOfInstance,p,["replace_ref"]);
         payload.cb(true);
     },
     store(state,payload) {
@@ -78,8 +78,10 @@ const mutations = {
         const convertion = state.lookups[payload.source].find(item => {
             return item.code == state.cloneOfInstance[payload.needle];
         });
-        
-        state.cloneOfInstance[payload.target] = convertion.name;
+        if(convertion)
+            state.cloneOfInstance[payload.target] = convertion.name;
+        else 
+            state.cloneOfInstance[payload.target] = "";
     },
     redirectToPrint(state) {
         if (state.bill.bill_no !== '')

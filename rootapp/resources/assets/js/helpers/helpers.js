@@ -98,22 +98,35 @@ export class AxiosRequest {
 }
 
 export const cloneObject = function(objInstance) {
-    return JSON.parse(JSON.stringify(objInstance));
+    if(typeof objInstance === "object")
+        return JSON.parse(JSON.stringify(objInstance));
+    else 
+        return false;
+
 }
 
 export const copiedValue = (source,target, exclude = new Array()) => {
     _.forEach(source, (value,key) => {
-        target[key] = value;
+        if(exclude.length > 0) {
+            if(_.indexOf(exclude,key) < 0) {
+                target[key] = value;
+            }
+        }
+        else {
+            target[key] = value;
+        }
     });
 }
 
 export const validation = () => {
 
     let duplicateOrEmpty = (entity, compArray, field) => {
+        
         for (let i = 0; i < compArray.length; i++) {
             let item = compArray[i];
             if (entity[field] === item[field]) return true;
         }
+        
         return false;
     }
 
@@ -133,7 +146,6 @@ export const validation = () => {
     }
 
     let isNonNumeric = (numValue) => {
-
         if (isNaN(numValue)) {
             return true
         }

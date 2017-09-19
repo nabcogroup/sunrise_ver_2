@@ -11,7 +11,7 @@ const state = {
         villa: {}
     },
     search: {
-        field: {},
+        field: '',
         value: '',
         options: [
             {value: 'bill', label: 'Bill No'},

@@ -38,8 +38,17 @@ class TenantController extends Controller
         if($tenantId != null) {
             $model = $this->apiShow($tenantId);
         }
-
+        else {
+            $model = $this->apiCreate();    
+        }
         return view('tenant.register',compact('model'));
+    }
+
+    public function apiCreate() {
+
+        $tenant = \App\Tenant::createInstance();
+        $lookups = Selection::getSelections(["tenant_type"]);
+        return compact('tenant','lookups');
     }
 
     public function apiShow($tenantId) {
@@ -51,11 +60,8 @@ class TenantController extends Controller
     }
 
     public function apiStore(TenantForm $request) {
-
         $inputs = $request->filterInput();
-
         try {
-
             $this->repo->saveTenant($inputs);
         }
         catch(Exception $e) {

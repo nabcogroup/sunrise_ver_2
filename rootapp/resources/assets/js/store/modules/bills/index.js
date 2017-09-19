@@ -95,8 +95,8 @@ const actions = {
             .post('bill', 'store', state.bill)
             .then(r => {
                 state.options.loadingSave = false;
-                commit('redirectToPrint', {billId: r.data.bill.billNo});
-                //axiosRequest.redirect('contract', '');
+                //commit('redirectToPrint', {billId: r.data.bill.billNo});
+                axiosRequest.redirect('contract', '');
             })
             .catch(e => {
                 if (e.response.status === 422)

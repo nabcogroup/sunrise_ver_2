@@ -21,9 +21,9 @@
             return {
                 gridView: {
                     columns: [
-                        {name: 'name', column: 'Name'},
+                        {name: 'name', column: 'Name', filter:true},
                         {name: 'full_address', column: 'Address'},
-                        {name: 'contact_no', column: 'Contact No'},
+                        {name: 'contact_no', column: 'Contact No',filter:true},
                         {name: 'fax_no', column: 'Fax No'},
                     ],
                     source: {

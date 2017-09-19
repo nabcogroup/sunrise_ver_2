@@ -1,7 +1,11 @@
-import {ErrorValidations} from "../../../helpers/helpers";
+import {
+    ErrorValidations
+} from "../../../helpers/helpers";
 
 const state = {
-    contracts: {data: []},
+    contracts: {
+        data: []
+    },
     contractForTerminateId: 0,
     status: "pending",
     contractForTerminate: {
@@ -12,10 +16,16 @@ const state = {
         password: '',
         ref_no: ''
     },
+    contractForRenewal: {
+        tenant: {},
+        villa:{}
+    },
     contract: {
         register_tenant: {
             tenant_address: {}
-        }
+        },
+        tenant: {},
+        villa: {}
     },
     tenant_default: {
         tenant_address: {}
@@ -24,9 +34,13 @@ const state = {
         contract_type: [],
         tenant_type: []
     },
+    filter: {
+        location: ''
+    },
     errors: {
         terminateError: new ErrorValidations(),
-        contractError: new ErrorValidations()
+        contractError: new ErrorValidations(),
+        renewError: new ErrorValidations()
     }
 };
 
@@ -49,7 +63,6 @@ const mutations = {
         });
     },
     setContractForTerminate(state, payload) {
-
         if (payload) {
             state.contractForTerminate.id = payload.id
             state.contractForTerminate.contract_no = payload.contract_no;
@@ -59,25 +72,61 @@ const mutations = {
 };
 
 const actions = {
-    load({commit, state}, payload) {
+    load({
+        commit,
+        state
+    }, payload) {
         let url = "/api/contract/list/" + state.status;
         if (payload) {
             url = payload.url;
         }
-
         axiosRequest.dispatchGet(url)
             .then(r => {
-                commit('load', {data: r.data});
+                commit('load', {
+                    data: r.data
+                });
             }).catch(e => toastr.error(e.response.message))
     },
-    create({state}) {
+    create({
+        state
+    }) {
         axiosRequest.get('contract', 'create').then((r) => {
+            state.contract = {};
             state.contract = r.data.data;
             state.lookups = r.data.lookups;
             state.tenant_default = state.contract.register_tenant;
         });
     },
-    recalc({state}) {
+    renew({
+        state,
+        commit
+    }, payload) {
+        axiosRequest.get('contract', 'renew', payload.id)
+            .then(r => {
+                state.contract = {};
+                state.contract = r.data;
+                payload.cb();
+            })
+            .catch(e => {
+                toastr.error(e.response.data.message);
+            });
+    },
+    update({state,commit},payload) {
+        var data = {
+            id: state.contract.id,
+            period_start: state.contract.period_start,
+            period_end: state.contract.period_end,
+            amount: state.contract.amount
+        };
+        axiosRequest.post('contract','renew',data)
+            .then(r => commit('createBill',r.data.data.id))
+            .catch(e => {
+                if(e.response.status === 422) this.errors.renewError.register(e.response.data);
+            });
+    },
+    recalc({
+        state
+    }) {
         const data = {
             villa_id: state.contract.villa_id,
             period_start: state.contract.period_start,
@@ -91,7 +140,9 @@ const actions = {
                 toastr.errors(e.response.message);
             });
     },
-    save({state}) {
+    save({
+        state
+    }) {
         //remove villa first
         axiosRequest.post("contract", "store", state.contract)
             .then((r) => {
@@ -100,13 +151,18 @@ const actions = {
             .catch((error) => {
                 if (error.response.status == 422)
                     state.errors.contractError.register(error.response.data);
-                    toastr.error("Unable to save");
+                toastr.error("Unable to save");
                 if (cbError) cbError();
             });
     },
-    cancel({commit, state}, payload) {
+    cancel({
+        commit,
+        state
+    }, payload) {
 
-        axiosRequest.post("contract", "cancel", {id: payload.contractId})
+        axiosRequest.post("contract", "cancel", {
+                id: payload.contractId
+            })
             .then(r => {
                 if (r.data.isOk) {
                     payload.done();
@@ -115,20 +171,22 @@ const actions = {
             .catch(e => payload.cbError(e.response.data.message));
 
     },
-    terminate({commit, state}) {
+    terminate({
+        commit,
+        state
+    },payload) {
 
         axiosRequest.post("contract", "terminate", state.contractForTerminate)
             .then((r) => {
                 if (r.data.isOk) {
-                    axiosRequest.redirect("contract","");
+                   payload.success();
                 }
             })
             .catch((e) => {
                 if (e.response.status === 422) {
                     state.errors.terminateError.register(e.response.data);
                     toastr.error("Unable to save!!!");
-                }
-                else {
+                } else {
                     toastr.error(e.response.data.message);
                 }
 
@@ -136,7 +194,9 @@ const actions = {
 
             });
     },
-    remove({commit}, payload) {
+    remove({
+        commit
+    }, payload) {
         setTimeout(() => {
             commit('cancel', {
                 contractId: payload.contractId
@@ -146,7 +206,10 @@ const actions = {
             });
         }, 100);
     },
-    searchTenant({state, commit}) {
+    searchTenant({
+        state,
+        commit
+    }) {
 
         const regId = state.contract.register_tenant.reg_id;
         state.contract.register_tenant = state.tenant_default;
@@ -192,7 +255,7 @@ const getters = {
         return false;
     },
     villas(state) {
-        return state.contract.villa_list;
+        return _.filter(state.contract.villa_list, (item => item.location == state.filter.location));
     },
     labels(state) {
         if (state.contract.register_tenant.type == 'individual') {
@@ -202,8 +265,7 @@ const getters = {
                 regDate: "Birthday",
                 regNo: "Qatar Id"
             }
-        }
-        else {
+        } else {
             return {
                 regName: "Representative",
                 fullName: "Business Name",
@@ -217,6 +279,9 @@ const getters = {
     },
     stateContractError(state) {
         return state.errors.contractError;
+    },
+    stateRenewError(state) {
+        return state.errors.renewError;
     }
 };
 
@@ -229,5 +294,3 @@ const contractModule = {
 }
 
 export default contractModule;
-
-

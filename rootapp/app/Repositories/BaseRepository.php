@@ -16,13 +16,9 @@ abstract class BaseRepository {
     protected $isCreate = false;
 
     public abstract function includeCount();
-
     public abstract function withChildren();
-
     public abstract function create();
-    
     public abstract function forEdit($id);
-
     protected abstract function beforeAttached();
     
     //*******************chaining**********************
@@ -110,15 +106,10 @@ abstract class BaseRepository {
         }
 
         if($state == "create") {
-            $this->emptyModel['created_at'] = Carbon::now();
-
-            $this->emptyModel['updated_at'] = Carbon::now();
-
             $this->modelCollection->create($this->emptyModel);
         }
         else if($state == "modify") {
             $this->modelCollection = $this->firstOrDefault($this->emptyModel['id']);
-
             foreach($this->emptyModel as $key => $value) {
                 $this->modelCollection->setField($key,$value);
             }

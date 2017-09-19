@@ -62,7 +62,7 @@
         },
         computed: {
             search() {
-                return this.$store.getters['payments/search'];
+                return this.$store.getters['payments/search'] || {};
             }
         },
         watch: {

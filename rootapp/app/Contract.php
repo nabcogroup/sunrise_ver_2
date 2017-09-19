@@ -35,6 +35,7 @@ class Contract extends BaseModel
         
         $contract->villa_list = Villa::with('villaGalleries')
             ->where('status', 'vacant')
+            ->orderBy('villa_no')
             ->get();
 
         return $contract;
@@ -135,11 +136,8 @@ class Contract extends BaseModel
     public function setDefaultPeriod(Carbon $startPeriod, $default, $extraPeriod = 0)
     {
 
-        $this->period_start = $startPeriod->addDays($extraPeriod)->toDateTimeString();
-        $this->period_end = Carbon::parse($this->period_start);
-        $this->period_end = $this->period_end->addMonth($default)->toDateTimeString();
-
-
+        $this->period_start = $startPeriod->toDateTimeString();
+        $this->period_end = $startPeriod->addMonth($default)->toDateTimeString();
     }
 
     public function setPeriod($periodStart, $periodEnd)

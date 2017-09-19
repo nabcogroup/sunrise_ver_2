@@ -35,11 +35,9 @@ class TenantRepository extends AbstractRepository {
     }
 
     public function saveTenant($model) {
-
         $addressInstance = isset($model['tenant_address']) ? $model['tenant_address'] : false;
         unset($model['tenant_address']);
         $tenant = $this->attach($model,$addressInstance)->instance();
-
         return $tenant;
     }
 

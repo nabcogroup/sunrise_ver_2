@@ -5,9 +5,7 @@
                 <tenant-register></tenant-register>
             </div>
             <div class="col-md-6">
-                
                 <contract-villa></contract-villa>
-                
                 <contract-entry></contract-entry>
             </div>
             <div class="col-md-3 col-md-offset-9">

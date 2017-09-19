@@ -10,11 +10,7 @@
                         :grid="gridView"
                         @action="doAction"></v-live-view>
             </div>
-            <terminate-dialog
-                    :isOpen="terminateModalState"
-                    @cancel="onTerminateCancel"
-                    @save="onTerminateSave">
-            </terminate-dialog>
+            <terminate-dialog></terminate-dialog>
         </div>
     </v-panel>
 </template>
@@ -126,24 +122,20 @@
                     });
                 }
                 else if (a.key == 'terminated') {
-                    confirmation.terminated(item.contract_no, (result) => {
-                        if (result) {
-                            this.setContractForTerminate(item);
-                            this.terminateModalState = true;
+                    confirmation.terminated(item.contract_no, (isOpenDialog) => {
+                        if (isOpenDialog) {
+                            setTimeout(function() {
+                                EventBus.$emit("contracts.terminate.open",item);
+                                EventBus.$on("contracts.terminate.close",(isClose) => {
+                                    if(isClose) axiosRequest.redirect("contract", "");
+                                });    
+                            }, 500);
                         }
                     });
                 }
                 else if (a.key == 'view') {
-                    console.log(item);
                     this.$store.commit('contracts/redirectToRead', item.bill_no);
                 }
-            },
-            onTerminateCancel() {
-                this.terminateModalState = false;
-            },
-            onTerminateSave(contractId) {
-                this.$store.dispatch('contracts/terminate', {contractId: contractId, statusIndex: this.status});
-                this.terminateModalState = false;
             }
         },
         computed: {

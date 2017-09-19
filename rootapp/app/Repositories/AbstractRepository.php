@@ -112,10 +112,8 @@ abstract class AbstractRepository {
         try {
             if($state == "create") {
                 $this->beforeCreate($model);
-
                 $this->model = $this->definedModel();
                 $this->model->toMap($model);
-
                 if($includeUser)
                     $this->model->saveWithUser();
                 else

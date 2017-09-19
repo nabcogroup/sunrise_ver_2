@@ -16,11 +16,8 @@
 </template>
 
 <script>
-
     export default {
-        props: {
-            fieldList: {}
-        },
+        props: ["fieldList"],
         data() {
             return {
                 searchValue: '',

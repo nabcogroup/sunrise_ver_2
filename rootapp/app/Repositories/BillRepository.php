@@ -195,7 +195,6 @@ class BillRepository extends AbstractRepository
 
         $dbraw = $this->createDb('contracts')
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
-            ->join('payments','payments.bill_id','=','contract_bills.id')
             ->join('tenants', 'tenants.id', '=', 'contracts.tenant_id')
             ->join('villas', 'villas.id', '=', 'contracts.villa_id')
             ->select(
@@ -206,16 +205,14 @@ class BillRepository extends AbstractRepository
                 'contracts.period_start', 'contracts.period_end',
                 'contract_bills.id as contracts_bill_id',
                 'contracts.amount as contract_amount',
-                \DB::raw('SUM(payments.amount) as payment_amount'),
-                \DB::raw('contracts.amount - (SUM(payments.amount)) as total_balance'))
+                \DB::raw("(SELECT SUM(amount) FROM payments WHERE status = 'clear' AND bill_id =   contracts_bill_id) as payment_amount"),
+                \DB::raw("contracts.amount - (SELECT SUM(amount) FROM payments WHERE status = 'clear' AND bill_id =   contracts_bill_id) as total_balance"))
             ->groupBy(
                 'contract_bills.bill_no',
                 'villas.location',
                 'villas.villa_no',
                 'contracts.amount')
-            ->where('contracts.status','active')
-            ->havingRaw('SUM(payments.amount) < contracts.amount')
-            ->where('payments.status','clear');
+            ->where('contracts.status','active');
             
         if (isset($filters['filter_field'])) {
             if($filters['filter_field'] == 'full_location') {
@@ -242,9 +239,8 @@ class BillRepository extends AbstractRepository
                 'full_location'     => Selection::getValue('villa_location',$row->location)
             ];
             
-
             return $item;
-
+            
         }, $filters);
 
     }

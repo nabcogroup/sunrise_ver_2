@@ -138,9 +138,9 @@ class ContractBillController extends Controller
      *  -
      *************************************/
     public function apiStore(BillForm $request) {
-
+        
         $inputs = $request->filterInput();
-
+        
         try {
 
             $bundle = new Bundle();

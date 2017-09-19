@@ -50,7 +50,7 @@
                                 <td>{{ucfirst($row['villa_status'])}}</td>
                                 @foreach($datasource['months'] as $key => $value)
                                     <td style="width: 10% " class="text-right">
-                                        {{(isset($per_villa[$villa_no][$key]) ? number_format($per_villa[$villa_no][$key],2) : '-')}}
+                                        {{(isset($per_villa[$villa_no][$key]) ? number_format($per_villa[$villa_no][$key],2) : 'VACATED')}}
                                     </td>
                                 @endforeach
                             </tr>

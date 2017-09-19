@@ -166,14 +166,13 @@ Route::group(['prefix' => 'api/payee', 'middleware' => ['auth','roles']],functio
  ***********************************************************/
 Route::group(['prefix' => 'tenant', 'middleware' => ['auth','roles']],function() {
     Route::get("/",["uses" =>  "TenantController@index","roles" => ["contract", "account"]]);
-    Route::get("/edit/{tenantId?}",["uses" =>  "TenantController@register","roles" => ["contract", "account"]]);
+    Route::get("/register/{tenantId?}",["uses" =>  "TenantController@register","roles" => ["contract", "account"]]);
 });
 Route::group(['prefix' => 'api/tenant', 'middleware' => ['auth','roles']],function() {
 
     Route::get("/list",["uses" =>  "TenantController@apiList","roles" => ["contract", "account"]]);
     Route::get("/edit/{tenantId}",["uses" =>  "TenantController@apiShow","roles" => ["contract", "account"]]);
     Route::get("/search/{regId?}",["uses" =>  "TenantController@apiSearch","roles" => ["contract", "account"]]);
-
     Route::post("/store",["uses" =>  "TenantController@apiStore","roles" => ["contract", "account"]]);
 
 });

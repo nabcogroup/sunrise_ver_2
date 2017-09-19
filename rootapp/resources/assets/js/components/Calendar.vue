@@ -19,7 +19,6 @@
             this.cal = $(this.$el);
             let defaultBackground = "#3a87ad";
             let prevClickedEvent;
-            
             let args = {
                 lang: 'en',
                 header: {

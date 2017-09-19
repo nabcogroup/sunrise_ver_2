@@ -61,7 +61,6 @@ class ContractController extends Controller
         //check if the has a vacant villa
         //if not redirect back to list
         $bundle = new Bundle();
-
         event(new Verify($bundle,new EventListenerRegister(["VerifyVillaVacancy"])));
 
         $count = $bundle->getOutput("count");
@@ -81,9 +80,7 @@ class ContractController extends Controller
     public function apiCalendar(Request $request) {
         
         try {
-
             $periods = $request->all();
-
             $contracts = $this->contractRepo->includeAssociates()
                 ->activeOnly()
                 ->getExpiryContracts(Carbon::parse($periods['start']), Carbon::parse($periods['end']))
@@ -93,11 +90,11 @@ class ContractController extends Controller
 
             if($contracts) {
                 foreach($contracts as $contract) {
-                    $event = [ 
+                    $event = [
+                        "contract"      =>  $contract,
                         "id"            =>  $contract->getId(),
                         "contract_no"   =>  $contract->contract_no,
-                        "villa_no"      =>  $contract->villa()->first()->villa_no,
-                        "tenant_name"   =>  $contract->tenant()->first()->full_name,
+                        "full_name"   =>  $contract->tenant()->first()->full_name,
                         "period"        =>  ["start" => $contract->period_start, "end" => $contract->period_end],
                         "title"         =>  $contract->villa()->first()->villa_no ." - ".$contract->tenant()->first()->full_name,
                         "start"         =>  Carbon::parse($contract["period_end"])->subDays(self::DEFAULT_EXPIRED_PERIOD)->toDateString(),
@@ -140,7 +137,7 @@ class ContractController extends Controller
 
             $outputs = array();
             $data = $this->contractRepo->create(self::DEFAULT_PERIOD);
-            $lookups = $this->selections->getSelections(["contract_type","tenant_type"]);
+            $lookups = $this->selections->getSelections(["contract_type","tenant_type","villa_location"]);
 
             return compact("data","lookups");
 
@@ -266,11 +263,10 @@ class ContractController extends Controller
             }
 
             //recalculate the past contract period
-            $remainingPeriodDay = $oldContract->getRemainingPeriod();
+            //$remainingPeriodDay = $oldContract->getRemainingPeriod();
 
             //display contract
-            $oldContract->setDefaultPeriod(Carbon::now(),self::DEFAULT_PERIOD,$remainingPeriodDay);
-
+            $oldContract->setDefaultPeriod(\Carbon\Carbon::parse($oldContract->period_end),self::DEFAULT_PERIOD);
             return $oldContract;
 
         }
@@ -282,7 +278,6 @@ class ContractController extends Controller
     public function apiUpdate(RenewalForm $renewal) {
         
         try {
-
             $entity = $renewal->filterInput();
             $oldContract = $this->contractRepo->find($entity['id']);
 
@@ -302,19 +297,16 @@ class ContractController extends Controller
                 $bundle = new Bundle();
                 $villaId = $oldContract->villa_id;
                 $bundle->add('villaId',$villaId);
-                
                 event(new OnCreating($bundle, new EventListenerRegister(["GetVilla"])));
                 
                 $villaOutput = $bundle->getOutput('villa');
                 if($villaOutput != null) {
-
                     $entity['id'] = 0; //make new
                     $entity['villa_no'] = $villaOutput->villa_no;
                     $entity['villa_id'] = $villaOutput->getId();
                     $entity['tenant_id'] = $oldContract->tenant_id;
                     $entity['contract_type'] = $oldContract->contract_type;
-                    $userId = Auth::user()->getAuthIdentifier(); //manually user
-                    $newContract = $this->contractRepo->saveContract($entity,$userId);
+                    $newContract = $this->contractRepo->saveContract($entity);
                     
                     //make the old contract complete
                     $oldContract->completed()->save();

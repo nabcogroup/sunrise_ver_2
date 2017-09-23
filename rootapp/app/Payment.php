@@ -98,6 +98,10 @@ class Payment extends BaseModel
         $this->period_end = Carbon::parse($period_start)->addMonth()->subDay();
     }
 
+    public function setStatusToCancel() {
+        $this->status = "cancelled";
+    }
+    
 
 
 
@@ -107,7 +111,7 @@ class Payment extends BaseModel
     }
 
     public function isCancel() {
-        return $this->hasStatusOf('cancel');
+        return $this->hasStatusOf('cancelled');
     }
 
     public function isBounce() {

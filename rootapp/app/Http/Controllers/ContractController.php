@@ -6,23 +6,31 @@ use App\Events\NotifyUpdate;
 use App\Events\OnCalculation;
 use App\Events\OnCreating;
 use App\Events\Verify;
+
 use App\Http\Requests\ContractCalcForm;
 use App\Http\Requests\ContractForm;
 use App\Http\Requests\RenewalForm;
 use App\Http\Requests\TerminateForm;
+
 use App\Repositories\ContractRepository;
 use App\Selection;
+use App\User;
+
 use App\Services\Bundle;
 use App\Services\EventListenerRegister;
 use App\Services\Result;
-use App\User;
+
 use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
+
 class ContractController extends Controller
 {
+    
+
     private $contractRepo;
 
     const DEFAULT_PERIOD = 12;
@@ -62,9 +70,7 @@ class ContractController extends Controller
         //if not redirect back to list
         $bundle = new Bundle();
         event(new Verify($bundle,new EventListenerRegister(["VerifyVillaVacancy"])));
-
         $count = $bundle->getOutput("count");
-
         if($count == 0) {
             return redirect()->route('contract.manage');
         }
@@ -137,7 +143,29 @@ class ContractController extends Controller
 
             $outputs = array();
             $data = $this->contractRepo->create(self::DEFAULT_PERIOD);
-            $lookups = $this->selections->getSelections(["contract_type","tenant_type","villa_location"]);
+            
+
+            //extra
+            $data->prep_series = 1;
+            $data->prep_bank = "";
+            $data->prep_due_date = "";
+            $data->prep_ref_no = "";
+
+            $lookups = $this->selections->getSelections(["contract_type","tenant_type","villa_location","bank"]);
+            $lookups["due_date"] = [
+                [
+                    "value" => "1",  
+                    "text" => "Every 1st Day"
+                ],
+                [
+                    "value" => "15",  
+                    "text" => "Every 15th Day"
+                ],
+                [
+                    "value" => "30",  
+                    "text" => "Every 30th Day"
+                ],
+            ];
 
             return compact("data","lookups");
 
@@ -152,24 +180,24 @@ class ContractController extends Controller
         $inputs = $request->filterInput();
 
         try {
+            $ratePerMonth = floatval($inputs["custom_rate"]);
 
-            //fire event
-            $bundle = new Bundle();
-            $bundle->add("villaId", $inputs['villa_id']);
-            event(new OnCalculation($bundle, new EventListenerRegister(["GetVillaOnRecalculate"])));
-            $villaOutput = $bundle->getOutput('villa');
-            if ($villaOutput != null) {
-                //get the rate
-                $ratePerMonth = $villaOutput->rate_per_month;
-                //create contract with new rate
-                $contract = $this->contractRepo->create(self::DEFAULT_PERIOD);
-                $contract->setPeriod($inputs['period_start'], $inputs['period_end']);
-                $contract->toComputeAmount($ratePerMonth);
-                return $contract;
+            //check if there is a custom calculation
+            if($ratePerMonth == 0) {
+                //fire event
+                $bundle = new Bundle();
+                $bundle->add("villaId", $inputs['villa_id']);
+                event(new OnCalculation($bundle, new EventListenerRegister(["GetVillaOnRecalculate"])));
+                $villaOutput = $bundle->getOutput('villa');
+                if ($villaOutput != null) {
+                    $ratePerMonth = $villaOutput->rate_per_month;    
+                }
             }
-            else {
-                throw new Exception("No contract was created");
-            }
+            //create contract with new rate
+            $contract = $this->contractRepo->create(self::DEFAULT_PERIOD);
+            $contract->setPeriod($inputs['period_start'], $inputs['period_end']);
+            $contract->toComputeAmount($ratePerMonth);
+            return $contract;
         }
         catch(Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
@@ -199,10 +227,10 @@ class ContractController extends Controller
 
             $inputs['tenant_id'] = $tenantOutput->id;
             $inputs['villa_no']  = $villaOutput->villa_no;
+            
             $contract = $this->contractRepo->saveContract($inputs);
 
             $bundle->clearAll();
-
             $bundleValue = ['id' => $contract->villa_id,'status' => 'occupied'];
             $bundle->add('villa',$bundleValue);
 
@@ -280,7 +308,6 @@ class ContractController extends Controller
         try {
             $entity = $renewal->filterInput();
             $oldContract = $this->contractRepo->find($entity['id']);
-
             if($oldContract) {
                 //make sure the contract is active
                 if(!$oldContract->isActive()) {
@@ -336,9 +363,9 @@ class ContractController extends Controller
             }
 
             $contract = $this->contractRepo->terminate($inputs);
+            
             //terminate the contract
             if($contract->isTerminated()) {
-                
                 //update villa event
                 $bundle = new Bundle();
                 $bundleValue = ["id" => $contract->villa()->first()->id, "status" => "vacant"];
@@ -347,7 +374,7 @@ class ContractController extends Controller
                 $bundle->add('contract',$contract);
                 $bundle->add('user',$user);
                 
-                event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus"])));
+                event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus","UpdatePayment"])));
                 
                 return Result::ok('Succefully terminated!!!');
 

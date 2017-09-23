@@ -80,6 +80,7 @@ class BillForm extends FormRequest
         $inputs = $this->all();
         $this->unsetDateStamp($inputs);
         $this->unsetCustom(['instance','settled_amount','balance'],$inputs);
+        
         if(isset($inputs['payments']) && sizeof($inputs['payments']) > 0) {
             foreach ($inputs['payments'] as &$payment) {
                 $payment['effectivity_date'] = Carbon::parse($payment['effectivity_date']);

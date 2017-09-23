@@ -13535,15 +13535,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (input.files && input.files[0]) {
                 var $this = this;
                 for (var i = 0; i < input.files.length; i++) {
+
                     var reader = new FileReader();
                     var file = input.files[i];
                     var data = {};
+
                     reader.onload = e => {
                         data.blob = e.target.result;
                         data.file = file;
                         $this.imageData.push(data);
                         this.$emit('dispatch', data);
                     };
+
                     reader.readAsDataURL(input.files[i]);
                 }
             }
@@ -15257,48 +15260,86 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(3);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -15309,16 +15350,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: {
         'error': __WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue___default.a
     },
+    data() {
+        return {
+            rate_per_month: 0
+        };
+    },
     methods: {
         calc() {
-            this.$store.dispatch('contracts/recalc');
+            this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
         }
     },
-    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])('contracts', {
         contract: 'contract',
         lookups: 'lookups',
-        errors: 'stateContractError'
-    })
+        errors: 'stateContractError',
+        selectedVilla: 'selectedVilla'
+    }))
 });
 
 /***/ }),
@@ -15719,20 +15766,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         villas: 'villas',
         contract: 'contract',
         stateContractError: 'stateContractError',
-        lookups: 'lookups'
+        lookups: 'lookups',
+        selectedVilla: "selectedVilla"
     }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])('contracts', {
         filter: state => state.filter
     }), {
         fullVilla() {
             return;
-        },
-        selectedVilla() {
-            var selected = _.find(this.villas, item => {
-                if (item.id == this.contract.villa_id) {
-                    return true;
-                }
-            });
-            return selected;
         }
     })
 
@@ -16295,6 +16335,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -16303,7 +16350,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data() {
         return {
             toggle: false,
-            info: {}
+            easterEgg: false,
+            info: {
+                devteam: {
+                    head: {},
+                    dev: {}
+                }
+            }
         };
     },
     mounted() {
@@ -16319,7 +16372,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     watch: {
         toggle(nv) {
-            if (nv && _.isEmpty(this.info)) {
+            if (nv && this.info.ver === undefined) {
                 this.fetchData();
             }
         }
@@ -18990,10 +19043,6 @@ const state = {
         password: '',
         ref_no: ''
     },
-    contractForRenewal: {
-        tenant: {},
-        villa: {}
-    },
     contract: {
         register_tenant: {
             tenant_address: {}
@@ -19001,6 +19050,7 @@ const state = {
         tenant: {},
         villa: {}
     },
+    rate_per_month: 0,
     tenant_default: {
         tenant_address: {}
     },
@@ -19093,37 +19143,30 @@ const actions = {
             if (e.response.status === 422) this.errors.renewError.register(e.response.data);
         });
     },
-    recalc({
-        state
-    }) {
+    recalc({ state }, payload) {
+
         const data = {
             villa_id: state.contract.villa_id,
             period_start: state.contract.period_start,
+            custom_rate: payload !== undefined ? payload.rate : 0,
             period_end: state.contract.period_end
         };
-        axiosRequest.post("contract", "recalc", data).then(r => {
-            state.contract.amount = r.data.amount;
-        }).catch(e => {
-            toastr.errors(e.response.message);
-        });
+        axiosRequest.post("contract", "recalc", data).then(r => state.contract.amount = r.data.amount).catch(e => toastr.errors(e.response.message));
     },
-    save({
-        state
-    }) {
+    save({ state }) {
+        let contract = {};
+
+        //cleansing of data
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* copiedValue */])(state.contract, contract, ["full_status", "is_extra", "payable_per_month", "tenant_id", "total_year_month", "total_received_payment", "villa_list", "full_contract_type", "full_period_start", "full_period_end"]);
+
         //remove villa first
-        axiosRequest.post("contract", "store", state.contract).then(r => {
-            axiosRequest.redirect("bill", "create", r.data.data.id);
-        }).catch(error => {
+        axiosRequest.post("contract", "store", contract).then(r => axiosRequest.redirect("bill", "create", r.data.data.id)).catch(error => {
             if (error.response.status == 422) state.errors.contractError.register(error.response.data);
             toastr.error("Unable to save");
             if (cbError) cbError();
         });
     },
-    cancel({
-        commit,
-        state
-    }, payload) {
-
+    cancel({ commit, state }, payload) {
         axiosRequest.post("contract", "cancel", {
             id: payload.contractId
         }).then(r => {
@@ -19202,10 +19245,10 @@ const getters = {
         return state.contract.register_tenant.type === 'individual';
     },
     selectedVilla(state) {
-        return _.find(state.contract.villa_list, item => {
-            return item.id === state.contract.villa_id;
-        });
-        return false;
+        const v = _.find(state.contract.villa_list, item => {
+            return item.id == state.contract.villa_id;
+        }) || {};
+        return v;
     },
     villas(state) {
         return _.filter(state.contract.villa_list, item => item.location == state.filter.location);
@@ -26025,8 +26068,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col-md-3"
   }, [_vm._v("Developer")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-9",
+    on: {
+      "click": function($event) {
+        _vm.easterEgg = !_vm.easterEgg
+      }
+    }
+  }, [_vm._v(_vm._s(_vm.info.dev))])]), _vm._v(" "), (_vm.easterEgg) ? _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-3"
+  }, [_vm._v("Head Dev")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-9"
-  }, [_vm._v(_vm._s(_vm.info.dev))])]), _vm._v(" "), _c('div', {
+  }, [_c('span', {
+    staticClass: "label label-danger"
+  }, [_vm._v(_vm._s(_vm.info.devteam.head.name) + " - " + _vm._s(_vm.info.devteam.head.linkedin))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-3"
+  }, [_vm._v("FrontEnd Dev")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-9"
+  }, [_c('span', {
+    staticClass: "label label-danger"
+  }, [_vm._v(_vm._s(_vm.info.devteam.dev.name) + " - " + _vm._s(_vm.info.devteam.dev.linkedin))])])]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-3"
@@ -29937,13 +29999,136 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "errorDisplay": _vm.errors.get('period_end')
     }
-  }, [_vm._v(_vm._s(_vm.errors.get('period_end')) + "\n        ")])], 1), _vm._v(" "), _c('v-input-wrapper', {
+  }, [_vm._v(_vm._s(_vm.errors.get('period_end')))])], 1), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-md-3 text-right"
+  }, [_vm._v("Extra Days:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-3"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.contract.extra_days),
+      expression: "contract.extra_days"
+    }],
+    staticClass: "form-control",
     attrs: {
-      "label-class": "col-md-3 text-right",
-      "label": "Amount",
-      "model-name": "amount",
-      "required": true
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.contract.extra_days)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.contract.extra_days = $event.target.value
+      }
     }
+  })])]), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.contract.contract_type === 'legalized') ? _c('div', [_c('v-input-wrapper', {
+    attrs: {
+      "label": "Cheque Series:",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.contract.prep_series),
+      expression: "contract.prep_series"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.contract.prep_series)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.contract.prep_series = $event.target.value
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })]), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Bank:",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('v-combo-box', {
+    attrs: {
+      "options": _vm.lookups.bank,
+      "include-default": true,
+      "dvalue": "code",
+      "dtext": "name"
+    },
+    model: {
+      value: (_vm.contract.prep_bank),
+      callback: function($$v) {
+        _vm.contract.prep_bank = $$v
+      },
+      expression: "contract.prep_bank"
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-md-3 text-right",
+    attrs: {
+      "for": ""
+    }
+  }, [_vm._v("Due Date:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  }, [_c('v-combo-box', {
+    attrs: {
+      "options": _vm.lookups.due_date,
+      "include-default": true
+    },
+    model: {
+      value: (_vm.contract.prep_due_date),
+      callback: function($$v) {
+        _vm.contract.prep_due_date = $$v
+      },
+      expression: "contract.prep_due_date"
+    }
+  })], 1), _vm._v(" "), _c('label', {
+    staticClass: "col-md-3 text-right",
+    attrs: {
+      "for": ""
+    }
+  }, [_vm._v("Reference No:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.contract.prep_ref_no),
+      expression: "contract.prep_ref_no"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.contract.prep_ref_no)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.contract.prep_ref_no = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('hr')], 1) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-md-3 text-right",
+    attrs: {
+      "for": ""
+    }
+  }, [_vm._v("Contract Value:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-9"
   }, [_c('div', {
     staticClass: "input-group"
   }, [_c('input', {
@@ -29953,7 +30138,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.contract.amount),
       expression: "contract.amount"
     }],
-    staticClass: "form-control",
+    staticClass: "form-control text-right",
     attrs: {
       "name": "amount",
       "type": "text",
@@ -29971,12 +30156,52 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('span', {
     staticClass: "input-group-btn"
   }, [_c('button', {
-    staticClass: "btn btn-secondary",
+    staticClass: "btn btn-primary dropdown-toggle",
+    attrs: {
+      "type": "button",
+      "data-toggle": "dropdown"
+    }
+  }, [_vm._v("\n                        Action\n                        "), _c('i', {
+    staticClass: "fa fa-chevron-down"
+  })]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-menu dropdown-menu-right",
+    staticStyle: {
+      "width": "450px"
+    }
+  }, [_c('li', [_c('div', {
+    staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "col-md-10"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.rate_per_month),
+      expression: "rate_per_month"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.rate_per_month)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.rate_per_month = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-1"
+  }, [_c('button', {
+    staticClass: "btn btn-info",
     attrs: {
       "type": "button"
     },
     on: {
       "click": function($event) {
+        $event.preventDefault();
         _vm.calc()
       }
     }
@@ -29985,11 +30210,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  })])])]), _vm._v(" "), _c('error', {
-    attrs: {
-      "errorDisplay": _vm.errors.get('amount')
-    }
-  }, [_vm._v(_vm._s(_vm.errors.get('amount')))])], 1)], 1)
+  })])])])])])])])])])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

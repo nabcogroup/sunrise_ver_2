@@ -29,6 +29,8 @@ class ContractCalcForm extends FormRequest
 
             "period_start" => "required|date",
 
+            "custom_rate" => array("required","regex:/^\d+?|^\d+\.\d{2}?/"),
+
             "period_end" => "required|date"
         ];
     }

@@ -121,7 +121,7 @@ class VillaRepository extends AbstractRepository {
         return $this->model->createInstance();
     }
 
-    protected function beforeCreate(&$model) {
+    protected function beforeCreate(&$model,&$source) {
         $model['status'] = "vacant"; //default
     }
 }

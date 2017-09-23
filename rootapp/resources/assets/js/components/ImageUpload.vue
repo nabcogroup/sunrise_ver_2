@@ -27,15 +27,18 @@
                     if (input.files && input.files[0]) {
                         var $this = this;
                         for(var i =0; i < input.files.length;i++) {
+                            
                             var reader = new FileReader();
                             var file = input.files[i];
                             var data = {};
+                            
                             reader.onload = (e) => { 
                                 data.blob = e.target.result; 
                                 data.file = file;
                                 $this.imageData.push(data);
                                 this.$emit('dispatch',data);
                             };
+                            
                             reader.readAsDataURL(input.files[i]);
                         }
                     }

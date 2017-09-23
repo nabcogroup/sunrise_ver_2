@@ -20,19 +20,21 @@ use Carbon\Carbon;
 
 class ReportManager
 {
+
     protected static $reports = [];
 
     public static function get($key, $params)
     {
         self::$reports = [
-            'villa_master' => new VillaFormReport($params),
-            'contract_value' => new ContractReport($params,'value'),
-            'contract_pending' => new ContractReport($params,'pending'),
-            'contract_expiry'   => new ContractReport($params,'expiry'),
+            'villa_master'      =>  new VillaFormReport($params,'form'),
+            'contract_value'    =>  new ContractReport($params,'value'),
+            'contract_pending'  =>  new ContractReport($params,'pending'),
+            'contract_expiry'   =>  new ContractReport($params,'expiry'),
             'contract_active'   =>  new ContractReport($params,'active'),
             'payment_schedule'  =>  new ContractReport($params,'payment_schedule'),
-            'villa_payment' => new VillaSalesReport($params),
-            'expense_property' => new ExpenseMasterReport($params)
+            'villa_payment'     =>  new VillaSalesReport($params),
+            'expense_property'  =>  new ExpenseMasterReport($params),
+            'villa_history'      =>  new VillaFormReport($params,'ledger')
         ];
 
         return self::$reports[$key];
@@ -111,7 +113,6 @@ class ReportManager
 
         return $reportList;
     }
-
 
     public static function getParameter() {
         $params = [

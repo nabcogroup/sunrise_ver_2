@@ -15,7 +15,7 @@ class TenantRepository extends AbstractRepository {
         return new \App\Tenant();
     }
 
-    protected function beforeCreate(&$model)
+    protected function beforeCreate(&$model,&$source)
     {
         $model['code'] = $model['reg_id'];
     }

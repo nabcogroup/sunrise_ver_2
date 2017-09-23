@@ -279,4 +279,16 @@ return [
 
     ],
 
+    /* DEVELOPER **/
+    'devteam' => [
+        'head' => [
+            'name' => env('DEV_NAME_AN'),
+            'linkedin' => env('DEV_LI_AN')
+        ],
+        'dev' => [
+            'name' => env('DEV_NAME_PROG'),
+            'linkedin' => env('DEV_LI_PROG')
+        ]
+    ],
+
 ];

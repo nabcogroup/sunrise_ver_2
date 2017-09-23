@@ -4,9 +4,13 @@ namespace App\Http\Requests;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\UnsetterTrait;
+
 
 class ContractForm extends FormRequest
 {
+
+    use UnsetterTrait;
 
     public function authorize()
     {
@@ -102,12 +106,28 @@ class ContractForm extends FormRequest
     public function filterInput() {
 
         $result = $this->all();
+        
+        //prep
+        $result["prep_bank"] = $this->sanitizeInput($result["prep_bank"]);
+        $result["prep_due_date"] = $this->sanitizeInput($result["prep_due_date"]);
+        $result["prep_ref_no"] = $this->sanitizeInput($result["prep_ref_no"]);
         $result['period_start'] = Carbon::parse($result['period_start']);
         $result['period_end'] = Carbon::parse($result['period_end']);
         $result['register_tenant']['reg_date'] = Carbon::parse($result['register_tenant']['reg_date']);
-
-        if(isset($result['villa_list'])) unset($result['villa_list']);
-
+       
+        if($result["contract_type"] == "legalized") {
+            //prepare configure
+            $configure = [
+                "prep_series"   => $result["prep_series"],
+                "prep_bank"     => $result["prep_bank"],
+                "prep_due_date" => $result["prep_due_date"],
+                "prep_ref_no"   => $result["prep_ref_no"]
+            ];
+            $result['configure'] = $configure;
+        }
+        
+        $this->unsetCustom(["villa_list","prep_series","prep_bank","prep_due_date","prep_ref_no"],$result);
+        
         return $result;
 
     }

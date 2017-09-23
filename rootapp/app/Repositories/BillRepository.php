@@ -24,8 +24,7 @@ class BillRepository extends AbstractRepository
         return new \App\ContractBill();
     }
 
-    public function create($contract)
-    {
+    public function create($contract) {
         $contractId = $contract->getId();
         $model = $this->model->createInstance($contractId);
         $model->instance->amount = $contract->payable_per_month;
@@ -64,8 +63,7 @@ class BillRepository extends AbstractRepository
 
     }
 
-    protected function beforeCreate(&$model)
-    {
+    protected function beforeCreate(&$model,&$source) {
         $model['bill_no'] = "B" . $model['contract_id'] . "-" . Carbon::now()->year . "-" . $this->model->createNewId();
 
     }
@@ -95,14 +93,12 @@ class BillRepository extends AbstractRepository
             $entityPayments = isset($entity['payments']) ? $entity['payments'] : [];
             if (sizeof($entityPayments) > 0) {
                 foreach ($entityPayments as $entityPayment) {
-                    
                     if (!isset($entityPayment['id']) || $entityPayment['id'] == 0) {
                         //insert payment
                         $paymentModel = new Payment();
                         $paymentModel->toMap($entityPayment);
                         $paymentModel->bill_id = $bill->getId();
                         $paymentModel->saveWithUser();
-
                     }
                     else {
                         //update only without received

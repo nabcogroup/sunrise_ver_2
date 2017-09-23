@@ -15,7 +15,6 @@ trait ArrayGroupTrait
                 return false;
             }
         }
-
     }
 
     public function arrayItemize(&$collection,$callback,$group = array()) {

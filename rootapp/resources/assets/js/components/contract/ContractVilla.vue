@@ -56,7 +56,8 @@ export default {
             villas: 'villas',
             contract: 'contract',
             stateContractError: 'stateContractError',
-            lookups: 'lookups'
+            lookups: 'lookups',
+            selectedVilla: "selectedVilla"
         }),
         ...mapState('contracts', {
             filter: state => state.filter
@@ -64,14 +65,14 @@ export default {
         fullVilla() {
             return
         },
-        selectedVilla() {
-            var selected = _.find(this.villas, (item) => {
-                if(item.id == this.contract.villa_id) {
-                    return true;
-                }
-            });
-            return selected;
-        }
+        // selectedVilla() {
+        //     var selected = _.find(this.villas, (item) => {
+        //         if(item.id == this.contract.villa_id) {
+        //             return true;
+        //         }
+        //     });
+        //     return selected;
+        // }
     }
 
 }

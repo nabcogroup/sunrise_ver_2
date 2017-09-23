@@ -34,13 +34,16 @@ class ReportController extends Controller
         $datasource = $report->execute();
         $template = $report->getTemplateSource();
 
-        if($report->isPdfRender()) {
+
+        if($report->isApi()) {
+            return $datasource;
+        }
+        else if($report->isPdfRender()) {
+            
             PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
             $dompdf = PDF::loadView('reports.modules.'.$template, compact('datasource'));
+
             return $dompdf->stream();
-        }
-        else if($report->isApi()) {
-            return $datasource;
         }
         else {
             return view('reports.modules.'.$template, compact('datasource'));

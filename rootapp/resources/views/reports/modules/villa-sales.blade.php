@@ -18,7 +18,6 @@
                 <tr class="info">
                     <th class="text-center">Villa No</th>
                     <th class="text-center">Rate/Month</th>
-                    <th class="text-center">Status</th>
                     @foreach($datasource['months'] as $row)
                         <th class="text-center">{{$row['date_name']}}</th>
                     @endforeach
@@ -47,10 +46,9 @@
                             <tr>
                                 <td class="text-center" style="width:10%">{{$row['villa_no']}}</td>
                                 <td class="text-center" style="width:10%">{{number_format($row['rate_per_month'],2)}}</td>
-                                <td>{{ucfirst($row['villa_status'])}}</td>
                                 @foreach($datasource['months'] as $key => $value)
                                     <td style="width: 10% " class="text-right">
-                                        {{(isset($per_villa[$villa_no][$key]) ? number_format($per_villa[$villa_no][$key],2) : 'VACATED')}}
+                                        {{(isset($per_villa[$villa_no][$key]) ? number_format($per_villa[$villa_no][$key],2) : ' ')}}
                                     </td>
                                 @endforeach
                             </tr>

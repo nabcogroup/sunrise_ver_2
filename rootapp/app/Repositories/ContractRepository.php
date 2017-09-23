@@ -8,20 +8,29 @@ use Carbon\Carbon;
 use App\Selection;
 use Dompdf\Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+use App\Traits\DeserializeTrait;
 class ContractRepository extends AbstractRepository
 {
 
-    use PaginationTrait;
+    use PaginationTrait,DeserializeTrait;
 
     use QuerySoftDeleteTrait;
 
     protected $parameters;
 
-    protected function beforeCreate(&$model)
+    protected function beforeCreate(&$model,&$source)
     {
         $villaNo = $model['villa_no'];
         unset($model['villa_no']);
+        
+        if(isset($model['configure'])) {
+            $configure = "";
+            $this->setMetaValue($configure,$model['configure']);
+            $source->configure = $configure;
+            unset($model['configure']);
+        }
+        
+        
         $model['contract_no'] = "C" . $villaNo . "-" . Carbon::now()->year . "-" . $this->model->createNewId();
         $model['status'] = 'pending';
     }
@@ -33,7 +42,14 @@ class ContractRepository extends AbstractRepository
 
     public function create($defaultPeriod)
     {
-        return $this->model->createInstance($defaultPeriod);
+        $model = $this->model->createInstance($defaultPeriod);
+        $model->register_tenant = \App\Tenant::createInstance();
+        $model->villa_list = \App\Villa::with('villaGalleries')
+            ->where('status', 'vacant')
+            ->orderBy('villa_no')
+            ->get();
+        $model->extra_days = 0;
+        return $model;
     }
 
     public function getContracts($state,$filter_field = null,$filter_value = null)
@@ -99,7 +115,9 @@ class ContractRepository extends AbstractRepository
     }
 
     public function saveContract($entity) {
+
         return $this->attach($entity,[],true)->instance();
+
     }
 
     public function includeAssociates()
@@ -121,8 +139,7 @@ class ContractRepository extends AbstractRepository
         return $this->model->where('contract_no', $contractNo);
     }
 
-    public function renew($models)
-    {
+    public function renew($models) {
 
         $oldContract = $this->single($models['id']);
         if ($oldContract->isActive()) {

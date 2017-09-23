@@ -18,7 +18,7 @@ abstract class AbstractRepository {
         }
     }
 
-    protected function beforeCreate(&$model) {return false;}
+    protected function beforeCreate(&$model,&$source) {return false;}
     protected function afterCreate(&$model,$children = array()) {return false;}
     protected function beforeUpdate(&$model) {return false;}
     protected function afterUpdate(&$model,$children = array()) {return false;}
@@ -111,8 +111,8 @@ abstract class AbstractRepository {
         }
         try {
             if($state == "create") {
-                $this->beforeCreate($model);
                 $this->model = $this->definedModel();
+                $this->beforeCreate($model,$this->model);
                 $this->model->toMap($model);
                 if($includeUser)
                     $this->model->saveWithUser();

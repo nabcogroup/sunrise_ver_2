@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnold.mercado
- * Date: 8/7/2017
- * Time: 5:12 PM
- */
+
 
 namespace App\Http\Datasource\Villas;
 
@@ -40,31 +35,21 @@ class VillaSales implements IDataSource
             ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
             ->join('payments', 'payments.bill_id', '=', 'contract_bills.id')
-            ->groupBy('villas.villa_no','villas.rate_per_month',\DB::raw("MONTH(payments.period_start)"))
+            ->groupBy("villas.villa_no","villas.rate_per_month",
+                    \DB::raw("MONTH(payments.period_start)"))
             ->select(
                 \DB::raw("villas.villa_no,
                         villas.rate_per_month,
                         villas.status,
-                        SUM(payments.amount) total_payments,
-                        MONTH(payments.period_start) total_month")
-            )
+                        contract_bills.id AS contract_bill_id,
+                        MONTH(payments.period_start) total_month,
+                        SUM(payments.amount) AS total_payments"))
             ->where('villas.location', $location)
-            ->where('payments.status', '=', 'clear')
             ->where(\DB::raw('YEAR(payments.period_start)'),$year)
+            ->where('payments.status','clear')
             ->whereBetween(\DB::raw('MONTH(payments.period_start)'), [$month_from, $month_to])
             ->orderBy('villas.villa_no')
             ->get();
-        
-        $rows = [
-            'data' => [],
-            'total' => 0,
-            'months' => [],
-            'period' => [
-                    'from'  =>  date('F', mktime(0, 0, 0, $month_from, 10)),
-                    'to'    =>  date('F', mktime(0, 0, 0, $month_to, 10)),
-                    'year'  =>  $year
-            ],
-        ];
 
         $column_month = [];
         $rows = $this->arrayGroup($recordset,function($row) use(&$column_month) {

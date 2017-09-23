@@ -33,6 +33,7 @@ class HomeController extends Controller
             'dev'     => "Nabco Web Developer Team...",
             'repo'    =>  "https://github.com/lyndonkieljerymiah/sunrise-ver2.1.git",
             'env'           =>  config("app.env"),
+            'devteam'       => config("app.devteam")
         ];
 
         return $info;

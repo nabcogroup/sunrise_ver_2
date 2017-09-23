@@ -1,6 +1,8 @@
 import {
-    ErrorValidations
+    ErrorValidations,
+    copiedValue
 } from "../../../helpers/helpers";
+
 
 const state = {
     contracts: {
@@ -16,10 +18,6 @@ const state = {
         password: '',
         ref_no: ''
     },
-    contractForRenewal: {
-        tenant: {},
-        villa:{}
-    },
     contract: {
         register_tenant: {
             tenant_address: {}
@@ -27,6 +25,7 @@ const state = {
         tenant: {},
         villa: {}
     },
+    rate_per_month: 0,
     tenant_default: {
         tenant_address: {}
     },
@@ -111,43 +110,44 @@ const actions = {
                 toastr.error(e.response.data.message);
             });
     },
-    update({state,commit},payload) {
+    update({state,commit}, payload) {
         var data = {
             id: state.contract.id,
             period_start: state.contract.period_start,
             period_end: state.contract.period_end,
             amount: state.contract.amount
         };
-        axiosRequest.post('contract','renew',data)
-            .then(r => commit('createBill',r.data.data.id))
+        axiosRequest.post('contract', 'renew', data)
+            .then(r => commit('createBill', r.data.data.id))
             .catch(e => {
-                if(e.response.status === 422) this.errors.renewError.register(e.response.data);
+                if (e.response.status === 422) this.errors.renewError.register(e.response.data);
             });
     },
-    recalc({
-        state
-    }) {
+    recalc({state}, payload) {
+
         const data = {
             villa_id: state.contract.villa_id,
             period_start: state.contract.period_start,
+            custom_rate: payload !== undefined ? payload.rate : 0,
             period_end: state.contract.period_end
         };
         axiosRequest.post("contract", "recalc", data)
-            .then((r) => {
-                state.contract.amount = r.data.amount;
-            })
-            .catch((e) => {
-                toastr.errors(e.response.message);
-            });
+            .then((r) => state.contract.amount = r.data.amount)
+            .catch((e) => toastr.errors(e.response.message));
     },
-    save({
-        state
-    }) {
+    save({state}) {
+        let contract = {};
+        
+        //cleansing of data
+        copiedValue(state.contract, contract, 
+            ["full_status", "is_extra", 
+            "payable_per_month", "tenant_id", 
+            "total_year_month", "total_received_payment",
+            "villa_list","full_contract_type","full_period_start","full_period_end"]);
+        
         //remove villa first
-        axiosRequest.post("contract", "store", state.contract)
-            .then((r) => {
-                axiosRequest.redirect("bill", "create", r.data.data.id);
-            })
+        axiosRequest.post("contract", "store", contract)
+            .then((r) => axiosRequest.redirect("bill", "create", r.data.data.id))
             .catch((error) => {
                 if (error.response.status == 422)
                     state.errors.contractError.register(error.response.data);
@@ -155,11 +155,7 @@ const actions = {
                 if (cbError) cbError();
             });
     },
-    cancel({
-        commit,
-        state
-    }, payload) {
-
+    cancel({commit,state}, payload) {
         axiosRequest.post("contract", "cancel", {
                 id: payload.contractId
             })
@@ -174,12 +170,12 @@ const actions = {
     terminate({
         commit,
         state
-    },payload) {
+    }, payload) {
 
         axiosRequest.post("contract", "terminate", state.contractForTerminate)
             .then((r) => {
                 if (r.data.isOk) {
-                   payload.success();
+                    payload.success();
                 }
             })
             .catch((e) => {
@@ -249,10 +245,11 @@ const getters = {
         return state.contract.register_tenant.type === 'individual';
     },
     selectedVilla(state) {
-        return _.find(state.contract.villa_list, (item) => {
-            return item.id === state.contract.villa_id;
-        });
-        return false;
+        const v = _.find(state.contract.villa_list, (item) => {
+            return item.id == state.contract.villa_id;
+        }) || {};
+        return v;
+
     },
     villas(state) {
         return _.filter(state.contract.villa_list, (item => item.location == state.filter.location));

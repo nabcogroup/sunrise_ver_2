@@ -10,24 +10,34 @@ namespace App\Http\Reports;
 
 
 use App\Http\Datasource\Villas\VillaForm;
+use App\Http\Datasource\Villas\VillaHistory;
 use App\Villa;
 
 class VillaFormReport extends BaseReport
 {
 
-    public function __construct($params)
+    private $template;
+    public function __construct($params,$namespace = 'form')
     {
-        $this->dataSource = new VillaForm($params);
+        if($namespace == 'ledger') {
+            $this->template = "villa-history";
+            $this->dataSource = new VillaHistory($params);
+        }
+        else {
+            $this->template = "villa-form";
+            $this->dataSource = new VillaForm($params);
+        }
+        
     }
 
     public function getTemplateSource()
     {
-        return 'villa-form';
+        return $this->template;
     }
 
     public function isPdfRender()
     {
-        return true;
+        return false;
     }
 
     public function getLookups()
@@ -43,5 +53,9 @@ class VillaFormReport extends BaseReport
         }
 
         return $lookups;
+    }
+
+    public function isApi() {
+        return false;
     }
 }

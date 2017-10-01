@@ -86,9 +86,7 @@ const actions = {
                 });
             }).catch(e => toastr.error(e.response.message))
     },
-    create({
-        state
-    }) {
+    create({state}) {
         axiosRequest.get('contract', 'create').then((r) => {
             state.contract = {};
             state.contract = r.data.data;
@@ -96,14 +94,12 @@ const actions = {
             state.tenant_default = state.contract.register_tenant;
         });
     },
-    renew({
-        state,
-        commit
-    }, payload) {
+    renew({state,commit}, payload) {
         axiosRequest.get('contract', 'renew', payload.id)
             .then(r => {
                 state.contract = {};
-                state.contract = r.data;
+                state.contract = r.data.oldContract;
+                state.lookups = r.data.lookups;
                 payload.cb();
             })
             .catch(e => {
@@ -111,17 +107,23 @@ const actions = {
             });
     },
     update({state,commit}, payload) {
+        
         var data = {
             id: state.contract.id,
+            contract_type : state.contract.contract_type,
+            extra_days: state.contract.extra_days,
+            prep_series: state.contract.prep_series,
+            prep_bank: state.contract.prep_bank,
+            prep_due_date: state.contract.prep_due_date,
+            prep_ref_no: state.contract.prep_ref_no,
             period_start: state.contract.period_start,
             period_end: state.contract.period_end,
             amount: state.contract.amount
         };
+
         axiosRequest.post('contract', 'renew', data)
             .then(r => commit('createBill', r.data.data.id))
-            .catch(e => {
-                if (e.response.status === 422) this.errors.renewError.register(e.response.data);
-            });
+            .catch(e => {if (e.response.status === 422) this.errors.renewError.register(e.response.data);});
     },
     recalc({state}, payload) {
 

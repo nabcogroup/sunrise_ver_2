@@ -15,6 +15,7 @@ use App\Http\Reports\ContractReport;
 use App\Http\Reports\ExpenseMasterReport;
 use App\Http\Reports\VillaFormReport;
 use App\Http\Reports\VillaSalesReport;
+use App\Http\Reports\TenantReport;
 
 use Carbon\Carbon;
 
@@ -34,7 +35,8 @@ class ReportManager
             'payment_schedule'  =>  new ContractReport($params,'payment_schedule'),
             'villa_payment'     =>  new VillaSalesReport($params),
             'expense_property'  =>  new ExpenseMasterReport($params),
-            'villa_history'      =>  new VillaFormReport($params,'ledger')
+            'villa_history'     =>  new VillaFormReport($params,'ledger'),
+            'tenant_history'    =>  new TenantReport($params)
         ];
 
         return self::$reports[$key];
@@ -84,14 +86,14 @@ class ReportManager
                 'data'  =>  [
                     [
                         'id' => 1,
-                        'report_title' => 'Villa Master List - Villa',
+                        'report_title' => 'Villa Master List',
                         'report_name' => 'villa_master',
                         'created' => Carbon::now()->toDateString()
                     ],
 
                     [
                         'id' => 3,
-                        'report_title' => 'Villa Master List - Payments',
+                        'report_title' => 'Villa Sales Analysis',
                         'report_name' => 'villa_payment',
                         'created' => Carbon::now()->toDateString()
                     ],
@@ -144,10 +146,10 @@ class ReportManager
                 'report_id' => 3,
                 'inputs' =>
                     [
+                        ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
                         ['label' => 'Month From', 'type' => 'number','model' => 'month_from','placeholder' => 'Enter Month From'],
                         ['label' => 'Month To', 'type' => 'number', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
                         ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year'],
-                        ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
 
                     ],
                 'models' => [

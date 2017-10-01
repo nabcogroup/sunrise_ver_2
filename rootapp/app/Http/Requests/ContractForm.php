@@ -60,6 +60,8 @@ class ContractForm extends FormRequest
 
             "amount"                => array("required","regex:/^\d+?|^\d+\.\d{2}?/"),
 
+            "extra_days"            =>  array("required","integer"),
+
             "villa_id"              =>  "required|exists:villas,id",
 
             "register_tenant.type"          =>  "required",

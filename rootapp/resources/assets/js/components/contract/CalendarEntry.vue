@@ -14,16 +14,22 @@
                             <strong class="col-md-4 x-label">Tenant:</strong><span class="col-md-8 x-desc">{{event.contract.tenant.full_name}}</span>
                         </p>
                         <p class="x-read-group">
-                            <strong class="col-md-4 x-label">Villa No</strong><span class="col-md-8 x-desc">{{event.contract.villa.villa_no}}</span>
+                            <strong class="col-md-4 x-label">Villa No:</strong><span class="col-md-8 x-desc">{{event.contract.villa.villa_no}}</span>
                         </p>
                         <p class="x-read-group">
-                            <strong class="col-md-4 x-label">Contract No</strong><span class="col-md-8 x-desc">{{event.contract.contract_no}}</span>
+                            <strong class="col-md-4 x-label">Contract No:</strong><span class="col-md-8 x-desc">{{event.contract.contract_no}}</span>
                         </p>
                         <p class="x-read-group">
-                            <strong class="col-md-4 x-label">Start</strong><span class="col-md-8 x-desc">{{event.contract.period_start | toDateFormat}}</span>
+                            <strong class="col-md-4 x-label">Start:</strong><span class="col-md-8 x-desc">{{event.contract.period_start | toDateFormat}}</span>
                         </p>
                         <p class="x-read-group">
-                            <strong class="col-md-4 x-label">End</strong><span class="col-md-8 x-desc">{{event.contract.period_end | toDateFormat}}</span>
+                            <strong class="col-md-4 x-label">End:</strong><span class="col-md-8 x-desc">{{event.contract.period_end | toDateFormat}}</span>
+                        </p>
+                        <p class="x-read-group">
+                            <strong class="col-md-4 x-label">Extra:</strong><span class="col-md-8 x-desc">{{event.contract.extra_days}}</span>
+                        </p>
+                        <p class="x-read-group">
+                            <strong class="col-md-4 x-label">Final End:</strong><span class="col-md-8 x-desc">{{event.contract.period_end_extended | toDateFormat}}</span>
                         </p>
                     </div>
                     <div class="panel-footer">

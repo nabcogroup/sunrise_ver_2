@@ -21,41 +21,41 @@
                 <div v-else="" class="col-md-12" key="fetched">
                     <table id="grid" class="table table-condensed table-hover table-live-views">
                         <thead>
-                        <tr>
-                            <th class="text-center">No</th>
-                            <th v-for="(key,index) in grid.columns"
-                                :style="key.style"
-                                @click.self="sortBy(key)"
-                                class="text-left"
-                                :class="{info:sortKey == key.name}"
-                                :key="index">
-                                {{ key.column }}
-                                <span
-                                        v-if="isArrowVisible(key.name)"
-                                        class="fa fa-fw" :class="sortOrders[key.name] > 0 ?
-                                'fa-long-arrow-down' : 'fa-long-arrow-up'"></span>
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th v-for="(key,index) in grid.columns"
+                                    :style="key.style"
+                                    @click.self="sortBy(key)"
+                                    class="text-left"
+                                    :class="{info:sortKey == key.name}"
+                                    :key="index">
+                                    {{ key.column }}
+                                    <span
+                                            v-if="isArrowVisible(key.name)"
+                                            class="fa fa-fw" :class="sortOrders[key.name] > 0 ?
+                                    'fa-long-arrow-down' : 'fa-long-arrow-up'"></span>
 
-                                <a class="filter"
-                                   href="#"
-                                   @click.prevent.stop="filterWrap(index)"
-                                   v-if="key.filter"><i class="fa fa-filter"></i></a>
-                                <transition name="v-slide-fade">
-                                    <div v-if="selectedFilter === index" class="filter-wrapper" ref="filterWrapper">
-                                        <div class="panel panel-primary wrap">
-                                            <div class="panel-heading">Filter Panel - {{key.column}}</div>
-                                            <div class="panel-body">
-                                                <div class="form-group">
-                                                    <input type="text" v-model="filter.value" class="form-control">
+                                    <a class="filter"
+                                    href="#"
+                                    @click.prevent.stop="filterWrap(index)"
+                                    v-if="key.filter"><i class="fa fa-filter"></i></a>
+                                    <transition name="v-slide-fade">
+                                        <div v-if="selectedFilter === index" class="filter-wrapper" ref="filterWrapper">
+                                            <div class="panel panel-primary wrap">
+                                                <div class="panel-heading">Filter Panel - {{key.column}}</div>
+                                                <div class="panel-body">
+                                                    <div class="form-group">
+                                                        <input type="text" v-model="filter.value" class="form-control">
+                                                    </div>
+                                                    <button class="btn btn-info btn-block" @click.stop="doFilter(key.name,key.column)">
+                                                        Filter
+                                                    </button>
                                                 </div>
-                                                <button class="btn btn-info btn-block" @click.stop="doFilter(key.name,key.column)">
-                                                    Filter
-                                                </button>
                                             </div>
                                         </div>
-                                    </div>
-                                </transition>
-                            </th>
-                        </tr>
+                                    </transition>
+                                </th>
+                            </tr>
                         </thead>
                         <tbody>
                         <tr v-if="filteredData.length === 0">
@@ -138,7 +138,6 @@
             if(!lazyLoad) {
                 this.fetchData({grid: this.grid});
             }
-
         },
         computed: {
             ...mapGetters('liveviews', {filteredData: 'filteredData'}),

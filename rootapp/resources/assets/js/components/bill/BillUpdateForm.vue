@@ -68,7 +68,7 @@
                                 <p class="x-read-group">
                                     <strong class="col-md-3 x-label">Period:</strong>
                                     <span class="col-md-9 x-desc">
-                                        {{contract.period_start | toDateFormat}} - {{contract.period_end | toDateFormat}}
+                                        {{contract.period_start | toDateFormat}} - {{contract.period_end_extended | toDateFormat}}
                                     </span>
                                 </p>
                                 <p class="x-read-group">

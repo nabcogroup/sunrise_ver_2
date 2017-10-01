@@ -4,6 +4,8 @@ namespace App;
 
 
 use App\Traits\HelperTrait;
+use App\Traits\DeserializeTrait;
+
 use Carbon\Carbon;
 
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contract extends BaseModel
 {
-    use SoftDeletes,HelperTrait;
+    use SoftDeletes,HelperTrait,DeserializeTrait;
 
     const PENDING = 'pending';
     const ACTIVE = 'active';
@@ -71,7 +73,16 @@ class Contract extends BaseModel
 
     protected function getFullPeriodEndAttribute()
     {
-        return $this->attributes['full_period_end'] = Carbon::parse($this->period_end)->toDateTimeString();
+        return $this->attributes['full_period_end'] = Carbon::parse($this->period_end)->addDays($this->extra_days)->toDateTimeString();
+    }
+
+    
+
+    protected function getConfigureAttribute($value) {
+        if($value !== null)
+            return $this->getMetaValue($value);
+        else 
+            false;
     }
 
     protected function getTotalYearMonthAttribute()

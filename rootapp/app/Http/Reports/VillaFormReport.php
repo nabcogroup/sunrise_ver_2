@@ -15,16 +15,18 @@ use App\Villa;
 
 class VillaFormReport extends BaseReport
 {
-
-    private $template;
+    private $template,$isPdf;
+    
     public function __construct($params,$namespace = 'form')
     {
         if($namespace == 'ledger') {
             $this->template = "villa-history";
+            $this->isPdf = false;
             $this->dataSource = new VillaHistory($params);
         }
         else {
             $this->template = "villa-form";
+            $this->isPdf = true;
             $this->dataSource = new VillaForm($params);
         }
         
@@ -37,7 +39,7 @@ class VillaFormReport extends BaseReport
 
     public function isPdfRender()
     {
-        return false;
+        return $this->isPdf;
     }
 
     public function getLookups()

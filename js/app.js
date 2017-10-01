@@ -13858,6 +13858,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -15140,6 +15144,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -15257,9 +15267,7 @@ const confirmation = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -15338,29 +15346,23 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "ContractEntry",
-    components: {
-        'error': __WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue___default.a
-    },
     data() {
         return {
             rate_per_month: 0
         };
     },
     methods: {
-        calc() {
-            this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
+        calc(direct = false) {
+            if (direct) this.$store.dispatch('contracts/recalc', { rate: 0 });else this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('contracts', {
         contract: 'contract',
         lookups: 'lookups',
         errors: 'stateContractError',
@@ -15840,6 +15842,51 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -15857,17 +15904,23 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             });
         });
     },
+    data() {
+        return {
+            rate_per_month: 0
+        };
+    },
     computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("contracts", {
         contract: state => state.contract
     }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("contracts", {
-        stateRenewError: "stateRenewError"
+        stateRenewError: "stateRenewError",
+        lookups: "lookups"
     })),
     methods: {
         save() {
             this.$store.dispatch("contracts/update");
         },
         calc() {
-            this.$store.dispatch('contracts/recalc');
+            this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
         }
     }
 });
@@ -19110,9 +19163,7 @@ const actions = {
             });
         }).catch(e => toastr.error(e.response.message));
     },
-    create({
-        state
-    }) {
+    create({ state }) {
         axiosRequest.get('contract', 'create').then(r => {
             state.contract = {};
             state.contract = r.data.data;
@@ -19120,25 +19171,31 @@ const actions = {
             state.tenant_default = state.contract.register_tenant;
         });
     },
-    renew({
-        state,
-        commit
-    }, payload) {
+    renew({ state, commit }, payload) {
         axiosRequest.get('contract', 'renew', payload.id).then(r => {
             state.contract = {};
-            state.contract = r.data;
+            state.contract = r.data.oldContract;
+            state.lookups = r.data.lookups;
             payload.cb();
         }).catch(e => {
             toastr.error(e.response.data.message);
         });
     },
     update({ state, commit }, payload) {
+
         var data = {
             id: state.contract.id,
+            contract_type: state.contract.contract_type,
+            extra_days: state.contract.extra_days,
+            prep_series: state.contract.prep_series,
+            prep_bank: state.contract.prep_bank,
+            prep_due_date: state.contract.prep_due_date,
+            prep_ref_no: state.contract.prep_ref_no,
             period_start: state.contract.period_start,
             period_end: state.contract.period_end,
             amount: state.contract.amount
         };
+
         axiosRequest.post('contract', 'renew', data).then(r => commit('createBill', r.data.data.id)).catch(e => {
             if (e.response.status === 422) this.errors.renewError.register(e.response.data);
         });
@@ -26726,6 +26783,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-horizontal"
   }, [_c('v-input-wrapper', {
     attrs: {
+      "label-class": "col-md-3 text-right",
+      "label": "Contract Type",
+      "model-name": "contract_type"
+    }
+  }, [_c('v-combo-box', {
+    attrs: {
+      "options": _vm.lookups.contract_type,
+      "dvalue": "code",
+      "dtext": "name"
+    },
+    model: {
+      value: (_vm.contract.contract_type),
+      callback: function($$v) {
+        _vm.contract.contract_type = $$v
+      },
+      expression: "contract.contract_type"
+    }
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
       "label": "Period Start",
       "model-name": "period_start",
       "required": true
@@ -26780,10 +26856,144 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
-      "label": "Amount",
-      "model-name": "amount",
-      "required": true
+      "label": "Extra Days: ",
+      "label-class": "col-md-3 text-right"
     }
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.contract.extra_days),
+      expression: "contract.extra_days"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.contract.extra_days)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.contract.extra_days = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('error-span', {
+    attrs: {
+      "name": "extra_days"
+    },
+    model: {
+      value: (_vm.stateRenewError),
+      callback: function($$v) {
+        _vm.stateRenewError = $$v
+      },
+      expression: "stateRenewError"
+    }
+  })], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.contract.contract_type === 'legalized') ? _c('div', [_c('v-input-wrapper', {
+    attrs: {
+      "label": "Cheque Series:",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.contract.prep_series),
+      expression: "contract.prep_series"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.contract.prep_series)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.contract.prep_series = $event.target.value
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })]), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Bank:",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('v-combo-box', {
+    attrs: {
+      "options": _vm.lookups.bank,
+      "include-default": true,
+      "dvalue": "code",
+      "dtext": "name"
+    },
+    model: {
+      value: (_vm.contract.prep_bank),
+      callback: function($$v) {
+        _vm.contract.prep_bank = $$v
+      },
+      expression: "contract.prep_bank"
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-md-3 text-right",
+    attrs: {
+      "for": ""
+    }
+  }, [_vm._v("Due Date:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  }, [_c('v-combo-box', {
+    attrs: {
+      "options": _vm.lookups.due_date,
+      "include-default": true
+    },
+    model: {
+      value: (_vm.contract.prep_due_date),
+      callback: function($$v) {
+        _vm.contract.prep_due_date = $$v
+      },
+      expression: "contract.prep_due_date"
+    }
+  })], 1), _vm._v(" "), _c('label', {
+    staticClass: "col-md-3 text-right",
+    attrs: {
+      "for": ""
+    }
+  }, [_vm._v("Reference No:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.contract.prep_ref_no),
+      expression: "contract.prep_ref_no"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.contract.prep_ref_no)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.contract.prep_ref_no = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('hr')], 1) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('label', {
+    staticClass: "col-md-3 text-right",
+    attrs: {
+      "for": ""
+    }
+  }, [_vm._v("Contract Value:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-9"
   }, [_c('div', {
     staticClass: "input-group"
   }, [_c('input', {
@@ -26793,11 +27003,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.contract.amount),
       expression: "contract.amount"
     }],
-    staticClass: "form-control",
+    staticClass: "form-control text-right",
     attrs: {
       "name": "amount",
       "type": "text",
-      "placeholder": "AMOUNT *"
+      "placeholder": "AMOUNT"
     },
     domProps: {
       "value": (_vm.contract.amount)
@@ -26808,15 +27018,55 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.contract.amount = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "input-group-btn"
   }, [_c('button', {
-    staticClass: "btn btn-secondary",
+    staticClass: "btn btn-primary dropdown-toggle",
+    attrs: {
+      "type": "button",
+      "data-toggle": "dropdown"
+    }
+  }, [_vm._v("\n                            Action "), _c('i', {
+    staticClass: "fa fa-chevron-down"
+  })]), _vm._v(" "), _c('ul', {
+    staticClass: "dropdown-menu dropdown-menu-right",
+    staticStyle: {
+      "width": "450px"
+    }
+  }, [_c('li', [_c('div', {
+    staticClass: "form-group"
+  }, [_c('div', {
+    staticClass: "col-md-10"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.rate_per_month),
+      expression: "rate_per_month"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.rate_per_month)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.rate_per_month = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-1"
+  }, [_c('button', {
+    staticClass: "btn btn-info",
     attrs: {
       "type": "button"
     },
     on: {
       "click": function($event) {
+        $event.preventDefault();
         _vm.calc()
       }
     }
@@ -26825,7 +27075,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  })])])]), _vm._v(" "), _c('error-span', {
+  })])])])])])])]), _vm._v(" "), _c('error-span', {
     attrs: {
       "name": "amount"
     },
@@ -26836,7 +27086,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "stateRenewError"
     }
-  })], 1)], 1)])
+  })], 1)])], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -28850,7 +29100,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-3 x-label"
   }, [_vm._v("Period:")]), _vm._v(" "), _c('span', {
     staticClass: "col-md-9 x-desc"
-  }, [_vm._v("\n                                    " + _vm._s(_vm._f("toDateFormat")(_vm.contract.period_start)) + " - " + _vm._s(_vm._f("toDateFormat")(_vm.contract.period_end)) + "\n                                ")])]), _vm._v(" "), _c('p', {
+  }, [_vm._v("\n                                    " + _vm._s(_vm._f("toDateFormat")(_vm.contract.period_start)) + " - " + _vm._s(_vm._f("toDateFormat")(_vm.contract.period_end_extended)) + "\n                                ")])]), _vm._v(" "), _c('p', {
     staticClass: "x-read-group"
   }, [_c('strong', {
     staticClass: "col-md-3 x-label"
@@ -29795,7 +30045,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-3 x-label"
   }, [_vm._v("Period:")]), _vm._v(" "), _c('span', {
     staticClass: "col-md-9 x-desc"
-  }, [_vm._v(_vm._s(_vm._f("toDateFormat")(_vm.contract.period_start)) + " - " + _vm._s(_vm._f("toDateFormat")(_vm.contract.period_end)))])]), _vm._v(" "), _c('p', {
+  }, [_vm._v(_vm._s(_vm._f("toDateFormat")(_vm.contract.period_start)) + " - " + _vm._s(_vm._f("toDateFormat")(_vm.contract.period_end_extended)))])]), _vm._v(" "), _c('p', {
+    staticClass: "x-read-group"
+  }, [_c('strong', {
+    staticClass: "col-md-3 x-label"
+  }, [_vm._v("Extra Days:")]), _vm._v(" "), _c('span', {
+    staticClass: "col-md-9 x-desc"
+  }, [_vm._v(_vm._s(_vm.contract.extra_days))])]), _vm._v(" "), _c('p', {
     staticClass: "x-read-group"
   }, [_c('strong', {
     staticClass: "col-md-3 x-label"
@@ -29931,33 +30187,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "Contract Type",
       "model-name": "contract_type"
     }
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
+  }, [_c('v-combo-box', {
+    attrs: {
+      "options": _vm.lookups.contract_type,
+      "dvalue": "code",
+      "dtext": "name"
+    },
+    model: {
       value: (_vm.contract.contract_type),
+      callback: function($$v) {
+        _vm.contract.contract_type = $$v
+      },
       expression: "contract.contract_type"
-    }],
-    staticClass: "form-control",
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.contract.contract_type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
     }
-  }, _vm._l((_vm.lookups.contract_type), function(lookup, index) {
-    return _c('option', {
-      key: index,
-      domProps: {
-        "value": lookup.code
-      }
-    }, [_vm._v(_vm._s(lookup.name) + "\n            ")])
-  }))]), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label-class": "col-md-3 text-right",
       "label": "Period Start",
@@ -29974,11 +30217,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.contract.period_start = $event
       }
     }
-  }), _vm._v(" "), _c('error', {
+  }), _vm._v(" "), _c('error-span', {
     attrs: {
-      "errorDisplay": _vm.errors.get('period_start')
+      "name": "period_start"
+    },
+    model: {
+      value: (_vm.errors),
+      callback: function($$v) {
+        _vm.errors = $$v
+      },
+      expression: "errors"
     }
-  }, [_vm._v(_vm._s(_vm.errors.get('period_start')))])], 1), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label-class": "col-md-3 text-right",
       "label": "Period End",
@@ -29995,16 +30245,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.contract.period_end = $event
       }
     }
-  }), _vm._v(" "), _c('error', {
+  }), _vm._v(" "), _c('error-span', {
     attrs: {
-      "errorDisplay": _vm.errors.get('period_end')
+      "name": "period_end"
+    },
+    model: {
+      value: (_vm.errors),
+      callback: function($$v) {
+        _vm.errors = $$v
+      },
+      expression: "errors"
     }
-  }, [_vm._v(_vm._s(_vm.errors.get('period_end')))])], 1), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    staticClass: "col-md-3 text-right"
-  }, [_vm._v("Extra Days:")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-3"
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Extra Days: ",
+      "label-class": "col-md-3 text-right"
+    }
   }, [_c('input', {
     directives: [{
       name: "model",
@@ -30025,7 +30281,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.contract.extra_days = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.contract.contract_type === 'legalized') ? _c('div', [_c('v-input-wrapper', {
+  }), _vm._v(" "), _c('error-span', {
+    attrs: {
+      "name": "extra_days"
+    },
+    model: {
+      value: (_vm.errors),
+      callback: function($$v) {
+        _vm.errors = $$v
+      },
+      expression: "errors"
+    }
+  })], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.contract.contract_type === 'legalized') ? _c('div', [_c('v-input-wrapper', {
     attrs: {
       "label": "Cheque Series:",
       "label-class": "col-md-3 text-right"
@@ -30121,7 +30388,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]), _vm._v(" "), _c('hr')], 1) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
+    staticClass: "row"
   }, [_c('label', {
     staticClass: "col-md-3 text-right",
     attrs: {
@@ -30142,7 +30409,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "name": "amount",
       "type": "text",
-      "placeholder": "AMOUNT *"
+      "placeholder": "AMOUNT"
     },
     domProps: {
       "value": (_vm.contract.amount)
@@ -30153,23 +30420,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.contract.amount = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "input-group-btn"
   }, [_c('button', {
-    staticClass: "btn btn-primary dropdown-toggle",
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.calc('direct')
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-calculator"
+  })]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default dropdown-toggle",
     attrs: {
       "type": "button",
       "data-toggle": "dropdown"
     }
-  }, [_vm._v("\n                        Action\n                        "), _c('i', {
+  }, [_c('i', {
     staticClass: "fa fa-chevron-down"
   })]), _vm._v(" "), _c('ul', {
     staticClass: "dropdown-menu dropdown-menu-right",
     staticStyle: {
       "width": "450px"
     }
-  }, [_c('li', [_c('div', {
-    staticClass: "form-group"
+  }, [_c('li', {
+    staticClass: "container-fluid"
+  }, [_c('div', {
+    staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-10"
   }, [_c('input', {
@@ -30179,9 +30461,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.rate_per_month),
       expression: "rate_per_month"
     }],
-    staticClass: "form-control",
+    staticClass: "form-control text-right",
     attrs: {
-      "type": "text"
+      "type": "number"
     },
     domProps: {
       "value": (_vm.rate_per_month)
@@ -30190,6 +30472,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.rate_per_month = $event.target.value
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
       }
     }
   })]), _vm._v(" "), _c('div', {
@@ -30210,7 +30495,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  })])])])])])])])])])], 1)
+  })])])])])])])]), _vm._v(" "), _c('error-span', {
+    attrs: {
+      "name": "amount"
+    },
+    model: {
+      value: (_vm.errors),
+      callback: function($$v) {
+        _vm.errors = $$v
+      },
+      expression: "errors"
+    }
+  })], 1)])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -30257,27 +30553,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "x-read-group"
   }, [_c('strong', {
     staticClass: "col-md-4 x-label"
-  }, [_vm._v("Villa No")]), _c('span', {
+  }, [_vm._v("Villa No:")]), _c('span', {
     staticClass: "col-md-8 x-desc"
   }, [_vm._v(_vm._s(_vm.event.contract.villa.villa_no))])]), _vm._v(" "), _c('p', {
     staticClass: "x-read-group"
   }, [_c('strong', {
     staticClass: "col-md-4 x-label"
-  }, [_vm._v("Contract No")]), _c('span', {
+  }, [_vm._v("Contract No:")]), _c('span', {
     staticClass: "col-md-8 x-desc"
   }, [_vm._v(_vm._s(_vm.event.contract.contract_no))])]), _vm._v(" "), _c('p', {
     staticClass: "x-read-group"
   }, [_c('strong', {
     staticClass: "col-md-4 x-label"
-  }, [_vm._v("Start")]), _c('span', {
+  }, [_vm._v("Start:")]), _c('span', {
     staticClass: "col-md-8 x-desc"
   }, [_vm._v(_vm._s(_vm._f("toDateFormat")(_vm.event.contract.period_start)))])]), _vm._v(" "), _c('p', {
     staticClass: "x-read-group"
   }, [_c('strong', {
     staticClass: "col-md-4 x-label"
-  }, [_vm._v("End")]), _c('span', {
+  }, [_vm._v("End:")]), _c('span', {
     staticClass: "col-md-8 x-desc"
-  }, [_vm._v(_vm._s(_vm._f("toDateFormat")(_vm.event.contract.period_end)))])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm._f("toDateFormat")(_vm.event.contract.period_end)))])]), _vm._v(" "), _c('p', {
+    staticClass: "x-read-group"
+  }, [_c('strong', {
+    staticClass: "col-md-4 x-label"
+  }, [_vm._v("Extra:")]), _c('span', {
+    staticClass: "col-md-8 x-desc"
+  }, [_vm._v(_vm._s(_vm.event.contract.extra_days))])]), _vm._v(" "), _c('p', {
+    staticClass: "x-read-group"
+  }, [_c('strong', {
+    staticClass: "col-md-4 x-label"
+  }, [_vm._v("Final End:")]), _c('span', {
+    staticClass: "col-md-8 x-desc"
+  }, [_vm._v(_vm._s(_vm._f("toDateFormat")(_vm.event.contract.period_end_extended)))])])]), _vm._v(" "), _c('div', {
     staticClass: "panel-footer"
   }, [(_vm.event.canRenew) ? _c('button', {
     staticClass: "btn btn-info btn-block",

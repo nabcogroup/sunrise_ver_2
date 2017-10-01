@@ -25,6 +25,7 @@ class BillRepository extends AbstractRepository
     }
 
     public function create($contract) {
+        
         $contractId = $contract->getId();
         $model = $this->model->createInstance($contractId);
         $model->instance->amount = $contract->payable_per_month;
@@ -32,26 +33,40 @@ class BillRepository extends AbstractRepository
         //generate payment
         $days_total = Carbon::parse($contract->period_start)->diffInDays(Carbon::parse($contract->period_end),true);
 
+        
+        $configure = ($contract->configure) ?  $contract->configure : [];
+        
         //count how many cycle
-        $total_month = abs(floor($days_total / 30));
-        $period_start = Carbon::parse($contract->period_start);
-        $effectivity_date = Carbon::parse($contract->period_start);
-        $payment_no = 1;
+        $settings = [
+            'total_month'       =>  abs(floor($days_total / 30)),
+            'period_start'      =>  Carbon::parse($contract->period_start),
+            'effectivity_date'  =>  isset($configure['prep_due_date']) ? Carbon::parse($contract->period_start)->addDays(floatval($configure['prep_due_date'])-1) : Carbon::parse($contract->period_start),
+            'payment_no'        =>  isset($configure['prep_series']) ? floatval($configure['prep_series']) :  "Cash",
+            'payment_type'      =>  $contract->contract_type == 'legalized' ? 'cheque' : 'cash',
+            'ref_no'            =>  isset($configure['prep_ref_no']) ? $configure['prep_ref_no'] : '',
+            'prep_bank'         =>  isset($configure['prep_bank']) ? $configure['prep_bank'] : '',
+            'per_month'         =>  $contract->payable_per_month,
+        ];
+
+       
 
         $items = [];
 
-        for($i=0;$i < $total_month; $i++) {
-
+        for($i=0;$i < $settings['total_month']; $i++) {
             $item = Payment::createInstance();
-            $item->setPaymentPeriod($period_start->toDateString());
-            $item->effectivity_date = $effectivity_date;
-            $item->payment_no = $payment_no;
             
-            $period_start = Carbon::parse($item->period_start)->addMonth();
-            $effectivity_date = Carbon::parse($item->effectivity_date->toDateString())->addMonth(1);
-            $item->amount = $contract->payable_per_month;
-            $payment_no++;
-
+            $item->setPaymentPeriod($settings['period_start']->toDateString());
+            $item->effectivity_date = $settings['effectivity_date'];
+            $item->payment_no = $settings['payment_no'];
+            $item->reference_no = $settings['ref_no'];
+            $item->bank = $settings['prep_bank'];
+            $item->payment_type = $settings['payment_type'];
+            $settings['period_start'] = Carbon::parse($item->period_start)->addMonth();
+            $settings['effectivity_date'] = Carbon::parse($item->effectivity_date->toDateString())->addMonth(1);
+            $item->amount = $settings['per_month'];
+            if(is_numeric($settings['payment_no'])) {
+                $settings['payment_no'] += 1;
+            }
             array_push($items,$item->toOutputArray());
 
         }
@@ -188,7 +203,6 @@ class BillRepository extends AbstractRepository
     {
 
         $locations = Selection::getSelections(["villa_location"]);
-
         $dbraw = $this->createDb('contracts')
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
             ->join('tenants', 'tenants.id', '=', 'contracts.tenant_id')
@@ -198,11 +212,10 @@ class BillRepository extends AbstractRepository
                 'villas.location as location',
                 'villas.villa_no as villa_no',
                 'tenants.full_name', 'contracts.contract_no',
-                'contracts.period_start', 'contracts.period_end',
+                'contracts.period_start', 'contracts.period_end_extended',
                 'contract_bills.id as contracts_bill_id',
                 'contracts.amount as contract_amount',
-                \DB::raw("(SELECT SUM(amount) FROM payments WHERE status = 'clear' AND bill_id =   contracts_bill_id) as payment_amount"),
-                \DB::raw("contracts.amount - (SELECT SUM(amount) FROM payments WHERE status = 'clear' AND bill_id =   contracts_bill_id) as total_balance"))
+                \DB::raw("(SELECT SUM(amount) FROM payments WHERE status = 'clear' AND bill_id =   contracts_bill_id) as payment_amount"))
             ->groupBy(
                 'contract_bills.bill_no',
                 'villas.location',
@@ -228,10 +241,10 @@ class BillRepository extends AbstractRepository
                 'villa_no'          => $row->villa_no,
                 'contract_no'       => $row->contract_no,
                 'full_name'         => $row->full_name,
-                'period'            => Carbon::parse($row->period_start)->format('d M Y') . '-' . Carbon::parse($row->period_end)->format('d M Y'),
+                'period'            => Carbon::parse($row->period_start)->format('d M Y') . '-' . Carbon::parse($row->period_end_extended)->format('d M Y'),
                 'contract_amount'   => number_format($row->contract_amount, 2),
                 'total_payment'     => number_format($row->payment_amount, 2),
-                'total_balance'     => number_format($row->total_balance, 2),
+                'total_balance'     => number_format((floatval($row->contract_amount) - $row->payment_amount), 2),
                 'full_location'     => Selection::getValue('villa_location',$row->location)
             ];
             

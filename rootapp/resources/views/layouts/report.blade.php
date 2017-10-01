@@ -33,6 +33,11 @@
 
         }
 
+        @media print {
+            a:after { content:''; }
+            a[href]:after { content: none !important; }
+
+        }
     </style>
 </head>
 <body>

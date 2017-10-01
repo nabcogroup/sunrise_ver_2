@@ -1,6 +1,6 @@
 
 @component('layouts.report')
-    
+
     @slot('report_title')
         <div class="text-right">
             <h2>Villa History</h2>
@@ -19,6 +19,7 @@
                         <td class="text-center" style="width:5%">No</td>
                         <th class="text-center">Tenant Name</th>
                         <th class="text-center">Contract No</th>
+                        <th class="text-center">Bill No</th>
                         <th class="text-center">Period Start</th>
                         <th class="text-center">Period End</th>
                         <th class="text-center">Amount</th>
@@ -34,8 +35,9 @@
                     @foreach($data as $row)
                         <tr>
                             <td class="text-center">{{$index++}}</td>
-                            <td>{{$row['tenant_name']}}</td>
+                            <td><a href="/reports/tenant_history?tenant_id={{$row['tenant_id']}}">{{$row['tenant_name']}}</a></td>
                             <td class="text-center">{{$row['contract_no']}}</td>
+                            <td class="text-center"><a href="/bill/show/{{$row['bill_no']}}">{{$row['bill_no']}}</a></td>
                             <td class="text-center">{{$row['period_start']}}</td>
                             <td class="text-center">{{$row['period_end']}}</td>
                             <td class="text-right">{{$row['amount']}}</td>

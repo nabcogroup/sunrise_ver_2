@@ -20,6 +20,7 @@ class ContractRepository extends AbstractRepository
 
     protected function beforeCreate(&$model,&$source)
     {
+
         $villaNo = $model['villa_no'];
         unset($model['villa_no']);
         
@@ -32,6 +33,7 @@ class ContractRepository extends AbstractRepository
         
         
         $model['contract_no'] = "C" . $villaNo . "-" . Carbon::now()->year . "-" . $this->model->createNewId();
+        $source->period_end_extended = $model['period_end']->addDays(floatval($model['extra_days'])); 
         $model['status'] = 'pending';
     }
 
@@ -67,7 +69,7 @@ class ContractRepository extends AbstractRepository
                 "contracts.created_at AS contract_created",
                 "contracts.period_start",
                 "contract_bills.bill_no",
-                "contracts.period_end", "contracts.amount", "contracts.status AS contracts_status")
+                "contracts.period_end_extended", "contracts.amount", "contracts.status AS contracts_status")
             ->where('contracts.status', $state);
 
         $params  = [];
@@ -94,7 +96,7 @@ class ContractRepository extends AbstractRepository
                 "villa_no" => $row->villa_no,
                 "full_name" => $row->full_name,
                 "created_at" => Carbon::parse($row->contract_created)->format('d, M, Y'),
-                "period" => Carbon::parse($row->period_start)->format('d, M, Y') ." - ". Carbon::parse($row->period_end)->format('d, M, Y'),
+                "period" => Carbon::parse($row->period_start)->format('d, M, Y') ." - ". Carbon::parse($row->period_end_extended)->format('d, M, Y'),
                 "amount" => number_format($row->amount,2),
                 "bill_no" => $row->bill_no,
                 "status" => ucfirst($row->contracts_status)
@@ -104,9 +106,8 @@ class ContractRepository extends AbstractRepository
 
     }
 
-    public function getExpiryContracts($start, $end)
-    {
-        return $this->model->whereBetween('period_end', [$start, $end]);
+    public function getExpiryContracts($start, $end) {
+        return $this->model->whereBetween("period_end_extended",[$start, $end]);
     }
 
     public function getExistingBill($contractNo)

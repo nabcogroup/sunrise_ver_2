@@ -1,28 +1,23 @@
 <template>
     <v-panel header="RENTAL CONTRACT ENTRY">
         <v-input-wrapper label-class="col-md-3 text-right" label="Contract Type" model-name="contract_type">
-            <select class="form-control" v-model="contract.contract_type">
-                <option v-for="(lookup, index) in lookups.contract_type" :value="lookup.code" :key="index">{{lookup.name}}
-                </option>
-            </select>
+            <v-combo-box v-model="contract.contract_type" :options="lookups.contract_type" dvalue="code" dtext="name"></v-combo-box>
         </v-input-wrapper>
 
         <v-input-wrapper label-class="col-md-3 text-right" label="Period Start" model-name="period_start" :required="true">
             <dt-picker dp-name="period_start" @pick="contract.period_start = $event" :value="contract.period_start"></dt-picker>
-            <error :errorDisplay="errors.get('period_start')">{{ errors.get('period_start')}}</error>
+            <error-span v-model="errors" name="period_start"></error-span>
         </v-input-wrapper>
 
         <v-input-wrapper label-class="col-md-3 text-right" label="Period End" model-name="period_end" :required="true">
             <dt-picker dp-name="period_end" @pick="contract.period_end = $event" :value="contract.period_end"></dt-picker>
-            <error :errorDisplay="errors.get('period_end')">{{ errors.get('period_end') }}</error>
+            <error-span v-model="errors" name="period_end"></error-span>
         </v-input-wrapper>
 
-        <div class="form-group">
-            <label class="col-md-3 text-right">Extra Days:</label>
-            <div class="col-md-3">
-                <input type="text" class="form-control" v-model="contract.extra_days" />
-            </div>
-        </div>
+        <v-input-wrapper label="Extra Days: " label-class="col-md-3 text-right">
+            <input type="text" class="form-control" v-model="contract.extra_days" />
+            <error-span v-model="errors" name="extra_days"></error-span>
+        </v-input-wrapper>
         <hr/>
 
         <div v-if="contract.contract_type === 'legalized'">
@@ -39,27 +34,29 @@
                 </div>
                 <label for="" class="col-md-3 text-right">Reference No:</label>
                 <div class="col-md-2">
-                    <input type="text" class="form-control" v-model="contract.prep_ref_no"/>
+                    <input type="text" class="form-control" v-model="contract.prep_ref_no" />
                 </div>
             </div>
             <hr/>
         </div>
 
-        <div class="form-group">
+        <div class="row">
             <label for="" class="col-md-3 text-right">Contract Value:</label>
             <div class="col-md-9">
                 <div class='input-group'>
-                    <input name="amount" type="text" class="form-control text-right" placeholder="AMOUNT *" v-model='contract.amount'>
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                            Action
+                    <input name="amount" type="text" class="form-control text-right" placeholder="AMOUNT" v-model='contract.amount'>
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="button" @click.prevent="calc('direct')">
+                            <i class="fa fa-calculator"></i>
+                        </button>
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
                             <i class="fa fa-chevron-down"></i>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" style="width:450px">
-                            <li>
-                                <div class="form-group">
+                            <li class="container-fluid">
+                                <div class="row">
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" v-model="rate_per_month" />
+                                        <input type="number" class="form-control text-right" v-model="rate_per_month" />
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-info" @click.prevent="calc()">
@@ -69,8 +66,9 @@
                                 </div>
                             </li>
                         </ul>
-                    </span>
+                    </div>
                 </div>
+                <error-span v-model="errors" name="amount"></error-span>
             </div>
         </div>
     </v-panel>
@@ -78,22 +76,23 @@
 
 <script>
 
-import ErrorLabel from '../ErrorLabel.vue';
+
 import { mapGetters } from "vuex";
 
 export default {
     name: "ContractEntry",
-    components: {
-        'error': ErrorLabel,
-    },
     data() {
         return {
             rate_per_month: 0
         }
     },
     methods: {
-        calc() {
-            this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
+        calc(direct = false) {
+            if(direct)
+                this.$store.dispatch('contracts/recalc', { rate: 0 });
+            else
+                this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
+
         }
     },
     computed: {

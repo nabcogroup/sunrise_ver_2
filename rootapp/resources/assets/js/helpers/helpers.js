@@ -71,18 +71,16 @@ export class AxiosRequest {
 
 
     route(url) {
+        
         var img = window.imagePath;
         window.location.href = url;
-        
         return this;
     }
 
     redirect(controller,action = '',data = null,target = '_self') {
-
         var baseUrl = window.Laravel.baseUrl;
         var url = baseUrl + "/" + controller + "/" + (action !== null ? action : "") + (data !== null ? "/" + data : "");
         window.open(url,target);
-
     }
 
     postMultiForm(controller,action,formData) {

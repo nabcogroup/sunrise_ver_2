@@ -25,8 +25,6 @@ use Dompdf\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-
-
 class ContractController extends Controller
 {
     
@@ -42,48 +40,59 @@ class ContractController extends Controller
         $this->selections = new Selection();
     }
 
-    public function index() {
+    public function index()
+    {
 
         return view('contract.index');
-
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         try {
-
             if ($contract = $this->contractRepo->find($id)) {
                 $billNo = $contract->bill()->first()->bill_no;
                 return redirect()->route("bill.show", $billNo);
-            }
-            else {
+            } else {
                 throw new Exception("Contract not found");
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             return Result::badRequestWeb($e);
         }
     }
 
-    public function register() {
+    public function register()
+    {
 
         //check if the has a vacant villa
         //if not redirect back to list
         $bundle = new Bundle();
-        event(new Verify($bundle,new EventListenerRegister(["VerifyVillaVacancy"])));
+        event(new Verify($bundle, new EventListenerRegister(["VerifyVillaVacancy"])));
         $count = $bundle->getOutput("count");
-        if($count == 0) {
+        if ($count == 0) {
             return redirect()->route('contract.manage');
         }
         return view("contract.register");
     }
 
-    public function calendar() {
+    public function calendar()
+    {
 
         return view("contract.calendar");
-
     }
 
-    public function apiCalendar(Request $request) {
+    public function apiUpdateExtended()
+    {
+
+        $contracts = \App\Contract::all();
+        foreach ($contracts as $contract) {
+            $contract->period_end_extended = Carbon::parse($contract->period_end)->addDays($contract->extra_days);
+            $contract->save();
+        }
+        return Result::ok("Successful");
+    }
+
+    public function apiCalendar(Request $request)
+    {
         
         try {
             $periods = $request->all();
@@ -94,56 +103,51 @@ class ContractController extends Controller
 
             $events = array();
 
-            if($contracts) {
-                foreach($contracts as $contract) {
+            if ($contracts) {
+                foreach ($contracts as $contract) {
                     $event = [
                         "contract"      =>  $contract,
                         "id"            =>  $contract->getId(),
                         "contract_no"   =>  $contract->contract_no,
                         "full_name"   =>  $contract->tenant()->first()->full_name,
-                        "period"        =>  ["start" => $contract->period_start, "end" => $contract->period_end],
+                        "period"        =>  ["start" => $contract->period_start, "end" => $contract->period_end_extended],
                         "title"         =>  $contract->villa()->first()->villa_no ." - ".$contract->tenant()->first()->full_name,
-                        "start"         =>  Carbon::parse($contract["period_end"])->subDays(self::DEFAULT_EXPIRED_PERIOD)->toDateString(),
-                        "end"           =>  Carbon::parse($contract["period_end"])->toDateString(),
+                        "start"         =>  Carbon::parse($contract->period_end_extended)->subDays(self::DEFAULT_EXPIRED_PERIOD)->toDateString(),
+                        "end"           =>  Carbon::parse($contract->period_end_extended)->toDateString(),
                         "canRenew"      =>  true,
                     ];
 
-                    array_push($events,$event);
+                    array_push($events, $event);
                 }
             }
 
             return $events;
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }
-    
     }
 
-    public function apiGetList(Request $request,$status = 'pending') {
+    public function apiGetList(Request $request, $status = 'pending')
+    {
 
         try {
             //get user contracts
-            $contracts = $this->contractRepo->getContracts($status,$request->input('filter_field'),$request->input('filter_value'));
+            $contracts = $this->contractRepo->getContracts($status, $request->input('filter_field'), $request->input('filter_value'));
 
             //evaluate contract pending
 
 
             return $contracts;
-        }
-        catch(Exception $e) {
-
+        } catch (Exception $e) {
             Result::badRequest(["message" => $e->getMessage()]);
-
         }
     }
 
-    public function apiCreate() {
+    public function apiCreate()
+    {
         try {
-
             $outputs = array();
             $data = $this->contractRepo->create(self::DEFAULT_PERIOD);
-            
 
             //extra
             $data->prep_series = 1;
@@ -154,28 +158,27 @@ class ContractController extends Controller
             $lookups = $this->selections->getSelections(["contract_type","tenant_type","villa_location","bank"]);
             $lookups["due_date"] = [
                 [
-                    "value" => "1",  
+                    "value" => "1",
                     "text" => "Every 1st Day"
                 ],
                 [
-                    "value" => "15",  
-                    "text" => "Every 15th Day"
+                    "value" => "15",
+                    "text" => "Every 15 Days"
                 ],
                 [
-                    "value" => "30",  
-                    "text" => "Every 30th Day"
+                    "value" => "30",
+                    "text" => "Every 30 Days"
                 ],
             ];
 
-            return compact("data","lookups");
-
-        }
-        catch(Exception $e) {
+            return compact("data", "lookups");
+        } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }
     }
 
-    public function apiRecalc(ContractCalcForm $request) {
+    public function apiRecalc(ContractCalcForm $request)
+    {
 
         $inputs = $request->filterInput();
 
@@ -183,14 +186,14 @@ class ContractController extends Controller
             $ratePerMonth = floatval($inputs["custom_rate"]);
 
             //check if there is a custom calculation
-            if($ratePerMonth == 0) {
+            if ($ratePerMonth == 0) {
                 //fire event
                 $bundle = new Bundle();
                 $bundle->add("villaId", $inputs['villa_id']);
                 event(new OnCalculation($bundle, new EventListenerRegister(["GetVillaOnRecalculate"])));
                 $villaOutput = $bundle->getOutput('villa');
                 if ($villaOutput != null) {
-                    $ratePerMonth = $villaOutput->rate_per_month;    
+                    $ratePerMonth = $villaOutput->rate_per_month;
                 }
             }
             //create contract with new rate
@@ -198,14 +201,13 @@ class ContractController extends Controller
             $contract->setPeriod($inputs['period_start'], $inputs['period_end']);
             $contract->toComputeAmount($ratePerMonth);
             return $contract;
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }
-
     }
 
-    public function apiStore(ContractForm $request) {
+    public function apiStore(ContractForm $request)
+    {
 
         $inputs = $request->filterInput();
         try {
@@ -215,7 +217,7 @@ class ContractController extends Controller
 
             event(new OnCreating($bundle, new EventListenerRegister(["GetVilla", "CreateTenant"])));
 
-            if(!$bundle->hasOutput()) {
+            if (!$bundle->hasOutput()) {
                 throw new Exception("Internal Error");
             }
 
@@ -232,23 +234,21 @@ class ContractController extends Controller
 
             $bundle->clearAll();
             $bundleValue = ['id' => $contract->villa_id,'status' => 'occupied'];
-            $bundle->add('villa',$bundleValue);
+            $bundle->add('villa', $bundleValue);
 
-            event(new NotifyUpdate($bundle,new EventListenerRegister(["UpdateVillaStatus"])));
+            event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus"])));
 
-            return Result::ok("Successfully save!!",["id" => $contract->contract_no]);
-
-        }
-        catch(Exception $e) {
+            return Result::ok("Successfully save!!", ["id" => $contract->contract_no]);
+        } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }
     }
 
-    public function apiCancel(Request $request) {
+    public function apiCancel(Request $request)
+    {
         try {
-
             $contract = $this->contractRepo->find($request->input('id'));
-            if($contract->isPending()) {
+            if ($contract->isPending()) {
                 $tenantId = $contract->tenant_id;
                 $villaId = $contract->villa_id;
                 $contract->cancel();
@@ -258,35 +258,33 @@ class ContractController extends Controller
 
                 $bundle = new Bundle();
                 $bundleValue = ["id" => $villaId, "status" => "vacant"];
-                $bundle->add("villa",$bundleValue);
-                event(new NotifyUpdate($bundle,new EventListenerRegister(["UpdateVillaStatus"])));
+                $bundle->add("villa", $bundleValue);
+                event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus"])));
 
                 return Result::ok('Succefully cancelled!!!');
-
-            }
-            else {
+            } else {
                 throw new Exception("Unable to cancel the contract");
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             return Result::badRequest(['message' => $e->getMessage()]);
         }
     }
 
-    public function apiRenew($id) {
+    public function apiRenew($id)
+    {
 
         try {
             //get the old contract including villa
             $oldContract = $this->contractRepo->includeAssociates()->find($id);
 
             //make sure the contract is active
-            if(!$oldContract->isActive()) {
+            if (!$oldContract->isActive()) {
                 throw new Exception('Contract is not active');
             }
             
-            //check if amount balance 
+            //check if amount balance
             $amountBalance = $oldContract->getRemainingBalance();
-            if($amountBalance > 0) {
+            if ($amountBalance > 0) {
                 throw new Exception('Unable to renew. Contract has a pending balance');
             }
 
@@ -294,45 +292,68 @@ class ContractController extends Controller
             //$remainingPeriodDay = $oldContract->getRemainingPeriod();
 
             //display contract
-            $oldContract->setDefaultPeriod(\Carbon\Carbon::parse($oldContract->period_end),self::DEFAULT_PERIOD);
-            return $oldContract;
-
-        }
-        catch(Exception $e) {
+            $oldContract->setDefaultPeriod(\Carbon\Carbon::parse($oldContract->period_end), self::DEFAULT_PERIOD);
+            //extra
+            $oldContract->prep_series = 1;
+            $oldContract->prep_bank = "";
+            $oldContract->prep_due_date = "";
+            $oldContract->prep_ref_no = "";
+            $lookups = $this->selections->getSelections(["contract_type","bank"]);
+            $lookups["due_date"] = [
+                 [
+                     "value" => "1",
+                     "text" => "Every 1st Day"
+                 ],
+                 [
+                     "value" => "15",
+                     "text" => "Every 15 Days"
+                 ],
+                 [
+                     "value" => "30",
+                     "text" => "Every 30 Days"
+                 ],
+             ];
+             return compact("oldContract","lookups");
+        } catch (Exception $e) {
             return Result::badRequest(['message' => $e->getMessage()]);
         }
     }
 
-    public function apiUpdate(RenewalForm $renewal) {
+    public function apiUpdate(RenewalForm $renewal)
+    {
         
         try {
+
             $entity = $renewal->filterInput();
+            
             $oldContract = $this->contractRepo->find($entity['id']);
-            if($oldContract) {
+            if ($oldContract) {
                 //make sure the contract is active
-                if(!$oldContract->isActive()) {
+                if (!$oldContract->isActive()) {
                     throw new Exception('Contract is not active');
                 }
             
-                //check if amount balance 
+                //check if amount balance
                 $amountBalance = $oldContract->getRemainingBalance();
-                if($amountBalance > 0) {
+                if ($amountBalance > 0) {
                     throw new Exception('Unable to renew. Contract has a pending balance');
                 }
 
-
                 $bundle = new Bundle();
                 $villaId = $oldContract->villa_id;
-                $bundle->add('villaId',$villaId);
+                $bundle->add('villaId', $villaId);
                 event(new OnCreating($bundle, new EventListenerRegister(["GetVilla"])));
                 
                 $villaOutput = $bundle->getOutput('villa');
-                if($villaOutput != null) {
+                if ($villaOutput != null) {
+                    
                     $entity['id'] = 0; //make new
                     $entity['villa_no'] = $villaOutput->villa_no;
                     $entity['villa_id'] = $villaOutput->getId();
                     $entity['tenant_id'] = $oldContract->tenant_id;
-                    $entity['contract_type'] = $oldContract->contract_type;
+                    $entity['contract_type'] = $entity['contract_type'];
+                    
+                    
                     $newContract = $this->contractRepo->saveContract($entity);
                     
                     //make the old contract complete
@@ -340,17 +361,16 @@ class ContractController extends Controller
                 }
             }
 
-            return Result::ok("Successfully update!!!",["id" => $newContract->contract_no]);
-        }
-        catch(Exception $e) {
+            return Result::ok("Successfully update!!!", ["id" => $newContract->contract_no]);
+        } catch (Exception $e) {
             return Result::badRequest(['message' => $e->getMessage()]);
         }
     }
 
-    public function apiTerminate(TerminateForm $request) {
+    public function apiTerminate(TerminateForm $request)
+    {
 
         try {
-
             $inputs = $request->all();
             
             //validate password
@@ -358,38 +378,30 @@ class ContractController extends Controller
             $user = User::find($userId);
             
             //verify password
-            if(!$user->isPasswordMatch($inputs['password'])) {
+            if (!$user->isPasswordMatch($inputs['password'])) {
                 throw new Exception('Password does not match');
             }
 
             $contract = $this->contractRepo->terminate($inputs);
             
             //terminate the contract
-            if($contract->isTerminated()) {
+            if ($contract->isTerminated()) {
                 //update villa event
                 $bundle = new Bundle();
                 $bundleValue = ["id" => $contract->villa()->first()->id, "status" => "vacant"];
                 
                 $bundle->add("villa", $bundleValue);
-                $bundle->add('contract',$contract);
-                $bundle->add('user',$user);
+                $bundle->add('contract', $contract);
+                $bundle->add('user', $user);
                 
                 event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus","UpdatePayment"])));
                 
                 return Result::ok('Succefully terminated!!!');
-
-            }
-            else {
+            } else {
                 throw new Exception('Contract failed to terminate');
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             return Result::badRequest(['message' => $e->getMessage()]);
         }
     }
-
-
-
-
-
 }

@@ -78,8 +78,7 @@ Route::group(['prefix' => 'api/contract','middleware' => ['auth','roles'],'roles
     Route::get('/create', "ContractController@apiCreate");
     Route::get('/renew/{id}', "ContractController@apiRenew");
     Route::get('/calendar',"ContractController@apiCalendar");
-
-
+    Route::get('/extended',["uses" => "ContractController@apiUpdateExtended", "roles" => ["admin"]]);
 
     Route::post('/recalc',"ContractController@apiRecalc");
     Route::post('/store',"ContractController@apiStore");

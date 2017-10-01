@@ -69,6 +69,7 @@ const actions = {
         let url = "";
         let query = "";
         if (payload.paramUrl === undefined) {
+            
             const source = payload.grid.source;
             let params = "";
 
@@ -91,7 +92,6 @@ const actions = {
         }
 
         state.fetchLoading = true;
-
         axiosRequest.dispatchGet(url)
             .then(response => commit('loadData',{data:response.data,pointer: payload.grid.source.pointer || false}))
             .catch(errors => {
@@ -103,6 +103,7 @@ const actions = {
 
 const getters = {
     filteredData(state) {
+
         let sortKey = state.sortKey;
         let data = state.items.data;
         let order = state.sortOrders[sortKey] || 1;

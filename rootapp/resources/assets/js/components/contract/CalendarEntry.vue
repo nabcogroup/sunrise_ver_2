@@ -107,6 +107,14 @@ export default {
         return {
             viewModel: new ContractRenewModel(),
             isOpenModal: false,
+            dueRoot: {
+                selected: "",
+                dues: [
+                    { text: "Current Year", value: "cy" },
+                    { text: "Last Year", value: "ly" },
+                    { text: "Last 5 Years", value: "l5y" }
+                ],
+            },
             events: {
                 url: "/api/contract/calendar"
             },

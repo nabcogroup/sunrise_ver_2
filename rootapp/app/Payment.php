@@ -40,6 +40,12 @@ class Payment extends BaseModel
     }
 
 
+    /* navigation */
+    public function bill() {
+        return $this->belongsTo("App\ContractBill","bill_id","id");
+    }
+
+
 
     /**Mutator*/
     protected function getFullStatusAttribute()
@@ -56,7 +62,6 @@ class Payment extends BaseModel
         return $this->appends['full_payment_mode'] = Selection::convertCode($this->payment_mode);
     }
 
-    /**Mutator*/
     protected function getFullBankAttribute() {
          return Selection::getValue('bank',$this->bank);
     }
@@ -68,9 +73,15 @@ class Payment extends BaseModel
     protected function setSelectedAttribute($value) {
         $this->attributes['selected'] = $value;
     }
+
     /* status flag  */
     public function getStatusFlagAttribute() {
         return $this->status;
+    }
+
+    public function getDepositedMonthAttribute() {
+
+        return Carbon::parse($this->date_deposited)->month;
     }
 
 

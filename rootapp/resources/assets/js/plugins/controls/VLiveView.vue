@@ -30,6 +30,7 @@
                                     :class="{info:sortKey == key.name}"
                                     :key="index">
                                     {{ key.column }}
+                                    
                                     <span
                                             v-if="isArrowVisible(key.name)"
                                             class="fa fa-fw" :class="sortOrders[key.name] > 0 ?
@@ -39,6 +40,7 @@
                                     href="#"
                                     @click.prevent.stop="filterWrap(index)"
                                     v-if="key.filter"><i class="fa fa-filter"></i></a>
+
                                     <transition name="v-slide-fade">
                                         <div v-if="selectedFilter === index" class="filter-wrapper" ref="filterWrapper">
                                             <div class="panel panel-primary wrap">
@@ -68,7 +70,7 @@
                                 <td class="text-center">{{index + 1}}</td>
                                 <td v-for="key in grid.columns" :class="key.class" :style="key.style">
                                     <span>{{render(entry, key)}}</span>
-                                    <div v-if="key.name=='$action'" class="btn-group">
+                                    <div v-if="key.name ==='$action'" class="btn-group">
                                         <button type="button"
                                                 class="btn btn-primary dropdown-toggle btn-sm"
                                                 data-toggle="dropdown"
@@ -81,19 +83,22 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div v-if="key.name=='$markDelete'" class='text-center'
+                                    <div v-else-if="key.name ==='$markDelete'" class='text-center'
                                          @click='actionTrigger("delete",entry["id"])'>
                                         <button class="btn btn-danger btn-xs" type="button"><i class="fa fa-close"></i>
                                         </button>
+                                    </div>
+                                    <div v-else-if="key.name === '$switch'">
+                                        <vswitch v-model="entry[key.bind]" :is-disabled="entry[key.disabled]"></vswitch>
                                     </div>
                                 </td>
                             </slot>
                         </tr>
                         </tbody>
                         <tfoot>
-                        <tr>
-                            <slot name="table-footer"></slot>
-                        </tr>
+                            <tr>
+                                <slot name="table-footer"></slot>
+                            </tr>
                         </tfoot>
                     </table>
                     <div>
@@ -109,8 +114,9 @@
 
     import {EventBus} from "../../eventbus";
     import Pagination from "../controls/Pagination.vue";
-    import {mapGetters, mapActions, mapMutations, mapState} from "vuex";
 
+    import {mapGetters, mapActions, mapMutations, mapState} from "vuex";
+    
     export default {
         name: "vLiveView",
         props: ["grid"],

@@ -53,7 +53,6 @@ const mutations = {
 
         state.sortKey = sortKey;
         state.sortOrders = sortOrders;
-
     },
     clearFilter(state) {
         state.filter.field = "";
@@ -69,7 +68,6 @@ const actions = {
         let url = "";
         let query = "";
         if (payload.paramUrl === undefined) {
-            
             const source = payload.grid.source;
             let params = "";
 

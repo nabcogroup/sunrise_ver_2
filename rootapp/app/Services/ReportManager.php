@@ -11,6 +11,7 @@ namespace App\Services;
 
 
 use App\Http\Datasource\Villas\PaymentSchedule;
+use App\Http\Reports\BankReport;
 use App\Http\Reports\ContractReport;
 use App\Http\Reports\ExpenseMasterReport;
 use App\Http\Reports\VillaFormReport;
@@ -36,7 +37,8 @@ class ReportManager
             'villa_payment'     =>  new VillaSalesReport($params),
             'expense_property'  =>  new ExpenseMasterReport($params),
             'villa_history'     =>  new VillaFormReport($params,'ledger'),
-            'tenant_history'    =>  new TenantReport($params)
+            'tenant_history'    =>  new TenantReport($params),
+            'bank_report'        =>  new BankReport($params)
         ];
 
         return self::$reports[$key];
@@ -93,7 +95,7 @@ class ReportManager
 
                     [
                         'id' => 3,
-                        'report_title' => 'Villa Sales Analysis',
+                        'report_title' => 'Villa Master - Payment',
                         'report_name' => 'villa_payment',
                         'created' => Carbon::now()->toDateString()
                     ],

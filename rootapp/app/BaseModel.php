@@ -40,6 +40,7 @@ class BaseModel extends Model {
             foreach ($fields as $key => $value) {
                 //do not include custom attribute
                 if(!in_array($key,$this->appends) && !in_array($key,$this->guarded)) {
+                    //$this->{$key} = $value;
                     $this->setField($key,$value);
                 }
             }

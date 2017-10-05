@@ -203,6 +203,8 @@ return [
         * */
         Barryvdh\DomPDF\ServiceProvider::class,
 
+        Barryvdh\Cors\ServiceProvider::class,
+
         //Breadcrumbs
         DaveJamesMiller\Breadcrumbs\ServiceProvider::class,
 
@@ -271,6 +273,8 @@ return [
 
         //Dom Pdf Alias
         'PDF' => Barryvdh\DomPDF\Facade::class,
+
+        
 
         //Breadcrumbs
         'Breadcrumbs' => DaveJamesMiller\Breadcrumbs\Facade::class,

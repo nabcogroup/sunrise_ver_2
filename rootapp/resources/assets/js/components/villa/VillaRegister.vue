@@ -138,7 +138,7 @@
     import Slider from '../Slider.vue';
     import ErrorLabel from '../ErrorLabel.vue';
 
-    import {VillaEntryViewModel} from './VillaViewModel';
+    
 
     import {mapGetters} from 'vuex';
 
@@ -152,7 +152,6 @@
         },
         data() {
             return {
-                viewModel: new VillaEntryViewModel(),
                 btnDisabled: false,
                 grid: {
                     columns: [
@@ -173,7 +172,6 @@
         mounted() {
             //create initialize
             this.$store.dispatch('villas/create', this.villaId);
-            //this.viewModel.create(this.villaId);
         },
         methods: {
             onSave() {
@@ -194,7 +192,6 @@
                     callback: (result) => {
                         if (result) {
                             this.$store.dispatch('villas/save')
-                            //that.viewModel.save();
                         }
                     }
                 });

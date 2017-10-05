@@ -6,7 +6,7 @@
             <h3 class="text-danger"><strong>Year: {{$datasource['year']}}</strong></h3>
         </div>
     @endslot
-
+    <p>{{$datasource["location"]}}</p>
     <table class="table table-condensed table-bordered">
         <thead>
             <tr>

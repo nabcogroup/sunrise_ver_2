@@ -54,8 +54,7 @@ class ContractRepository extends AbstractRepository
         return $model;
     }
 
-    public function getContracts($state,$filter_field = null,$filter_value = null)
-    {
+    public function getContracts($state,$filter_field = null,$filter_value = null) {
 
         $contracts = $this->createDb('contracts')
             ->join('villas', 'contracts.villa_id', '=', 'villas.id')
@@ -83,6 +82,10 @@ class ContractRepository extends AbstractRepository
             else if ($filter_field == 'full_name') {
                 $contracts->where('tenants.full_name', 'LIKE', '%' . $filter_value . '%');
             }
+            else if($filter_field == 'period') {
+                //split filter
+                
+            }
             else {
                 $contracts->where('contracts.' . $filter_field, 'LIKE', '%' . $filter_value . '%');
             }
@@ -90,6 +93,7 @@ class ContractRepository extends AbstractRepository
 
 
         return $this->createPagination($contracts, function ($row) {
+            
             $item = [
                 "id" => $row->id,
                 "contract_no" => $row->contract_no,
@@ -101,7 +105,9 @@ class ContractRepository extends AbstractRepository
                 "bill_no" => $row->bill_no,
                 "status" => ucfirst($row->contracts_status)
             ];
+
             return $item;
+            
         },$params);
 
     }

@@ -59,6 +59,7 @@ class VillaSales implements IDataSource
         }
 
         $ret_value = [
+            'location'      =>  \App\Selection::getValue("villa_location",$location),
             'year'          =>  $year,
             'month_from'    => $month_from,
             'month_to'      => $month_to,

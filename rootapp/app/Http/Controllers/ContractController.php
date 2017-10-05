@@ -27,7 +27,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ContractController extends Controller
 {
-    
 
     private $contractRepo;
 
@@ -92,8 +91,7 @@ class ContractController extends Controller
     }
 
     public function apiCalendar(Request $request)
-    {
-        
+    {   
         try {
             $periods = $request->all();
             $contracts = $this->contractRepo->includeAssociates()
@@ -133,10 +131,8 @@ class ContractController extends Controller
         try {
             //get user contracts
             $contracts = $this->contractRepo->getContracts($status, $request->input('filter_field'), $request->input('filter_value'));
-
             //evaluate contract pending
-
-
+            
             return $contracts;
         } catch (Exception $e) {
             Result::badRequest(["message" => $e->getMessage()]);
@@ -206,8 +202,7 @@ class ContractController extends Controller
         }
     }
 
-    public function apiStore(ContractForm $request)
-    {
+    public function apiStore(ContractForm $request) {
 
         $inputs = $request->filterInput();
         try {
@@ -314,13 +309,13 @@ class ContractController extends Controller
                  ],
              ];
              return compact("oldContract","lookups");
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) {
             return Result::badRequest(['message' => $e->getMessage()]);
         }
     }
 
-    public function apiUpdate(RenewalForm $renewal)
-    {
+    public function apiUpdate(RenewalForm $renewal) {
         
         try {
 

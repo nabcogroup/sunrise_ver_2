@@ -17,6 +17,8 @@ import VPanel from "./containers/VPanel.vue";
 import VTab from "./containers/VTab.vue";
 import VTabGroup from "./containers/VTabGroup.vue";
 import VInputWrapper from "./containers/VInputWrapper.vue";
+import VSwitch from "./controls/VSwitch.vue";
+
 
 
 const MyPlugins = {
@@ -36,6 +38,7 @@ const MyPlugins = {
         Vue.component(VTabGroup.name,VTabGroup);
         Vue.component(VInputWrapper.name,VInputWrapper);
         Vue.component(VComboBox.name,VComboBox);
+        Vue.component(VSwitch.name,VSwitch);
 
     }
 }

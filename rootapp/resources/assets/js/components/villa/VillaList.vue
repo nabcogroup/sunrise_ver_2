@@ -47,9 +47,11 @@
                         {name: 'full_villa_class', column: 'Class',class:'text-center'},
                         {name: 'rate_per_month', column: 'Rate/Month', class:'text-right', dtype:'currency'},
                         {name: 'full_status', column: 'Status', class:'text-center',style: 'width:10%',filter: true},
-                        {name: '$action', column: '',static:true, class: 'text-center'}],
+                        {name: '$switch', column: 'Active', bind: 'is_active', disabled:'is_disabled'},
+                        {name: '$action', column: '',static:true, class: 'text-center'},
+                    ],
                     source: {
-                      url: '/api/villa/list',
+                      url: '/api/api_villa/list',
                       pointer: 'villas'
                     },
                     actions: [

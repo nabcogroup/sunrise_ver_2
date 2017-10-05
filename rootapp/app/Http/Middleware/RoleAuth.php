@@ -16,7 +16,7 @@ class RoleAuth
     public function handle($request, Closure $next)
     {
         if($request->user() === null) {
-            return abort(404, 'Unauthorized access');
+            return abort(401, 'Unauthorized access');
         }
 
         $actions = $request->route()->getAction();

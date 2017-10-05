@@ -22,6 +22,7 @@ class Contract extends BaseModel
 
     protected $table = "contracts";
     protected $appends = ['full_status', 'full_contract_type', 'payable_per_month', 'full_period_start', 'full_period_end', 'total_year_month', 'total_received_payment'];
+    protected $hidden = ['deleted_at'];
 
     //factory method
     public static function createInstance($defaultMonths)

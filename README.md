@@ -1,20 +1,31 @@
-# Sunrise ver2.1 
+# Sunrise ver2.8 
 
 ## Description
-To create a web base application system that will centralize the operation of Nabco Real State.  The system will manage rental contract, account receivable and expenditures thru out the entire operation. 
+To be able to create a web base application system that will standardize and centralize the operation of Nabco Real State.  The proposed system will manage rental contracts, account receivable and expenditures thru out the entire operation.
 
 ## Primary Objective
 
-* Provide the higher management a comprehensive report to update the sales and expenses in a timely manner and support for decision making. 
-* Secure financial transactions by aligning all operation into smooth and manageable system; thus minimizing errors in daily operation and preventing anomaly in daily transaction.
-* Keeping all in-sync by monitoring all expiring contracts and notifying concerned user. 
-* Provide status for payment to monitor payments movement especially cheque payments.  
+*	Provide the higher management a comprehensive report to update the sales and expenses in timely manners and support management for decision making. 
+*	Secure financial transactions by aligning the operation in manageable and systematical way.
+*	Keep people and operation in sync by automating the  monitoring  expiring contracts so that user will stay informed. 
+  
+## Other Objective
+
+*	Reduce tedious task and eliminate human errors.
+*	Minimizing errors in daily operation and preventing anomaly in daily transaction.
+*	Streamline operation and automate calculation of contract value.
+  
 
 
 ### v2.x 
 1. Contract Management - these includes register of contract,renewal and termination
 2. Accounts Management - posting of payment status.
 3. Masterfile - Villa management (create,update)
+
+### Whats New in 2.8
+1. Contract Entry extra days field - now you can add extra days for those tenant who granted additional days for free
+2. Payment Schedule - system now will automatically prepare a payment schedule for you just enter your parameters.
+3. Addition Reports - Bank Reconcilation Report, Sales Analysis
 
 ### v3.x
 1. Contract Management 

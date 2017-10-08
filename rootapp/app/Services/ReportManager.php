@@ -39,7 +39,8 @@ class ReportManager
             'expense_property'      =>  new ExpenseMasterReport($params),
             'villa_history'         =>  new VillaFormReport($params,'ledger'),
             'tenant_history'        =>  new TenantReport($params),
-            'bank_report'           =>  new BankReport($params),
+            "bank_report_detail"    =>  new BankReport("detail",$params),
+            "bank_report_summary"   =>  new BankReport("summary",$params),   
             'villa_master_list'     =>  new VillaMasterListReport($params)
         ];
         
@@ -50,7 +51,7 @@ class ReportManager
     {
         $reportList = [
             'contract' => [
-                'title' =>  'Contract Report',
+                'title' =>  'Contract Reports',
                 'data' =>  [
                     [
                         'id' => 2,
@@ -86,7 +87,7 @@ class ReportManager
                 ]
             ],
             'villa' => [
-                'title' =>  'Villa Report',
+                'title' =>  'Villa Reports',
                 'data'  =>  [
                     [
                         'id' => 1,
@@ -105,7 +106,7 @@ class ReportManager
                 ]
             ],
             'expenses' => [
-                'title' =>  'Expenses Report',
+                'title' =>  'Expenses Reports',
                 'data'  =>  [
                     [
                         'id' => 4,
@@ -114,6 +115,17 @@ class ReportManager
                         'created' => Carbon::now()->toDateString(),
                     ]
                 ],
+            ],
+            'bank' => [
+                'title' =>  'Bank Reports',
+                'data'  =>  [
+                    [
+                        'id'    => 9,
+                        'report_title'  =>  "Bank Detail Report",
+                        'report_name'   =>  "bank_report_detail",
+                        'created' => Carbon::now()->toDateString()
+                    ]
+                ]
             ]
         ];
 
@@ -151,8 +163,22 @@ class ReportManager
                 'inputs' =>
                     [
                         ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
-                        ['label' => 'Month From', 'type' => 'number','model' => 'month_from','placeholder' => 'Enter Month From'],
-                        ['label' => 'Month To', 'type' => 'number', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
+                        [
+                            'label' => 'Month From', 
+                            'type' => 'dropdown',
+                            'selection' => 'months', 
+                            'model' => 'month_from',
+                            'default_text' => '--Select Month--',
+                            'default' => ''
+                        ],
+                        [
+                            'label' => 'Month To',
+                            'type' => 'dropdown',
+                            'selection' => 'months', 
+                            'model' => 'month_to',
+                            'default_text' => '--Select Month--',
+                            'default' => ''],
+                        
                         ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year'],
 
                     ],
@@ -211,13 +237,52 @@ class ReportManager
                         ['label' => 'Month From', 'type' => 'number','model' => 'month_from','placeholder' => 'Enter Month From'],
                         ['label' => 'Month To', 'type' => 'number', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
                         ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year'],
-                        ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                        [
+                            'label' => 'Location', 
+                            'type' => 'dropdown',
+                            'selection' => 'villa_location',
+                            'model' => 'location',
+                            'default_text' => '--Select Location--', 
+                            'default' => '' 
+                        ],
                     ],
                 'models' => [
                     'month_from' => '',
                     'month_to' => '',
-                    'year' => '',
                     'location' => ''
+                ],
+                'lookups' => []
+            ],
+            [
+                'report_id' => 9,
+                'inputs' =>
+                    [
+                        [
+                            'label' => 'Account No', 
+                            'type' => 'dropdown',
+                            'selection' => "bank_account",
+                            'model' => 'account_no',
+                            'value' =>  'account_no',
+                            'text'  =>  'account_no',
+                            'default_text' => 'All Accounts', 
+                            'default' => ''],
+                        [   
+                            'label' => 'For the Month of', 
+                            'type' => 'dropdown',
+                            'selection' => 'months',
+                            'model' => 'month',
+                            'actions' => ['func' => 'autoDate', 'bind_from' => 'month_from','bind_to' => 'month_to']
+                        ],
+                        ['label' => 'Date From', 'type' => 'date','model' => 'month_from','placeholder' => 'Enter Month From'],
+                        ['label' => 'Date To', 'type' => 'date', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
+                        
+                    ],
+                'models' => [
+                    'account_no' => '',
+                    'month' => Carbon::now()->month,
+                    'month_from' => Carbon::createFromDate(Carbon::now()->year,Carbon::now()->month,1)->format("M/d/Y"),
+                    'month_to' => Carbon::createFromDate(Carbon::now()->year,Carbon::now()->month,1)->addMonth()->subDay()->format("M/d/Y"),
+                    'year' => '2017',
                 ],
                 'lookups' => []
             ]

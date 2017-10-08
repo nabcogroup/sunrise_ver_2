@@ -3,18 +3,21 @@
 namespace App\Http\Reports;
 
 
+use App\BankAccount;
+use App\Traits\HelperTrait;
 use App\Http\Datasource\Bank\BankDepositDetail;
 use App\Http\Datasource\Bank\BankDepositSummary;
 
 class BankReport extends BaseReport
 {
+    use HelperTrait;
 
     private $templateSource;
 
 
-    public function __construct($params)
+    public function __construct($type,$params)
     {
-        if(isset($params['report_type']) && $params['report_type'] == "summary") {
+        if($type == "summary") {
             $this->dataSource = new BankDepositSummary($params);
             $this->templateSource = "bank-account-summary";
         }
@@ -27,7 +30,7 @@ class BankReport extends BaseReport
 
     public function getTemplateSource()
     {
-        return $this->dataSource;
+        return $this->templateSource;
     }
 
     public function isPdfRender()
@@ -43,6 +46,11 @@ class BankReport extends BaseReport
 
     public function getLookups()
     {
-        // TODO: Implement getLookups() method.
+        $lookups = [
+            "bank_account"  =>  BankAccount::all(),
+            "months"        =>  $this->getMonthLookups()
+        ];
+
+        return $lookups;
     }
 }

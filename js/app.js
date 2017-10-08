@@ -16716,8 +16716,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
+
+const func = {
+    'autoDate': (models, actions, value) => {
+        models[actions.bind_from] = moment().startOf('year').month(value - 1).format("MM/DD/YY");
+        models[actions.bind_to] = moment().startOf('year').month(value).subtract(1, 'days').format("MM/DD/YY");
+    }
+};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ["params"],
@@ -16732,37 +16741,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         onNotify(response) {
-
             this.report_title = response.report_title;
+
             const params = this.params.params.find(item => {
                 return item.report_id === response.id;
             });
 
             if (params !== undefined) {
-
                 if (params.lookups !== undefined && params.lookups.length === 0) {
-
-                    axiosRequest.get("reports", "lookups", response.report_name).then(r => {
-                        params.lookups = r.data;
-                    });
+                    axiosRequest.get("reports", "lookups", response.report_name).then(r => params.lookups = r.data);
                 }
-
                 this.selected.params = params;
             } else {
                 this.selected.params = {};
             }
             this.selected.report_name = response.report_name;
         },
+        onChange(input, value) {
+            if (input.actions) {
+                func[input.actions.func](this.selected.params.models, input.actions, value);
+            }
+        },
         onViewReportClick() {
             this.$emit("viewReportClick", this.selected);
         },
         isEmpty(value) {
             return _.isEmpty(value);
+        },
+        getLookupValue(value) {
+            return value || "code";
+        },
+        getLookupText(value) {
+            return value || "name";
         }
     },
     mounted() {
         __WEBPACK_IMPORTED_MODULE_0__eventbus__["a" /* EventBus */].$on("onReportSelected", response => this.onNotify(response));
     }
+
 });
 
 /***/ }),
@@ -31215,7 +31231,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }],
       staticClass: "form-control",
       on: {
-        "change": function($event) {
+        "change": [function($event) {
           var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
             return o.selected
           }).map(function(o) {
@@ -31229,18 +31245,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           } else {
             $$exp.splice($$idx, 1, $event.target.multiple ? $$selectedVal : $$selectedVal[0])
           }
-        }
+        }, function($event) {
+          _vm.onChange(input, $event.target.value)
+        }]
       }
     }, [(input.default === '') ? _c('option', {
       attrs: {
         "value": ""
       }
-    }, [_vm._v(_vm._s(input.default_text) + "\n                        ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.selected.params.lookups[input.selection]), function(lookup) {
+    }, [_vm._v("\n                            " + _vm._s(input.default_text) + "\n                        ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.selected.params.lookups[input.selection]), function(lookup, index) {
       return _c('option', {
+        key: index,
         domProps: {
-          "value": lookup.code
+          "value": lookup[_vm.getLookupValue(input.value)]
         }
-      }, [_vm._v(_vm._s(lookup.name) + "\n                        ")])
+      }, [_vm._v("\n                            " + _vm._s(lookup[_vm.getLookupText(input.text)]) + "\n                        ")])
     })], 2) : _vm._e(), _vm._v(" "), (input.type == 'date') ? _c('dt-picker', {
       attrs: {
         "value": _vm.selected.params.models[input.model]

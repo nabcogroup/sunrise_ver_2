@@ -22,19 +22,20 @@ class BankDepositDetail implements IDataSource
     public function execute()
     {
 
-        $account_no = $this->params["account_no"];
-        $year = isset($this->params["year"]) ? $this->params["year"] : Carbon::now()->year;
-        $month = $this->params["month"] ? $this->params["month"] : Carbon::now()->month;
-
-        $accounts = BankAccount::with(["payments" => function ($query) use ($year,$month) {
+        $account_no = isset($this->params["account_no"]) ? $this->params["account_no"] : "";
+        $date_from = isset($this->params["month_from"]) ? Carbon::parse($this->params["month_from"]) : Carbon::now();
+        $date_to = isset($this->params["month_to"]) ? Carbon::parse($this->params["month_to"]) : Carbon::now()->addMonth()->subDay();
+        
+        $accounts = BankAccount::with(["payments" => function ($query) use ($date_from,$date_to) {
             $query
                 ->where("status", "clear")
-                ->where(\DB::raw("YEAR(date_deposited)"), $year)
-                ->where(\DB::raw("MONTH(date_deposited)"), $month)
+                ->whereBetween("date_deposited", [$date_from,$date_to])
                 ->orderBy("date_deposited");
-        }])
-            ->where("account_no", $account_no)
-            ->get();
+        }]);
+
+        if($account_no != '') {
+            $accounts = $accounts->where("account_no",$account_no)->get();
+        }
         
         $rows = $this->arrayGroupBy($accounts, function ($row) {
             $item = [
@@ -57,6 +58,7 @@ class BankDepositDetail implements IDataSource
                     "amount"                =>  $payment->amount,
                     "status"                =>  $payment->status
                 ];
+                
                 array_push($item["payments"], $payment_item);
             }
             
@@ -77,8 +79,8 @@ class BankDepositDetail implements IDataSource
             "data"      =>  $rows,
             "params"    =>  [
                 "account_no"    =>  $account_no,
-                "month"         =>  date('M', mktime(0, 0, 0, $month, 10)),
-                "year"          =>  $year
+                "month"         =>  "",
+                "year"          =>  ""
             ]
         ];
     }

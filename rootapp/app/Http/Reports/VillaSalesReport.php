@@ -3,12 +3,15 @@
 namespace App\Http\Reports;
 
 
-use App\Http\Datasource\Villas\PaymentSchedule;
-use App\Http\Datasource\Villas\VillaSales;
 use App\Selection;
+use App\Traits\HelperTrait;
+use App\Http\Datasource\Villas\VillaSales;
+use App\Http\Datasource\Villas\PaymentSchedule;
 
 class VillaSalesReport extends BaseReport
 {
+    use HelperTrait;
+
     private $reportName;
 
     public function __construct($params)
@@ -30,6 +33,7 @@ class VillaSalesReport extends BaseReport
     {
         // TODO: Implement getLookups() method.
         $lookups = Selection::getSelections(["villa_location"]);
+        $lookups["months"] = $this->getMonthLookups();
         return $lookups;
     }
 

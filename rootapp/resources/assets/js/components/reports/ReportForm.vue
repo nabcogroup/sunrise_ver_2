@@ -61,6 +61,7 @@
             }
         },
         methods: {
+            
             onNotify(response) {
                 this.report_title = response.report_title;
 

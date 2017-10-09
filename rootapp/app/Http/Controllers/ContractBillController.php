@@ -68,12 +68,12 @@ class ContractBillController extends Controller
     }
 
     public function create($contractNo) {
-
+        
         $bundle = new Bundle();
         $bundle->add("contractNo", $contractNo);
 
         try {
-
+            
             event(new OnGetContract($bundle, new EventListenerRegister(["GetContract"])));
 
             if(!$bundle->hasOutput()) {
@@ -83,9 +83,9 @@ class ContractBillController extends Controller
             $contract = $bundle->getOutput("contract");
 
             if($contract) {
-
+                
                 $bill = $contract->bill()->with('payments')->first();
-
+                
                 if(!$bill) {
                     $bill = $this->billRepository->create($contract);
                 }

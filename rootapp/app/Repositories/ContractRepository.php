@@ -2,13 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Traits\PaginationTrait;
-use App\Traits\QuerySoftDeleteTrait;
 use Carbon\Carbon;
 use App\Selection;
 use Dompdf\Exception;
-use Illuminate\Database\Eloquent\SoftDeletes;
+
+use App\Traits\PaginationTrait;
 use App\Traits\DeserializeTrait;
+use App\Services\CalendarService;
+use App\Traits\QuerySoftDeleteTrait;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class ContractRepository extends AbstractRepository
 {
 
@@ -197,6 +200,15 @@ class ContractRepository extends AbstractRepository
             $contract->contractTerminations()->create([
                 'description' => $models['description'],
                 'ref_no' => $models['ref_no']]);
+            
+            //cancelled all the payment
+            $payments = $contract->bill()->first()->payments()->where("status","=","received")->get();
+            if($payments->count() > 0) {
+                foreach($payments as $payment) {    
+                    $payment->setStatusToCancel();
+                    $payment->save();
+                }
+            }
         }
         else {
             throw new Exception("Unable to terminate contract either contract is not active or internal error occured");
@@ -209,6 +221,25 @@ class ContractRepository extends AbstractRepository
 
         $this->model->toComputeAmount($ratePerMonth);
         return $this;
+    }
+
+    public function getEventCalendar($start,$end) {
+
+        $contracts = $this->model
+                        ->with('tenant','villa')
+                        ->where('status','active')
+                        ->whereBetween("period_end_extended",[$start, $end])->get();
+
+
+
+        $args = [
+            "model"         =>  "contract",
+            "base_period"   =>  "period_end_extended",
+            "grace_period"  =>  "3"
+        ];
+
+        return new CalendarService($contracts,$args);
+                        
     }
 
 

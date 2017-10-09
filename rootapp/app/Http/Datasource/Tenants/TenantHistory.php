@@ -64,6 +64,7 @@ class TenantHistory implements IDatasource {
                 'villa_no'      =>  $rows->villa_no,
                 'contract_no'   =>  $rows->contract_no,
                 'contract_type' =>  $rows->contract_type,
+                'bill_no'       =>  $rows->bill_no,
                 'amount'        =>  $rows->amount,
                 'period'        =>  Carbon::parse($rows->period_start)->format('d M Y') . " - " . Carbon::parse($rows->period_end)->format('d M Y'),
                 'status'        =>  $rows->status

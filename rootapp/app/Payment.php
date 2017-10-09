@@ -19,10 +19,10 @@ class Payment extends BaseModel
         $this->created_at = Carbon::now();
         $this->updated_at = Carbon::now();
         parent::__construct($attributes);
-
     }
 
-    public static function createInstance() {
+    public static function createInstance($initValues = array())
+    {
         $p = new Payment([
             "effectivity_date"      =>  Carbon::now()->toDateTimeString(),
             "payment_type"          =>  "cheque",
@@ -36,13 +36,18 @@ class Payment extends BaseModel
             "deposited_bank"        =>  "",
             "date_deposited"        =>  Carbon::now()->toDateTimeString(),
             "bank_account"          =>  ""]);
+        if(!empty($p)) {
+            $p->toMap($initValues);
+        }
+
         return $p;
     }
 
 
     /* navigation */
-    public function bill() {
-        return $this->belongsTo("App\ContractBill","bill_id","id");
+    public function bill()
+    {
+        return $this->belongsTo("App\ContractBill", "bill_id", "id");
     }
 
 
@@ -53,7 +58,8 @@ class Payment extends BaseModel
         return $this->appends['full_status'] = Selection::getValue('payment_status', $this->status);
     }
 
-    protected function getFullPaymentTypeAttribute() {
+    protected function getFullPaymentTypeAttribute()
+    {
         return $this->appends['full_payment_type'] = Selection::convertCode($this->payment_type);
     }
 
@@ -62,80 +68,93 @@ class Payment extends BaseModel
         return $this->appends['full_payment_mode'] = Selection::convertCode($this->payment_mode);
     }
 
-    protected function getFullBankAttribute() {
-         return Selection::getValue('bank',$this->bank);
+    protected function getFullBankAttribute()
+    {
+         return Selection::getValue('bank', $this->bank);
     }
 
-    protected function getSelectedAttribute() {
+    protected function getSelectedAttribute()
+    {
         return isset($this->attributes['selected']) ? $this->attributes['selected'] : false;
     }
 
-    protected function setSelectedAttribute($value) {
+    protected function setSelectedAttribute($value)
+    {
         $this->attributes['selected'] = $value;
     }
 
     /* status flag  */
-    public function getStatusFlagAttribute() {
+    public function getStatusFlagAttribute()
+    {
         return $this->status;
     }
 
-    public function getDepositedMonthAttribute() {
+    public function getDepositedMonthAttribute()
+    {
 
         return Carbon::parse($this->date_deposited)->month;
     }
 
 
     /* replace object*/
-    public function setReplaceRefAttribute($value) {
-        if(is_array($value)) {
-            $this->setMetaValue($this->attributes['replace_ref'],$value);
+    public function setReplaceRefAttribute($value)
+    {
+        if (is_array($value)) {
+            $this->setMetaValue($this->attributes['replace_ref'], $value);
         }
     }
 
-    public function getReplaceRefAttribute($value) {
+    public function getReplaceRefAttribute($value)
+    {
         return $this->getMetaValue($value);
     }
 
-    /* */
-
-    public function initPeriod($defaultMonth = 12) {
+    /* methods */
+    public function initPeriod($defaultMonth = 12)
+    {
         $this->period_start = Carbon::now()->toDateTimeString();
         $this->period_end = Carbon::now()->addMonth($defaultMonth)->toDateTimeString();
         return $this;
     }
 
-    public function setPaymentPeriod($period_start) {
+    public function setPaymentPeriod($period_start)
+    {
         $this->period_start = Carbon::parse($period_start);
         $this->period_end = Carbon::parse($period_start)->addMonth()->subDay();
     }
 
-    public function setStatusToCancel() {
+    public function setStatusToCancel()
+    {
         $this->status = "cancelled";
+        $this->amount = 0;
     }
-    
 
-
-
-
-    public function isClear() {
+    public function isClear()
+    {
         return $this->hasStatusOf('clear');
     }
 
-    public function isCancel() {
+    public function isCancel()
+    {
         return $this->hasStatusOf('cancelled');
     }
 
-    public function isBounce() {
+    public function isBounce()
+    {
         return $this->hasStatusOf('bounce');
     }
 
-    public function isPending() {
+    public function isPending()
+    {
         return $this->hasStatusOf('received');
     }
 
-    public function isDeposit() {
+    public function isDeposit()
+    {
         return $this->hasStatusOf('deposit');
     }
+
+   
 
 
     public function toOutputArray()

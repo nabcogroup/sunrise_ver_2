@@ -5,19 +5,23 @@ namespace App\Repositories;
 use App\Payment;
 use App\Selection;
 
-use App\Traits\PaginationTrait;
-use App\Traits\QuerySoftDeleteTrait;
-use App\Traits\QueryTemplateTrait;
-use App\Traits\UserTrait;
-
 use Carbon\Carbon;
 use Dompdf\Exception;
+use App\Traits\UserTrait;
+use App\Traits\PaginationTrait;
+
+use App\Traits\QueryTemplateTrait;
 use Illuminate\Support\Facades\DB;
+use App\Traits\QuerySoftDeleteTrait;
+use App\Services\PaymentScheduleGeneratorService;
 
 class BillRepository extends AbstractRepository
 {
 
-    use QuerySoftDeleteTrait, PaginationTrait, UserTrait,QueryTemplateTrait;
+    use QuerySoftDeleteTrait, 
+        PaginationTrait, 
+        UserTrait,
+        QueryTemplateTrait;
     
     protected function definedModel()
     {
@@ -31,9 +35,7 @@ class BillRepository extends AbstractRepository
         $model->instance->amount = $contract->payable_per_month;
 
         //generate payment
-        $days_total = Carbon::parse($contract->period_start)->diffInDays(Carbon::parse($contract->period_end),true);
-
-        
+        $days_total = $contract->getDiffDays();
         $configure = ($contract->configure) ?  $contract->configure : [];
         
         //count how many cycle
@@ -42,40 +44,22 @@ class BillRepository extends AbstractRepository
             'period_start'      =>  Carbon::parse($contract->period_start),
             'effectivity_date'  =>  isset($configure['prep_due_date']) ? Carbon::parse($contract->period_start)->addDays(floatval($configure['prep_due_date'])-1) : Carbon::parse($contract->period_start),
             'payment_no'        =>  isset($configure['prep_series']) ? floatval($configure['prep_series']) :  "Cash",
-            'payment_type'      =>  $contract->contract_type == 'legalized' ? 'cheque' : 'cash',
-            'ref_no'            =>  isset($configure['prep_ref_no']) ? $configure['prep_ref_no'] : '',
-            'prep_bank'         =>  isset($configure['prep_bank']) ? $configure['prep_bank'] : '',
-            'per_month'         =>  $contract->payable_per_month,
+            'amount' =>  $contract->payable_per_month,
         ];
 
-       
+        $generator = new PaymentScheduleGeneratorService($settings);
+        $payments = [];
+        $generator->create(function(&$schedule) use ($configure,$contract,&$payments) {
+            $schedule["reference_no"] = isset($configure['prep_ref_no']) ? $configure['prep_ref_no'] : '';
+            $schedule["bank"] = isset($configure['prep_bank']) ? $configure['prep_bank'] : '';
+            $schedule["payment_type"] =  $contract->contract_type == 'legalized' ? 'cheque' : 'cash';
 
-        $items = [];
+            $payment = Payment::createInstance($schedule);
+            array_push($payments,$payment);
+        });
 
-        for($i=0;$i < $settings['total_month']; $i++) {
-            $item = Payment::createInstance();
-            
-            $item->setPaymentPeriod($settings['period_start']->toDateString());
-            $item->effectivity_date = $settings['effectivity_date'];
-            $item->payment_no = $settings['payment_no'];
-            $item->reference_no = $settings['ref_no'];
-            $item->bank = $settings['prep_bank'];
-            $item->payment_type = $settings['payment_type'];
-            $settings['period_start'] = Carbon::parse($item->period_start)->addMonth();
-            $settings['effectivity_date'] = Carbon::parse($item->effectivity_date->toDateString())->addMonth(1);
-            $item->amount = $settings['per_month'];
-            if(is_numeric($settings['payment_no'])) {
-                $settings['payment_no'] += 1;
-            }
-            array_push($items,$item->toOutputArray());
-
-        }
-
-        $model->payments = $items;
-
+        $model->payments = $payments;
         return $model;
-
-
     }
 
     protected function beforeCreate(&$model,&$source) {

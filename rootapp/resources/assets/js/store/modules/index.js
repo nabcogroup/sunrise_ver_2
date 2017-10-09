@@ -8,6 +8,7 @@ import payments from './payments';
 import expenditures from './expenditures';
 import payees from "./payees";
 import tenants from "./tenants";
+import accountCharts from "./accountcharts";
 
 import liveviews from "./liveviews";
 
@@ -22,8 +23,8 @@ export const store = new Vuex.Store({
         expenditures,
         payees,
         liveviews,
-        tenants
+        tenants,
+        accountCharts
     }
-
 });
 

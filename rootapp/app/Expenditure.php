@@ -50,7 +50,7 @@ class Expenditure extends BaseModel
 
     /* Mutations */
     public function getFullExpenseTypeAttribute() {
-        return $this->appends['full_expense_type'] = Selection::getValue("expense_type",$this->expense_type);
+        return $this->appends['full_expense_type'] = Selection::getValue("account_type",$this->expense_type);
     }
 
     public function getFullLocationAttribute() {

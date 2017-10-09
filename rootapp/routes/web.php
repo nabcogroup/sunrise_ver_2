@@ -14,10 +14,11 @@
 Auth::routes();
 
 
-
-/********************************************************
- * User
-***********************************************************/
+/*
+|--------------------------------------------------------------------------
+| User Web Routes
+|--------------------------------------------------------------------------
+*/
 Route::group(['prefix' =>  "register"], function() {
         Route::get("/edit/{id}", "Auth\RegisterController@edit")->name('user.edit');
         Route::post("/update", "Auth\RegisterController@update")->name('user.update');
@@ -31,9 +32,11 @@ Route::group(['prefix' =>  "register"], function() {
 Route::get('/', "DashboardController@index")->middleware('auth')->name("dashboard");
 Route::get('/api/about', "HomeController@apiInfo");
 
-/********************************************************
- * Villa
- ***********************************************************/
+/*
+|--------------------------------------------------------------------------
+| Villa Web Routes
+|--------------------------------------------------------------------------
+*/
 Route::group(['middleware' => ['auth','roles'],'roles' => ['contract']],function() {
 
     Route::get('villa/',"VillaController@index")->name('villa.manage');
@@ -46,9 +49,11 @@ Route::group(['middleware' => ['auth','roles'],'roles' => ['contract']],function
 
 });
 
-/********************************************************
- * Contract
- ***********************************************************/
+/*
+|--------------------------------------------------------------------------
+| Contract Web Routes
+|--------------------------------------------------------------------------
+*/
 Route::group(["middleware" => ["auth","roles"],"roles" => ["contract"]],function() {
 
     Route::get('contract/',"ContractController@index")->name('contract.manage');
@@ -68,33 +73,59 @@ Route::group(["middleware" => ["auth","roles"],"roles" => ["contract"]],function
     Route::post('api/contract/terminate',"ContractController@apiTerminate");
 });
 
-Route::group(["middleware" => ["auth","roles"],"roles" => ["admin"]], function() {
-    Route::get('contract/extended',["uses" => "ContractController@apiUpdateExtended", "roles" => ["admin"]]);
+/*
+|--------------------------------------------------------------------------
+| Bill Web Routes
+|--------------------------------------------------------------------------
+*/
+Route::group(["middleware" => ["auth","roles"],"roles" => ["account"]],function() {
+
+    Route::get('bill/',["uses" => "ContractBillController@index", "roles" => ["account"]])->name('bill.index');
+    Route::get('bill/create/{contractNo}',["uses" => "ContractBillController@create", "roles" => ["contract","account"]])->name('bill.create');
+    Route::get('bill/show/{billNo}',["uses" => "ContractBillController@show", "roles" => ["contract","account"]])->name('bill.show');
+    Route::get('bill/edit/{billNo?}',["uses" => "ContractBillController@edit", "roles" => ["account"]])->name('bill.edit');
+
+    Route::get('api/bill/list',["uses" => "ContractBillController@apiGetList", "roles" => ["account"]]);
+    Route::get('api/bill/create/{contractNo}',["uses" => "ContractBillController@apiCreate", "roles" => ["contract","account"]]);
+    Route::post('api/bill/store',["uses" => "ContractBillController@apiStore", "roles" => ["contract","account"]]);
+    Route::get('api/bill/edit/{billNo?}',["uses" => "ContractBillController@apiEdit","roles" => ["account"]]);
+    Route::post('api/bill/update',["uses" => "ContractBillController@apiUpdate", "roles" => ["account"]]);
+    Route::get('api/bill/search/{filter?}/{value?}',["uses" => "ContractBillController@apiSearch", "roles" => ["account"]]);
+
 });
 
 
-/********************************************************
- * Bill
- ***********************************************************/
-Route::group(['prefix' => 'bill', 'middleware' => ['auth','roles']],function() {
-    Route::get('/',["uses" => "ContractBillController@index", "roles" => ["account"]])->name('bill.index');
-    Route::get('/create/{contractNo}',["uses" => "ContractBillController@create", "roles" => ["contract","account"]])->name('bill.create');
-    Route::get('/show/{billNo}',["uses" => "ContractBillController@show", "roles" => ["contract","account"]])->name('bill.show');
-    Route::get('/edit/{billNo?}',["uses" => "ContractBillController@edit", "roles" => ["account"]])->name('bill.edit');
+/*
+|--------------------------------------------------------------------------
+| Account Chart Web Routes
+|--------------------------------------------------------------------------
+*/
+Route::group(["middleware" => ["auth","roles"],"roles" => ["account","admin"]],function() {
+
+    Route::get("api/chart/create", "AccountChartController@create");
+    Route::get("api/chart/{id}/edit","AccountChartController@edit");
+    Route::get("api/chart/","AccountChartController@all");
+    Route::post("api/chart/","AccountChartController@store");
+    Route::patch("api/chart/edit","AccountChartController@update");
 });
 
-//bill api
-Route::group(['prefix' => 'api/bill', 'middleware' => ['auth','roles']],function() {
 
-    Route::get('/list',["uses" => "ContractBillController@apiGetList", "roles" => ["account"]]);
-    Route::get('/create/{contractNo}',["uses" => "ContractBillController@apiCreate", "roles" => ["contract","account"]]);
-    Route::post('/store',["uses" => "ContractBillController@apiStore", "roles" => ["contract","account"]]);
-    Route::get('/edit/{billNo?}',["uses" => "ContractBillController@apiEdit","roles" => ["account"]]);
-    Route::post('/update',["uses" => "ContractBillController@apiUpdate", "roles" => ["account"]]);
-    Route::get('/search/{filter?}/{value?}',["uses" => "ContractBillController@apiSearch", "roles" => ["account"]]);
 
-    Route::get('/prepare',"ContractBillController@apiPrepareCheques");
+/*
+|--------------------------------------------------------------------------
+| Expenses Web Routes
+|--------------------------------------------------------------------------
+*/
+Route::group(["middleware" => ["auth","roles"],"roles" => ["account"]],function() {
 
+    Route::get("expenses/","ExpenditureController@index");
+    Route::get("expenses/create","ExpenditureController@register");
+    Route::get("expenses/edit/{id}","ExpenditureController@edit");
+
+    Route::get("api/expenses/create","ExpenditureController@apiCreate");
+    Route::post("api/expenses/store","ExpenditureController@apiStore");
+    Route::get("api/expenses/edit/{id}","ExpenditureController@apiEdit");
+    Route::get("api/expenses/","ExpenditureController@apiGetAll");
 });
 
 
@@ -109,25 +140,6 @@ Route::group(['prefix' => 'reports', 'middleware' => ['auth','roles']],function(
 
 Route::group(['prefix' => 'api/reports', 'middleware' => ['auth','roles']],function() {
     Route::get("/lookups/{reportId}",["uses" =>  "ReportController@apiLookups","roles" => ["contract","account"]]);
-});
-
-/********************************************************
- * Expenses
- ***********************************************************/
-Route::group(['prefix' => 'expenses', 'middleware' => ['auth','roles']], function() {
-    Route::get("/",["uses" => "ExpenditureController@index","roles" => ["account"] ]);
-    Route::get("/create",["uses" => "ExpenditureController@register", "roles" => ["account"]]);
-    Route::get("/edit/{id}",["uses" => "ExpenditureController@edit", "roles" => ["account"]]);
-});
-
-Route::group(['prefix' => 'api/expenses', 'middleware' => ['auth','roles']],function() {
-    
-    Route::get("/create",["uses" => "ExpenditureController@apiCreate", "roles" => ["account"] ]);
-    Route::post("/store",["uses" => "ExpenditureController@apiStore", "roles" => ["account"]]);
-
-    Route::get("/edit/{id}",["uses" => "ExpenditureController@apiEdit","roles" => ["account"]]);
-    Route::get("/",["uses" => "ExpenditureController@apiGetAll","roles" => ["account"]]);
-
 });
 
 

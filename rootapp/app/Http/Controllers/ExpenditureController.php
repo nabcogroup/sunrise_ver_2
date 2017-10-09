@@ -69,7 +69,7 @@ class ExpenditureController extends Controller
 
         $expenditure = $this->repo->createInstance();
 
-        $lookups = $this->selection->getSelections(array('expense_type','payment_term','bank','villa_location','bank_provider'));
+        $lookups = $this->selection->getSelections(array('account_type','payment_term','bank','villa_location','bank_provider'));
         $lookups['accounts'] = AccountChart::all();
         $lookups['villas'] = $this->villa->orderBy('villa_no','asc')->get();
         $lookups['payees'] = Payee::all();

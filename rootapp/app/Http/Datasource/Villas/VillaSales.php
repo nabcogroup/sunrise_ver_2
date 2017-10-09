@@ -32,11 +32,12 @@ class VillaSales implements IDataSource
         $year = isset($this->params['year']) ? (int)$this->params['year'] : \Carbon\Carbon::now()->year;
 
 
+
         //create two queries
         $recordset = $this->createDb('villas')
-        ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
-        ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
-        ->join('payments', 'payments.bill_id', '=', 'contract_bills.id')
+            ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
+            ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
+            ->join('payments', 'payments.bill_id', '=', 'contract_bills.id')
         ->select("villas.villa_no",
                 "payments.status AS payment_status",
                 \DB::raw("YEAR(payments.period_start) AS year_schedule"),

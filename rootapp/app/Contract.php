@@ -2,18 +2,22 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use App\Services\Result;
 
 use App\Traits\HelperTrait;
+
+use App\Traits\PeriodTrait;
 use App\Traits\DeserializeTrait;
-
-use Carbon\Carbon;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contract extends BaseModel
 {
-    use SoftDeletes,HelperTrait,DeserializeTrait;
+    use SoftDeletes,
+        HelperTrait,
+        PeriodTrait,
+        DeserializeTrait;
 
     const PENDING = 'pending';
     const ACTIVE = 'active';
@@ -23,6 +27,7 @@ class Contract extends BaseModel
     protected $table = "contracts";
     protected $appends = ['full_status', 'full_contract_type', 'payable_per_month', 'full_period_start', 'full_period_end', 'total_year_month', 'total_received_payment'];
     protected $hidden = ['deleted_at'];
+    
 
     //factory method
     public static function createInstance($defaultMonths)
@@ -41,7 +46,6 @@ class Contract extends BaseModel
             ->orderBy('villa_no')
             ->get();
             
-
         return $contract;
     }
 
@@ -60,7 +64,7 @@ class Contract extends BaseModel
     {
         
         if ($this->amount > 0) {
-            $totalAmountPerDays = $this->calculatePayableAmount($this->period_start,$this->period_end,$this->amount);
+            $totalAmountPerDays = $this->calculatePayableAmount($this->period_start, $this->period_end, $this->amount);
             return $totalAmountPerDays;
         }
         
@@ -79,16 +83,18 @@ class Contract extends BaseModel
 
     
 
-    protected function getConfigureAttribute($value) {
-        if($value !== null)
+    protected function getConfigureAttribute($value)
+    {
+        if ($value !== null) {
             return $this->getMetaValue($value);
-        else 
+        } else {
             false;
+        }
     }
 
     protected function getTotalYearMonthAttribute()
     {
-        return $this->calculateTotalYearMonth($this->period_start,$this->period_end);
+        return $this->calculateTotalYearMonth($this->period_start, $this->period_end);
     }
 
     protected function getTotalReceivedPaymentAttribute()
@@ -107,68 +113,42 @@ class Contract extends BaseModel
     /******** end mutators ********/
 
     /* navigation */
-    public function contractTerminations()
-    {
+    public function contractTerminations() {
         return $this->hasOne(ContractTermination::class, 'contract_id');
     }
 
-    public function villa()
-    {
+    public function villa() {
         return $this->hasOne(Villa::class, "id", "villa_id");
     }
 
-    public function tenant()
-    {
+    public function tenant() {
         return $this->hasOne(Tenant::class, "id", "tenant_id");
     }
 
-    public function bill()
-    {
+    public function bill() {
 
         return $this->hasMany(ContractBill::class, 'contract_id', 'id');
-
     }
 
     /* end navigation */
 
 
-    public function searchByNo($contractNo)
-    {
-
+    public function searchByNo($contractNo) {
         return $this->where('contract_no', $contractNo);
-
     }
 
-    public function withAssociates()
-    {
-
-        return $this->with('villa')->with('tenant');
-
+    public function withAssociates() {
+        return $this->with(['villa','tenant']);
     }
 
-    public function setDefaultPeriod(Carbon $startPeriod, $default, $extraPeriod = 0)
-    {
-        $this->period_start = $startPeriod->toDateTimeString();
-        $this->period_end = $startPeriod->addMonth($default)->addDay(-1)->toDateTimeString();
-    }
-
-    public function setPeriod($periodStart, $periodEnd)
-    {
-        $this->period_start = $periodStart;
-        $this->period_end = $periodEnd;
-    }
-
-    public function toComputeAmount($rate)
-    {
-        $totalPeriod = Carbon::parse($this->period_start)->diffInDays(Carbon::parse($this->period_end));
+    public function toComputeAmount($rate) {
+        $totalPeriod = $this->getDiffDays();
         $totalMonth = intval($totalPeriod / 30);
         $this->amount = $rate * $totalMonth;
-
     }
 
 
-    public function getWithTotalPayment()
-    {
+    public function getWithTotalPayment() {
 
         $payments = DB::table('contracts')
             ->join('bills', 'contracts.id', '=', 'bills.contract_id')
@@ -181,23 +161,17 @@ class Contract extends BaseModel
     }
 
 
-    public function saveContract($entity, $userId)
-    {
-
+    public function saveContract($entity, $userId) {
         $villaNo = $entity['villa_no'];
         unset($entity['villa_no']);
-
         $entity['contract_no'] = "C" . $villaNo . "-" . Carbon::now()->year . "-" . $this->createNewId();
-
         $this->toMap($entity);
         $this->user_id = $userId;
         $this->pending()->save();
-
         return $this;
     }
 
     public function pending() {
-
         $this->status = "pending";
         return $this;
     }
@@ -232,10 +206,8 @@ class Contract extends BaseModel
             return false;
         }
     }
-
     
-    public function getRemainingBalance()
-    {
+    public function getRemainingBalance() {
         if ($this->bill()->first() == null) {
             return 0;
         }
@@ -243,17 +215,31 @@ class Contract extends BaseModel
         return $this->bill()->first()->withPendingPayments()->sum("amount");
     }
 
-    public function getRemainingPeriod() {
-        $endPeriod = Carbon::parse($this->period_end);
-        $remaining = $endPeriod->diffInDays(Carbon::now());
-        return $remaining;
-    }
+    public function isReconcile($total_payment)
+    {
 
-    public function isReconcile($total_payment) {
-
-        if($total_payment >= $this->amount) {
+        if ($total_payment >= $this->amount) {
             return true;
         }
         return false;
+    }
+
+    public function fixTerminate()
+    {
+        try {
+            if ($this->status == "terminated") {
+                $payments = $this->bill()->first()->payments()->where("status", "<>", "clear")->get();
+                foreach ($payments as $payment) {
+                    if ($payment->status != "clear") {
+                        $payment->setStatusToCancel();
+                        $payment->save();
+                    }
+                }
+            }
+        }
+        catch(Exception $e) {
+            return Result::badRequest(["message" => $e->getMessage()]);
+        }
+        
     }
 }

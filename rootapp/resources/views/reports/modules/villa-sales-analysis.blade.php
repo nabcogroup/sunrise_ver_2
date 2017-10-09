@@ -11,6 +11,7 @@
         <thead>
             <tr>
                 <th class="text-center">Villa No</th>
+                <th>Status</th>
                 @for($i = $datasource['month_from'];$i <= $datasource['month_to'];$i++)
                     <th class="text-center">{{date('M', mktime(0, 0, 0, $i, 10))}}</th>
                 @endfor
@@ -24,40 +25,45 @@
             @endphp
             
             @foreach($datasource['data'] as $villa_key => $villa)
-                @php 
-                    $total_payable = 0;
-                @endphp 
-                <tr>
-                    <td><a href="/reports/villa_history?villa_no={{$villa_key}}" target="_blank">{{$villa_key}}</a></td>
-                    @for($i = $datasource['month_from'];$i <= $datasource['month_to'];$i++)
-                        @if(isset($villa[$i]))
-                            @foreach($villa[$i] as $item)
-                                @if($item->payment_status === "clear")
-                                    
-                                    @php
-                                        $total_payable += $item->monthly_payable;
-                                        $month_name = date('M', mktime(0, 0, 0, $i, 10));
-                                        
-                                        if(!isset($grand_total_per_month[$month_name])) {
-                                            $grand_total_per_month[$month_name] = $item->monthly_payable;
-                                        }
-                                        else {
-                                            $grand_total_per_month[$month_name] += $item->monthly_payable;
-                                        }
-                                         $grand_total_payable += $item->monthly_payable;
-                                    @endphp
+                @foreach($villa as $status_key => $status_item) 
+                    @php 
+                        $total_payable = 0;
+                    @endphp 
+                    <tr>
+                        <td><a href="/reports/villa_history?villa_no={{$villa_key}}" target="_blank">{{$villa_key}}</a></td>
+                        <td>{{$status_key}}</td>
+                        @for($i = $datasource['month_from'];$i <= $datasource['month_to'];$i++)
+                            @if(isset($status_item[$i]))   
+                                @foreach($status_item[$i] as $item)
+                                    @if($item->payment_status === "clear")
+                                        @php
+                                            $total_payable += $item->monthly_payable;
+                                            $month_name = date('M', mktime(0, 0, 0, $i, 10));
+                                            
+                                            if(!isset($grand_total_per_month[$month_name])) {
+                                                $grand_total_per_month[$month_name] = $item->monthly_payable;
+                                            }
+                                            else {
+                                                $grand_total_per_month[$month_name] += $item->monthly_payable;
+                                            }
+                                            $grand_total_payable += $item->monthly_payable;
+                                        @endphp
 
-                                    <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
-                                @else
-                                    <td class="text-right">{{number_format(0,2)}}</td>
-                                @endif
-                            @endforeach
-                        @else
-                            <td class="text-center text-danger"><strong>VACATED</strong></td>
-                        @endif
-                    @endfor
-                    <td class="text-right danger"><strong>{{number_format($total_payable,2)}}</strong></td>
-                </tr>
+                                        <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
+                                    @elseif($item->payment_status == "cancelled" && floatval($item->monthly_payable) == 0)
+                                        <td class="text-center text-danger"><strong>{{number_format($item->monthly_payable,2)}}</strong></td>    
+                                    @else
+                                        <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
+                                    @endif
+                                @endforeach
+                            @else
+                                <td class="text-center text-danger"><strong>VACATED</strong></td>
+                            @endif
+                        @endfor
+                        <td class="text-right danger"><strong>{{number_format($total_payable,2)}}</strong></td>
+                    </tr>
+                @endforeach
+                
             @endforeach
         </tbody>
         <tfoot>

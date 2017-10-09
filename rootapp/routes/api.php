@@ -67,3 +67,5 @@ Route::get("mockups/calendars","MockupMobileController@mockCalendar");
 Route::get("mockups/contracts/{status?}","MockupMobileController@mockContractList");
 
 
+//Utilities 
+Route::get("utilities/contract/{action}","Utilities\ContractUtilityController@execute");

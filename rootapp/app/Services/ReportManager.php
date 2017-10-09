@@ -55,35 +55,40 @@ class ReportManager
                 'data' =>  [
                     [
                         'id' => 2,
-                        'report_title' => 'Villa Master List - Contract Value',
+                        'report_title' => 'Contract Master List',
                         'report_name' => 'contract_value',
                         'created' => Carbon::now()->toDateString()
                     ],
                     [
                         'id' => 7,
-                        'report_title' => 'Contract Master File - Active',
+                        'report_title' => 'Active Contract Status',
                         'report_name' => 'contract_active',
                         'created' => Carbon::now()->toDateString()
                     ],
                     [
-                        'id' => 5,
-                        'report_title' => 'Contract Master File - Pending',
-                        'report_name' => 'contract_pending',
-                        'created' => Carbon::now()->toDateString()
-                    ],
-                    [
                         'id' => 6,
-                        'report_title' => 'Contract Master File - Expiring Contract',
+                        'report_title' => 'Due Contract',
                         'report_name' => 'contract_expiry',
                         'created' => Carbon::now()->toDateString()
                     ],
+                   
+                ]
+            ],
+            'bill' => [
+                'title' =>  'Account Receivable Report',
+                'data'  =>  [ 
                     [
                         'id' => 8,
-                        'report_title' => 'Contact Payment Schedule',
+                        'report_title' => 'Payment Schedule',
                         'report_name' => 'payment_schedule',
                         'created' => Carbon::now()->toDateString()
                     ],
-
+                    [
+                        'id' => 3,
+                        'report_title' => 'Payment Sales Analysis',
+                        'report_name' => 'villa_payment',
+                        'created' => Carbon::now()->toDateString()
+                    ],
                 ]
             ],
             'villa' => [
@@ -95,14 +100,6 @@ class ReportManager
                         'report_name' => 'villa_master',
                         'created' => Carbon::now()->toDateString()
                     ],
-
-                    [
-                        'id' => 3,
-                        'report_title' => 'Villa Master - Payment',
-                        'report_name' => 'villa_payment',
-                        'created' => Carbon::now()->toDateString()
-                    ],
-
                 ]
             ],
             'expenses' => [
@@ -272,7 +269,7 @@ class ReportManager
                             'selection' => 'months',
                             'model' => 'month',
                             'actions' => ['func' => 'autoDate', 'bind_from' => 'month_from','bind_to' => 'month_to']
-                        ],
+                        ],  
                         ['label' => 'Date From', 'type' => 'date','model' => 'month_from','placeholder' => 'Enter Month From'],
                         ['label' => 'Date To', 'type' => 'date', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
                         
@@ -280,9 +277,8 @@ class ReportManager
                 'models' => [
                     'account_no' => '',
                     'month' => Carbon::now()->month,
-                    'month_from' => Carbon::createFromDate(Carbon::now()->year,Carbon::now()->month,1)->format("M/d/Y"),
-                    'month_to' => Carbon::createFromDate(Carbon::now()->year,Carbon::now()->month,1)->addMonth()->subDay()->format("M/d/Y"),
-                    'year' => '2017',
+                    'month_from' => Carbon::createFromDate(Carbon::now()->year,Carbon::now()->month,1)->format("m/d/Y"),
+                    'month_to' => Carbon::createFromDate(Carbon::now()->year,Carbon::now()->month,1)->addMonth()->subDay()->format("m/d/Y"),
                 ],
                 'lookups' => []
             ]

@@ -48,10 +48,12 @@ class ContractController extends Controller
     public function show($id)
     {
         try {
+
             if ($contract = $this->contractRepo->find($id)) {
                 $billNo = $contract->bill()->first()->bill_no;
                 return redirect()->route("bill.show", $billNo);
-            } else {
+            } 
+            else {
                 throw new Exception("Contract not found");
             }
         } catch (Exception $e) {
@@ -65,11 +67,15 @@ class ContractController extends Controller
         //check if the has a vacant villa
         //if not redirect back to list
         $bundle = new Bundle();
+
         event(new Verify($bundle, new EventListenerRegister(["VerifyVillaVacancy"])));
+        
         $count = $bundle->getOutput("count");
+       
         if ($count == 0) {
             return redirect()->route('contract.manage');
         }
+
         return view("contract.register");
     }
 
@@ -94,32 +100,42 @@ class ContractController extends Controller
     {   
         try {
             $periods = $request->all();
-            $contracts = $this->contractRepo->includeAssociates()
-                ->activeOnly()
-                ->getExpiryContracts(Carbon::parse($periods['start']), Carbon::parse($periods['end']))
-                ->get();
 
-            $events = array();
+            $eventCalendar  = $this->contractRepo->getEventCalendar($periods['start'],$periods['end']);
+            $eventCalendar->create(function($collection,&$event) {
+                    $event["title"] = $collection->villa()->first()->villa_no ." - ".$collection->tenant()->first()->full_name;
+                    $event["id"]    = $collection->getId();
+                    $event["full_name"]   =  $collection->tenant()->first()->full_name;
+                    $event["contract_no"]   =  $collection->contract_no;
+            });
 
-            if ($contracts) {
-                foreach ($contracts as $contract) {
-                    $event = [
-                        "contract"      =>  $contract,
-                        "id"            =>  $contract->getId(),
-                        "contract_no"   =>  $contract->contract_no,
-                        "full_name"   =>  $contract->tenant()->first()->full_name,
-                        "period"        =>  ["start" => $contract->period_start, "end" => $contract->period_end_extended],
-                        "title"         =>  $contract->villa()->first()->villa_no ." - ".$contract->tenant()->first()->full_name,
-                        "start"         =>  Carbon::parse($contract->period_end_extended)->subDays(self::DEFAULT_EXPIRED_PERIOD)->toDateString(),
-                        "end"           =>  Carbon::parse($contract->period_end_extended)->toDateString(),
-                        "canRenew"      =>  true,
-                    ];
 
-                    array_push($events, $event);
-                }
-            }
+//            $contracts = $this->contractRepo->includeAssociates()
+//                ->activeOnly()
+//                ->getExpiryContracts(Carbon::parse($periods['start']), Carbon::parse($periods['end']))
+//                ->get();
+//
+//            $events = array();
+//
+//            if ($contracts) {
+//                foreach ($contracts as $contract) {
+//                    $event = [
+//                        "contract"      =>  $contract,
+//                        "id"            =>  $contract->getId(),
+//                        "contract_no"   =>  $contract->contract_no,
+//                        "full_name"   =>  $contract->tenant()->first()->full_name,
+//                        "period"        =>  ["start" => $contract->period_start, "end" => $contract->period_end_extended],
+//                        "title"         =>  $contract->villa()->first()->villa_no ." - ".$contract->tenant()->first()->full_name,
+//                        "start"         =>  Carbon::parse($contract->period_end_extended)->subDays(self::DEFAULT_EXPIRED_PERIOD)->toDateString(),
+//                        "end"           =>  Carbon::parse($contract->period_end_extended)->toDateString(),
+//                        "canRenew"      =>  true,
+//                    ];
+//
+//                    array_push($events, $event);
+//                }
+//            }
 
-            return $events;
+            return $eventCalendar->getEvents();
         } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }
@@ -142,6 +158,7 @@ class ContractController extends Controller
     public function apiCreate()
     {
         try {
+
             $outputs = array();
             $data = $this->contractRepo->create(self::DEFAULT_PERIOD);
 
@@ -399,4 +416,5 @@ class ContractController extends Controller
             return Result::badRequest(['message' => $e->getMessage()]);
         }
     }
+    
 }

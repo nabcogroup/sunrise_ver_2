@@ -46,12 +46,13 @@
                                             else {
                                                 $grand_total_per_month[$month_name] += $item->monthly_payable;
                                             }
+                                            
                                             $grand_total_payable += $item->monthly_payable;
                                         @endphp
 
                                         <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
                                     @elseif($item->payment_status == "cancelled" && floatval($item->monthly_payable) == 0)
-                                        <td class="text-center text-danger"><strong>{{number_format($item->monthly_payable,2)}}</strong></td>    
+                                        <td class="text-center text-danger"><strong>VACATED</strong></td>    
                                     @else
                                         <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
                                     @endif
@@ -63,7 +64,6 @@
                         <td class="text-right danger"><strong>{{number_format($total_payable,2)}}</strong></td>
                     </tr>
                 @endforeach
-                
             @endforeach
         </tbody>
         <tfoot>

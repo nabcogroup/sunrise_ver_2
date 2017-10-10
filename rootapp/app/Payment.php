@@ -155,7 +155,9 @@ class Payment extends BaseModel
     }
 
    
-
+    public function onlyClear() {
+        return $this->where("status","clear");
+    }
 
     public function toOutputArray()
     {

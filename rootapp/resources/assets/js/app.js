@@ -58,6 +58,8 @@ import PayeeList from "./components/payee/PayeeList.vue";
 import BillList from "./components/bill/BillList.vue";
 import TenantList from "./components/tenant/TenantList.vue";
 import TenantRegister from "./components/tenant/TenantReg.vue";
+import AccountChartRegister from "./components/accountchart/Register.vue";
+
 
 Vue.filter('toDateFormat', (value) => {
     if(isNaN(Date.parse(value))) {
@@ -94,7 +96,8 @@ new Vue({
         PayeeList,
         BillList,
         TenantList,
-        TenantRegister
+        TenantRegister,
+        AccountChartRegister
     }
 });
 

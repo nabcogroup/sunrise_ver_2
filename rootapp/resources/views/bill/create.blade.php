@@ -3,6 +3,7 @@
 @section("content")
     <div>
         {!! Breadcrumbs::render('bill.create') !!}
+        
         <bill-register 
             :instance-lookups="{{htmlentities(json_encode($lookups,ENT_QUOTES))}}"
             :instance-contract="{{htmlentities(json_encode($contract,ENT_QUOTES))}}" 

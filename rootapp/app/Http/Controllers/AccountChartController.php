@@ -19,8 +19,9 @@ class AccountChartController extends Controller
     }
 
 
-    public function register()
+    public function register($id = 0)
     {
+        return view("accountchart.register",compact("id"));
     }
 
 

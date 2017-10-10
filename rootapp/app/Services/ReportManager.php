@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 
+use App\Http\Reports\VillaPaymentCollectionReport;
 use Carbon\Carbon;
 use App\Http\Reports\BankReport;
 use App\Http\Reports\TenantReport;
@@ -33,15 +34,17 @@ class ReportManager
             'contract_value'        =>  new ContractReport($params,'value'),
             'contract_pending'      =>  new ContractReport($params,'pending'),
             'contract_expiry'       =>  new ContractReport($params,'expiry'),
-            'contract_active'       =>  new ContractReport($params,'active'),
-            'payment_schedule'      =>  new ContractReport($params,'payment_schedule'),
-            'villa_payment'         =>  new VillaSalesReport($params),
+            'contract_active'               =>  new ContractReport($params,'active'),
+            'payment_schedule'              =>  new ContractReport($params,'payment_schedule'),
+            'villa_payment'                 =>  new VillaSalesReport($params),
+            'payment_collection_per_villa'  =>  new VillaPaymentCollectionReport($params),
             'expense_property'      =>  new ExpenseMasterReport($params),
             'villa_history'         =>  new VillaFormReport($params,'ledger'),
             'tenant_history'        =>  new TenantReport($params),
             "bank_report_detail"    =>  new BankReport("detail",$params),
             "bank_report_summary"   =>  new BankReport("summary",$params),   
-            'villa_master_list'     =>  new VillaMasterListReport($params)
+            'villa_master_list'     =>  new VillaMasterListReport($params),
+
         ];
         
         return self::$reports[$key];

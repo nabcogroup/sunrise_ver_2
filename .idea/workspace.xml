@@ -47,7 +47,7 @@
         <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaPaymentCollection.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="665">
-              <caret line="52" column="8" lean-forward="true" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
+              <caret line="52" column="8" lean-forward="false" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -588,12 +588,12 @@
       <workItem from="1507539475398" duration="1797000" />
       <workItem from="1507541289550" duration="1840000" />
       <workItem from="1507650013698" duration="1991000" />
-      <workItem from="1507652020289" duration="70000" />
+      <workItem from="1507652020289" duration="603000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="847801000" />
+    <option name="totallyTimeSpent" value="848334000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -606,7 +606,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21055438" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1015,7 +1014,7 @@
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaPaymentCollection.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="665">
-          <caret line="52" column="8" lean-forward="true" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
+          <caret line="52" column="8" lean-forward="false" selection-start-line="52" selection-start-column="8" selection-end-line="52" selection-end-column="8" />
           <folding />
         </state>
       </provider>

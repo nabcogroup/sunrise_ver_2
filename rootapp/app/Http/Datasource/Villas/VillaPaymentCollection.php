@@ -17,6 +17,7 @@ class VillaPaymentCollection implements IDataSource {
     public function __construct($params)
     {
         $this->params = $params;
+
     }
 
     public function execute() {
@@ -46,9 +47,30 @@ class VillaPaymentCollection implements IDataSource {
                         ->orderBy("villas.villa_no")
                         ->get();
 
-        $groupSummary = $this->arrayGroupBy($recordset,null,["villa_no","payment_type","month_deposited"]);
+        $groupSummary = $this->arrayGroupBy($recordset,function($row) {
 
-        return $groupSummary;
+            $item = [
+                "villa_no" => $row->villa_no,
+
+            ];
+
+            return $item;
+
+        },["villa_no","payment_type","month_deposited"]);
+        for($i = $month_from; $i <= $month_to; $i++) {
+            $headers[] = date('M', mktime(0, 0, 0, $i, 10));
+        }
+
+        $ret_value = [
+            'location'      =>  \App\Selection::getValue("villa_location",$location),
+            'year'          =>  $year,
+            'month_from'    => $month_from,
+            'month_to'      => $month_to,
+            'data'          => $groupSummary
+        ];
+
+
+        return $ret_value;
 
         
         

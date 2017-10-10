@@ -31,8 +31,6 @@ class VillaSales implements IDataSource
         $location = isset($this->params['location']) ? $this->params['location'] : 'sv1';
         $year = isset($this->params['year']) ? (int)$this->params['year'] : \Carbon\Carbon::now()->year;
 
-
-
         //create two queries
         $recordset = $this->createDb('villas')
             ->join('contracts', 'contracts.villa_id', '=', 'villas.id')

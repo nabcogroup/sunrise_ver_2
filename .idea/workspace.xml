@@ -11,33 +11,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="VillaSalesReport.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaSalesReport.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="21" column="39" lean-forward="false" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VillaPaymentCollectionReport.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaPaymentCollectionReport.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="17" column="18" lean-forward="false" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ReportManager.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportManager.php">
+        <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportManager.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="39" column="41" lean-forward="false" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="41" />
+            <state relative-caret-position="51">
+              <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding>
-                <element signature="e#126#176#0#PHP" expanded="true" />
+                <element signature="e#46#96#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReportMapper.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportMapper.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+              <folding>
+                <element signature="e#46#64#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReportController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ReportController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="261">
+              <caret line="38" column="31" lean-forward="true" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
+              <folding>
+                <element signature="e#41#86#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -46,9 +50,11 @@
       <file leaf-file-name="VillaPaymentCollection.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaPaymentCollection.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="518">
-              <caret line="36" column="85" lean-forward="true" selection-start-line="36" selection-start-column="85" selection-end-line="36" selection-end-column="85" />
-              <folding />
+            <state relative-caret-position="493">
+              <caret line="29" column="50" lean-forward="true" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
+              <folding>
+                <element signature="e#47#91#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -56,8 +62,20 @@
       <file leaf-file-name="VillaSales.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaSales.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="461">
-              <caret line="65" column="10" lean-forward="true" selection-start-line="59" selection-start-column="6" selection-end-line="65" selection-end-column="10" />
+            <state relative-caret-position="340">
+              <caret line="23" column="32" lean-forward="true" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+              <folding>
+                <element signature="e#48#84#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ReportParameter.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportParameter.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -112,17 +130,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaPaymentSchedule.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaSalesReport.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Repositories/BillRepository.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/ContractReport.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa-sales.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/payment-schedule.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/PaymentSchedule.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VCombo.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/plugins.js" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/DataView.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillRegister.vue" />
         <option value="$PROJECT_DIR$/rootapp/config/database.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/Sidebar.vue" />
@@ -160,8 +167,19 @@
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/Utilities/ContractUtilityController.php" />
         <option value="$PROJECT_DIR$/rootapp/routes/web.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/AccountChartController.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaPaymentCollectionReport.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Services/ReportManager.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaSalesReport.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Services/ReportMapper.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa-sales-analysis.blade.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa-payment-collection.blade.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa_report/villa_payment_collection.blade.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa_report/component/payment_collection_theme_pivot.blade.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaPaymentCollectionReport.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportMapper.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportManager.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ReportController.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaSales.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportParameter.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaPaymentCollection.php" />
       </list>
     </option>
@@ -230,8 +248,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -279,13 +295,62 @@
               <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Reports" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Services" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Services" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="ReportSevice" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="reports" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="reports" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="views" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="reports" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="villa_report" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -298,11 +363,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\experiment\rootapp\app\Services\ReportSevice" />
+      <recent name="C:\xampp\htdocs\experiment\rootapp\resources\views\reports\modules\villa_report" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\app\Http\Datasource\Contracts" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\app\Http\Datasource\Villas" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\app\Http\Datasource\Expenses" />
-      <recent name="C:\xampp\htdocs\experiment\rootapp\app" />
-      <recent name="C:\xampp\htdocs\experiment\rootapp\app\Models" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\experiment\rootapp\resources\assets\js\plugins\containers" />
@@ -590,11 +655,17 @@
       <workItem from="1507650013698" duration="1991000" />
       <workItem from="1507652020289" duration="603000" />
       <workItem from="1507658171773" duration="930000" />
+      <workItem from="1507705278626" duration="1793000" />
+      <workItem from="1507707088818" duration="1794000" />
+      <workItem from="1507708895613" duration="1794000" />
+      <workItem from="1507710705352" duration="1793000" />
+      <workItem from="1507712514046" duration="1719000" />
+      <workItem from="1507714322730" duration="1233000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="849264000" />
+    <option name="totallyTimeSpent" value="859390000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -607,12 +678,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21268657" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22547974" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2820513" sideWeight="0.38303342" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0412595" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.13572204" sideWeight="0.6169666" order="7" side_tool="false" content_ui="tabs" />
@@ -657,53 +729,11 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="76" />
+      <option name="time" value="78" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Tenants/TenantHistory.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="25" column="0" lean-forward="true" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/contract/calendar.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="10" lean-forward="true" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/MockupMobileController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="62" column="104" lean-forward="false" selection-start-line="62" selection-start-column="104" selection-end-line="62" selection-end-column="104" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/CalendarController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="40" lean-forward="false" selection-start-line="17" selection-start-column="40" selection-end-line="17" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="298" column="0" lean-forward="true" selection-start-line="298" selection-start-column="0" selection-end-line="298" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Providers/AuthServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="25" column="34" lean-forward="false" selection-start-line="25" selection-start-column="34" selection-end-line="25" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/config/auth.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="561">
@@ -978,45 +1008,106 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaPaymentCollectionReport.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaSalesReport.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="18" lean-forward="false" selection-start-line="17" selection-start-column="18" selection-end-line="17" selection-end-column="18" />
+        <state relative-caret-position="0">
+          <caret line="23" column="38" lean-forward="false" selection-start-line="23" selection-start-column="38" selection-end-line="23" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportManager.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa-sales-analysis.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="39" column="41" lean-forward="false" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="41" />
+        <state relative-caret-position="544">
+          <caret line="32" column="50" lean-forward="false" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
           <folding>
-            <element signature="e#126#176#0#PHP" expanded="true" />
+            <marker date="1507706626268" expanded="true" signature="817:882" ph="..." />
+            <marker date="1507706626268" expanded="true" signature="1634:2409" ph="..." />
+            <marker date="1507706626268" expanded="true" signature="1908:2063" ph="..." />
+            <marker date="1507706626268" expanded="true" signature="2115:2271" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaSalesReport.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa_report/villa_payment_collection.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="21" column="39" lean-forward="false" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaPaymentCollectionReport.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa_report/component/payment_collection_theme_pivot.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="35" lean-forward="false" selection-start-line="1" selection-start-column="35" selection-end-line="1" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportMapper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+          <folding>
+            <element signature="e#46#64#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding>
+            <element signature="e#46#96#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportParameter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="19" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ReportController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="38" column="31" lean-forward="true" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
+          <folding>
+            <element signature="e#41#86#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaSales.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="65" column="10" lean-forward="true" selection-start-line="59" selection-start-column="6" selection-end-line="65" selection-end-column="10" />
-          <folding />
+        <state relative-caret-position="340">
+          <caret line="23" column="32" lean-forward="true" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+          <folding>
+            <element signature="e#48#84#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaPaymentCollection.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="36" column="85" lean-forward="true" selection-start-line="36" selection-start-column="85" selection-end-line="36" selection-end-column="85" />
-          <folding />
+        <state relative-caret-position="493">
+          <caret line="29" column="50" lean-forward="true" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
+          <folding>
+            <element signature="e#47#91#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

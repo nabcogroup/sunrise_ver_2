@@ -1,14 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnold.mercado
- * Date: 8/2/2017
- * Time: 10:18 AM
- */
 
-namespace App\Services;
-
-
+namespace App\Services\ReportService;
 
 use App\Http\Reports\VillaPaymentCollectionReport;
 use Carbon\Carbon;
@@ -20,7 +12,7 @@ use App\Http\Reports\VillaSalesReport;
 use App\Http\Reports\ExpenseMasterReport;
 
 use App\Http\Reports\VillaMasterListReport;
-use App\Http\Datasource\Villas\PaymentSchedule;
+
 
 class ReportManager
 {

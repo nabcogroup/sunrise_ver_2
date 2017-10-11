@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ReportManager;
 
-use App\Villa;
-use Carbon\Carbon;
-use Http\Datasource\ActiveVillaDataSource;
+use App\Services\ReportService\ReportManager;
+use App\Services\ReportService\ReportMapper;
 use Illuminate\Http\Request;
 
 use PDF;
@@ -56,10 +54,13 @@ class ReportController extends Controller
         $inputs = $request->all();
         $report = ReportManager::get($reportId,$inputs);
         $datasource = $report->execute();
-        $template = $report->getTemplateSource();
-
-
-        return $datasource;
+        
+        if($datasource instanceof ReportMapper) {
+            return $datasource->toJson();
+        }
+        else {
+            return $datasource;
+        }
     }
 
     

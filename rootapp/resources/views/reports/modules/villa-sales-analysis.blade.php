@@ -1,18 +1,17 @@
 @component('layouts.report')
-    
+
     @slot('report_title')
         <div class="text-right">
-            <h1>Villa - Sales Analysis</h1>
-            <h3 class="text-danger"><strong>Year: {{$datasource['year']}}</strong></h3>
+            <h1>{{$datasource->getTitle()}}</h1>
+            <h3 class="text-danger"><strong>Year: {{$datasource->getParam('year')}}</strong></h3>
         </div>
     @endslot
-    <p>{{$datasource["location"]}}</p>
+    <p>{{$datasource->getParam("location")}}</p>
     <table class="table table-condensed table-bordered">
         <thead>
             <tr>
                 <th class="text-center">Villa No</th>
-                <th>Status</th>
-                @for($i = $datasource['month_from'];$i <= $datasource['month_to'];$i++)
+                @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
                     <th class="text-center">{{date('M', mktime(0, 0, 0, $i, 10))}}</th>
                 @endfor
                 <th class="text-center">Total</th>
@@ -24,17 +23,15 @@
                 $grand_total_payable = 0; 
             @endphp
             
-            @foreach($datasource['data'] as $villa_key => $villa)
-                @foreach($villa as $status_key => $status_item) 
+            @foreach($datasource->getData() as $villa_key => $villa)
                     @php 
                         $total_payable = 0;
                     @endphp 
                     <tr>
                         <td><a href="/reports/villa_history?villa_no={{$villa_key}}" target="_blank">{{$villa_key}}</a></td>
-                        <td>{{$status_key}}</td>
-                        @for($i = $datasource['month_from'];$i <= $datasource['month_to'];$i++)
-                            @if(isset($status_item[$i]))   
-                                @foreach($status_item[$i] as $item)
+                        @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
+                            @if(isset($villa[$i]))
+                                @foreach($villa[$i] as $item)
                                     @if($item->payment_status === "clear")
                                         @php
                                             $total_payable += $item->monthly_payable;
@@ -63,13 +60,11 @@
                         @endfor
                         <td class="text-right danger"><strong>{{number_format($total_payable,2)}}</strong></td>
                     </tr>
-                @endforeach
             @endforeach
         </tbody>
         <tfoot>
             <td class="text-right"><strong>GRAND TOTAL</strong></td>
-            @for($i = $datasource['month_from'];$i <= $datasource['month_to'];$i++)
-
+            @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
                     <td class="text-right"><strong>{{number_format(isset($grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))]) ? $grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))] : 0,2)}}<srong></th>
             @endfor
             <td class="text-right danger"><strong>{{number_format($grand_total_payable,2)}}<strong></td>   

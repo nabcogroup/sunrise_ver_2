@@ -5,7 +5,7 @@ namespace App\Http\Datasource\Villas;
 
 
 use App\Http\Datasource\IDataSource;
-use Carbon\Carbon;
+use App\Services\ReportService\ReportMapper;
 
 use App\Traits\ArrayGroupTrait;
 use App\Traits\QuerySoftDeleteTrait;
@@ -36,38 +36,36 @@ class VillaSales implements IDataSource
             ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
             ->join('payments', 'payments.bill_id', '=', 'contract_bills.id')
-        ->select("villas.villa_no",
+            ->select("villas.villa_no",
                 "payments.status AS payment_status",
                 \DB::raw("YEAR(payments.period_start) AS year_schedule"),
                 \DB::raw("MONTH(payments.period_start) AS monthly_schedule"),
                 \DB::raw("SUM(payments.amount) AS monthly_payable"),
                 \DB::raw("(SELECT SUM(amount) FROM payments where status ='clear' AND bill_id = contract_bills.id) AS total_payable"))
-        ->groupBy(
-            "villas.villa_no",
-            \DB::raw("MONTH(payments.period_start)"))
-        ->whereNull("contracts.deleted_at")
-        ->where("villas.location",$location)
-        ->where(\DB::raw("YEAR(payments.period_start)"),$year)
-        ->orderBy("villas.villa_no")
-        ->get();
+            ->groupBy(
+                "villas.villa_no",
+                \DB::raw("MONTH(payments.period_start)"))
+            ->whereNull("contracts.deleted_at")
+            ->where("villas.location",$location)
+            ->where(\DB::raw("YEAR(payments.period_start)"),$year)
+            ->orderBy("villas.villa_no")
+            ->get();
 
-        $groupParent = [];
+
         $groupSummary = $this->arrayGroupBy($recordset,null,["villa_no","monthly_schedule"]);
         for($i = $month_from;$i <= $month_to;$i++) {
            $headers[] = date('M', mktime(0, 0, 0, $i, 10));
         }
 
-        $ret_value = [
+        $params = [
             'location'      =>  \App\Selection::getValue("villa_location",$location),
             'year'          =>  $year,
             'month_from'    => $month_from,
-            'month_to'      => $month_to,
-            'data'          => $groupSummary
+            'month_to'      => $month_to
         ];
 
-        
+        return new ReportMapper("Villa Sales Report",$params,$groupSummary);
 
-        return $ret_value;
 
         // // $recordset = $this->createDb('villas')
         // //     ->join('contracts', 'contracts.villa_id', '=', 'villas.id')

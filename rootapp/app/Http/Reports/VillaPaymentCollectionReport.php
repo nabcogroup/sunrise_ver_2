@@ -15,7 +15,7 @@ class VillaPaymentCollectionReport extends BaseReport {
 
     public function getTemplateSource()
     {
-        return "";
+        return "villa_report.villa_payment_collection";
     }
 
     public function isPdfRender()
@@ -25,7 +25,7 @@ class VillaPaymentCollectionReport extends BaseReport {
 
     public function isApi()
     {
-        return true;
+        return false;
     }
 
     public function getLookups()

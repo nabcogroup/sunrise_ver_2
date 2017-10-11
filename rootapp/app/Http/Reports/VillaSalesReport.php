@@ -21,7 +21,7 @@ class VillaSalesReport extends BaseReport
 
     public function getTemplateSource()
     {
-        return "villa-sales-analysis1";
+        return "villa-sales-analysis";
     }
 
     public function isPdfRender()

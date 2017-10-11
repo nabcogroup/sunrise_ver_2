@@ -65,7 +65,7 @@ class VillaSales implements IDataSource
             'data'          => $groupSummary
         ];
 
-        //added in dev/arnold
+        
 
         return $ret_value;
 

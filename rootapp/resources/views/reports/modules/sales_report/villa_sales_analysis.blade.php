@@ -67,7 +67,7 @@
             @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
                     <td class="text-right"><strong>{{number_format(isset($grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))]) ? $grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))] : 0,2)}}<srong></th>
             @endfor
-            <td class="text-right danger"><strong>{{number_format($grand_total_payable,2)}}<strong></td>   
+            <td class="text-right danger"><strong>{{number_format($grand_total_payable,2)}}</strong></td>
         </tfoot>
     </table>
 

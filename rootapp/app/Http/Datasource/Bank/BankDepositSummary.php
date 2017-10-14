@@ -18,9 +18,9 @@ class BankDepositSummary implements IDataSource {
 
     public function execute() {
 
-        $month = isset($this->params['month']) ? $this->params['month'] :  Carbon::now()->month;
-        $year =  isset($this->params['year']) ? $this->params['year'] :  Carbon::now()->year;
-        $account_no = $this->params['account_no'];
+        $month = $this->params->field("month",Carbon::now()->month);
+        $year =  $this->params->field("month",Carbon::now()->year);
+        $account_no = $this->params->field("account_no");
         $accounts = BankAccount::where("account_no",$account_no)->first();
         
         $rows = [
@@ -28,6 +28,7 @@ class BankDepositSummary implements IDataSource {
             "bank_name"     =>  $accounts->bank_name,
             "payments"      =>  $accounts->getAccountSummaryPerYear($year)->get()
         ];
+
             
         return [
             "title" =>  "Bank Deposit Summary",

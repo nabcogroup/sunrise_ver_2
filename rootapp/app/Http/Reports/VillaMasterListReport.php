@@ -13,12 +13,9 @@ class VillaMasterListReport extends BaseReport {
     public function __construct($params) {
         
         $this->dataSource = new VillaMasterlist($params);
+        $this->templateSource = "villas.masterlist";
     }
 
-    public function getTemplateSource()
-    {
-        return "villa-master-list";
-    }
 
     public function isPdfRender()
     {

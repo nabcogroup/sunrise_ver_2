@@ -3,27 +3,29 @@
 namespace App\Http\Datasource\Expenses;
 
 
+use Carbon\Carbon;
+use App\Selection;
 use App\Expenditure;
 use App\Http\Datasource\IDataSource;
-use Carbon\Carbon;
+use App\Services\ReportService\ReportMapper;
 
 class ExpensesMaster implements IDataSource
 {
-    private $param;
+    private $params;
 
-    public function __construct($param)
+    public function __construct($params)
     {
-        $this->param = $param;
+        $this->params = $params;
     }
 
     public function execute()
     {
 
-        $location = isset($this->param['location']) ? $this->param['location'] : '';
-        $villa_id = isset($this->param['villa_id']) ? $this->param['villa_id'] : '';
+        $location = $this->params->field("location");
+        $villa_id = $this->params->field("villa_id",0);
 
-        $date_from = isset($this->param['date_from']) ? Carbon::parse($this->param['date_from'])->toDateString() : '';
-        $date_to = isset($this->param['date_to']) ? Carbon::parse($this->param['date_to'])->toDateString() : '';
+        $date_from = $this->params->fieldDate("date_from");
+        $date_to = $this->params->fieldDate("date_to");
 
         //range param
         $expenditures = Expenditure::with('accounts','payees','villas');
@@ -44,8 +46,6 @@ class ExpensesMaster implements IDataSource
 
 
         foreach ($expenditures->get() as $expenditure) {
-
-            if($location !== '') $location = $expenditure->full_location;
             if($villa_id !== '') $villa_id = $expenditure->villas()->first()->villa_no;
 
             $row = [
@@ -76,14 +76,15 @@ class ExpensesMaster implements IDataSource
                 $rows[$expenditure['mode_of_payment']] = [$expenditure['expense_type'] => [$row]];
             }
         }
+        
+        
+        
+        $this->params->update("location",Selection::getValue("villa_location",$location));
+        $this->params->add("villa_no",$villa_id);
 
-        return [
-            'location'  =>  $location,
-            'villa_no'  =>  $villa_id,
-            'date_from' =>  $date_from,
-            'date_to'   =>  $date_to,
-            'data'      => $rows
-        ];
+        return new ReportMapper("Expenses Master List",$this->params->toArray(),$rows);
+
+        
 
 
     }

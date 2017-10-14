@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnold.mercado
- * Date: 8/2/2017
- * Time: 10:18 AM
- */
 
-namespace App\Services;
+namespace App\Services\ReportService;
 
-
-
+use App\Http\Datasource\Bank\VillaBankDeposit;
+use App\Http\Reports\ReceivableReport;
 use App\Http\Reports\VillaPaymentCollectionReport;
+use App\Traits\ReportParamHelperTrait;
 use Carbon\Carbon;
 use App\Http\Reports\BankReport;
 use App\Http\Reports\TenantReport;
@@ -20,10 +15,12 @@ use App\Http\Reports\VillaSalesReport;
 use App\Http\Reports\ExpenseMasterReport;
 
 use App\Http\Reports\VillaMasterListReport;
-use App\Http\Datasource\Villas\PaymentSchedule;
+
 
 class ReportManager
 {
+    use ReportParamHelperTrait;
+
 
     protected static $reports = [];
 
@@ -35,16 +32,16 @@ class ReportManager
             'contract_pending'      =>  new ContractReport($params,'pending'),
             'contract_expiry'       =>  new ContractReport($params,'expiry'),
             'contract_active'               =>  new ContractReport($params,'active'),
-            'payment_schedule'              =>  new ContractReport($params,'payment_schedule'),
+            'payment_schedule'              =>  new ReceivableReport($params),
             'villa_payment'                 =>  new VillaSalesReport($params),
-            'payment_collection_per_villa'  =>  new VillaPaymentCollectionReport($params),
+            'payment_collection'  =>  new VillaPaymentCollectionReport($params),
             'expense_property'      =>  new ExpenseMasterReport($params),
             'villa_history'         =>  new VillaFormReport($params,'ledger'),
             'tenant_history'        =>  new TenantReport($params),
             "bank_report_detail"    =>  new BankReport("detail",$params),
             "bank_report_summary"   =>  new BankReport("summary",$params),   
             'villa_master_list'     =>  new VillaMasterListReport($params),
-
+            "villa_bank_deposit"    =>  new VillaBankDeposit($params)
         ];
         
         return self::$reports[$key];
@@ -52,94 +49,20 @@ class ReportManager
 
     public static function getReportList()
     {
-        $reportList = [
-            'contract' => [
-                'title' =>  'Contract Reports',
-                'data' =>  [
-                    [
-                        'id' => 2,
-                        'report_title' => 'Contract Master List',
-                        'report_name' => 'contract_value',
-                        'created' => Carbon::now()->toDateString()
-                    ],
-                    [
-                        'id' => 7,
-                        'report_title' => 'Active Contract Status',
-                        'report_name' => 'contract_active',
-                        'created' => Carbon::now()->toDateString()
-                    ],
-                    [
-                        'id' => 6,
-                        'report_title' => 'Due Contract',
-                        'report_name' => 'contract_expiry',
-                        'created' => Carbon::now()->toDateString()
-                    ],
-                   
-                ]
-            ],
-            'bill' => [
-                'title' =>  'Account Receivable Report',
-                'data'  =>  [ 
-                    [
-                        'id' => 8,
-                        'report_title' => 'Payment Schedule',
-                        'report_name' => 'payment_schedule',
-                        'created' => Carbon::now()->toDateString()
-                    ],
-                    [
-                        'id' => 3,
-                        'report_title' => 'Payment Sales Analysis',
-                        'report_name' => 'villa_payment',
-                        'created' => Carbon::now()->toDateString()
-                    ],
-                ]
-            ],
-            'villa' => [
-                'title' =>  'Villa Reports',
-                'data'  =>  [
-                    [
-                        'id' => 1,
-                        'report_title' => 'Villa Master List',
-                        'report_name' => 'villa_master',
-                        'created' => Carbon::now()->toDateString()
-                    ],
-                ]
-            ],
-            'expenses' => [
-                'title' =>  'Expenses Reports',
-                'data'  =>  [
-                    [
-                        'id' => 4,
-                        'report_title' => 'Expenses Master List - Property',
-                        'report_name' => 'expense_property',
-                        'created' => Carbon::now()->toDateString(),
-                    ]
-                ],
-            ],
-            'bank' => [
-                'title' =>  'Bank Reports',
-                'data'  =>  [
-                    [
-                        'id'    => 9,
-                        'report_title'  =>  "Bank Detail Report",
-                        'report_name'   =>  "bank_report_detail",
-                        'created' => Carbon::now()->toDateString()
-                    ]
-                ]
-            ]
-        ];
+        $reports = config("appreport.report");
 
-        return $reportList;
+        return $reports;
     }
 
     public static function getParameter() {
+
         $params = [
             [
                 'report_id' => 2,
                 'inputs' => [
-                    ['label' => 'Status', 'type' => 'dropdown','selection' => 'statuses', 'model' => 'contract_status','default_text' => 'All','default' => ''],
-                    ['label' => 'Year', 'type' => 'number', 'model' => 'contract_year', 'placeholder' => 'Enter Year (2017)'],
-                    ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                    self::createDropdowns("Status","contract_status","contract_status","code","name","All"),
+                    self::createInput("Year","contract_year","number","Enter Year (2017)"),
+                    self::createDropdowns("Location","location","villa_location","code","name","--Select Location--"),
                 ],
                 'models' => [
                     'contract_status' => '',
@@ -174,10 +97,11 @@ class ReportManager
                         [
                             'label' => 'Month To',
                             'type' => 'dropdown',
-                            'selection' => 'months', 
+                            'selection' => 'months',
                             'model' => 'month_to',
                             'default_text' => '--Select Month--',
-                            'default' => ''],
+                            'default' => ''
+                        ],
                         
                         ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year'],
 
@@ -234,8 +158,23 @@ class ReportManager
                 'report_id' => 8,
                 'inputs' =>
                     [
-                        ['label' => 'Month From', 'type' => 'number','model' => 'month_from','placeholder' => 'Enter Month From'],
-                        ['label' => 'Month To', 'type' => 'number', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
+                        [
+                            'label' => 'Month From',
+                            'type' => 'dropdown',
+                            'selection' => 'months',
+                            'model' => 'month_from',
+                            'default_text' => '--Select Month--',
+                            'default' => ''
+
+                        ],
+                        [
+                            'label' => 'Month To',
+                            'type' => 'dropdown',
+                            'selection' => 'months',
+                            'model' => 'month_to',
+                            'default_text' => '--Select Month--',
+                            'default' => ''
+                        ],
                         ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year'],
                         [
                             'label' => 'Location', 
@@ -284,6 +223,24 @@ class ReportManager
                     'month_to' => Carbon::createFromDate(Carbon::now()->year,Carbon::now()->month,1)->addMonth()->subDay()->format("m/d/Y"),
                 ],
                 'lookups' => []
+            ],
+            [
+                'report_id' =>  10,
+                'inputs' => [
+                    self::createDropdowns("Location","location","villa_location","code","name","--Select Property--"),
+                    self::createDropdowns("Payment Type","payment_type","payment_term","code","name","--Select Payment Type--"),
+                    self::createInput("Year","year","number","Enter Year ie(2017)"),
+                    self::createMonthLookup("Month From","month_from"),
+                    self::createMonthLookup("Month To","month_to"),
+                ],
+                'models'    =>  [
+                    "location"      =>  "",
+                    "payment_type"  =>  "",
+                    "year"          =>  Carbon::now()->year,
+                    "month_from"    =>  self::createMonthModel(Carbon::now())->month,
+                    "month_to"      =>  self::createMonthModel(Carbon::now(),true)->month
+                ],
+                "lookups" => []
             ]
         ];
 

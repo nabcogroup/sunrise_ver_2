@@ -25,7 +25,7 @@ class VillaHistory implements IDataSource {
 
     public function execute() {
 
-        $villa_no = $this->params['villa_no'];
+        $villa_no = $this->params->field('villa_no');
 
         $recordset = $this->createDb('villas')
                         ->join('contracts','contracts.villa_id','=','villas.id')

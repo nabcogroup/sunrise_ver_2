@@ -17,12 +17,10 @@ class VillaSalesReport extends BaseReport
     public function __construct($params)
     {
         $this->dataSource = new VillaSales($params);
+        $this->templateSource = "sales.analysis";
     }
 
-    public function getTemplateSource()
-    {
-        return "villa-sales-analysis1";
-    }
+
 
     public function isPdfRender()
     {

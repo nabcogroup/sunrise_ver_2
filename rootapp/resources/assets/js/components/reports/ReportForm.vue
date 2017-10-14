@@ -68,6 +68,7 @@
                 const params = this.params.params.find((item) => {
                     return item.report_id === response.id;
                 });
+                console.log(response);
 
                 if (params !== undefined) {
                     if (params.lookups !== undefined

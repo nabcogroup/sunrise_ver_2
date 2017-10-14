@@ -1,14 +1,11 @@
 @php 
-    
-    $data = $datasource["data"];
-    
+    $data = $datasource->getData();
 @endphp
 
 @component('layouts.report')
     @slot('report_title')
         <div class="text-right">
-            <h3>{{$datasource["title"]}}</h3>
-            <h4>For the Month of {{$datasource["params"]["month"]}} - {{$datasource['params']['year']}}</h4>
+            <h3>{{$datasource->getTitle()}}</h3>
         </div>
     @endslot
 

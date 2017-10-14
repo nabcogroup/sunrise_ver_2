@@ -20,22 +20,18 @@ class VillaFormReport extends BaseReport
     public function __construct($params,$namespace = 'form')
     {
         if($namespace == 'ledger') {
-            $this->template = "villa-history";
+            $this->templateSource = "villa.history";
             $this->isPdf = false;
             $this->dataSource = new VillaHistory($params);
         }
         else {
-            $this->template = "villa-form";
+            $this->templateSource = "villa.per_villa";
             $this->isPdf = true;
             $this->dataSource = new VillaForm($params);
         }
         
     }
 
-    public function getTemplateSource()
-    {
-        return $this->template;
-    }
 
     public function isPdfRender()
     {

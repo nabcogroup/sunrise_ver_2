@@ -2,12 +2,14 @@
 
 namespace App\Http\Datasource\Contracts;
 
-use App\Http\Datasource\IDataSource;
-use App\Traits\ArrayGroupTrait;
+use Carbon\Carbon;
+use App\Selection;
 
 use App\Traits\HelperTrait;
+use App\Traits\ArrayGroupTrait;
 use App\Traits\QueryTemplateTrait;
-use Carbon\Carbon;
+use App\Http\Datasource\IDataSource;
+use App\Services\ReportService\ReportMapper;
 
 class ContractActive implements IDataSource
 {
@@ -27,7 +29,7 @@ class ContractActive implements IDataSource
     public function execute()
     {
 
-        $location = isset($this->params['location']) ? $this->params['location'] : 'sv1';
+        $location = $this->params->field("location");
 
         $records = \DB::table('contracts')
                 ->join('villas', 'contracts.villa_id','=','villas.id')
@@ -44,7 +46,7 @@ class ContractActive implements IDataSource
                 ->where('contracts.status','active')->distinct()
                 ->orderBy('villa_no');
 
-        return $this->arrayItemize($records,function($row) {
+        $rows = $this->arrayItemize($records,function($row) {
             $item = [
                 'villa_no'          =>  $row->villa_no,
                 'contract_no'       =>  $row->contract_no,
@@ -57,6 +59,10 @@ class ContractActive implements IDataSource
             ];
             return $item;
         },['villa_location']);
+        
+        $this->params->update("location",Selection::getValue("villa_location",$location));
+        
+        return new ReportMapper("Active Contracts",$this->params->toArray(),$rows);
 
 
     }

@@ -13,6 +13,7 @@ abstract class AbstractRepository {
     public function __construct($id = null) {
 
         $this->model = $this->definedModel();
+        
         if($id != null) {
             $this->model = $this->model->find($id);
         }
@@ -24,19 +25,20 @@ abstract class AbstractRepository {
     protected function afterUpdate(&$model,$children = array()) {return false;}
 
     public function findById($id,$key = 'id') {
-
         $this->model = $this->model->where($key,$id);
-
+        
         return $this;
     }
 
     public function orderBy($orderBy,$ordered) {
+        
         $this->model = $this->model->orderBy($orderBy,$ordered);
-
+        
         return $this;
     }
 
     public function getAll() {
+        
         $result = $this->model->all();
         $this->model = $this->definedModel();
         return $result;

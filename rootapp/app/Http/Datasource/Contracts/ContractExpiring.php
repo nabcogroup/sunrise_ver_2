@@ -3,11 +3,13 @@
 namespace App\Http\Datasource\Contracts;
 
 
-use App\Http\Datasource\IDataSource;
-use App\Traits\ArrayGroupTrait;
-use App\Traits\HelperTrait;
-use App\Traits\QuerySoftDeleteTrait;
 use Carbon\Carbon;
+use App\Selection;
+use App\Traits\HelperTrait;
+use App\Traits\ArrayGroupTrait;
+use App\Http\Datasource\IDataSource;
+use App\Traits\QuerySoftDeleteTrait;
+use App\Services\ReportService\ReportMapper;
 
 class ContractExpiring implements IDataSource
 {
@@ -27,10 +29,10 @@ class ContractExpiring implements IDataSource
 
     public function execute()
     {
-        $date_from = isset($this->params['date_from']) ? Carbon::parse($this->params['date_from']) : '';
-        $date_to = isset($this->params['date_to']) ? Carbon::parse($this->params['date_to']) : '';
-        $location = isset($this->params['location']) ? $this->params['location'] : '';
+        $date_from = $this->params->fieldDate("date_from",Carbon::now());
+        $date_to = $this->params->fieldDate("date_to",Carbon::now());
         
+        $location = $this->params->field("location","");
 
         $dbRaw = $this->createDb('contracts')
             ->join('villas','contracts.villa_id','=','villas.id')
@@ -64,6 +66,7 @@ class ContractExpiring implements IDataSource
         }
 
         $items = $this->arrayItemize($dbRaw,function($row) {
+            
             $item = [
                 "villa_no"          =>  $row->villa_no,
                 "location"          =>  $row->location,
@@ -79,16 +82,14 @@ class ContractExpiring implements IDataSource
                 "total_balance"     =>  number_format(floatval($row->amount) -  (($row->total_payment == null) ? 0 : floatval($row->total_payment)),2),
                 "exceed_days"            =>  Carbon::now()->diffInDays(Carbon::parse($row->period_end))
             ];
+            
             return $item;
+
         },['location']);
-
-
-
-        return [
-            'from' =>   $date_from,
-            'to'   =>   $date_to,
-            'data' =>   $items
-        ];
+        
+        $this->params->update("location",Selection::getValue("villa_location",$location));
+        
+        return new ReportMapper("Expiring Contract",$this->params->toArray(),$items);
 
     }
 }

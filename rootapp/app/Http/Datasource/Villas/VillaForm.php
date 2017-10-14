@@ -17,7 +17,7 @@ class VillaForm implements IDataSource
 
     public function execute()
     {
-        $villas = Villa::with('engageContracts')->where('villa_no', $this->params['villa_no'])->get();
+        $villas = Villa::with('engageContracts')->where('villa_no', $this->params->field('villa_no'))->get();
         $rows = [];
         foreach($villas as $villa) {
             $row = [

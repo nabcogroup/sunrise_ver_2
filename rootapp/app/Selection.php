@@ -21,14 +21,16 @@ class Selection extends BaseModel
     }
     
     public static function getValue($category,$key) {
-
+        
         $values = Selection::where('category',$category)->where('code',$key)->orderBy('category')->get();
+        
         $retValue = ""; 
 
         foreach($values as $value) {
+            
             $retValue = $value->name;
         }
-
+        
         return $retValue;
     }
 

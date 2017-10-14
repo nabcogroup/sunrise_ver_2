@@ -11,12 +11,9 @@ class TenantReport extends BaseReport {
     
     public function __construct($params) {
         $this->dataSource = new TenantHistory($params);
+        $this->templateSource = "tenant.history";
     }
 
-    public function getTemplateSource()
-    {
-        return "tenant-history";
-    }
 
     public function isPdfRender() {
         return false;

@@ -1,12 +1,12 @@
 @component("layouts.report")
     @slot("report_title")
         <div class="text-right">
-            <h3>Active Contract</h3>
+            <h3>{{$datasource->getTitle()}}</h3>
             <p>As of {{\Carbon\Carbon::now()->format('d, M, Y')}}</p>
         </div>
     @endslot
 
-    @foreach($datasource as $key => $items)
+    @foreach($datasource->getData() as $key => $items)
 
         @php
             $total_contract_value = 0;
@@ -14,19 +14,19 @@
             $total_credit_sale = 0;
         @endphp
 
-        <div>{{\App\Selection::getValue('villa_location',$key)}}</div>
+        <div>{{$datasource->getParam("location")}}</div>
         <table class="table table-condensed table-bordered">
             <thead>
-            <tr>
-                <th class="text-center">Villa No</th>
-                <th class="text-center">Contract No</th>
-                <th class="text-center">Tenant</th>
-                <th class="text-center">Period</th>
-                <th class="text-center">Yrs./Months</th>
-                <th class="text-center">Contract Value</th>
-                <th class="text-center">Deposited</th>
-                <th class="text-center">Balance</th>
-            </tr>
+                <tr>
+                    <th class="text-center">Villa No</th>
+                    <th class="text-center">Contract No</th>
+                    <th class="text-center">Tenant</th>
+                    <th class="text-center">Period</th>
+                    <th class="text-center">Yrs./Months</th>
+                    <th class="text-center">Contract Value</th>
+                    <th class="text-center">Deposited</th>
+                    <th class="text-center">Balance</th>
+                </tr>
             </thead>
             <tbody>
             @foreach($items as $row)

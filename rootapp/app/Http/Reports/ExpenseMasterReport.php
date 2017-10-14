@@ -19,12 +19,9 @@ class ExpenseMasterReport extends BaseReport
     public function __construct($params)
     {
         $this->dataSource = new ExpensesMaster($params);
+        $this->templateSource = "expense.pre_prop";
     }
 
-    public function getTemplateSource()
-    {
-        return "expense-per-prop";
-    }
 
     public function isPdfRender()
     {

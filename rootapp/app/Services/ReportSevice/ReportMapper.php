@@ -12,12 +12,13 @@ class ReportMapper {
     protected $mappers;
 
     public function __construct($title,$params,$data) {
-        
-        $this->mappers = [
-            "title"     =>  $title,
-            "params"    =>  $params,
-            "data"      =>  $data
+        $params = [
+                "title"     =>  $title,
+                "params"    =>  $params,
+                "data"      =>  $data
         ];
+
+        $this->mappers = $params;
     }
 
 
@@ -27,28 +28,42 @@ class ReportMapper {
     }
 
     public function getTitle() {
-        return isset($this->mappers["title"]) ? $this->mappers["title"] : "";
+        return $this->mappers["title"];
     }
 
-    public function getParam($name) {
-        return isset($this->mappers["params"][$name]) ? $this->mappers["params"][$name] : "";
+    public function getParam($name,$default = null) {
+        return  !is_null($this->mappers["params"][$name]) ? $this->mappers["params"][$name] : $default;
     }
 
     public function getParamDate($name,$format = null) {
-        return Carbon::parse($this->mappers["params"][$name]);
+        $param = $this->getParam($name);
+        if(!is_null($param)) {
+            return Carbon::parse($param);
+        }
+        else {
+            return $param;
+        }
     }
 
     public function getParams() {
-        return $this->mappers["params"];
+        return $this->mappers->params;
     }
 
     public function getParamInt($name) {
-        return (int)$this->mappers["params"][$name];
+        return (int)$this->getParam($name,0);
     }
 
 
     public function getData() {
         return $this->mappers["data"];
+    }
+
+    public function hasData() {
+        return sizeof($this->mappers) > 0 ? true: false;
+    }
+
+    public function checkParamNull() {
+        
     }
 
     

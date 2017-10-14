@@ -25,12 +25,12 @@ class VillaSales implements IDataSource
     }
 
     public function execute()
-    {
-        $month_from = isset($this->params['month_from']) ? (int)$this->params['month_from'] : '';
-        $month_to = isset($this->params['month_to']) ? (int)$this->params['month_to'] : '';
-        $location = isset($this->params['location']) ? $this->params['location'] : 'sv1';
-        $year = isset($this->params['year']) ? (int)$this->params['year'] : \Carbon\Carbon::now()->year;
-
+    {   
+        $month_from = $this->params->fieldInt("month_from",0);
+        $month_to = $this->params->fieldInt("month_to",0);
+        $location = $this->params->field("location","");
+        $year = $this->params->field("year",\Carbon\Carbon::now()->year);
+        
         //create two queries
         $recordset = $this->createDb('villas')
             ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
@@ -51,20 +51,10 @@ class VillaSales implements IDataSource
             ->orderBy("villas.villa_no")
             ->get();
 
-
         $groupSummary = $this->arrayGroupBy($recordset,null,["villa_no","monthly_schedule"]);
-        for($i = $month_from;$i <= $month_to;$i++) {
-           $headers[] = date('M', mktime(0, 0, 0, $i, 10));
-        }
+        $this->params->update("location",\App\Selection::getValue("villa_location",$location));
 
-        $params = [
-            'location'      =>  \App\Selection::getValue("villa_location",$location),
-            'year'          =>  $year,
-            'month_from'    => $month_from,
-            'month_to'      => $month_to
-        ];
-
-        return new ReportMapper("Villa Sales Report",$params,$groupSummary);
+        return new ReportMapper("Villa Sales Report",$this->params->toArray(),$groupSummary);
 
 
         // // $recordset = $this->createDb('villas')

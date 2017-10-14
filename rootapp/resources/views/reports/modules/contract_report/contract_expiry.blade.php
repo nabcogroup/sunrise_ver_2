@@ -2,18 +2,17 @@
 
     @slot("report_title")
         <div class="text-right">
-            <h3>Expiring Contract</h3>
-            <small>From {{\Carbon\Carbon::parse($datasource['from'])->format('d M Y')}}
-                to {{\Carbon\Carbon::parse($datasource['to'])->format('d M Y')}}</small>
+            <h3>{{$datasource->getTitle()}}</h3>
+            <small>From {{$datasource->getParamDate("date_from")->format('d M Y')}}
+                to {{$datasource->getParamDate("date_to")->format('d M Y')}}
+            </small>
         </div>
     @endslot
 
-    @foreach($datasource['data'] as $key => $items)
+    @foreach($datasource->getData() as $key => $items)
         <div>{{\App\Selection::getValue('villa_location',$key)}}</div>
-
         <table class="table table-condensed table-bordered">
             <thead>
-
             <tr>
                 <th colspan="3"></th>
                 <th colspan="3" class="text-center">Contract Period</th>

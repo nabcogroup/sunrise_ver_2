@@ -10,26 +10,47 @@ namespace App\Services\ReportService;
 
 
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ReportParameter
 {
-    private $params;
+    private $request;
 
-    public function __construct($params = array())
+    public function __construct(Request $request)
     {
-        $this->params = $params;
+        $this->request = $request;
     }
 
     public function field($name,$default = null) {
-        return isset($this->params[$name]) ? (int)$this->params[$name] : $default;
+        return $this->request->query($name,$default);
     }
 
-    public function fieldInt($name,$default = null) {
-        return isset($this->params[$name]) ? (int)$this->params[$name] : $default;
+    public function fieldInt($name,$default = 0) {
+        return (int)$this->request->query($name,$default);
     }
 
     public function fieldDate($name,$default = null) {
-        return isset($this->params[$name]) ? Carbon::parse($this->params[$name]) : $default;
+        $date = $this->request->query($name,$default);
+        if(!is_null($date))  {
+            return Carbon::parse($date);
+        }
+        else {
+            return $date;
+        }
+        
+    }
+
+    public function add($name,$value) {
+        $this->request->request->add([$name => $value]);
+    }
+
+    public function update($name,$value) {
+        
+        $this->request->merge([$name => $value]);
+    }
+
+    public function toArray() {
+        return $this->request->toArray();
     }
 
 

@@ -12,25 +12,18 @@ class BankReport extends BaseReport
 {
     use HelperTrait;
 
-    private $templateSource;
 
-
+    
     public function __construct($type,$params)
     {
         if($type == "summary") {
             $this->dataSource = new BankDepositSummary($params);
-            $this->templateSource = "bank-account-summary";
+            $this->templateSource = "bank_report.detail";
         }
         else {
             $this->dataSource = new BankDepositDetail($params);
-            $this->templateSource = "bank-account-detail";
+            $this->templateSource = "bank_report.detail";
         }
-        
-    }
-
-    public function getTemplateSource()
-    {
-        return $this->templateSource;
     }
 
     public function isPdfRender()

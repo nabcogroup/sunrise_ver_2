@@ -7,6 +7,7 @@ use App\BankAccount;
 use App\Traits\HelperTrait;
 use App\Traits\ArrayGroupTrait;
 use App\Http\Datasource\IDataSource;
+use App\Services\ReportService\ReportMapper;
 
 class BankDepositDetail implements IDataSource
 {
@@ -19,12 +20,14 @@ class BankDepositDetail implements IDataSource
         $this->params = $params;
     }
 
+
+    
     public function execute()
     {
 
-        $account_no = isset($this->params["account_no"]) ? $this->params["account_no"] : "";
-        $date_from = isset($this->params["month_from"]) ? Carbon::parse($this->params["month_from"]) : Carbon::now();
-        $date_to = isset($this->params["month_to"]) ? Carbon::parse($this->params["month_to"]) : Carbon::now()->addMonth()->subDay();
+        $account_no = $this->params->field("account_no");
+        $date_from = $this->params->fieldDate("month_from",Carbon::now());
+        $date_to = $this->params->fieldDate("month_to",Carbon::now()->addMonth()->subDay());
         
         $accounts = BankAccount::with(["payments" => function ($query) use ($date_from,$date_to) {
             $query
@@ -45,7 +48,6 @@ class BankDepositDetail implements IDataSource
             ];
 
             foreach ($row->payments as $payment) {
-                
                 $payment_item = [
                     "deposit_date"          =>  Carbon::parse($payment->date_deposited)->format("d M Y"),
                     "tenant_name"           =>  $payment->bill()->first()->tenant()->full_name,
@@ -73,15 +75,8 @@ class BankDepositDetail implements IDataSource
             $row[0]["total_payments"] = $total;
         }
 
+        return new ReportMapper("Bank Deposit Detail Report",$this->params->toArray(),$rows);
 
-        return [
-            "title"     =>  "Bank Deposit Detail Report",
-            "data"      =>  $rows,
-            "params"    =>  [
-                "account_no"    =>  $account_no,
-                "month"         =>  "",
-                "year"          =>  ""
-            ]
-        ];
+
     }
 }

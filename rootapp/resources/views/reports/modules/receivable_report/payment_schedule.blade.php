@@ -2,66 +2,68 @@
 
     @slot('report_title')
         <div class="text-right">
-            <h2>Contract Payment Schedule</h2>
-            <p class="text-danger">
-                <span>Month:</span> <strong>{{$datasource['period']['from']}} - {{$datasource['period']['to']}}</strong>
-                <span>Year:</span> <strong>{{$datasource['period']['year']}}</strong>
-            </p>
+            <h2>{{$datasource->getTitle()}}</h2>
+            <h3 class="text-danger"><strong>Year: {{$datasource->getParam('year')}}</strong></h3>
         </div>
     @endslot
 
-    @if(sizeof($datasource['data']) > 0)
-        <p>{{$datasource['location']}}</p>
+    @if($datasource->hasData())
+        <p>{{$datasource->getParam('location')}}</p>
         <div class="row">
             <table class="table table-condensed table-bordered">
                 <thead>
                     <tr class="info">
                         <th class="text-center">Villa No</th>
-                        <th class="text-center">Rate/Month</th>
-                        @foreach($datasource['column_month'] as $row)
-                            <th class="text-center">{{$row['date_name']}}</th>
-                        @endforeach
+                        @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
+                            <th class="text-center">{{date('M', mktime(0, 0, 0, $i, 10))}}</th>
+                        @endfor
+                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
-
                 @php
-                    $villa_no = '';
-                    $month = [];
-                    $per_villa = [];
-                    foreach($datasource['data'] as $row) {
-                        if(!isset($per_villa[$row['villa_no']])) {
-                            $per_villa[$row['villa_no']] = [$row['number_month'] => $row['total_payments']];
-                        }
-                        else {
-                            $per_villa[$row['villa_no']][$row['number_month']] = $row['total_payments'];
-                        }
-                    }
+                    $grand_total_per_month;
+                    $grand_total_payable = 0;
                 @endphp
 
-                @foreach($datasource['data'] as $row)
-                    @if($row['villa_no'] != $villa_no)
-                        @php
-                            $villa_no = $row['villa_no'];
-                        @endphp
-                        <tr>
-                            <td class="text-center" style="width:10%">{{$row['villa_no']}}</td>
-                            <td class="text-center" style="width:10%">{{$row['contract_no'],2}}</td>
-                            @foreach($datasource['column_month'] as $key => $value)
-                                <td style="width: 10% " class="text-right">
-                                    {{(isset($per_villa[$villa_no][$key]) ? number_format($per_villa[$villa_no][$key],2) : '-')}}
-                                </td>
-                            @endforeach
-                        </tr>
-                    @endif
+                @foreach($datasource->getData() as $villa_key => $villa)
+                    @php
+                        $total_payments = 0;
+                    @endphp
+                    <tr>
+                        <td><a href="/reports/villa_history?villa_no={{$villa_key}}" target="_blank">{{$villa_key}}</a></td>
+                        @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
+                            @if(isset($villa[$i]))
+                                @foreach($villa[$i] as $item)
+                                        @php
+                                            $total_payments += $item->total_payments;
+                                            $month_name = date('M', mktime(0, 0, 0, $i, 10));
+
+                                            if(!isset($grand_total_per_month[$month_name])) {
+                                                $grand_total_per_month[$month_name] = $item->total_payments;
+                                            }
+                                            else {
+                                                $grand_total_per_month[$month_name] += $item->total_payments;
+                                            }
+
+                                            $grand_total_payable += $item->total_payments;
+                                        @endphp
+                                        <td class="text-right">{{number_format($item->total_payments,2)}}</td>
+                                @endforeach
+                            @else
+                                <td class="text-right">0.00</td>
+                            @endif
+                        @endfor
+                        <td class="text-right danger"><strong>{{number_format($total_payments,2)}}</strong></td>
+                    </tr>
                 @endforeach
                 </tbody>
                 <tfoot>
-                <td colspan="2"></td>
-                @foreach($datasource['column_month'] as $row)
-                    <td class="text-right"
-                        style="font-size: 14px;font-weight:bold">{{number_format($row['total'],2)}}</td>
-                @endforeach
+                <td class="text-right"><strong>GRAND TOTAL</strong></td>
+                    @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
+                        <td class="text-right"><strong>{{number_format(isset($grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))]) ? $grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))] : 0,2)}}<srong></th>
+                    @endfor
+                    <td class="text-right danger"><strong>{{number_format($grand_total_payable,2)}}</strong></td>
                 </tfoot>
             </table>
         </div>

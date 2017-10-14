@@ -4,19 +4,21 @@
 namespace App\Http\Reports;
 
 use App\Http\Datasource\Villas\VillaPaymentCollection;
+use App\Selection;
+use App\Traits\HelperTrait;
 
 class VillaPaymentCollectionReport extends BaseReport {
+
+    use HelperTrait;
 
 
     public function __construct($params)
     {
         $this->dataSource = new VillaPaymentCollection($params);
+        $this->templateSource = "sales.collection";
     }
 
-    public function getTemplateSource()
-    {
-        return "villa_report.villa_payment_collection";
-    }
+
 
     public function isPdfRender()
     {
@@ -30,6 +32,9 @@ class VillaPaymentCollectionReport extends BaseReport {
 
     public function getLookups()
     {
-        // TODO: Implement getLookups() method.
+        $lookups = Selection::getSelections(["villa_location","payment_term"]);
+        $lookups["months"] = $this->getMonthLookups();
+
+        return $lookups;
     }
 }

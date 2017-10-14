@@ -3,21 +3,17 @@
 
         <div class="text-right">
 
-            <h3>Property Expenses Master List</h3>
+            <h3>{{$datasource->getTitle()}}</h3>
+            <p>Date: {{$datasource->getParamDate('date_from')->format('d M Y')}} - {{$datasource->getParamDate('date_to')->format('d M Y')}}</p>
 
-            @if($datasource['date_from'] && $datasource['date_to'])
-                <p>Date: {{$datasource['date_from']}} - {{$datasource['date_to']}}</p>
-            @endif
-
-            <p>Location: {{$datasource['location'] == '' ? 'All' : $datasource['location']}}</p>
-            <p>Villa No: {{$datasource['villa_no'] == '' ? 'All' : $datasource['villa_no']}}</p>
+            <p>Location: {{$datasource->getParam('location','All')}}</p>
+            <p>Villa No: {{$datasource->getParam("villa_no","All")}}</p>
 
         </div>
 
     @endslot
 
-    @foreach($datasource['data'] as $key => $rows)
-
+    @foreach($datasource->getData() as $key => $rows)
         <div class="row">
             <div class="col-md-12">
                 <h3>Payment Mode - {{ucfirst($key)}}</h3>

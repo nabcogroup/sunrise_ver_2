@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 
-use App\Services\ReportService\ReportManager;
-use App\Services\ReportService\ReportMapper;
-use Illuminate\Http\Request;
-
 use PDF;
+use Illuminate\Http\Request;
+use App\Services\ReportService\ReportMapper;
+
+use App\Services\ReportService\ReportManager;
+use App\Services\ReportService\ReportParameter;
 
 class ReportController extends Controller
 {
@@ -27,10 +28,10 @@ class ReportController extends Controller
 
     public function show($reportId,Request $request) {
 
-        
-        $inputs = $request->all();
 
-        $report = ReportManager::get($reportId,$inputs);
+        $params = new ReportParameter($request);
+
+        $report = ReportManager::get($reportId,$params);
         $datasource = $report->execute();
         $template = $report->getTemplateSource();
 
@@ -51,8 +52,10 @@ class ReportController extends Controller
     }
 
     public function apiShow($reportId,Request $request) {
-        $inputs = $request->all();
-        $report = ReportManager::get($reportId,$inputs);
+        
+        $params = new ReportParameter($request);
+        
+        $report = ReportManager::get($reportId,$params);
         $datasource = $report->execute();
         
         if($datasource instanceof ReportMapper) {

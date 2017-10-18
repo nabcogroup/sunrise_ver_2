@@ -22,7 +22,7 @@ class TenantHistory implements IDatasource {
 
     public function execute()
     {
-        $tenant_id = $this->params['tenant_id'];
+        $tenant_id = $this->params->field("tenant_id",0);
 
         //tenant
         $recordset = \DB::table('tenants')

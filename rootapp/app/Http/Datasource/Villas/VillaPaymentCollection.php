@@ -29,7 +29,8 @@ class VillaPaymentCollection implements IDataSource
 
         $date_month_from = Carbon::createFromDate($this->params->field("year"),$this->params->field("month_from"),1);
         $date_month_to = Carbon::createFromDate($this->params->field("year"),$this->params->field("month_to"),1)->addMonth()->subDay();
-
+        $payment_type = $this->params->field("payment_type");
+        
         $recordset = $this->createDb("villas")
             ->join("contracts", "contracts.villa_id", "villas.id")
             ->join("contract_bills", "contract_bills.contract_id", "contracts.id")
@@ -43,28 +44,33 @@ class VillaPaymentCollection implements IDataSource
                 \DB::raw("MONTH(payments.date_deposited)"))
             ->whereNull("contracts.deleted_at")
             ->where("villas.location", $this->params->field("location",""))
-            ->where("payments.payment_type",$this->params->field("payment_type"))
             ->where("payments.status","clear")
-            ->whereBetween(\DB::raw("payments.date_deposited"), [$date_month_from,$date_month_to])
-            ->orderBy("villas.villa_no")
-            ->get();
+            ->whereBetween(\DB::raw("payments.date_deposited"), [$date_month_from->format('Y-m-d'),$date_month_to->format('Y-m-d')])
+            ->orderBy("villas.villa_no");
+
+        if(!is_null($payment_type)) {
+            $recordset = $recordset->where("payments.payment_type",$payment_type);
+        }
 
         $payment_types = [];
+        $recordset = $recordset->get();
         $month_from = $this->params->field("month_from");
         $month_to = $this->params->field("month_to");
 
         $groupSummary = $this->arrayGroupBy($recordset, function ($row) use (&$payment_types,$month_from,$month_to) {
+            
             if (!isset($payment_types[$row->payment_type])) {
                 $payment_types[$row->payment_type] = (int)$month_to - (int)$month_from;
             }
+            
             return $row;
-        }, ["villa_no", "payment_type", "month_deposited"]);
 
+        }, ["villa_no", "payment_type", "month_deposited"]);
       
         $this->params->update("location",\App\Selection::getValue("villa_location", $this->params->field("location")));
         $this->params->add("payment_types",$payment_types);
         
-        return new ReportMapper("Payment Collection per Villa", $this->params->toArray(), $groupSummary);
+        return new ReportMapper("Payment Collection", $this->params->toArray(), $groupSummary);
     }
 
 }

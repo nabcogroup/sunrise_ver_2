@@ -40,12 +40,15 @@ class Contract extends BaseModel
         $contract->setDefaultPeriod(Carbon::now(), $defaultMonths);
         $contract->amount = 0;
         
-        $contract->register_tenant = Tenant::createInstance();
-        $contract->villa_list = Villa::with('villaGalleries')
+        $contract->register_tenant = \App\Tenant::createInstance();
+        
+        $contract->villa_list = \App\Villa::with('villaGalleries')
             ->where('status', 'vacant')
             ->orderBy('villa_no')
             ->get();
-            
+        
+        $contract->extra_days = 0;
+        
         return $contract;
     }
 

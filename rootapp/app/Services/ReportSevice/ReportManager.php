@@ -3,6 +3,7 @@
 namespace App\Services\ReportService;
 
 use App\Http\Datasource\Bank\VillaBankDeposit;
+use App\Http\Reports\BillStatementReport;
 use App\Http\Reports\ReceivableReport;
 use App\Http\Reports\VillaPaymentCollectionReport;
 use App\Traits\ReportParamHelperTrait;
@@ -31,10 +32,11 @@ class ReportManager
             'contract_value'        =>  new ContractReport($params,'value'),
             'contract_pending'      =>  new ContractReport($params,'pending'),
             'contract_expiry'       =>  new ContractReport($params,'expiry'),
-            'contract_active'               =>  new ContractReport($params,'active'),
-            'payment_schedule'              =>  new ReceivableReport($params),
-            'villa_payment'                 =>  new VillaSalesReport($params),
-            'payment_collection'  =>  new VillaPaymentCollectionReport($params),
+            'contract_active'       =>  new ContractReport($params,'active'),
+            'payment_schedule'      =>  new ReceivableReport($params),
+            'bill_statement'        =>  new BillStatementReport($params),
+            'villa_payment'         =>  new VillaSalesReport($params),
+            'payment_collection'    =>  new VillaPaymentCollectionReport($params),
             'expense_property'      =>  new ExpenseMasterReport($params),
             'villa_history'         =>  new VillaFormReport($params,'ledger'),
             'tenant_history'        =>  new TenantReport($params),

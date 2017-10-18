@@ -10,7 +10,17 @@ class Payment extends BaseModel
 {
     use DeserializeTrait;
 
-    protected $appends = ['full_status','full_payment_type','full_payment_mode','selected','status_flag','full_bank'];
+    protected $appends = [
+        'full_status',
+        'full_payment_type',
+        'full_payment_mode',
+        'selected',
+        'status_flag',
+        'full_bank',
+        'full_effectivity_date',
+        'full_date_deposited',
+        'full_amount'
+    ];
     protected $guarded = ['id','created_at','updated_at','deleted_at','replace_ref','bill_id'];
 
     //
@@ -68,9 +78,28 @@ class Payment extends BaseModel
         return $this->appends['full_payment_mode'] = Selection::convertCode($this->payment_mode);
     }
 
+    protected function getFullEffectivityDateAttribute() {
+
+        $this->appends['full_effectivity_date'] = Carbon::parse($this->effectivity_date);
+        
+        return $this->appends['full_effectivity_date'];
+    }
+
+    protected function getFullDateDepositedAttribute() {
+        
+        $this->appends['full_date_deposited'] = Carbon::parse($this->date_deposited);
+        
+        return $this->appends['full_date_deposited'];
+    }
+
     protected function getFullBankAttribute()
     {
          return Selection::getValue('bank', $this->bank);
+    }
+
+    protected function getFullAmountAttribute() {
+        $this->appends['full_amount'] = number_format($this->amount,2);
+        return $this->appends['full_amount'];
     }
 
     protected function getSelectedAttribute()

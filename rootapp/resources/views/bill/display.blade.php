@@ -35,16 +35,16 @@
         </thead>
         <tbody>
         @foreach($bill->withPendingPayments()->get() as $payment)
-        <tr>
-            <td style="width: 10% " class="text-center">{{$payment->payment_no}}</td>
-            <td style="width:15%" class="text-center">{{\Carbon\Carbon::parse($payment->effectivity_date)->format('m/d/Y')}}</td>
-            <td style="width:15%" class="text-center">{{$payment->full_payment_mode}}</td>
-            <td>{{$payment->full_bank}}</td>
-            <td class="text-center">
-                {{\Carbon\Carbon::parse($payment->period_start)->format('m/d/Y')}} -
-                {{\Carbon\Carbon::parse($payment->period_end)->format('m/d/Y')}}</td>
-            <td class="text-center" style="width:15%">{{number_format($payment->amount,2)}}</td>
-        </tr>
+            <tr>
+                <td style="width: 10% " class="text-center">{{$payment->payment_no}}</td>
+                <td style="width:15%" class="text-center">{{\Carbon\Carbon::parse($payment->effectivity_date)->format('m/d/Y')}}</td>
+                <td style="width:15%" class="text-center">{{$payment->full_payment_mode}}</td>
+                <td>{{$payment->full_bank}}</td>
+                <td class="text-center">
+                    {{\Carbon\Carbon::parse($payment->period_start)->format('m/d/Y')}} -
+                    {{\Carbon\Carbon::parse($payment->period_end)->format('m/d/Y')}}</td>
+                <td class="text-center" style="width:15%">{{number_format($payment->amount,2)}}</td>
+            </tr>
         @endforeach
         </tbody>
         <tfoot>

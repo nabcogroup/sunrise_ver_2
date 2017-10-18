@@ -207,9 +207,9 @@ class ContractBillController extends Controller
 
             $contract = $bundle->getOutput("contract");
 
-            //$dompdf = PDF::loadView('bill.display', compact('bill', 'contract'));
+            $dompdf = PDF::loadView('bill.display', compact('bill', 'contract'));
 
-            return view('bill.display',compact('bill', 'contract')); //$dompdf->stream();
+            return $dompdf->stream(); //view('bill.display',compact('bill', 'contract')); 
         }
         catch(Exception $e) {
 

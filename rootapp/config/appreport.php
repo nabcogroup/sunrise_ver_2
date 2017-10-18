@@ -109,7 +109,8 @@ return [
             "pre_prop" => "expense_report.expense_per_prop"
         ],
         "receivable" => [
-            "schedule" => "receivable_report.payment_schedule"
+            "schedule"  =>  "receivable_report.payment_schedule",
+            "statement" =>  "receivable_report.bill_statement"
         ],
         "tenant" => [
             "history" => "tenant_report.tenant_history"

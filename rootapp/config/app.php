@@ -222,6 +222,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
+        //global function helper
+        App\Providers\HelperFunctionProvider::class,
+
     ],
 
     /*

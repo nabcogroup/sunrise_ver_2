@@ -53,7 +53,7 @@ class BillRepository extends AbstractRepository
             $schedule["reference_no"] = isset($configure['prep_ref_no']) ? $configure['prep_ref_no'] : '';
             $schedule["bank"] = isset($configure['prep_bank']) ? $configure['prep_bank'] : '';
             $schedule["payment_type"] =  $contract->contract_type == 'legalized' ? 'cheque' : 'cash';
-
+            
             $payment = Payment::createInstance($schedule);
             array_push($payments,$payment);
         });

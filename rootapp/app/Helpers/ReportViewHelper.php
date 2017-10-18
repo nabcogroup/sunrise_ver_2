@@ -9,10 +9,10 @@ if(!function_exists("create_calender_header")) {
         $headers = [];
 
         for($i = $month_from;$i <= $month_to;$i++) {
-            $header[] = "<th class='text-center'>". date('M', mktime(0, 0, 0, $i, 10))."</th>";
+            $headers[] = "<th class='text-center'>". date('M', mktime(0, 0, 0, $i, 10))."</th>";
         }
 
-
+        return implode("",$headers);
     }
 
 }

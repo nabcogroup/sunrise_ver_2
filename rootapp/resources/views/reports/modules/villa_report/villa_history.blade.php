@@ -37,7 +37,7 @@
                             <td class="text-center">{{$index++}}</td>
                             <td><a href="/reports/tenant_history?tenant_id={{$row['tenant_id']}}">{{strtoupper($row['tenant_name'])}}</a></td>
                             <td class="text-center">{{$row['contract_no']}}</td>
-                            <td class="text-center"><a href="/bill/show/{{$row['bill_no']}}">{{$row['bill_no']}}</a></td>
+                            <td class="text-center"><a href="/reports/bill_statement?bill_no={{$row['bill_no']}}">{{$row['bill_no']}}</a></td>
                             <td class="text-center">{{$row['period_start']}}</td>
                             <td class="text-center">{{$row['period_end']}}</td>
                             <td class="text-right">{{$row['amount']}}</td>

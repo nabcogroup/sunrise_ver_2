@@ -55,6 +55,7 @@ class ContractBill extends BaseModel
 
 
     public function getBalanceAttribute() {
+        
         $settled_total = $this->settled_amount;
         $contract_amount = $this->contract()->first()->amount;
         return $this->appends['balance'] = ($contract_amount - $settled_total);

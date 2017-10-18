@@ -48,12 +48,6 @@ class ContractRepository extends AbstractRepository
     public function create($defaultPeriod)
     {
         $model = $this->model->createInstance($defaultPeriod);
-        $model->register_tenant = \App\Tenant::createInstance();
-        $model->villa_list = \App\Villa::with('villaGalleries')
-            ->where('status', 'vacant')
-            ->orderBy('villa_no')
-            ->get();
-        $model->extra_days = 0;
         return $model;
     }
 

@@ -2,7 +2,7 @@
     <v-panel header="Fixed Asset">
         <div class="row">
           <div class="col-md-2 col-md-offset-10">
-              <button class="btn btn-info btn-block">
+              <button class="btn btn-info btn-block" @click="create">
                   <i class="fa fa-plus"></i> Add Fixed Assets
               </button>
           </div>
@@ -13,12 +13,14 @@
                 <v-live-view :grid="gridView"></v-live-view>
             </div>
         </div>
+    <fixed-asset-register-dialog></fixed-asset-register-dialog>
     </v-panel>
 </template>
 
 <script>
 import {mapGetters} from "vuex";
-
+import FixedAssetRegisterDialog from "./FixedAssetRegisterDialog.vue";
+import {EventBus} from "../../eventbus";
 export default {
   data() {
       return {
@@ -39,6 +41,14 @@ export default {
               }
           }
       }
+  },
+  components: {
+    'fixedAssetRegisterDialog': FixedAssetRegisterDialog
+  },
+  methods: {
+    create(){
+      EventBus.$emit('fixedAsset.entry.open');
+    }
   }
 };
 </script>

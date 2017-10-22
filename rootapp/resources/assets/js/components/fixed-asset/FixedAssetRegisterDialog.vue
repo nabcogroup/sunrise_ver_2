@@ -1,6 +1,6 @@
 <template>
   <v-dialog dialog-title="Fixed Asset Entry" modal-id="fixedAssetEntry" v-model="toggle" @dismiss="save">
-      
+
   </v-dialog>
 </template>
 
@@ -14,6 +14,7 @@ import {mapGetters,mapState} from 'vuex';
 import { EventBus } from "../../eventbus";
 
 export default {
+    name: 'FixedAssetRegisterDialog',
     mixins: [toggleModal],
     data() {
         return {

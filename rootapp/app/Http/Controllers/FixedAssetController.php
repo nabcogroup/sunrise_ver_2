@@ -21,6 +21,15 @@ class FixedAssetController extends Controller
     }
 
     public function index() {
+        
+        return view('fixed-asset.index');
+    }
+
+    public function register($id = null) {
+        return view('fixed-asset.register',compact('id'));
+    }
+
+    public function all() {
         return $this->repository->getAll();
     }
 

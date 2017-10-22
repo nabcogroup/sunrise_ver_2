@@ -59,6 +59,8 @@ import BillList from "./components/bill/BillList.vue";
 import TenantList from "./components/tenant/TenantList.vue";
 import TenantRegister from "./components/tenant/TenantReg.vue";
 import AccountChartRegister from "./components/accountchart/Register.vue";
+import FixedAssetList from "./components/fixed-asset/FixedAssetList.vue";
+import FixedAssetRegister from "./components/fixed-asset/FixedAssetRegister.vue";
 
 
 Vue.filter('toDateFormat', (value) => {
@@ -97,7 +99,9 @@ new Vue({
         BillList,
         TenantList,
         TenantRegister,
-        AccountChartRegister
+        AccountChartRegister,
+        FixedAssetList,
+        FixedAssetRegister
     }
 });
 

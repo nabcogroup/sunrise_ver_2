@@ -114,20 +114,23 @@ Route::group(["middleware" => ["auth","roles"],"roles" => ["account","admin"]],f
 
 /*
 |--------------------------------------------------------------------------
-| Fixed Asset
+| Fixed Asset Web Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => ['auth','roles'],'roles' => ['account','admin']],function() {
+Route::group(['middleware' => ['auth','roles'],'roles' => ['account','admin']],
+    function() {
 
+        Route::get('fixed-asset/','FixedAssetController@index');
+        Route::get('fixed-asset/register/{id?}','FixedAssetController@register');
 
-    Route::get("api/fixed-asset/", "FixedAssetController@index");
-    Route::get("api/fixed-asset/create", "FixedAssetController@create");
-    Route::get("api/fixed-asset/edit/{id}","FixedAssetController@edit");
-    Route::post("api/fixed-asset/", "FixedAssetController@store");
-    Route::patch("api/fixed-asset/", "FixedAssetController@store");
+        Route::get("api/fixed-asset/", "FixedAssetController@all");
+        Route::get("api/fixed-asset/create", "FixedAssetController@create");
+        Route::get("api/fixed-asset/edit/{id}","FixedAssetController@edit");
+        Route::post("api/fixed-asset/", "FixedAssetController@store");
+        Route::patch("api/fixed-asset/", "FixedAssetController@store");
 
-
-});
+    }
+);
 
 
 
@@ -136,17 +139,19 @@ Route::group(['middleware' => ['auth','roles'],'roles' => ['account','admin']],f
 | Expenses Web Routes
 |--------------------------------------------------------------------------
 */
-Route::group(["middleware" => ["auth","roles"],"roles" => ["account"]],function() {
+Route::group(["middleware" => ["auth","roles"],"roles" => ["account"]],
+    function() {
 
-    Route::get("expenses/","ExpenditureController@index");
-    Route::get("expenses/create","ExpenditureController@register");
-    Route::get("expenses/edit/{id}","ExpenditureController@edit");
+        Route::get("expenses/","ExpenditureController@index");
+        Route::get("expenses/create","ExpenditureController@register");
+        Route::get("expenses/edit/{id}","ExpenditureController@edit");
 
-    Route::get("api/expenses/create","ExpenditureController@apiCreate");
-    Route::post("api/expenses/store","ExpenditureController@apiStore");
-    Route::get("api/expenses/edit/{id}","ExpenditureController@apiEdit");
-    Route::get("api/expenses/","ExpenditureController@apiGetAll");
-});
+        Route::get("api/expenses/create","ExpenditureController@apiCreate");
+        Route::post("api/expenses/store","ExpenditureController@apiStore");
+        Route::get("api/expenses/edit/{id}","ExpenditureController@apiEdit");
+        Route::get("api/expenses/","ExpenditureController@apiGetAll");
+    }
+);
 
 
 /********************************************************

@@ -1,5 +1,5 @@
 <template>
-    <v-panel>
+    <v-panel header="Tenant">
         <div class="row">
             <div class="col-md-2 col-md-offset-10">
                 <button class="btn btn-info btn-block" @click="create">

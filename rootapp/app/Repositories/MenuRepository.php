@@ -41,9 +41,11 @@ class MenuRepository
                     ['name' => 'Manage Expenses', 'url' => url('expenses/'), 'icon' => 'fa-certificate'],
                     ['name' => '$separator', 'url' => ''],
                     ['name' => 'Posting', 'url' => url('bill'), 'disabled' => true, 'icon' => 'fa-certificate'],
-                    ['name' => '$separator', 'url' => '', 'icon' => 'fa-certificate'],
-                    ['name' => 'Payee Master File', 'url' => url('payee/'), 'icon' => 'fa-certificate']
 
+                    ['name' => '$separator', 'url' => '', 'icon' => 'fa-certificate'],
+                    ['name' => 'Payee Master File', 'url' => url('payee/'), 'icon' => 'fa-certificate'],
+                    ['name' => '$separator', 'url' => ''],
+                    ['name' => 'Fixed Asset', 'url' => url('fixed-asset/'), 'icon' => 'fa-certificate'],
                 ],
             ],
             'management' => [

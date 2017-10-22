@@ -9,7 +9,7 @@
         <hr/>
         <div class="row">
             <div class="col-md-12">
-                <v-live-view :grid="gridView"></v-live-view>
+                <v-live-view :grid="gridView" @action="doAction"></v-live-view>
             </div>
         </div>
     </v-panel>

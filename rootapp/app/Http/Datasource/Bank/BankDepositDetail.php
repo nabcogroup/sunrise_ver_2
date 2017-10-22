@@ -26,8 +26,8 @@ class BankDepositDetail implements IDataSource
     {
 
         $account_no = $this->params->field("account_no");
-        $date_from = $this->params->fieldDate("month_from",Carbon::now());
-        $date_to = $this->params->fieldDate("month_to",Carbon::now()->addMonth()->subDay());
+        $date_from = $this->params->fieldDate("month_from");
+        $date_to = $this->params->fieldDate("month_to");
         
         $accounts = BankAccount::with(["payments" => function ($query) use ($date_from,$date_to) {
             $query
@@ -36,7 +36,7 @@ class BankDepositDetail implements IDataSource
                 ->orderBy("date_deposited");
         }]);
 
-        if($account_no != '') {
+        if(!is_null($account_no)) {
             $accounts = $accounts->where("account_no",$account_no)->get();
         }
         

@@ -29141,7 +29141,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "header": "Fixed Asset Register"
     }
-  })
+  }, [_c('h3', [_vm._v("This is a test")])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -30027,7 +30027,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-12"
-  })])])
+  }, [_c('h3', [_vm._v("test")])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

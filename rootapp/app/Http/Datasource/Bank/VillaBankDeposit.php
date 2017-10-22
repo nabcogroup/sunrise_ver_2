@@ -10,10 +10,14 @@ namespace App\Http\Datasource\Bank;
 
 
 use App\BankAccount;
+use App\Traits\ArrayGroupTrait;
 use App\Http\Datasource\IDataSource;
+use App\Services\ReportService\ReportMapper;
 
 class VillaBankDeposit implements IDataSource
 {
+
+    use ArrayGroupTrait;
 
     private $params;
 
@@ -27,21 +31,25 @@ class VillaBankDeposit implements IDataSource
     {
 
         $villa_no = $this->params->field("villa_no");
-        $month_from = $this->params->fieldDate("month_from");
-        $month_to = $this->params->fieldDate("month_to");
+        $date_from = $this->params->fieldDate("date_from");
+        $date_to = $this->params->fieldDate("date_to");
+
 
 
         $recordset = \DB::table("villas")
                         ->join("contracts", "contracts.villa_id","villas.id")
                         ->join("contract_bills","contract_bills.contract_id","contracts.id")
                         ->join("payments", "payments.bill_id","contract_bills.id")
-                        ->select("payments.date_deposited","payments.amount")
+                        ->select("payments.date_deposited","payments.amount","payments.bank_account")
                         ->where("payments.status","clear")
                         ->where("villas.villa_no",$villa_no)
-                        ->whereBetween("payments.date_deposited",[$month_from,$month_to])
+                        ->whereBetween("payments.date_deposited",[$date_from,$date_to])
                         ->get();
 
-        return $recordset;
+        $rows = $this->arrayGroupBy($recordset,null,["bank_account"]);
+
+
+        return new ReportMapper("Bank detail per Villa",$this->params->toArray(),$rows);
 
     }
 }

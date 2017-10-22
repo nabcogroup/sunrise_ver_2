@@ -112,6 +112,24 @@ Route::group(["middleware" => ["auth","roles"],"roles" => ["account","admin"]],f
 });
 
 
+/*
+|--------------------------------------------------------------------------
+| Fixed Asset
+|--------------------------------------------------------------------------
+*/
+Route::group(['middleware' => ['auth','roles'],'roles' => ['account','admin']],function() {
+
+
+    Route::get("api/fixed-asset/", "FixedAssetController@index");
+    Route::get("api/fixed-asset/create", "FixedAssetController@create");
+    Route::get("api/fixed-asset/edit/{id}","FixedAssetController@edit");
+    Route::post("api/fixed-asset/", "FixedAssetController@store");
+    Route::patch("api/fixed-asset/", "FixedAssetController@store");
+
+
+});
+
+
 
 /*
 |--------------------------------------------------------------------------

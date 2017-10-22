@@ -16408,6 +16408,13 @@ const confirmation = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16421,7 +16428,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data() {
+        return {
+            gridView: {
+                columns: [{ name: 'purchase_date', column: 'Purchase Date', filter: true }, { name: 'fixed_asset_type', column: 'Description', filter: true }, { name: 'property', column: 'Property', filter: true }, { name: 'cost', column: 'Cost', filter: true, type: 'currency' }, { name: 'tag_code', column: 'Tag No', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center' }],
+                actions: [{ key: 'edit', name: 'Edit' }],
+                source: {
+                    url: '/api/fixed-asset'
+                }
+            }
+        };
+    }
+});
 
 /***/ }),
 /* 193 */
@@ -25722,6 +25743,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('v-live-view', {
     attrs: {
       "grid": _vm.gridView
+    },
+    on: {
+      "action": _vm.doAction
     }
   })], 1)])])
 },staticRenderFns: []}
@@ -30030,13 +30054,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col-md-2 col-md-offset-10"
   }, [_c('button', {
-    staticClass: "btn btn-info btn-block",
-    on: {
-      "click": _vm.create
-    }
+    staticClass: "btn btn-info btn-block"
   }, [_c('i', {
     staticClass: "fa fa-plus"
-  }), _vm._v(" Add Fixed Assets\n          ")])])])])
+  }), _vm._v(" Add Fixed Assets\n          ")])])]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-12"
+  }, [_c('v-live-view', {
+    attrs: {
+      "grid": _vm.gridView
+    }
+  })], 1)])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

@@ -40,7 +40,6 @@ class FixedAssetController extends Controller
         $data = $this->repository->createInstance();
         $lookups = Selection::getSelections(['villa_location','fixed_asset_type']);
         
-
         return compact('lookups', 'data');
     }
 

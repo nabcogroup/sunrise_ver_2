@@ -1,4 +1,5 @@
 <template>
+<form @submit.prevent="save()">
   <v-dialog dialog-title="Fixed Asset Entry" modal-id="fixedAssetEntry" v-model="toggle" @dismiss="save">
     <div class="form-horizontal">
         <v-input-wrapper label="Date" label-class="col-md-3 text-right">
@@ -24,6 +25,7 @@
         </v-input-wrapper>
     </div>
   </v-dialog>
+</form>
 </template>
 
 <script>
@@ -34,6 +36,7 @@ import { mapGetters, mapState } from "vuex";
 import { EventBus } from "../../eventbus";
 
 export default {
+
   name: "FixedAssetRegisterDialog",
   mixins: [toggleModal],
 
@@ -60,6 +63,7 @@ export default {
   methods: {
     close() {
       EventBus.$emit("fixedAsset.entry.close", true);
+
     },
     open() {
       EventBus.$on("fixedAsset.entry.open", value => {
@@ -67,7 +71,9 @@ export default {
       });
     },
     save() {
-        
+      this.$store.dispatch('fixedAsset/save', () =>{
+        this.closeDialog();
+      });
     }
   }
 };

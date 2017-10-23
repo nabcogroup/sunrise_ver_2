@@ -16,8 +16,8 @@ const mutations = {
     create(state,data) {
         state.data = data.data.data;
         state.lookups = data.data.lookups;
-        
-        
+
+
     }
 }
 
@@ -32,10 +32,10 @@ const actions = {
     get() {
 
     },
-    save({state},payload) {
+    save({state},cb) {
         axiosRequest.post("fixed-asset","",state.data).then(result => {
             toastr.success(result.data.message);
-            payload();
+            cb();
         })
         .catch((errors) => {
             if(errors.response.status === 422) {

@@ -22,6 +22,7 @@ import {mapGetters} from "vuex";
 import FixedAssetRegisterDialog from "./FixedAssetRegisterDialog.vue";
 import {EventBus} from "../../eventbus";
 export default {
+
   data() {
       return {
           gridView: {
@@ -31,7 +32,7 @@ export default {
                 {name: 'property', column:'Property', filter: true},
                 {name: 'cost', column:'Cost', filter: true, type: 'currency',class:'text-right'},
                 {name: 'tag_code', column: 'Tag No', filter: true},
-                {name: '$action', column: ' ', static: true, class: 'text-center'}
+                {name: '$action', column: ' ', static: true, class: 'text-center', style:"width:5%"}
               ],
               actions: [
                   {key: 'edit', name: 'Edit'}

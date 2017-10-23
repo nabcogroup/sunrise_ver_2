@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use App\Selection;
 use Illuminate\Database\Eloquent\Model;
 
 class FixedAsset extends BaseModel
@@ -25,5 +26,15 @@ class FixedAsset extends BaseModel
         $this->property = "sv1";
         $this->cost = 0;
         $this->tag_code = "";
+    }
+
+    public function getFullFixedAssetTypeAttribute() {
+        
+        return Selection::getValue('fixed_asset_type',$this->fixed_asset_type);
+
+    }
+
+    public function getFullPropertyAttribute() {
+        return Selection::getValue('villa_location',$this->property);
     }
 }

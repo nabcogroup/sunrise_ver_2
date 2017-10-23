@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Carbon\Carbon;
 use App\FixedAsset;
 use App\Traits\PaginationTrait;
 
@@ -25,11 +26,11 @@ class FixedAssetRepository extends AbstractRepository {
             
             $item = [
                 "id"                =>  $row->id,
-                "purchase_date"        =>  $row->purchase_date,
+                "purchase_date"        =>  Carbon::parse($row->purchase_date)->format('d, M, Y'),
                 "description"          =>  $row->description,
-                "fixed_asset_type"    =>  $row->fixed_asset_type,
-                "property"          =>  $row->property,
-                "cost"           =>  $row->cost,
+                "fixed_asset_type"    =>  $row->full_fixed_asset_type,
+                "property"          =>  $row->full_property,
+                "cost"           =>  number_format($row->cost,2),
                 "tag_code"    =>  $row->tag_code,
                
             ];

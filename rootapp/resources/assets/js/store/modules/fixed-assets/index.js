@@ -33,7 +33,8 @@ const actions = {
 
     },
     save({state},cb) {
-        axiosRequest.post("fixed-asset","",state.data).then(result => {
+        
+        axiosRequest.post("fixed-asset","store",state.data).then(result => {
             toastr.success(result.data.message);
             cb();
         })
@@ -42,6 +43,9 @@ const actions = {
                 state.errorValidations.register(errors.response.data)
             }
         });
+    },
+    redirect() {
+        axiosRequest.redirect("fixed-asset","");
     },
     update() {
 

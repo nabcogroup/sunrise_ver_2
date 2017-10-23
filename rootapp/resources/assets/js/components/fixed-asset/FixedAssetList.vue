@@ -49,6 +49,9 @@ export default {
   methods: {
     create(){
       EventBus.$emit('fixedAsset.entry.open');
+      EventBus.$on('fixedAsset.entry.close',() => {
+          this.$store.dispatch('fixedAsset/redirect')   
+      })
     }
   }
 };

@@ -1,20 +1,37 @@
 import {ErrorValidations} from "../../../helpers/helpers";
 
 const state = {
-    list:[] 
+    data:{
+
+    },
+    errorValidations: new ErrorValidations()
 }
 
 
 const mutations = {
-    'GETALL': (state,data)  => {
-        state.list = data;
+    create(state,data) {
+        state.data = data;
     }
 }
 
 const actions = {
-    'GETALL': ({ state, commit }) => {
-        axiosRequest.get('fixed-asset','')
-            .then(r => commit(r.data));
+    create({state,commit}) {
+        axiosRequest.getApi("api/fixed-asset/create")
+            .then(result => commit('create',data))
+            .catch(errors => {
+                if(errors.response.status === 422) {
+                    state.errorValidations.register(errors.response.data)
+                }
+            });
+    },
+    get() {
+
+    },
+    save() {
+
+    },
+    update() {
+
     }
 }
 

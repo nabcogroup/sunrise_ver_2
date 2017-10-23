@@ -123,7 +123,7 @@ const actions = {
 
         axiosRequest.post('contract', 'renew', data)
             .then(r => commit('createBill', r.data.data.id))
-            .catch(e => {if (e.response.status === 422) this.errors.renewError.register(e.response.data);});
+            .catch(e => {if (e.response.status === 422) state.errors.renewError.register(e.response.data);});
     },
     recalc({state}, payload) {
 

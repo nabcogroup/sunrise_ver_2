@@ -16440,7 +16440,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data() {
     return {
       gridView: {
-        columns: [{ name: 'purchase_date', column: 'Purchase Date', filter: true, style: "width:10%", class: 'text-center' }, { name: 'fixed_asset_type', column: 'Description', filter: true }, { name: 'property', column: 'Property', filter: true, class: 'text-center' }, { name: 'cost', column: 'Cost', filter: true, type: 'currency', style: "width:10%", class: 'text-right' }, { name: 'tag_code', column: 'Tag No', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: "width:5%" }],
+        columns: [{ name: 'purchase_date', column: 'Purchase Date', filter: true, class: 'text-center', style: 'width:10%' }, { name: 'fixed_asset_type', column: 'Description', filter: true }, { name: 'property', column: 'Property', filter: true }, { name: 'cost', column: 'Cost', filter: true, type: 'currency', class: 'text-right' }, { name: 'tag_code', column: 'Tag No', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: "width:5%" }],
         actions: [{ key: 'edit', name: 'Edit' }],
         source: {
           url: '/api/fixed-asset'
@@ -16534,17 +16534,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 
 
 
@@ -16553,36 +16542,42 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'FixedAssetRegisterDialog',
-    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
 
-    mounted() {
-        this.$store.dispatch('fixedAsset/create');
-    },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("fixedAsset", {
-        'lookups': 'lookups'
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("fixedAsset", {
-        data: state => state.data
-    })),
+  name: "FixedAssetRegisterDialog",
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
 
-    data() {
-        return {
-            validations: new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]()
-        };
+  mounted() {
+    this.$store.dispatch("fixedAsset/create");
+  },
+  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("fixedAsset", {
+    lookups: "lookups"
+  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("fixedAsset", {
+    data: state => state.data
+  })),
+
+  data() {
+    return {
+      validations: new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]()
+    };
+  },
+  beforeMount() {
+    this.open();
+  },
+  methods: {
+    close() {
+      __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit("fixedAsset.entry.close", true);
     },
-    beforeMount() {
-        this.open();
+    open() {
+      __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("fixedAsset.entry.open", value => {
+        this.openDialog();
+      });
     },
-    methods: {
-        close() {
-            __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit("fixedAsset.entry.close", true);
-        },
-        open() {
-            __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("fixedAsset.entry.open", value => {
-                this.openDialog();
-            });
-        }
+    save() {
+      this.$store.dispatch('fixedAsset/save', () => {
+        this.closeDialog();
+      });
     }
+  }
 });
 
 /***/ }),
@@ -19420,7 +19415,7 @@ const actions = {
         };
 
         axiosRequest.post('contract', 'renew', data).then(r => commit('createBill', r.data.data.id)).catch(e => {
-            if (e.response.status === 422) this.errors.renewError.register(e.response.data);
+            if (e.response.status === 422) state.errors.renewError.register(e.response.data);
         });
     },
     recalc({ state }, payload) {
@@ -19719,24 +19714,44 @@ const expenditureModule = {
 
 
 const state = {
-    list: []
+    data: {},
+    lookups: {
+        villa_location: [],
+        fixed_asset_type: []
+    },
+    errorValidations: new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]()
 };
 
 const mutations = {
-    'GETALL': (state, data) => {
-        state.list = data;
+    create(state, data) {
+        state.data = data.data.data;
+        state.lookups = data.data.lookups;
     }
 };
 
 const actions = {
-    'GETALL': ({ state, commit }) => {
-        axiosRequest.get('fixed-asset', '').then(r => commit(r.data));
-    }
+    create({ state, commit }) {
+        axiosRequest.dispatchGet("api/fixed-asset/create").then(result => commit('create', result)).catch(errors => {
+            toastr.error(errors.response.message);
+        });
+    },
+    get() {},
+    save({ state }, cb) {
+        axiosRequest.post("fixed-asset", "", state.data).then(result => {
+            toastr.success(result.data.message);
+            cb();
+        }).catch(errors => {
+            if (errors.response.status === 422) {
+                state.errorValidations.register(errors.response.data);
+            }
+        });
+    },
+    update() {}
 };
 
 const getters = {
-    list(state) {
-        return state.list;
+    lookups(state) {
+        return state.lookups || [];
     }
 };
 
@@ -30706,10 +30721,20 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('v-dialog', {
+  return _c('form', {
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.save()
+      }
+    }
+  }, [_c('v-dialog', {
     attrs: {
       "dialog-title": "Fixed Asset Entry",
       "modal-id": "fixedAssetEntry"
+    },
+    on: {
+      "dismiss": _vm.save
     },
     model: {
       value: (_vm.toggle),
@@ -30719,31 +30744,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "toggle"
     }
   }, [_c('div', {
-    staticClass: "form-group row"
-  }, [_c('label', {
-    staticClass: "col-md-3 col-form-label"
-  }, [_vm._v("Date:")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-9"
-  }, [_c('dt-picker')], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
-  }, [_c('label', {
-    staticClass: "col-md-3 col-form-label"
-  }, [_vm._v("Decription:")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-9"
-  }, [_c('input', {
-    staticClass: "form-control"
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
-  }, [_c('label', {
-    staticClass: "col-md-3 col-form-label"
-  }, [_vm._v("Property:")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-9"
+    staticClass: "form-horizontal"
+  }, [_c('v-input-wrapper', {
+    attrs: {
+      "label": "Date",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('dt-picker')], 1), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Property",
+      "label-class": "col-md-3 text-right"
+    }
   }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.lookups.property),
-      expression: "lookups.property"
+      value: (_vm.data.property),
+      expression: "data.property"
     }],
     staticClass: "form-control",
     on: {
@@ -30754,70 +30771,104 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.lookups.property = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.data.property = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
-  }, _vm._l((_vm.lookups.property), function(look) {
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("--SELECT PROPERTY--")]), _vm._v(" "), _vm._l((_vm.lookups.villa_location), function(look) {
     return _c('option', {
       domProps: {
-        "value": look.id
+        "value": look.code
       }
-    }, [_vm._v(_vm._s(look.property))])
-  }))])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
-  }, [_c('label', {
-    staticClass: "col-md-3 col-form-label"
-  }, [_vm._v("Fixed Asset Type:")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-9"
-  }, [_c('select', {
+    }, [_vm._v(_vm._s(look.name))])
+  })], 2)]), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Description",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('textarea', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.lookups.fixed_asset_type),
-      expression: "lookups.fixed_asset_type"
-    }],
-    staticClass: "form-control",
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.lookups.fixed_asset_type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.lookups.fixed_asset_type), function(look) {
-    return _c('option', {
-      domProps: {
-        "value": look.id
-      }
-    }, [_vm._v(_vm._s(look.fixed_asset_type))])
-  }))])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
-  }, [_c('label', {
-    staticClass: "col-md-3 col-form-label"
-  }, [_vm._v("Cost:")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-9"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.lookups.cost),
-      expression: "lookups.cost"
+      value: (_vm.data.description),
+      expression: "data.description"
     }],
     staticClass: "form-control",
     domProps: {
-      "value": (_vm.lookups.cost)
+      "value": (_vm.data.description)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.lookups.cost = $event.target.value
+        _vm.data.description = $event.target.value
       }
     }
-  })])])])
+  })]), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Fixed Asset Type",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.data.fixed_asset_type),
+      expression: "data.fixed_asset_type"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.data.fixed_asset_type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("--ASSET TYPE--")]), _vm._v(" "), _vm._l((_vm.lookups.fixed_asset_type), function(look) {
+    return _c('option', {
+      domProps: {
+        "value": look.code
+      }
+    }, [_vm._v(_vm._s(look.name))])
+  })], 2)]), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Cost",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.data.cost),
+      expression: "data.cost"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "number"
+    },
+    domProps: {
+      "value": (_vm.data.cost)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.data.cost = $event.target.value
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })])], 1)])], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

@@ -1,7 +1,35 @@
 <template>
-  <v-dialog dialog-title="Fixed Asset Entry" modal-id="fixedAssetEntry" v-model="toggle" @dismiss="save">
-
+  <v-dialog dialog-title="Fixed Asset Entry" modal-id="fixedAssetEntry" v-model="toggle">
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Date:</label>
+        <div class="col-md-9">
+          <dt-picker ></dt-picker>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Decription:</label>
+        <div class="col-md-9">
+          <input class="form-control">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Property:</label>
+        <div class="col-md-9">
+          <select class="form-control">
+              <option value="">PROPERTY</option>
+          </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Fixed Asset Type:</label>
+        <div class="col-md-9">
+          <select class="form-control">
+              <option value="">Fixed Asset Type</option>
+          </select>
+        </div>
+    </div>
   </v-dialog>
+
 </template>
 
 <script>
@@ -16,6 +44,7 @@ import { EventBus } from "../../eventbus";
 export default {
     name: 'FixedAssetRegisterDialog',
     mixins: [toggleModal],
+
     data() {
         return {
             validations: new ErrorValidations(),

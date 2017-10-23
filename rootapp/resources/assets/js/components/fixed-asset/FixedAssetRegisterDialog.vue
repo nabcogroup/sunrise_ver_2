@@ -1,9 +1,11 @@
 <template>
-<form @submit.prevent="save()">
   <v-dialog dialog-title="Fixed Asset Entry" modal-id="fixedAssetEntry" v-model="toggle" @dismiss="save">
     <div class="form-horizontal">
         <v-input-wrapper label="Date" label-class="col-md-3 text-right">
-            <dt-picker ></dt-picker>
+            <dt-picker
+              :value="data.purchase_date"
+              @pick="data.purchase_date =$event"
+            ></dt-picker>
         </v-input-wrapper>
         <v-input-wrapper label="Property" label-class="col-md-3 text-right">
             <select class="form-control" v-model="data.property">
@@ -25,7 +27,6 @@
         </v-input-wrapper>
     </div>
   </v-dialog>
-</form>
 </template>
 
 <script>

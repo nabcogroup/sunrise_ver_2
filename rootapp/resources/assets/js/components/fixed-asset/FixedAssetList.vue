@@ -28,7 +28,7 @@ export default {
           gridView: {
               columns: [
                 {name: 'purchase_date', column:'Purchase Date', filter: true, class:'text-center',style:'width:10%'},
-                {name: 'fixed_asset_type', column:'Description', filter: true},
+                {name: 'description', column:'Description', filter: true},
                 {name: 'property', column:'Property', filter: true},
                 {name: 'cost', column:'Cost', filter: true, type: 'currency',class:'text-right'},
                 {name: 'tag_code', column: 'Tag No', filter: true},
@@ -50,7 +50,7 @@ export default {
     create(){
       EventBus.$emit('fixedAsset.entry.open');
       EventBus.$on('fixedAsset.entry.close',() => {
-          this.$store.dispatch('fixedAsset/redirect')   
+          //this.$store.dispatch('fixedAsset/redirect')   
       })
     }
   }

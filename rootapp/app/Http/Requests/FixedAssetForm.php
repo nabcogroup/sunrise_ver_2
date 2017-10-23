@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class FixedAssetForm extends FormRequest
@@ -35,6 +36,10 @@ class FixedAssetForm extends FormRequest
 
 
     public function filterInput() {
-        return $this->all();
+        $input = $this->all();
+        $input['purchase_date'] = Carbon::parse($input['purchase_date']);
+        
+        return $input;
+
     }
 }

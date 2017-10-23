@@ -16440,7 +16440,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data() {
         return {
             gridView: {
-                columns: [{ name: 'purchase_date', column: 'Purchase Date', filter: true, class: 'text-center', style: 'width:10%' }, { name: 'fixed_asset_type', column: 'Description', filter: true }, { name: 'property', column: 'Property', filter: true }, { name: 'cost', column: 'Cost', filter: true, type: 'currency', class: 'text-right' }, { name: 'tag_code', column: 'Tag No', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: "width:5%" }],
+                columns: [{ name: 'purchase_date', column: 'Purchase Date', filter: true, class: 'text-center', style: 'width:10%' }, { name: 'description', column: 'Description', filter: true }, { name: 'property', column: 'Property', filter: true }, { name: 'cost', column: 'Cost', filter: true, type: 'currency', class: 'text-right' }, { name: 'tag_code', column: 'Tag No', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: "width:5%" }],
                 actions: [{ key: 'edit', name: 'Edit' }],
                 source: {
                     url: '/api/fixed-asset'
@@ -16455,7 +16455,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         create() {
             __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('fixedAsset.entry.open');
             __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$on('fixedAsset.entry.close', () => {
-                this.$store.dispatch('fixedAsset/redirect');
+                //this.$store.dispatch('fixedAsset/redirect')   
             });
         }
     }

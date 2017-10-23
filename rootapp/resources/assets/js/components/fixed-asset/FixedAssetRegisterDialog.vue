@@ -49,8 +49,6 @@ import { EventBus } from "../../eventbus";
 export default {
     name: 'FixedAssetRegisterDialog',
     mixins: [toggleModal],
-<<<<<<< HEAD
-=======
 
     mounted() {
       this.$store.dispatch('fixedAsset/create');
@@ -64,7 +62,6 @@ export default {
       })
     },
 
->>>>>>> Register form added
     data() {
         return {
             validations: new ErrorValidations(),

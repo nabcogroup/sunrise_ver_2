@@ -26,10 +26,10 @@ export default {
       return {
           gridView: {
               columns: [
-                {name: 'purchase_date', column:'Purchase Date', filter: true},
+                {name: 'purchase_date', column:'Purchase Date', filter: true, class:'text-center',style:'width:10%'},
                 {name: 'fixed_asset_type', column:'Description', filter: true},
                 {name: 'property', column:'Property', filter: true},
-                {name: 'cost', column:'Cost', filter: true, type: 'currency'},
+                {name: 'cost', column:'Cost', filter: true, type: 'currency',class:'text-right'},
                 {name: 'tag_code', column: 'Tag No', filter: true},
                 {name: '$action', column: ' ', static: true, class: 'text-center'}
               ],

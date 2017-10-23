@@ -16537,6 +16537,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -30751,7 +30752,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "Date",
       "label-class": "col-md-3 text-right"
     }
-  }, [_c('dt-picker')], 1), _vm._v(" "), _c('v-input-wrapper', {
+  }, [_c('dt-picker', {
+    attrs: {
+      "value": _vm.data.purchase_date
+    },
+    on: {
+      "pick": function($event) {
+        _vm.data.purchase_date = $event
+      }
+    }
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label": "Property",
       "label-class": "col-md-3 text-right"

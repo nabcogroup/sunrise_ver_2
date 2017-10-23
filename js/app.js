@@ -143,9 +143,9 @@ const EventBus = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a();
 
 "use strict";
 /* unused harmony export Store */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapState; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return mapMutations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapGetters; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return mapActions; });
 /**
  * vuex v2.3.0
@@ -952,6 +952,210 @@ var index_esm = {
 
 /***/ }),
 /* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class ErrorValidations {
+
+    constructor() {
+        let that = this;
+        this.errors = {};
+        this.exceptions = {
+            errors: [],
+            add: function (name, description) {
+                that.errorExceptions.errors.push({
+                    name: name,
+                    description: description });
+            }
+        };
+    }
+
+    get(field) {
+        if (this.errors[field]) {
+            if (this.errors[field] instanceof Array) {
+                return this.errors[field][0];
+            } else {
+                return this.errors[field];
+            }
+        }
+        return "";
+    }
+
+    register(errors) {
+        this.errors = errors;
+    }
+
+    clear(field) {
+        if (this.errors[field]) {
+            delete this.errors[field][0];
+        }
+    }
+    all() {
+        return this.errors;
+    }
+
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = ErrorValidations;
+
+
+class AxiosRequest {
+
+    post(controller, action, data) {
+        return axios.post('/api/' + controller + '/' + action, data);
+    }
+
+    get(controller, action) {
+        var qs = "";
+        if (arguments.length >= 3) {
+            for (var i = 2; i < arguments.length; i++) {
+                qs += arguments[i] + '/';
+            }
+        }
+        qs = qs.substring(0, qs.length - 1);
+        var url = '/api/' + controller + '/' + action + (qs !== "" ? "/" + qs : qs);
+        return axios.get(url);
+    }
+
+    dispatchGet(url, parameters) {
+        if (parameters) {
+            url = url + "?" + $.param(parameters);
+        }
+        return axios.get(url);
+    }
+
+    route(url) {
+
+        var img = window.imagePath;
+        window.location.href = url;
+        return this;
+    }
+
+    redirect(controller, action = '', data = null, target = '_self') {
+        var baseUrl = window.Laravel.baseUrl;
+        var url = baseUrl + "/" + controller + "/" + (action !== null ? action : "") + (data !== null ? "/" + data : "");
+        window.open(url, target);
+    }
+
+    postMultiForm(controller, action, formData) {
+        return $.ajax({
+            url: '/api/' + controller + '/' + action,
+            type: 'POST',
+            data: formData,
+            headers: { 'X-CSRF-TOKEN': window.Laravel.csrfToken },
+            processData: false,
+            contentType: false
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = AxiosRequest;
+
+
+const cloneObject = function (objInstance) {
+    if (typeof objInstance === "object") return JSON.parse(JSON.stringify(objInstance));else return false;
+};
+/* harmony export (immutable) */ __webpack_exports__["c"] = cloneObject;
+
+
+const copiedValue = (source, target, exclude = new Array()) => {
+    _.forEach(source, (value, key) => {
+        if (exclude.length > 0) {
+            if (_.indexOf(exclude, key) < 0) {
+                target[key] = value;
+            }
+        } else {
+            target[key] = value;
+        }
+    });
+};
+/* harmony export (immutable) */ __webpack_exports__["d"] = copiedValue;
+
+
+const validation = () => {
+
+    let duplicateOrEmpty = (entity, compArray, field) => {
+
+        for (let i = 0; i < compArray.length; i++) {
+            let item = compArray[i];
+            if (entity[field] === item[field]) return true;
+        }
+
+        return false;
+    };
+
+    let isEmpty = (value, ...args) => {
+        for (let i = 0; i <= args.length; i++) {
+            if (_.trim(value[args[i]]).length === 0) return args[i];
+        }
+        return "";
+    };
+
+    let dateRangePeriod = (startPeriod, startEnd) => {
+        if (moment(startPeriod).isAfter(moment(startEnd)) || moment(startPeriod).isSame(moment(startEnd))) {
+            return true;
+        }
+        return false;
+    };
+
+    let isNonNumeric = numValue => {
+        if (isNaN(numValue)) {
+            return true;
+        }
+        return false;
+    };
+
+    function validate(entity, items) {
+
+        let result = {
+            key: "",
+            isValid: true,
+            message: "",
+            error(value, key) {
+                this.key = key;
+                this.isValid = false;
+                this.message = value;
+            },
+            ok() {
+                this.message = "";
+                this.isValid = true;
+                this.key = "";
+            }
+        };
+
+        //check required
+        let req = false;
+        if (entity.payment_type === 'bank') req = isEmpty(entity, 'payment_no', 'bank', 'amount');else req = isEmpty(entity, 'payment_no', 'amount');
+
+        if (req) {
+            result.error("field is required", req);
+            return result;
+        }
+
+        if (isNonNumeric(entity.amount)) {
+            result.error("Amount must be numeric", "amount");
+            return result;
+        }
+
+        return result;
+    }
+
+    return {
+        validate: validate
+    };
+};
+/* harmony export (immutable) */ __webpack_exports__["e"] = validation;
+
+
+const reIndexing = (items, key = 'id') => {
+    items.forEach(function (item, index) {
+        index = index + 1;
+        item[key] = index;
+    });
+};
+/* harmony export (immutable) */ __webpack_exports__["f"] = reIndexing;
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1254,210 +1458,6 @@ module.exports = {
   extend: extend,
   trim: trim
 };
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-class ErrorValidations {
-
-    constructor() {
-        let that = this;
-        this.errors = {};
-        this.exceptions = {
-            errors: [],
-            add: function (name, description) {
-                that.errorExceptions.errors.push({
-                    name: name,
-                    description: description });
-            }
-        };
-    }
-
-    get(field) {
-        if (this.errors[field]) {
-            if (this.errors[field] instanceof Array) {
-                return this.errors[field][0];
-            } else {
-                return this.errors[field];
-            }
-        }
-        return "";
-    }
-
-    register(errors) {
-        this.errors = errors;
-    }
-
-    clear(field) {
-        if (this.errors[field]) {
-            delete this.errors[field][0];
-        }
-    }
-    all() {
-        return this.errors;
-    }
-
-}
-/* harmony export (immutable) */ __webpack_exports__["b"] = ErrorValidations;
-
-
-class AxiosRequest {
-
-    post(controller, action, data) {
-        return axios.post('/api/' + controller + '/' + action, data);
-    }
-
-    get(controller, action) {
-        var qs = "";
-        if (arguments.length >= 3) {
-            for (var i = 2; i < arguments.length; i++) {
-                qs += arguments[i] + '/';
-            }
-        }
-        qs = qs.substring(0, qs.length - 1);
-        var url = '/api/' + controller + '/' + action + (qs !== "" ? "/" + qs : qs);
-        return axios.get(url);
-    }
-
-    dispatchGet(url, parameters) {
-        if (parameters) {
-            url = url + "?" + $.param(parameters);
-        }
-        return axios.get(url);
-    }
-
-    route(url) {
-
-        var img = window.imagePath;
-        window.location.href = url;
-        return this;
-    }
-
-    redirect(controller, action = '', data = null, target = '_self') {
-        var baseUrl = window.Laravel.baseUrl;
-        var url = baseUrl + "/" + controller + "/" + (action !== null ? action : "") + (data !== null ? "/" + data : "");
-        window.open(url, target);
-    }
-
-    postMultiForm(controller, action, formData) {
-        return $.ajax({
-            url: '/api/' + controller + '/' + action,
-            type: 'POST',
-            data: formData,
-            headers: { 'X-CSRF-TOKEN': window.Laravel.csrfToken },
-            processData: false,
-            contentType: false
-        });
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = AxiosRequest;
-
-
-const cloneObject = function (objInstance) {
-    if (typeof objInstance === "object") return JSON.parse(JSON.stringify(objInstance));else return false;
-};
-/* harmony export (immutable) */ __webpack_exports__["c"] = cloneObject;
-
-
-const copiedValue = (source, target, exclude = new Array()) => {
-    _.forEach(source, (value, key) => {
-        if (exclude.length > 0) {
-            if (_.indexOf(exclude, key) < 0) {
-                target[key] = value;
-            }
-        } else {
-            target[key] = value;
-        }
-    });
-};
-/* harmony export (immutable) */ __webpack_exports__["d"] = copiedValue;
-
-
-const validation = () => {
-
-    let duplicateOrEmpty = (entity, compArray, field) => {
-
-        for (let i = 0; i < compArray.length; i++) {
-            let item = compArray[i];
-            if (entity[field] === item[field]) return true;
-        }
-
-        return false;
-    };
-
-    let isEmpty = (value, ...args) => {
-        for (let i = 0; i <= args.length; i++) {
-            if (_.trim(value[args[i]]).length === 0) return args[i];
-        }
-        return "";
-    };
-
-    let dateRangePeriod = (startPeriod, startEnd) => {
-        if (moment(startPeriod).isAfter(moment(startEnd)) || moment(startPeriod).isSame(moment(startEnd))) {
-            return true;
-        }
-        return false;
-    };
-
-    let isNonNumeric = numValue => {
-        if (isNaN(numValue)) {
-            return true;
-        }
-        return false;
-    };
-
-    function validate(entity, items) {
-
-        let result = {
-            key: "",
-            isValid: true,
-            message: "",
-            error(value, key) {
-                this.key = key;
-                this.isValid = false;
-                this.message = value;
-            },
-            ok() {
-                this.message = "";
-                this.isValid = true;
-                this.key = "";
-            }
-        };
-
-        //check required
-        let req = false;
-        if (entity.payment_type === 'bank') req = isEmpty(entity, 'payment_no', 'bank', 'amount');else req = isEmpty(entity, 'payment_no', 'amount');
-
-        if (req) {
-            result.error("field is required", req);
-            return result;
-        }
-
-        if (isNonNumeric(entity.amount)) {
-            result.error("Amount must be numeric", "amount");
-            return result;
-        }
-
-        return result;
-    }
-
-    return {
-        validate: validate
-    };
-};
-/* harmony export (immutable) */ __webpack_exports__["e"] = validation;
-
-
-const reIndexing = (items, key = 'id') => {
-    items.forEach(function (item, index) {
-        index = index + 1;
-        item[key] = index;
-    });
-};
-/* harmony export (immutable) */ __webpack_exports__["f"] = reIndexing;
 
 
 /***/ }),
@@ -1801,7 +1801,7 @@ module.exports = Component.exports
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var normalizeHeaderName = __webpack_require__(161);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
@@ -11628,7 +11628,7 @@ module.exports = g;
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var settle = __webpack_require__(153);
 var buildURL = __webpack_require__(156);
 var parseHeaders = __webpack_require__(162);
@@ -12359,7 +12359,7 @@ module.exports = __webpack_require__(147);
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var bind = __webpack_require__(18);
 var Axios = __webpack_require__(149);
 var defaults = __webpack_require__(10);
@@ -12483,7 +12483,7 @@ module.exports = CancelToken;
 
 
 var defaults = __webpack_require__(10);
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var InterceptorManager = __webpack_require__(150);
 var dispatchRequest = __webpack_require__(151);
 var isAbsoluteURL = __webpack_require__(159);
@@ -12574,7 +12574,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -12633,7 +12633,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 var transformData = __webpack_require__(154);
 var isCancel = __webpack_require__(16);
 var defaults = __webpack_require__(10);
@@ -12777,7 +12777,7 @@ module.exports = function settle(resolve, reject, response) {
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 /**
  * Transform the data for a request or a response
@@ -12847,7 +12847,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -12941,7 +12941,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -13022,7 +13022,7 @@ module.exports = function isAbsoluteURL(url) {
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -13097,7 +13097,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -13116,7 +13116,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var utils = __webpack_require__(4);
+var utils = __webpack_require__(5);
 
 /**
  * Parse headers into an object
@@ -13733,7 +13733,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["chartId"],
   beforeMount() {},
-  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapState */])("accountCharts", {
+  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])("accountCharts", {
     account: state => state.account
   }))
 
@@ -14015,7 +14015,7 @@ const createGridColumn = value => {
             lookups: this.instanceLookups
         });
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["c" /* mapGetters */])('bills', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["b" /* mapGetters */])('bills', {
         contract: 'contract',
         bill: 'bill',
         totalPayment: 'totalPayment',
@@ -14398,7 +14398,7 @@ const confirmation = {
             paymentStatus: ''
         };
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_vuex__["c" /* mapGetters */])('payments', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_vuex__["b" /* mapGetters */])('payments', {
         contract: 'contract',
         bill: 'bill',
         filtered: 'filtered',
@@ -15404,7 +15404,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             if (direct) this.$store.dispatch('contracts/recalc', { rate: 0 });else this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('contracts', {
         contract: 'contract',
         lookups: 'lookups',
         errors: 'stateContractError',
@@ -15549,7 +15549,7 @@ const confirmation = {
             }
         }
     }),
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])('contracts', {
         contracts: 'contracts',
         status: 'status',
         contractForTerminate: 'contractForTerminate'
@@ -15659,7 +15659,7 @@ const confirmation = {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__eventbus__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins__ = __webpack_require__(8);
@@ -15735,9 +15735,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.dispatch("contracts/terminate", onResult);
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])('contracts', {
         contractForTerminate: 'contractForTerminate'
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapState */])('contracts', {
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapState */])('contracts', {
         errors: state => state.errors.terminateError
     }))
 });
@@ -15806,13 +15806,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         }
     },
     mounted() {},
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])('contracts', {
         villas: 'villas',
         contract: 'contract',
         stateContractError: 'stateContractError',
         lookups: 'lookups',
         selectedVilla: "selectedVilla"
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])('contracts', {
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])('contracts', {
         filter: state => state.filter
     }), {
         fullVilla() {
@@ -15951,9 +15951,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             rate_per_month: 0
         };
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])("contracts", {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("contracts", {
         contract: state => state.contract
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapGetters */])("contracts", {
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("contracts", {
         stateRenewError: "stateRenewError",
         lookups: "lookups"
     })),
@@ -16094,7 +16094,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         'error': __WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue___default.a
     },
     methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["d" /* mapActions */])('contracts', ['searchTenant'])),
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])('contracts', {
         tenant: 'tenant',
         lookups: 'lookups',
         labels: 'labels',
@@ -16359,7 +16359,7 @@ const confirmation = {
         }
     },
     props: ['index'],
-    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('expenditures', {
+    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('expenditures', {
         expense: 'expense',
         lookups: 'lookups',
         filtered_villas: 'filtered_villas',
@@ -16494,9 +16494,96 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 194 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: C:/xampp/htdocs/sunrise_ver_2/rootapp/resources/assets/js/components/fixed-asset/FixedAssetRegisterDialog.vue: this is a reserved word (48:6)\n\n\u001b[0m \u001b[90m 46 | \u001b[39m    mixins\u001b[33m:\u001b[39m [toggleModal]\u001b[33m,\u001b[39m\n \u001b[90m 47 | \u001b[39m    mounted\u001b[33m:\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 48 | \u001b[39m      \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39m$store\u001b[33m.\u001b[39mdispatch(\u001b[32m'fixedAsset/create'\u001b[39m)\n \u001b[90m    | \u001b[39m      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 49 | \u001b[39m    }\u001b[33m,\u001b[39m\n \u001b[90m 50 | \u001b[39m\n \u001b[90m 51 | \u001b[39m    computed\u001b[33m:\u001b[39m {\u001b[0m\n");
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__eventbus__ = __webpack_require__(2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'FixedAssetRegisterDialog',
+    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
+
+    mounted() {
+        this.$store.dispatch('fixedAsset/create');
+    },
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("fixedAsset", {
+        'lookups': 'lookups'
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("fixedAsset", {
+        data: state => state.data
+    })),
+
+    data() {
+        return {
+            validations: new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]()
+        };
+    },
+    beforeMount() {
+        this.open();
+    },
+    methods: {
+        close() {
+            __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit("fixedAsset.entry.close", true);
+        },
+        open() {
+            __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("fixedAsset.entry.open", value => {
+                this.openDialog();
+            });
+        }
+    }
+});
 
 /***/ }),
 /* 195 */
@@ -16788,7 +16875,7 @@ const confirmation = {
         this.$store.dispatch('payees/create');
     },
     props: ['type'],
-    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('payees', {
+    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('payees', {
         payee: 'payee',
         payeeTypes: 'payeeTypes',
         errors: 'errors'
@@ -17240,7 +17327,7 @@ const confirmation = {
             });
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('tenants', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('tenants', {
         tenant: 'tenant',
         lookups: 'lookups',
         labels: 'labels',
@@ -17312,7 +17399,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.commit('villas/redirectToRegister', 0);
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapGetters */])('liveviews', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('liveviews', {
         cache: 'cache'
     }))
 });
@@ -17535,7 +17622,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //this.viewModel.remove(id);
         }
     },
-    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_vuex__["c" /* mapGetters */])('villas', {
+    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_vuex__["b" /* mapGetters */])('villas', {
         villa: 'villa',
         lookups: 'lookups',
         errors: 'errors'
@@ -18619,7 +18706,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.fetchData({ grid: this.grid });
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapGetters */])('liveviews', { filteredData: 'filteredData' }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])('liveviews', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])('liveviews', { filteredData: 'filteredData' }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])('liveviews', {
         filter: state => state.filter,
         selectedFilter: state => state.selectedFilter,
         sortKey: state => state.sortKey,
@@ -18736,7 +18823,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 
 
 
@@ -19058,7 +19145,7 @@ const accountChartsModule = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 
 
 
@@ -19215,7 +19302,7 @@ const billModule = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 
 
 const state = {
@@ -19489,7 +19576,7 @@ const contractModule = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 
 
 const state = {
@@ -19628,7 +19715,7 @@ const expenditureModule = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 
 
 const state = {
@@ -19854,7 +19941,7 @@ const liveviewsModule = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 
 
 const state = {
@@ -19924,7 +20011,7 @@ const payeeModule = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 
 
 const state = {
@@ -20162,7 +20249,7 @@ const paymentModule = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 
 
 const state = {
@@ -20260,7 +20347,7 @@ const tenantModule = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
 
 
 
@@ -30652,24 +30739,85 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Property:")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-9"
   }, [_c('select', {
-    staticClass: "form-control"
-  }, [_c('option', {
-    attrs: {
-      "value": ""
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.lookups.property),
+      expression: "lookups.property"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.lookups.property = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
-  }, [_vm._v("PROPERTY")])])])]), _vm._v(" "), _c('div', {
+  }, _vm._l((_vm.lookups.property), function(look) {
+    return _c('option', {
+      domProps: {
+        "value": look.id
+      }
+    }, [_vm._v(_vm._s(look.property))])
+  }))])]), _vm._v(" "), _c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
     staticClass: "col-md-3 col-form-label"
   }, [_vm._v("Fixed Asset Type:")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-9"
   }, [_c('select', {
-    staticClass: "form-control"
-  }, [_c('option', {
-    attrs: {
-      "value": ""
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.lookups.fixed_asset_type),
+      expression: "lookups.fixed_asset_type"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.lookups.fixed_asset_type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
     }
-  }, [_vm._v("Fixed Asset Type")])])])])])
+  }, _vm._l((_vm.lookups.fixed_asset_type), function(look) {
+    return _c('option', {
+      domProps: {
+        "value": look.id
+      }
+    }, [_vm._v(_vm._s(look.fixed_asset_type))])
+  }))])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row"
+  }, [_c('label', {
+    staticClass: "col-md-3 col-form-label"
+  }, [_vm._v("Cost:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-9"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.lookups.cost),
+      expression: "lookups.cost"
+    }],
+    staticClass: "form-control",
+    domProps: {
+      "value": (_vm.lookups.cost)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.lookups.cost = $event.target.value
+      }
+    }
+  })])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

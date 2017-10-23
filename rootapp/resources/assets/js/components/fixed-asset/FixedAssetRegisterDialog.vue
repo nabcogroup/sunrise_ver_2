@@ -9,23 +9,29 @@
     <div class="form-group row">
         <label class="col-md-3 col-form-label">Decription:</label>
         <div class="col-md-9">
-          <input class="form-control">
+          <input class="form-control" v-model="lookups.description">
         </div>
     </div>
     <div class="form-group row">
         <label class="col-md-3 col-form-label">Property:</label>
         <div class="col-md-9">
-          <select class="form-control">
-              <option value="">PROPERTY</option>
+          <select class="form-control" v-model="lookups.property">
+              <option v-for="look in lookups.property" v-bind:value="look.id">{{ look.property }}</option>
           </select>
         </div>
     </div>
     <div class="form-group row">
         <label class="col-md-3 col-form-label">Fixed Asset Type:</label>
         <div class="col-md-9">
-          <select class="form-control">
-              <option value="">Fixed Asset Type</option>
+          <select class="form-control" v-model="lookups.fixed_asset_type">
+              <option v-for="look in lookups.fixed_asset_type" v-bind:value="look.id">{{ look.fixed_asset_type }}</option>
           </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-md-3 col-form-label">Cost:</label>
+        <div class="col-md-9">
+          <input class="form-control" v-model="lookups.cost">
         </div>
     </div>
   </v-dialog>
@@ -44,6 +50,18 @@ import { EventBus } from "../../eventbus";
 export default {
     name: 'FixedAssetRegisterDialog',
     mixins: [toggleModal],
+
+    mounted() {
+      this.$store.dispatch('fixedAsset/create');
+    },
+    computed: {
+      ...mapGetters("fixedAsset",{
+        'lookups': 'lookups',
+      }),
+      ...mapState("fixedAsset",{
+        data : state => state.data
+      })
+    },
 
     data() {
         return {

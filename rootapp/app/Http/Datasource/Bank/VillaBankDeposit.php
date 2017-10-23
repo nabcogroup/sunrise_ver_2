@@ -34,13 +34,12 @@ class VillaBankDeposit implements IDataSource
         $date_from = $this->params->fieldDate("date_from");
         $date_to = $this->params->fieldDate("date_to");
 
-
-
         $recordset = \DB::table("villas")
                         ->join("contracts", "contracts.villa_id","villas.id")
                         ->join("contract_bills","contract_bills.contract_id","contracts.id")
+                        ->join("tenants","tenants.id","contracts.tenant_id")
                         ->join("payments", "payments.bill_id","contract_bills.id")
-                        ->select("payments.date_deposited","payments.amount","payments.bank_account")
+                        ->select("payments.date_deposited","payments.amount","payments.bank_account","tenants.full_name","villas.villa_no")
                         ->where("payments.status","clear")
                         ->where("villas.villa_no",$villa_no)
                         ->whereBetween("payments.date_deposited",[$date_from,$date_to])

@@ -125,7 +125,8 @@ return [
             "collection" => "sales_report.villa_payment_collection"
         ],
         "bank_report" => [
-            "detail" => "bank_report.bank_account_detail"
+            "detail" => "bank_report.bank_account_detail",
+            "per_villa" =>  "bank_report.bank_account_per_villa"
         ]
     ]
 

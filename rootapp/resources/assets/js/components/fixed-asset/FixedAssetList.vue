@@ -22,16 +22,17 @@ import {mapGetters} from "vuex";
 import FixedAssetRegisterDialog from "./FixedAssetRegisterDialog.vue";
 import {EventBus} from "../../eventbus";
 export default {
+
   data() {
       return {
           gridView: {
               columns: [
                 {name: 'purchase_date', column:'Purchase Date', filter: true, class:'text-center',style:'width:10%'},
-                {name: 'fixed_asset_type', column:'Description', filter: true},
+                {name: 'description', column:'Description', filter: true},
                 {name: 'property', column:'Property', filter: true},
                 {name: 'cost', column:'Cost', filter: true, type: 'currency',class:'text-right'},
                 {name: 'tag_code', column: 'Tag No', filter: true},
-                {name: '$action', column: ' ', static: true, class: 'text-center'}
+                {name: '$action', column: ' ', static: true, class: 'text-center', style:"width:5%"}
               ],
               actions: [
                   {key: 'edit', name: 'Edit'}
@@ -48,6 +49,9 @@ export default {
   methods: {
     create(){
       EventBus.$emit('fixedAsset.entry.open');
+      EventBus.$on('fixedAsset.entry.close',() => {
+          //this.$store.dispatch('fixedAsset/redirect')   
+      })
     }
   }
 };

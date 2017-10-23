@@ -37,10 +37,10 @@ class FixedAssetController extends Controller
     public function create()
     {
         
-        $fixedAsset = $this->repository->createInstance();
-        $lookups = Selection::getSelections(['villa_location']);
-
-        return compact('lookups', 'fixedAsset');
+        $data = $this->repository->createInstance();
+        $lookups = Selection::getSelections(['villa_location','fixed_asset_type']);
+        
+        return compact('lookups', 'data');
     }
 
     public function edit($id)

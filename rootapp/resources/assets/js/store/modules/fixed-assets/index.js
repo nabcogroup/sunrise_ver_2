@@ -1,26 +1,56 @@
 import {ErrorValidations} from "../../../helpers/helpers";
 
 const state = {
-    list:[] 
+    data:{
+
+    },
+    lookups: {
+        villa_location: [],
+        fixed_asset_type: []
+    },
+    errorValidations: new ErrorValidations()
 }
 
 
 const mutations = {
-    'GETALL': (state,data)  => {
-        state.list = data;
+    create(state,data) {
+        state.data = data.data.data;
+        state.lookups = data.data.lookups;
+        
+        
     }
 }
 
 const actions = {
-    'GETALL': ({ state, commit }) => {
-        axiosRequest.get('fixed-asset','')
-            .then(r => commit(r.data));
+    create({state,commit}) {
+        axiosRequest.dispatchGet("api/fixed-asset/create")
+            .then(result => commit('create',result))
+            .catch(errors => {
+                toastr.error(errors.response.message);
+            });
+    },
+    get() {
+
+    },
+    save({state},payload) {
+        axiosRequest.post("fixed-asset","",state.data).then(result => {
+            toastr.success(result.data.message);
+            payload();
+        })
+        .catch((errors) => {
+            if(errors.response.status === 422) {
+                state.errorValidations.register(errors.response.data)
+            }
+        });
+    },
+    update() {
+
     }
 }
 
 const getters = {
-    list(state) {
-        return state.list;
+    lookups(state) {
+        return state.lookups || [];
     }
 }
 

@@ -14,14 +14,16 @@ const state = {
 
 const mutations = {
     create(state,data) {
-        state.data = data.data;
-        state.lookups = data.lookups;
+        state.data = data.data.data;
+        state.lookups = data.data.lookups;
+        
+        
     }
 }
 
 const actions = {
     create({state,commit}) {
-        axiosRequest.getApi("api/fixed-asset/create")
+        axiosRequest.dispatchGet("api/fixed-asset/create")
             .then(result => commit('create',result))
             .catch(errors => {
                 toastr.error(errors.response.message);
@@ -48,7 +50,7 @@ const actions = {
 
 const getters = {
     lookups(state) {
-        return lookups;
+        return state.lookups || [];
     }
 }
 

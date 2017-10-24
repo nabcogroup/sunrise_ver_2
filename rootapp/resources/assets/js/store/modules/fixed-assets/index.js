@@ -16,8 +16,9 @@ const mutations = {
     create(state,data) {
         state.data = data.data.data;
         state.lookups = data.data.lookups;
-
-
+    },
+    edit(state,payload) {
+        state.data = payload.data;
     }
 }
 
@@ -29,20 +30,29 @@ const actions = {
                 toastr.error(errors.response.message);
             });
     },
-    get() {
-
-    },
     save({state},cb) {
-        
-        axiosRequest.post("fixed-asset","store",state.data).then(result => {
-            toastr.success(result.data.message);
-            cb();
-        })
-        .catch((errors) => {
-            if(errors.response.status === 422) {
-                state.errorValidations.register(errors.response.data)
-            }
-        });
+        if(state.data.id !== 0) {
+            axiosRequest.post("fixed-asset","update",state.data).then(result => {
+                toastr.success(result.data.message);
+                cb();
+            })
+            .catch((errors) => {
+                if(errors.response.status === 422) {
+                    state.errorValidations.register(errors.response.data)
+                }
+            });
+        }
+        else {
+            axiosRequest.post("fixed-asset","store",state.data).then(result => {
+                toastr.success(result.data.message);
+                cb();
+            })
+            .catch((errors) => {
+                if(errors.response.status === 422) {
+                    state.errorValidations.register(errors.response.data)
+                }
+            });
+        }
     },
     redirect() {
         axiosRequest.redirect("fixed-asset","");

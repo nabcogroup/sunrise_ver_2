@@ -5,6 +5,7 @@ namespace App\Http\Reports;
 
 use App\BankAccount;
 use App\Traits\HelperTrait;
+use App\Http\Datasource\Bank\VillaBankDeposit;
 use App\Http\Datasource\Bank\BankDepositDetail;
 use App\Http\Datasource\Bank\BankDepositSummary;
 

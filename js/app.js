@@ -16437,13 +16437,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-  data() {
-    return {
-      gridView: {
-        columns: [{ name: 'purchase_date', column: 'Purchase Date', filter: true, class: 'text-center', style: 'width:10%' }, { name: 'description', column: 'Description', filter: true }, { name: 'property', column: 'Property', filter: true }, { name: 'cost', column: 'Cost', filter: true, type: 'currency', class: 'text-right' }, { name: 'tag_code', column: 'Tag No', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: "width:5%" }],
-        actions: [{ key: 'edit', name: 'Edit' }],
-        source: {
-          url: '/api/fixed-asset'
+
+    data() {
+        return {
+            gridView: {
+                columns: [{ name: 'purchase_date', column: 'Purchase Date', filter: true, class: 'text-center', style: 'width:10%' }, { name: 'description', column: 'Description', filter: true }, { name: 'property', column: 'Property', filter: true }, { name: 'cost', column: 'Cost', filter: true, type: 'currency', class: 'text-right' }, { name: 'tag_code', column: 'Tag No', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: "width:5%" }],
+                actions: [{ key: 'edit', name: 'Edit' }],
+                source: {
+                    url: '/api/fixed-asset'
+                }
+            }
+        };
+    },
+    components: {
+        'fixedAssetRegisterDialog': __WEBPACK_IMPORTED_MODULE_1__FixedAssetRegisterDialog_vue___default.a
+    },
+    methods: {
+        create() {
+            __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('fixedAsset.entry.open');
+            __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$on('fixedAsset.entry.close', () => {
+                this.$store.dispatch('fixedAsset/redirect');
+            });
+        },
+        doAction(a, item, index) {
+            console.log(item);
+
         }
       }
     };
@@ -19738,6 +19756,9 @@ const mutations = {
     create(state, data) {
         state.data = data.data.data;
         state.lookups = data.data.lookups;
+    },
+    edit(state, payload) {
+        state.data = payload.data;
     }
 };
 
@@ -19747,17 +19768,26 @@ const actions = {
             toastr.error(errors.response.message);
         });
     },
-    get() {},
     save({ state }, cb) {
-
-        axiosRequest.post("fixed-asset", "store", state.data).then(result => {
-            toastr.success(result.data.message);
-            cb();
-        }).catch(errors => {
-            if (errors.response.status === 422) {
-                state.errorValidations.register(errors.response.data);
-            }
-        });
+        if (state.data.id !== 0) {
+            axiosRequest.post("fixed-asset", "update", state.data).then(result => {
+                toastr.success(result.data.message);
+                cb();
+            }).catch(errors => {
+                if (errors.response.status === 422) {
+                    state.errorValidations.register(errors.response.data);
+                }
+            });
+        } else {
+            axiosRequest.post("fixed-asset", "store", state.data).then(result => {
+                toastr.success(result.data.message);
+                cb();
+            }).catch(errors => {
+                if (errors.response.status === 422) {
+                    state.errorValidations.register(errors.response.data);
+                }
+            });
+        }
     },
     redirect() {
         axiosRequest.redirect("fixed-asset", "");

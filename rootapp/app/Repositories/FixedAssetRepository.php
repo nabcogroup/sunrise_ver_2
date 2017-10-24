@@ -19,6 +19,7 @@ class FixedAssetRepository extends AbstractRepository {
         return FixedAsset::createInstance($data);
     }
 
+   
     public function getAll() {
         $fixedAssets = $this->model->orderBy('description');
 

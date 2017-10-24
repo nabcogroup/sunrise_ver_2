@@ -55,7 +55,7 @@
                                 $grand_total = $grand_total + $villa[$key][$i][0]->amount_deposited;
                             @endphp
                             <td class="text-right">
-                                {{number_format($villa[$key][$i][0]->amount_deposited,2)}}
+                                <a href="/reports/villa_bank_deposit?villa_no={{$villa_key}}&year={{$datasource->getParamInt('year')}}&month_from={{$i}}&month_to={{$i}}">{{number_format($villa[$key][$i][0]->amount_deposited,2)}}</a>
                             </td>
                         @else
                             <td class="text-right">--</td>

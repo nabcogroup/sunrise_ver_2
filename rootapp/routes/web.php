@@ -125,9 +125,8 @@ Route::group(['middleware' => ['auth','roles'],'roles' => ['account','admin']],
 
         Route::get("api/fixed-asset/", "FixedAssetController@all");
         Route::get("api/fixed-asset/create", "FixedAssetController@create");
-        Route::get("api/fixed-asset/edit/{id}","FixedAssetController@edit");
         Route::post("api/fixed-asset/store", "FixedAssetController@store");
-        Route::patch("api/fixed-asset/", "FixedAssetController@store");
+        Route::post("api/fixed-asset/update", "FixedAssetController@store");
 
     }
 );

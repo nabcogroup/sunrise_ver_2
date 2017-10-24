@@ -40,10 +40,10 @@ class ReportManager
             'expense_property'      =>  new ExpenseMasterReport($params),
             'villa_history'         =>  new VillaFormReport($params,'ledger'),
             'tenant_history'        =>  new TenantReport($params),
-            "bank_report_detail"    =>  new BankReport("detail",$params),
-            "bank_report_summary"   =>  new BankReport("summary",$params),   
+            'bank_report_detail'    =>  new BankReport("detail",$params),
+            'bank_report_summary'   =>  new BankReport("summary",$params),
             'villa_master_list'     =>  new VillaMasterListReport($params),
-            "villa_bank_deposit"    =>  new VillaBankDeposit($params)
+            'villa_bank_deposit'    =>  new BankReport("per_villa", $params)
         ];
         
         return self::$reports[$key];

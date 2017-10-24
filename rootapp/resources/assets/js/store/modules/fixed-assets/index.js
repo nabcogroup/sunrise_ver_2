@@ -16,8 +16,9 @@ const mutations = {
     create(state,data) {
         state.data = data.data.data;
         state.lookups = data.data.lookups;
-
-
+    },
+    edit(state,payload) {
+        state.data = payload.data;
     }
 }
 
@@ -28,9 +29,6 @@ const actions = {
             .catch(errors => {
                 toastr.error(errors.response.message);
             });
-    },
-    get() {
-
     },
     save({state},cb) {
         

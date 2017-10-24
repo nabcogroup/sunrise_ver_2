@@ -49,6 +49,11 @@ class FixedAssetController extends Controller
 
     public function edit($id)
     {
+         $fixedAsset = $this->repository->find($id);
+         $lookups = Selection::getSelections(['villa_location','fixed_asset_type']);
+
+         return compact('lookups','fixedAsset');
+         
     }
 
     public function store(FixedAssetForm $request)

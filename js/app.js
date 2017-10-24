@@ -990,6 +990,11 @@ class ErrorValidations {
             delete this.errors[field][0];
         }
     }
+
+    clearAll() {
+        this.errors = {};
+    }
+
     all() {
         return this.errors;
     }
@@ -16547,6 +16552,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -16557,12 +16566,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FixedAssetRegisterDialog",
   mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
-
-  mounted() {
-    this.$store.dispatch("fixedAsset/create");
-  },
   computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("fixedAsset", {
-    lookups: "lookups"
+    lookups: "lookups",
+    errorValidations: "errorValidations"
   }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("fixedAsset", {
     data: state => state.data
   })),
@@ -16582,7 +16588,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     open() {
       __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("fixedAsset.entry.open", value => {
         if (value) {
-          this.$store.commit('fixedAsset/edit', { data: value.data });
+          this.$store.dispatch('fixedAsset/edit', { id: value.data.id });
+        } else {
+          this.$store.dispatch("fixedAsset/create");
         }
         this.openDialog();
       });
@@ -19742,9 +19750,15 @@ const mutations = {
     create(state, data) {
         state.data = data.data.data;
         state.lookups = data.data.lookups;
+        state.errorValidations.clearAll();
     },
     edit(state, payload) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(payload.data, state.data);
+        state.lookups = payload.lookups;
+        state.errorValidations.clearAll();
+    },
+    clear(state) {
+        state.errorValidations.clearAll();
     }
 };
 
@@ -19753,6 +19767,10 @@ const actions = {
         axiosRequest.dispatchGet("api/fixed-asset/create").then(result => commit('create', result)).catch(errors => {
             toastr.error(errors.response.message);
         });
+    },
+    edit({ state, commit }, payload) {
+        console.log(payload);
+        axiosRequest.dispatchGet("api/fixed-asset/edit/" + payload.id).then(result => commit('edit', { data: result.data.fixedAsset, lookups: result.data.lookups })).catch(errors => toastr.error(errros.response.message));
     },
     save({ state }, cb) {
         if (state.data.id !== 0) {
@@ -19784,6 +19802,9 @@ const actions = {
 const getters = {
     lookups(state) {
         return state.lookups || [];
+    },
+    errorValidations(state) {
+        return state.errorValidations;
     }
 };
 
@@ -30787,6 +30808,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.data.purchase_date = $event
       }
     }
+  }), _vm._v(" "), _c('error-span', {
+    attrs: {
+      "name": "purchase_date"
+    },
+    model: {
+      value: (_vm.errorValidations),
+      callback: function($$v) {
+        _vm.errorValidations = $$v
+      },
+      expression: "errorValidations"
+    }
   })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label": "Property",
@@ -30821,7 +30853,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": look.code
       }
     }, [_vm._v(_vm._s(look.name))])
-  })], 2)]), _vm._v(" "), _c('v-input-wrapper', {
+  })], 2), _vm._v(" "), _c('error-span', {
+    attrs: {
+      "name": "property"
+    },
+    model: {
+      value: (_vm.errorValidations),
+      callback: function($$v) {
+        _vm.errorValidations = $$v
+      },
+      expression: "errorValidations"
+    }
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label": "Description",
       "label-class": "col-md-3 text-right"
@@ -30843,7 +30886,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.data.description = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('v-input-wrapper', {
+  }), _vm._v(" "), _c('error-span', {
+    attrs: {
+      "name": "description"
+    },
+    model: {
+      value: (_vm.errorValidations),
+      callback: function($$v) {
+        _vm.errorValidations = $$v
+      },
+      expression: "errorValidations"
+    }
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label": "Fixed Asset Type",
       "label-class": "col-md-3 text-right"
@@ -30877,7 +30931,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": look.code
       }
     }, [_vm._v(_vm._s(look.name))])
-  })], 2)]), _vm._v(" "), _c('v-input-wrapper', {
+  })], 2), _vm._v(" "), _c('error-span', {
+    attrs: {
+      "name": "fixed_asset_type"
+    },
+    model: {
+      value: (_vm.errorValidations),
+      callback: function($$v) {
+        _vm.errorValidations = $$v
+      },
+      expression: "errorValidations"
+    }
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label": "Cost",
       "label-class": "col-md-3 text-right"
@@ -30905,7 +30970,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$forceUpdate()
       }
     }
-  })])], 1)])
+  }), _vm._v(" "), _c('error-span', {
+    attrs: {
+      "name": "cost"
+    },
+    model: {
+      value: (_vm.errorValidations),
+      callback: function($$v) {
+        _vm.errorValidations = $$v
+      },
+      expression: "errorValidations"
+    }
+  })], 1)], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

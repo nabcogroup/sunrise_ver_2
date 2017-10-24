@@ -16,9 +16,15 @@ const mutations = {
     create(state,data) {
         state.data = data.data.data;
         state.lookups = data.data.lookups;
+        state.errorValidations.clearAll();
     },
     edit(state,payload) {
         copiedValue(payload.data, state.data);
+        state.lookups = payload.lookups;
+        state.errorValidations.clearAll();
+    },
+    clear(state) {
+        state.errorValidations.clearAll();
     }
 }
 
@@ -29,6 +35,13 @@ const actions = {
             .catch(errors => {
                 toastr.error(errors.response.message);
             });
+
+    },
+    edit({state,commit},payload) {
+        console.log(payload);
+        axiosRequest.dispatchGet("api/fixed-asset/edit/" + payload.id)
+            .then((result) => commit('edit',{data: result.data.fixedAsset,lookups:  result.data.lookups }))
+            .catch(errors => toastr.error(errros.response.message));
     },
     save({state},cb) {
         if(state.data.id !== 0) {
@@ -65,6 +78,9 @@ const actions = {
 const getters = {
     lookups(state) {
         return state.lookups || [];
+    },
+    errorValidations(state) {
+        return state.errorValidations;
     }
 }
 

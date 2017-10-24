@@ -145,7 +145,7 @@ class ContractController extends Controller
     {
 
         try {
-            //get user contracts
+            //get user contractsp
             $contracts = $this->contractRepo->getContracts($status, $request->input('filter_field'), $request->input('filter_value'));
             //evaluate contract pending
             

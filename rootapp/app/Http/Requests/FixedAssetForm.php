@@ -37,8 +37,8 @@ class FixedAssetForm extends FormRequest
 
     public function filterInput() {
         $input = $this->all();
-        $input['purchase_date'] = Carbon::parse($input['purchase_date']);
-        
+        $input['purchase_date'] = Carbon::parse($input['purchase_date'])->format('Y-m-d');
+
         return $input;
 
     }

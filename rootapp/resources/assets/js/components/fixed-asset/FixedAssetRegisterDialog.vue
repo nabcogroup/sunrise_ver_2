@@ -66,12 +66,15 @@ export default {
     },
     open() {
       EventBus.$on("fixedAsset.entry.open", value => {
+        if(value) {
+          this.$store.commit('fixedAsset/edit', {data: value.data});
+        }
         this.openDialog();
+        
       });
     },
     save() {
       this.$store.dispatch("fixedAsset/save", () => {
-        
         this.closeDialog();
         this.close();
       });

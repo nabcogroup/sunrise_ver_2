@@ -1053,7 +1053,7 @@ class AxiosRequest {
 const cloneObject = function (objInstance) {
     if (typeof objInstance === "object") return JSON.parse(JSON.stringify(objInstance));else return false;
 };
-/* harmony export (immutable) */ __webpack_exports__["c"] = cloneObject;
+/* harmony export (immutable) */ __webpack_exports__["d"] = cloneObject;
 
 
 const copiedValue = (source, target, exclude = new Array()) => {
@@ -1067,7 +1067,7 @@ const copiedValue = (source, target, exclude = new Array()) => {
         }
     });
 };
-/* harmony export (immutable) */ __webpack_exports__["d"] = copiedValue;
+/* harmony export (immutable) */ __webpack_exports__["c"] = copiedValue;
 
 
 const validation = () => {
@@ -16435,12 +16435,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
 
     data() {
         return {
             gridView: {
-                columns: [{ name: 'purchase_date', column: 'Purchase Date', filter: true, class: 'text-center', style: 'width:10%' }, { name: 'description', column: 'Description', filter: true }, { name: 'property', column: 'Property', filter: true }, { name: 'cost', column: 'Cost', filter: true, type: 'currency', class: 'text-right' }, { name: 'tag_code', column: 'Tag No', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: "width:5%" }],
+                columns: [{ name: 'full_purchase_date', column: 'Purchase Date', filter: true, class: 'text-center', style: 'width:10%' }, { name: 'full_fixed_asset_type', column: 'Asset Type', filter: true, filterBind: 'fixed_asset_type', class: 'text-center', style: 'width:10%' }, { name: 'description', column: 'Description', filter: true }, { name: 'full_property', column: 'Property', filter: true }, { name: 'cost', column: 'Cost', filter: true, dtype: 'currency', class: 'text-right' }, { name: 'tag_code', column: 'Tag No', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: "width:5%" }],
                 actions: [{ key: 'edit', name: 'Edit' }],
                 source: {
                     url: '/api/fixed-asset'
@@ -16453,11 +16454,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         create() {
+            this.refresh();
             __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('fixedAsset.entry.open');
+        },
+        doAction(a, item, index) {
+            this.refresh();
+            __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('fixedAsset.entry.open', { data: item });
+        },
+        refresh() {
             __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$on('fixedAsset.entry.close', () => {
-                //this.$store.dispatch('fixedAsset/redirect')   
+                this.$store.dispatch('fixedAsset/redirect');
             });
         }
+
     }
 });
 
@@ -16572,12 +16581,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     open() {
       __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("fixedAsset.entry.open", value => {
+        if (value) {
+          this.$store.commit('fixedAsset/edit', { data: value.data });
+        }
         this.openDialog();
       });
     },
     save() {
       this.$store.dispatch("fixedAsset/save", () => {
-
         this.closeDialog();
         this.close();
       });
@@ -19184,10 +19195,10 @@ const mutations = {
         payload.cb(result);
     },
     createInstance(state) {
-        state.cloneOfInstance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* cloneObject */])(state.bill.instance);
+        state.cloneOfInstance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* cloneObject */])(state.bill.instance);
     },
     edit(state, payload) {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* copiedValue */])(payload.payment, state.cloneOfInstance);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(payload.payment, state.cloneOfInstance);
     },
     store(state, payload) {
         const trigger = payload.trigger;
@@ -19199,7 +19210,7 @@ const mutations = {
                 payload.cb(true);
             } else {
                 let p = state.bill.payments.find(item => item.id === state.cloneOfInstance.id);
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* copiedValue */])(state.cloneOfInstance, p);
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(state.cloneOfInstance, p);
                 payload.cb(true);
             }
         } else {
@@ -19437,7 +19448,7 @@ const actions = {
         let contract = {};
 
         //cleansing of data
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* copiedValue */])(state.contract, contract, ["full_status", "is_extra", "payable_per_month", "tenant_id", "total_year_month", "total_received_payment", "villa_list", "full_contract_type", "full_period_start", "full_period_end"]);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(state.contract, contract, ["full_status", "is_extra", "payable_per_month", "tenant_id", "total_year_month", "total_received_payment", "villa_list", "full_contract_type", "full_period_start", "full_period_end"]);
 
         //remove villa first
         axiosRequest.post("contract", "store", contract).then(r => axiosRequest.redirect("bill", "create", r.data.data.id)).catch(error => {
@@ -19731,6 +19742,9 @@ const mutations = {
     create(state, data) {
         state.data = data.data.data;
         state.lookups = data.data.lookups;
+    },
+    edit(state, payload) {
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(payload.data, state.data);
     }
 };
 
@@ -19740,17 +19754,26 @@ const actions = {
             toastr.error(errors.response.message);
         });
     },
-    get() {},
     save({ state }, cb) {
-
-        axiosRequest.post("fixed-asset", "store", state.data).then(result => {
-            toastr.success(result.data.message);
-            cb();
-        }).catch(errors => {
-            if (errors.response.status === 422) {
-                state.errorValidations.register(errors.response.data);
-            }
-        });
+        if (state.data.id !== 0) {
+            axiosRequest.post("fixed-asset", "update", state.data).then(result => {
+                toastr.success(result.data.message);
+                cb();
+            }).catch(errors => {
+                if (errors.response.status === 422) {
+                    state.errorValidations.register(errors.response.data);
+                }
+            });
+        } else {
+            axiosRequest.post("fixed-asset", "store", state.data).then(result => {
+                toastr.success(result.data.message);
+                cb();
+            }).catch(errors => {
+                if (errors.response.status === 422) {
+                    state.errorValidations.register(errors.response.data);
+                }
+            });
+        }
     },
     redirect() {
         axiosRequest.redirect("fixed-asset", "");
@@ -20073,17 +20096,17 @@ const mutations = {
         state.search.value = "";
     },
     createInstance(state) {
-        state.cloneOfInstance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* cloneObject */])(state.bill.instance);
+        state.cloneOfInstance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* cloneObject */])(state.bill.instance);
     },
     edit(state, payload) {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* copiedValue */])(payload.payment, state.cloneOfInstance);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(payload.payment, state.cloneOfInstance);
     },
     replace(state, payload) {
         let p = state.bill.payments.find(item => item.id === payload.item.id);
-        p.replace_ref = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* cloneObject */])(p);
+        p.replace_ref = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* cloneObject */])(p);
         p.date_deposited = "0000-00-00";
         state.cloneOfInstance.id = p.id;
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* copiedValue */])(state.cloneOfInstance, p, ["replace_ref"]);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(state.cloneOfInstance, p, ["replace_ref"]);
         payload.cb(true);
     },
     store(state, payload) {
@@ -20095,7 +20118,7 @@ const mutations = {
                 payload.cb(true);
             } else {
                 let p = state.bill.payments.find(item => item.id === state.cloneOfInstance.id);
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* copiedValue */])(state.cloneOfInstance, p);
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(state.cloneOfInstance, p);
                 payload.cb(true);
             }
         } else {
@@ -30270,13 +30293,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-plus"
-  }), _vm._v(" Add Fixed Assets\n          ")])])]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
+  }), _vm._v(" Add Fixed Assets\n            ")])])]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-12"
   }, [_c('v-live-view', {
     attrs: {
       "grid": _vm.gridView
+    },
+    on: {
+      "action": _vm.doAction
     }
   })], 1)]), _vm._v(" "), _c('fixed-asset-register-dialog')], 1)
 },staticRenderFns: []}
@@ -31631,7 +31657,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       on: {
         "click": function($event) {
           $event.stopPropagation();
-          _vm.doFilter(key.name, key.column)
+          _vm.doFilter(key.filterBind || key.name, key.column)
         }
       }
     }, [_vm._v("\n                                                    Filter\n                                                ")])])])]) : _vm._e()])], 1)

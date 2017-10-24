@@ -19,7 +19,7 @@ class FixedAsset extends BaseModel
 
 
     public function __construct() {
-
+        $this->id = 0;
         $this->purchase_date = Carbon::now()->toDateString();
         $this->description = "";
         $this->fixed_asset_type = "furniture";

@@ -31,16 +31,28 @@ const actions = {
             });
     },
     save({state},cb) {
-        
-        axiosRequest.post("fixed-asset","store",state.data).then(result => {
-            toastr.success(result.data.message);
-            cb();
-        })
-        .catch((errors) => {
-            if(errors.response.status === 422) {
-                state.errorValidations.register(errors.response.data)
-            }
-        });
+        if(state.data.id !== 0) {
+            axiosRequest.post("fixed-asset","update",state.data).then(result => {
+                toastr.success(result.data.message);
+                cb();
+            })
+            .catch((errors) => {
+                if(errors.response.status === 422) {
+                    state.errorValidations.register(errors.response.data)
+                }
+            });
+        }
+        else {
+            axiosRequest.post("fixed-asset","store",state.data).then(result => {
+                toastr.success(result.data.message);
+                cb();
+            })
+            .catch((errors) => {
+                if(errors.response.status === 422) {
+                    state.errorValidations.register(errors.response.data)
+                }
+            });
+        }
     },
     redirect() {
         axiosRequest.redirect("fixed-asset","");

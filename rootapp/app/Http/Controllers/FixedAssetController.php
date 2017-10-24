@@ -49,11 +49,9 @@ class FixedAssetController extends Controller
 
     public function store(FixedAssetForm $request)
     {
-        
         $input = $request->filterInput();
-        
         try {
-            $newEntry = $this->repository->attach($input)->instance();
+            $model = $this->repository->attach($input)->instance();
             return Result::ok('successful',$newEntry);
         }
         catch(Exception $e) {

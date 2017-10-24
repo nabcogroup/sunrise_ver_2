@@ -10,7 +10,7 @@
         <hr/>
         <div class="row">
             <div class="col-md-12">
-                <v-live-view :grid="gridView"></v-live-view>
+                <v-live-view :grid="gridView" @action="doAction"></v-live-view>
             </div>
         </div>
     <fixed-asset-register-dialog></fixed-asset-register-dialog>
@@ -50,9 +50,15 @@ export default {
     create(){
       EventBus.$emit('fixedAsset.entry.open');
       EventBus.$on('fixedAsset.entry.close',() => {
-          //this.$store.dispatch('fixedAsset/redirect')   
+          //this.$store.dispatch('fixedAsset/redirect')
       })
+    },
+    doAction(a, item, index){
+      EventBus.$emit('fixedAsset.entry.open', () =>{
+        this.$store.commit('fixedAsset/edit', {data: item});
+      });
     }
+
   }
 };
 </script>

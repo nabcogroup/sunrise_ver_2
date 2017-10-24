@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class FixedAsset extends BaseModel
 {
+
+    protected $appends = ["full_fixed_asset_type","full_property","full_purchase_date"];
+
     public static function createInstance($values = array()) {
         
         $fixedAsset = new FixedAsset();
@@ -30,11 +33,15 @@ class FixedAsset extends BaseModel
 
     public function getFullFixedAssetTypeAttribute() {
         
-        return Selection::getValue('fixed_asset_type',$this->fixed_asset_type);
+        return $this->appends["full_fixed_asset_type"] = Selection::getValue('fixed_asset_type',$this->fixed_asset_type);
 
     }
 
     public function getFullPropertyAttribute() {
-        return Selection::getValue('villa_location',$this->property);
+        return $this->appends["full_property"] = Selection::getValue('villa_location',$this->property);
+    }
+
+    public function getFullPurchaseDateAttribute() {
+        return $this->appends["full_purchase_date"] = Carbon::parse($this->purchase_date)->format('d, M, Y');
     }
 }

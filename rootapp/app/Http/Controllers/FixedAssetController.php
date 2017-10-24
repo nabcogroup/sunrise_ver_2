@@ -29,8 +29,12 @@ class FixedAssetController extends Controller
         return view('fixed-asset.register',compact('id'));
     }
 
-    public function all() {
-        return $this->repository->getAll();
+    public function all(Request $request) {
+
+        $filter_field = $request->input('filter_field');
+        $filter_value = $request->input('filter_value');
+
+        return $this->repository->getAssets($filter_field,$filter_value);
     }
 
 
@@ -52,7 +56,8 @@ class FixedAssetController extends Controller
         $input = $request->filterInput();
         try {
             $model = $this->repository->attach($input)->instance();
-            return Result::ok('successful',$newEntry);
+
+            return Result::ok('successful',$model);
         }
         catch(Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);

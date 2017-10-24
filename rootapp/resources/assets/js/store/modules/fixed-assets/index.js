@@ -1,4 +1,4 @@
-import {ErrorValidations} from "../../../helpers/helpers";
+import {ErrorValidations,copiedValue} from "../../../helpers/helpers";
 
 const state = {
     data:{
@@ -18,7 +18,7 @@ const mutations = {
         state.lookups = data.data.lookups;
     },
     edit(state,payload) {
-        state.data = payload.data;
+        copiedValue(payload.data, state.data);
     }
 }
 

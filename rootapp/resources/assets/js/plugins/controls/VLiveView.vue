@@ -49,7 +49,7 @@
                                                     <div class="form-group">
                                                         <input type="text" v-model="filter.value" class="form-control">
                                                     </div>
-                                                    <button class="btn btn-info btn-block" @click.stop="doFilter(key.name,key.column)">
+                                                    <button class="btn btn-info btn-block" @click.stop="doFilter(key.filterBind || key.name ,key.column)">
                                                         Filter
                                                     </button>
                                                 </div>

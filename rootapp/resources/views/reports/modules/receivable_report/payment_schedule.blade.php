@@ -3,12 +3,13 @@
     @slot('report_title')
         <div class="text-right">
             <h2>{{$datasource->getTitle()}}</h2>
-            <h3 class="text-danger"><strong>Year: {{$datasource->getParam('year')}}</strong></h3>
+            <h4 class="text-danger"><strong>Year: {{$datasource->getParam('year')}}</strong></h4>
+            <strong>Range Date: {{date('M',mktime(0,0,0,$datasource->getParamInt('month_from'),10))}} -  {{date('M',mktime(0,0,0,$datasource->getParamInt('month_to'),10))}}</strong>
         </div>
     @endslot
 
     @if($datasource->hasData())
-        <p>{{$datasource->getParam('location')}}</p>
+        <p><strong>Property: </strong>{{$datasource->getParam('location')}}</p>
         <div class="row">
             <table class="table table-condensed table-bordered">
                 <thead>
@@ -59,11 +60,11 @@
                 @endforeach
                 </tbody>
                 <tfoot>
-                <td class="text-right"><strong>GRAND TOTAL</strong></td>
+                <td class="text-right text-danger"><strong>GRAND TOTAL</strong></td>
                     @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
-                        <td class="text-right"><strong>{{number_format(isset($grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))]) ? $grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))] : 0,2)}}<srong></th>
+                        <td class="text-right text-danger"><strong>{{number_format(isset($grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))]) ? $grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))] : 0,2)}}<srong></th>
                     @endfor
-                    <td class="text-right danger"><strong>{{number_format($grand_total_payable,2)}}</strong></td>
+                    <td class="text-right text-danger"><strong>{{number_format($grand_total_payable,2)}}</strong></td>
                 </tfoot>
             </table>
         </div>

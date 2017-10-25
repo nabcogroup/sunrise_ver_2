@@ -3,12 +3,12 @@
         <div class="text-right">
             <h3>{{$datasource->getTitle()}}</h3>
             <p>Year: {{$datasource->getParam("contract_year","All")}}</p>
-            <p>Date: {{\Carbon\Carbon::now()->format('d, M, Y')}}</p>
+            <p>As of: {{\Carbon\Carbon::now()->format('d, M, Y')}}</p>
         </div>
     @endslot
 
     <div class="row">
-        <p>{{$datasource->getParam("location")}}</p>
+        <p><strong>Property:</strong> {{$datasource->getParam("location")}}</p>
         <table class="table table-condensed table-bordered">
             <thead>
                 <tr class="info">

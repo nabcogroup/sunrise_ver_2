@@ -1,17 +1,19 @@
 @php 
     $data = $datasource->getData();
+    
 @endphp
 
 @component('layouts.report')
     @slot('report_title')
         <div class="text-right">
             <h3>{{$datasource->getTitle()}}</h3>
+            <strong>Date From {{$datasource->getParamDate('month_from')->format('d-M-Y')}} To {{$datasource->getParamDate('month_to')->format('d-M-Y')}}</strong>
         </div>
     @endslot
 
     @foreach($data as $key => $items)
-        <p>Account No: {{$items[0]["account_no"]}}</p>
-        <p>Bank Name: {{$items[0]["bank_name"]}}</p>
+        <p><strong>Account No:</strong> {{$items[0]["account_no"]}}</p>
+        <p><strong>Bank Name:</strong> {{$items[0]["bank_name"]}}</p>
         <table class="table table-bordered table-condensed">
             <thead>
                 <tr>
@@ -39,8 +41,8 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="6">Grand Total:</th>
-                    <th class="text-right">{{number_format($items[0]["total_payments"],2)}}</th>
+                    <th colspan="6" class="text-right text-danger" style="font-size:18px">GRAND TOTAL:</th>
+                    <th class="text-right text-danger" style="font-size:18px">{{number_format($items[0]["total_payments"],2)}} <i>QR</i></th>
                 </tr>
             </tfoot>
         </table>

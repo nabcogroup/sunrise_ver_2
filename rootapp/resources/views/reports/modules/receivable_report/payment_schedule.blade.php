@@ -4,7 +4,7 @@
         <div class="text-right">
             <h2>{{$datasource->getTitle()}}</h2>
             <h4 class="text-danger"><strong>Year: {{$datasource->getParam('year')}}</strong></h4>
-            <strong>Range Date: {{date('M',mktime(0,0,0,$datasource->getParamInt('month_from'),10))}} -  {{date('M',mktime(0,0,0,$datasource->getParamInt('month_to'),10))}}</strong>
+            <strong>Range Date: {{date('M',mktime(0,0,0,$datasource->getParamInt('month_from'),10))}}-{{$datasource->getParam('year')}} -  {{date('M',mktime(0,0,0,$datasource->getParamInt('month_to'),10))}}-{{$datasource->getParam('year')}}</strong>
         </div>
     @endslot
 

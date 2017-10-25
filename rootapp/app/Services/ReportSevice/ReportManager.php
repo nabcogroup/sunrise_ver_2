@@ -64,7 +64,7 @@ class ReportManager
                 'inputs' => [
                     self::createDropdowns("Status","contract_status","contract_status","code","name","All"),
                     self::createInput("Year","contract_year","number","Enter Year (2017)"),
-                    self::createDropdowns("Location","location","villa_location","code","name","--Select Location--"),
+                    self::createDropdowns("Property","location","villa_location","code","name","--Select Property--"),
                 ],
                 'models' => [
                     'contract_status' => '',
@@ -87,7 +87,7 @@ class ReportManager
                 'report_id' => 3,
                 'inputs' =>
                     [
-                        ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                        ['label' => 'Property', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Property--', 'default' => '' ],
                         [
                             'label' => 'Month From', 
                             'type' => 'dropdown',
@@ -119,7 +119,7 @@ class ReportManager
             [
                 'report_id' => 4,
                 'inputs' => [
-                        ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                        ['label' => 'Property', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Propery--', 'default' => '' ],
                         ['label' => 'Villa No', 'type' => 'dropdown','selection' => 'villas','model' => 'villa_id','default_text' => 'All','default' => '' ],
                         ['label' => 'Date From', 'type' => 'date','model' => 'date_from'],
                         ['label' => 'Date To', 'type' => 'date','model' => 'date_to'],
@@ -135,7 +135,7 @@ class ReportManager
             [
                 'report_id' => 6,
                 'inputs' => [
-                    ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                    ['label' => 'Property', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Property--', 'default' => '' ],
                     ['label' => 'Date From', 'type' => 'date','model' => 'date_from'],
                     ['label' => 'Date To', 'type' => 'date','model' => 'date_to'],
                 ],
@@ -149,7 +149,7 @@ class ReportManager
             [
                 'report_id' => 7,
                 'inputs' => [
-                    ['label' => 'Location', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Location--', 'default' => '' ],
+                    ['label' => 'Property', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Property--', 'default' => '' ],
                 ],
                 'models' => [
                     'location'  =>  '',
@@ -179,11 +179,11 @@ class ReportManager
                         ],
                         ['label' => 'Year', 'type' => 'number', 'model' => 'year', 'placeholder' => 'Enter Month Year'],
                         [
-                            'label' => 'Location', 
+                            'label' => 'Property', 
                             'type' => 'dropdown',
                             'selection' => 'villa_location',
                             'model' => 'location',
-                            'default_text' => '--Select Location--', 
+                            'default_text' => '--Select Property--', 
                             'default' => '' 
                         ],
                     ],
@@ -229,7 +229,7 @@ class ReportManager
             [
                 'report_id' =>  10,
                 'inputs' => [
-                    self::createDropdowns("Location","location","villa_location","code","name","--Select Property--"),
+                    self::createDropdowns("Property","location","villa_location","code","name","--Select Property--"),
                     self::createDropdowns("Payment Type","payment_type","payment_term","code","name","--Select Payment Type--"),
                     self::createInput("Year","year","number","Enter Year ie(2017)"),
                     self::createMonthLookup("Month From","month_from"),

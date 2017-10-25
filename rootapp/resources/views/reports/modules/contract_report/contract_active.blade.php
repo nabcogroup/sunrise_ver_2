@@ -2,7 +2,7 @@
     @slot("report_title")
         <div class="text-right">
             <h3>{{$datasource->getTitle()}}</h3>
-            <p>As of {{\Carbon\Carbon::now()->format('d, M, Y')}}</p>
+            <p>As of {{\Carbon\Carbon::now()->format('d-M-Y')}}</p>
         </div>
     @endslot
 
@@ -14,7 +14,7 @@
             $total_credit_sale = 0;
         @endphp
 
-        <div>{{$datasource->getParam("location")}}</div>
+        <p><strong>Property:</strong> {{$datasource->getParam("location")}}</p>
         <table class="table table-condensed table-bordered">
             <thead>
                 <tr>

@@ -43,6 +43,8 @@ class ContractExpiring implements IDataSource
                     'contracts.contract_no',
                     'contracts.period_start as period_start',
                     'contracts.period_end as period_end',
+                    'contracts.period_end_extended',
+                    'contracts.extra_days',
                     'contracts.amount as amount',
                     'villas.location',
                     'villas.villa_no',
@@ -75,11 +77,12 @@ class ContractExpiring implements IDataSource
                 "created_at"        =>  Carbon::parse($row->created_at)->format('d, M, Y'),
                 "period_start"      =>  Carbon::parse($row->period_start)->format('d, M, Y'),
                 "period_end"        =>  Carbon::parse($row->period_end)->format('d, M, Y'),
-                "total_year"        =>  $this->calculateTotalYearMonth($row->period_start,$row->period_end),
-                "end date"          =>  Carbon::parse($row->period_end)->format('d, M, Y'),
-                "amount"            =>  number_format($row->amount,2),
+                "extended_days"    =>   $row->extra_days,
+                "total_year"        =>  $this->calculateTotalYearMonth($row->period_start,$row->period_end_extended),
+                "end_date"          =>  Carbon::parse($row->period_end_extended)->format('d, M, Y'),
+                "amount"            =>  $row->amount,
                 "total_payment"     =>  $row->total_payment,
-                "total_balance"     =>  number_format(floatval($row->amount) -  (($row->total_payment == null) ? 0 : floatval($row->total_payment)),2),
+                "total_balance"     =>  $this->getDiff($row->amount,$row->total_payment),
                 "exceed_days"            =>  Carbon::now()->diffInDays(Carbon::parse($row->period_end))
             ];
             

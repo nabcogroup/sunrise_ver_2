@@ -83,6 +83,13 @@ trait HelperTrait
             
     }
 
+    public function getDiff($value1,$value2) {
+        $total_value_1 = $value1 == null ? 0 : floatval($value1);
+        $total_value_2 = $value2 == null ? 0 : floatval($value2);
+        $diff = floatval($total_value_1) - floatval($total_value_2);
+        return $diff;
+    }
+
 
     public function getMonthLookups() {
         return [

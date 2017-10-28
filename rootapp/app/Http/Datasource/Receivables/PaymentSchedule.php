@@ -32,25 +32,25 @@ class PaymentSchedule implements IDataSource
         $location = $this->params->field("location");
         $year = $this->params->field("year",Carbon::now()->year);
 
-
+        
 
         $records = $this->createDb('contracts')
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
             ->join('payments', 'payments.bill_id', '=', 'contract_bills.id')
             ->join('villas', 'villas.id', '=', 'contracts.villa_id')
             ->groupBy(
-                \DB::raw("MONTH(payments.period_start)"),
+                \DB::raw("MONTH(payments.effectivity_date)"),
                 "villas.villa_no",
                 "contracts.contract_no")
             ->where('contracts.status', 'active')
             ->where('villas.location', $location)
             ->where('payments.status', 'received')
-            ->whereYear('payments.period_start', $year)
-            ->whereBetween(\DB::raw('MONTH(payments.period_start)'), [$month_from, $month_to])
+            ->whereYear('payments.effectivity_date', $year)
+            ->whereBetween(\DB::raw('MONTH(payments.effectivity_date)'), [$month_from, $month_to])
             ->select(
                 \DB::raw("villas.villa_no,contracts.contract_no,
                 SUM(payments.amount) AS total_payments,
-                MONTH(payments.period_start) number_month"),
+                MONTH(payments.effectivity_date) number_month"),
                 \DB::raw("(SELECT SUM(amount) FROM payments where status ='received' AND bill_id = contract_bills.id) AS total_due"))
             ->orderBy('villas.villa_no')
             ->get();

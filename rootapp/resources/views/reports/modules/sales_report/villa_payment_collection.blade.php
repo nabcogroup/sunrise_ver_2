@@ -10,7 +10,7 @@
     
     @component('reports.modules.sales_report.component.payment_collection_theme_pivot',["datasource" =>$datasource])
         <div>
-            <p>{{$datasource->getParam("location")}}</p>
+            <p><strong>Property:</strong> {{$datasource->getParam("location")}}</p>
         </div>
     @endcomponent
 @endcomponent

@@ -13,17 +13,17 @@
                 <v-live-view :grid="gridView" @action="doAction"></v-live-view>
             </div>
         </div>
-        <fixed-asset-register-dialog></fixed-asset-register-dialog>
+        
     </v-panel>
 </template>
 
 <script>
     import {mapGetters} from "vuex";
     import FixedAssetRegisterDialog from "./FixedAssetRegisterDialog.vue";
+    import FixedAssetFrame from "./FixedAssetFrame.vue";
     import {EventBus} from "../../eventbus";
 
     export default {
-
         data() {
             return {
                 gridView: {
@@ -46,22 +46,21 @@
             }
         },
         components: {
-            'fixedAssetRegisterDialog': FixedAssetRegisterDialog
+            'fixedAssetRegisterDialog': FixedAssetRegisterDialog,
+            FixedAssetFrame
         },
         methods: {
             create() {
-                this.refresh();
-                EventBus.$emit('fixedAsset.entry.open');
-
+                //this.refresh();
+                //EventBus.$emit('fixedAsset.frame.open');
+                this.$store.commit('fixedAsset/createNew');
             },
             doAction(a, item, index) {
                 this.refresh();
-                EventBus.$emit('fixedAsset.entry.open', {data: item});
-
-
+                EventBus.$emit('fixedAsset.frame.open', {data: item});
             },
             refresh() {
-                EventBus.$on('fixedAsset.entry.close', () => {
+                EventBus.$on('fixedAsset.frame.close', () => {
                     this.$store.dispatch('fixedAsset/redirect')
                 })
             }

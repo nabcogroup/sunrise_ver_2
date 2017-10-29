@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6e0bf404-af6a-4897-a37b-c434d86e8e96" name="Default" comment="" />
+    <list default="true" id="6e0bf404-af6a-4897-a37b-c434d86e8e96" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/fixed-assets/index.js" afterPath="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/fixed-assets/index.js" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,66 +13,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="FixedAssetController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/FixedAssetController.php">
+      <file leaf-file-name="FixedAsset.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/app/FixedAsset.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="36" column="41" lean-forward="false" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
+            <state relative-caret-position="544">
+              <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FixedAssetRegister.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetRegister.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="87" column="34" lean-forward="true" selection-start-line="87" selection-start-column="34" selection-end-line="87" selection-end-column="34" />
               <folding>
-                <marker date="1508861748227" expanded="true" signature="1116:1326" ph="{...}" />
+                <element signature="n#style#0;n#div#0;n#v-panel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+                <element signature="n#div#0;n#div#0;n#v-panel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+                <element signature="e#6097#6152#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ContractController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2142">
-              <caret line="147" column="33" lean-forward="false" selection-start-line="147" selection-start-column="33" selection-end-line="147" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ContractRepository.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="884">
-              <caret line="60" column="31" lean-forward="false" selection-start-line="60" selection-start-column="31" selection-end-line="60" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FixedAssetRepository.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/FixedAssetRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="412">
-              <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
-              <folding>
-                <element signature="e#36#54#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VLiveView.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="867">
-              <caret line="51" column="154" lean-forward="false" selection-start-line="51" selection-start-column="154" selection-end-line="51" selection-end-column="154" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/liveviews/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1428">
-              <caret line="84" column="38" lean-forward="false" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -78,18 +40,28 @@
       <file leaf-file-name="FixedAssetList.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetList.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="33" column="82" lean-forward="false" selection-start-line="33" selection-start-column="82" selection-end-line="33" selection-end-column="82" />
+            <state relative-caret-position="395">
+              <caret line="57" column="35" lean-forward="false" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="35" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ContractList.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractList.vue">
+      <file leaf-file-name="BillUpdateForm.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1224">
-              <caret line="76" column="103" lean-forward="false" selection-start-line="76" selection-start-column="103" selection-end-line="76" selection-end-column="103" />
+            <state relative-caret-position="-289">
+              <caret line="59" column="56" lean-forward="false" selection-start-line="59" selection-start-column="56" selection-end-line="59" selection-end-column="56" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/fixed-assets/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="29" column="8" lean-forward="false" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -144,9 +116,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa-payment-collection.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa_report/villa_payment_collection.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa_report/component/payment_collection_theme_pivot.blade.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaSales.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportParameter.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa-sales-analysis.blade.php" />
@@ -185,16 +154,19 @@
         <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaPaymentCollection.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Bank/VillaBankDeposit.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/bank_report/bank_account_per_villa.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/FixedAsset.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/fixed-assets/index.js" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Requests/FixedAssetForm.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetRegisterDialog.vue" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/FixedAssetController.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetList.vue" />
         <option value="$PROJECT_DIR$/rootapp/app/Repositories/FixedAssetRepository.php" />
         <option value="$PROJECT_DIR$/rootapp/config/dompdf.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/BaseModel.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VComboBox.vue" />
+        <option value="$PROJECT_DIR$/rootapp/app/FixedAsset.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/fixed-assets/index.js" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetList.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetRegister.vue" />
       </list>
     </option>
   </component>
@@ -260,8 +232,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -278,7 +250,71 @@
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
               <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="fixed-asset" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="store" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="store" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="store" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="fixed-assets" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -629,11 +665,15 @@
       <workItem from="1508832580857" duration="1789000" />
       <workItem from="1508834395032" duration="1214000" />
       <workItem from="1509175731577" duration="309000" />
+      <workItem from="1509180230897" duration="657000" />
+      <workItem from="1509258850264" duration="1795000" />
+      <workItem from="1509267445522" duration="2049000" />
+      <workItem from="1509281895758" duration="1422000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="908119000" />
+    <option name="totallyTimeSpent" value="914042000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -646,8 +686,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17324094" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17963752" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2820513" sideWeight="0.38303342" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -696,60 +737,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
       <option name="time" value="78" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaSalesReport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="33" column="54" lean-forward="true" selection-start-line="33" selection-start-column="54" selection-end-line="33" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/accountchart/register.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Bank/BankDepositSummary.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="24" column="8" lean-forward="true" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Receivables/PaymentSchedule.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/ReceivableReport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="31" column="54" lean-forward="false" selection-start-line="31" selection-start-column="54" selection-end-line="31" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/bootstrap/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/reports/modules/bank_report/bank_account_detail.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="48" lean-forward="false" selection-start-line="7" selection-start-column="48" selection-end-line="7" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Console/Kernel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
@@ -953,32 +948,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/FixedAsset.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="41" column="5" lean-forward="false" selection-start-line="41" selection-start-column="5" selection-end-line="41" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/fixed-assets/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="37" column="14" lean-forward="true" selection-start-line="37" selection-start-column="14" selection-end-line="37" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Requests/FixedAssetForm.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="514">
           <caret line="36" column="0" lean-forward="true" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetRegisterDialog.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="64" column="14" lean-forward="false" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -998,11 +971,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/FixedAssetController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
+        <state relative-caret-position="544">
           <caret line="36" column="41" lean-forward="false" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
-          <folding>
-            <marker date="1508861748227" expanded="true" signature="1116:1326" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1010,7 +980,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2142">
           <caret line="147" column="33" lean-forward="false" selection-start-line="147" selection-start-column="33" selection-end-line="147" selection-end-column="33" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1018,15 +987,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="884">
           <caret line="60" column="31" lean-forward="false" selection-start-line="60" selection-start-column="31" selection-end-line="60" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1224">
-          <caret line="76" column="103" lean-forward="false" selection-start-line="76" selection-start-column="103" selection-end-line="76" selection-end-column="103" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1034,7 +994,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1428">
           <caret line="84" column="38" lean-forward="false" selection-start-line="84" selection-start-column="38" selection-end-line="84" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1042,15 +1001,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="867">
           <caret line="51" column="154" lean-forward="false" selection-start-line="51" selection-start-column="154" selection-end-line="51" selection-end-column="154" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="33" column="82" lean-forward="false" selection-start-line="33" selection-start-column="82" selection-end-line="33" selection-end-column="82" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1058,7 +1008,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1066,8 +1015,100 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="412">
           <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/BaseModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/containers/VInputWrapper.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="55" lean-forward="false" selection-start-line="18" selection-start-column="55" selection-end-line="18" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/ErrorSpan.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="32" lean-forward="true" selection-start-line="9" selection-start-column="32" selection-end-line="9" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VInput.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="8" column="19" lean-forward="true" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetRegisterDialog.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="56" lean-forward="true" selection-start-line="22" selection-start-column="56" selection-end-line="22" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VComboBox.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="10" lean-forward="true" selection-start-line="17" selection-start-column="10" selection-end-line="17" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/FixedAsset.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="49" column="5" lean-forward="true" selection-start-line="49" selection-start-column="5" selection-end-line="49" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/fixed-assets/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="8" lean-forward="false" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-289">
+          <caret line="59" column="56" lean-forward="false" selection-start-line="59" selection-start-column="56" selection-end-line="59" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="57" column="35" lean-forward="false" selection-start-line="57" selection-start-column="35" selection-end-line="57" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetRegister.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="87" column="34" lean-forward="true" selection-start-line="87" selection-start-column="34" selection-end-line="87" selection-end-column="34" />
           <folding>
-            <element signature="e#36#54#0#PHP" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#v-panel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#div#0;n#div#0;n#v-panel#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="e#6097#6152#0" expanded="true" />
           </folding>
         </state>
       </provider>

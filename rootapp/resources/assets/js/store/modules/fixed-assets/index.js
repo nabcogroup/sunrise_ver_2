@@ -25,12 +25,15 @@ const mutations = {
     },
     clear(state) {
         state.errorValidations.clearAll();
+    },
+    createNew() {
+        axiosRequest.redirect('fixed-asset','register');
     }
 }
 
 const actions = {
     create({state,commit}) {
-        axiosRequest.dispatchGet("api/fixed-asset/create")
+        axiosRequest.dispatchGet("/api/fixed-asset/create")
             .then(result => commit('create',result))
             .catch(errors => {
                 toastr.error(errors.response.message);
@@ -39,7 +42,7 @@ const actions = {
     },
     edit({state,commit},payload) {
         console.log(payload);
-        axiosRequest.dispatchGet("api/fixed-asset/edit/" + payload.id)
+        axiosRequest.dispatchGet("/api/fixed-asset/edit/" + payload.id)
             .then((result) => commit('edit',{data: result.data.fixedAsset,lookups:  result.data.lookups }))
             .catch(errors => toastr.error(errros.response.message));
     },
@@ -67,7 +70,7 @@ const actions = {
             });
         }
     },
-    redirect() {
+    redirectToList() {
         axiosRequest.redirect("fixed-asset","");
     },
     update() {

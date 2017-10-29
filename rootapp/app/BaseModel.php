@@ -41,10 +41,8 @@ class BaseModel extends Model {
         if(sizeof($fields) > 0) {
             foreach ($fields as $key => $value) {
                 if(sizeof($this->fillable) > 0) {
+                    
                     if(in_array($key,$this->fillable)) {
-                        if(is_null($value)) {
-                            $value = "";
-                        }
                         $this->{$key} = $value;
                         //$this->setField($key,$value);
                     }
@@ -52,9 +50,7 @@ class BaseModel extends Model {
                 else {
                     //do not include custom attribute
                     if(!in_array($key,$this->appends) && !in_array($key,$this->guarded)) {
-                        if(is_null($value)) {
-                            $value = "";
-                        }
+                        $value = "";
                         $this->{$key} = $value;
                         //$this->setField($key,$value);
                     }

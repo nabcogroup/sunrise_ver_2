@@ -1,6 +1,6 @@
 <template>
     <div class='input-group date' ref="$dtPicker">
-        <input type='text' class="form-control" name="dpName" :value="defaultValue"/>
+        <input type='text' :disabled="disabled" class="form-control" name="dpName" :value="defaultValue"/>
         <span class="input-group-addon">
             <span class="fa fa-calendar"></span>
         </span>

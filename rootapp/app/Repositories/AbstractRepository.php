@@ -105,12 +105,14 @@ abstract class AbstractRepository {
     public function attach($model,$children = array(),$includeUser=false) {
 
         $childrenModel = [];
+        
         if(isset($model['id']) && $model['id'] != 0) {
             $state = "modify";
         }
         else {
             $state = "create";
         }
+        
         try {
             if($state == "create") {
                 $this->model = $this->definedModel();

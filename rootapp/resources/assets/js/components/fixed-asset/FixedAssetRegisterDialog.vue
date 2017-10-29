@@ -25,9 +25,17 @@
             </select>
             <error-span v-model="errorValidations" name="fixed_asset_type"></error-span>
         </v-input-wrapper>
+        <v-input-wrapper label="Serial Number" label-class="col-md-3 text-right">
+            <input class="form-control" type="text" name="serial_number" v-model="data.serial_number">
+            <error-span v-model="errorValidations" name="serial_number"></error-span>
+        </v-input-wrapper>
         <v-input-wrapper label="Cost" label-class="col-md-3 text-right">
-            <input class="form-control" type="number" v-model="data.cost">
+            <input class="form-control" type="number" name="cost" v-model="data.cost">
             <error-span v-model="errorValidations" name="cost"></error-span>
+        </v-input-wrapper>
+        <v-input-wrapper label="Year To Depreciated over" label-class="col-md-3 text-right">
+            <input class="form-control" type="number" v-model="data.depreciate_year">
+            <error-span v-model="errorValidations" name="depreciate_year"></error-span>
         </v-input-wrapper>
     </div>
 </v-dialog>
@@ -67,6 +75,7 @@ export default {
     },
     open() {
       EventBus.$on("fixedAsset.entry.open", value => {
+        
         if(value) {
           this.$store.dispatch('fixedAsset/edit', {id: value.data.id});
         }

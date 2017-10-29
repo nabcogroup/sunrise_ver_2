@@ -1,7 +1,7 @@
 <template>
-    <select class="form-control" :value="value"  @change="onChange($event.target.value)">
+    <select class="form-control" @change="onChange($event.target.value)" :disabled="disabled">
         <option v-if="includeDefault" value="">--Select--</option>
-        <option v-for="(option,index) in options" :value="option[keyValue]" :key="index">{{option[keyText]}}</option>
+        <option v-for="(option,index) in options" :value="option[keyValue]" :key="index" :selected="value === option[keyValue]">{{option[keyText]}}</option>
     </select>
 </template>
 
@@ -14,7 +14,11 @@
             dvalue: "",
             dtext: "",
             includeDefault: false,
-            value: ""
+            disabled: false,
+            value: String
+        },
+        mounted() {
+            console.log(this.value);
         },
         methods: {
             onChange(value) {

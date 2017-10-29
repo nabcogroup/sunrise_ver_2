@@ -10,6 +10,9 @@ export const toggleModal = {
         },
         closeDialog() {
             this.toggle = false;
+        },
+        toggleDialog() {
+            this.toggle = !this.toggle;
         }
     }
 }

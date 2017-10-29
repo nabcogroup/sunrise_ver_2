@@ -50,6 +50,7 @@ class FixedAssetController extends Controller
     public function edit($id)
     {
          $fixedAsset = $this->repository->find($id);
+         
          $lookups = Selection::getSelections(['villa_location','fixed_asset_type']);
 
          return compact('lookups','fixedAsset');
@@ -61,7 +62,6 @@ class FixedAssetController extends Controller
         $input = $request->filterInput();
         try {
             $model = $this->repository->attach($input)->instance();
-
             return Result::ok('successful',$model);
         }
         catch(Exception $e) {

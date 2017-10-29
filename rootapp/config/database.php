@@ -41,7 +41,7 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', '127.0.0.1'),
+            'host' => (env('APP_ENV') == 'prod') ? env('DB_HOST_PROD', 'mysqlcluster21.registeredsite.com') : env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
             'database' => (env('APP_ENV') == 'prod') ? env('DB_DATABASE_PROD', 'forge') : env('DB_DATABASE', 'forge'),
             'username' => (env('APP_ENV') == 'prod') ? env('DB_USERNAME_PROD', 'forge') : env('DB_USERNAME', 'forge'),

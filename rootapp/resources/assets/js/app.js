@@ -59,7 +59,7 @@ import BillList from "./components/bill/BillList.vue";
 import TenantList from "./components/tenant/TenantList.vue";
 import TenantRegister from "./components/tenant/TenantReg.vue";
 import AccountChartRegister from "./components/accountchart/Register.vue";
-import AccountChartList from "./components/accountchart/List.vue";
+import AccountList from "./components/accountchart/List.vue";
 import FixedAssetList from "./components/fixed-asset/FixedAssetList.vue";
 import FixedAssetRegister from "./components/fixed-asset/FixedAssetRegister.vue";
 
@@ -103,6 +103,6 @@ new Vue({
         AccountChartRegister,
         FixedAssetList,
         FixedAssetRegister,
-        AccountChartList
+        AccountList
     }
 });

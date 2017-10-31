@@ -17,6 +17,7 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
+import {AccountRegisterDialog} from "./AccountRegisterDialog";
 import {EventBus} from "../../eventbus";
 export default {
   data() {

@@ -36,7 +36,7 @@ export default {
   },
   methods: {
       create() {
-          this.$store.commit('accountCharts/createNew');
+          EventBus.$emit('accountChart.entry.open');
       }
     }
 }

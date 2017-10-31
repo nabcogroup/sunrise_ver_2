@@ -103,7 +103,7 @@ Route::group(["middleware" => ["auth","roles"],"roles" => ["account"]],function(
 Route::group(["middleware" => ["auth","roles"],"roles" => ["account","admin"]],function() {
 
     Route::get("/chart/register/{id?}", "AccountChartController@register");
-    Route::get("/chart/","AccountChartController@list");
+    Route::get("/chart/","AccountChartController@index");
  
     Route::get("api/chart/create", "AccountChartController@create");
     Route::get("api/chart/{id}/edit","AccountChartController@edit");

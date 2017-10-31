@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\AccountChartRepository;
 use App\Selection;
 use App\AccountChart;
 use Dompdf\Exception;
@@ -11,10 +12,16 @@ use Illuminate\Http\Request;
 class AccountChartController extends Controller
 {
 
+    private $repo;
+
+    public function __construct(AccountChartRepository $repo)
+    {
+        $this->repo =  $repo;
+    }
 
     //Templates
 
-    public function list()
+    public function index()
     {
         return view("accountchart.list");
 
@@ -92,8 +99,8 @@ class AccountChartController extends Controller
     public function all()
     {
 
-        $accounts = AccountChart::all();
-
+        $accounts = $this->repo->getAccountCharts();
+        
         return $accounts;
     }
 

@@ -29,6 +29,9 @@ const actions = {
             .then((response) => commit("create",response.data))
             .catch((error) => toastr.error(e.response.message));
     },
+    save({state,commit}) {
+        
+    },
     edit({state,commit}) {
 
     }

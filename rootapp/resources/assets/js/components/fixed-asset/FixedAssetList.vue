@@ -13,7 +13,7 @@
                 <v-live-view :grid="gridView" @action="doAction"></v-live-view>
             </div>
         </div>
-        
+
     </v-panel>
 </template>
 

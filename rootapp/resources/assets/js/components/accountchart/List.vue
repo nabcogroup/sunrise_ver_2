@@ -36,7 +36,7 @@ export default {
   },
   methods: {
       create() {
-          this.$store.commit('accountList/createNew');
+          this.$store.commit('accountCharts/createNew');
       }
     }
 }

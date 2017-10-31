@@ -20,7 +20,7 @@
 </v-dialog>
 </template>
 <script>
-
+import { ErrorValidations } from "../../helpers/helpers";
 import { toggleModal } from "../mixins";
 import { mapGetters, mapState } from "vuex";
 import { EventBus } from "../../eventbus";
@@ -35,9 +35,24 @@ import { EventBus } from "../../eventbus";
         account: state => state.account
       })
     },
+    beforeMount() {
+      this.open();
+    },
+    data() {
+      return {
+        validations: new ErrorValidations()
+      };
+    },
     methods: {
-      create() {
-        dispatch('accountCharts/create')
+      open() {
+        this.$store.dispatch('accountCharts/create');
+        this.openDialog();
+      },
+      save() {
+        this.$store.dispatch("accountCharts/save", () => {
+          this.closeDialog();
+          this.close();
+        });
       }
     }
 

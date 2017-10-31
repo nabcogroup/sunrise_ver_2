@@ -13730,10 +13730,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__eventbus__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__eventbus__ = __webpack_require__(3);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -13764,10 +13763,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AccountRegisterDialog',
-  mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
-  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("accountCharts", {
+  mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins__["a" /* toggleModal */]],
+  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])("accountCharts", {
     lookups: "lookups"
-  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("accountCharts", {
+  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapState */])("accountCharts", {
     account: state => state.account
   })),
   methods: {
@@ -13822,7 +13821,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     create() {
-      this.$store.commit('accountList/createNew');
+      this.$store.commit('accountCharts/createNew');
     }
   }
 });
@@ -28847,10 +28846,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label-class": "col-md-3 text-right"
     }
   }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.account.code),
+      expression: "account.code"
+    }],
     staticClass: "form-control",
     attrs: {
       "type": "text",
       "name": "serial_number"
+    },
+    domProps: {
+      "value": (_vm.account.code)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.account.code = $event.target.value
+      }
     }
   })]), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
@@ -28858,18 +28872,56 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label-class": "col-md-3 text-right"
     }
   }, [_c('select', {
-    staticClass: "form-control"
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.account.account_type),
+      expression: "account.account_type"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.account.account_type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
   }, [_c('option', {
     attrs: {
       "value": ""
     }
-  }, [_vm._v("--ACCOUNT TYPE--")]), _vm._v(" "), _c('option')])]), _vm._v(" "), _c('v-input-wrapper', {
+  }, [_vm._v("--ACCOUNT TYPE--")]), _vm._v(" "), _vm._l((_vm.lookups.villa_location), function(look) {
+    return _c('option', {
+      domProps: {
+        "value": look.code
+      }
+    }, [_vm._v(_vm._s(look.name))])
+  })], 2)]), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label": "Description",
       "label-class": "col-md-3 text-right"
     }
   }, [_c('textarea', {
-    staticClass: "form-control"
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.account.description),
+      expression: "account.description"
+    }],
+    staticClass: "form-control",
+    domProps: {
+      "value": (_vm.account.description)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.account.description = $event.target.value
+      }
+    }
   })])], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true

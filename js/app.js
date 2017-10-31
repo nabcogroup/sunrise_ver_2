@@ -13730,9 +13730,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mixins__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__eventbus__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__eventbus__ = __webpack_require__(3);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -13763,15 +13764,30 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'AccountRegisterDialog',
-  mixins: [__WEBPACK_IMPORTED_MODULE_0__mixins__["a" /* toggleModal */]],
-  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])("accountCharts", {
+  mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
+  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("accountCharts", {
     lookups: "lookups"
-  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapState */])("accountCharts", {
+  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("accountCharts", {
     account: state => state.account
   })),
+  beforeMount() {
+    this.open();
+  },
+  data() {
+    return {
+      validations: new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]()
+    };
+  },
   methods: {
-    create() {
-      dispatch('accountCharts/create');
+    open() {
+      this.$store.dispatch('accountCharts/create');
+      this.openDialog();
+    },
+    save() {
+      this.$store.dispatch("accountCharts/save", () => {
+        this.closeDialog();
+        this.close();
+      });
     }
   }
 
@@ -13812,7 +13828,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   data() {
     return {
       gridView: {
-        columns: [{ name: 'code', column: 'Code', style: 'width:20%', class: 'text-center' }, { name: 'description', column: 'Description', class: 'text-left' }, { name: 'account_type', column: 'Account Type', class: 'text-center', style: 'width:10%' }],
+        columns: [{ name: 'code', column: 'Code', style: 'width:20%', class: 'text-center' }, { name: 'description', column: 'Description', class: 'text-left', filter: true }, { name: 'account_type', column: 'Account Type', class: 'text-center', style: 'width:10%', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: 'width:5%' }],
+        actions: [{ key: 'edit', name: 'Edit' }],
         source: {
           url: '/api/chart'
         }
@@ -13821,7 +13838,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     create() {
-      this.$store.commit('accountCharts/createNew');
+      __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('accountChart.entry.open');
+    },
+    doAction(a, item, index) {
+      if (a.key === 'edit') {
+        this.$store.dispatch('accountChart/redirectToUpdate', { id: item.id });
+      }
     }
   }
 });
@@ -28244,6 +28266,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('v-live-view', {
     attrs: {
       "grid": _vm.gridView
+    },
+    on: {
+      "action": _vm.doAction
     }
   })], 1)])])
 },staticRenderFns: []}

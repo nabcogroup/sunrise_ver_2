@@ -13,7 +13,7 @@ const mutations = {
         state.accounts = data;
     },
     create(state,data) {
-        state.lookups = data;
+        state.lookups = data.lookups;
     }
 };
 
@@ -30,7 +30,7 @@ const actions = {
             .catch((error) => toastr.error(e.response.message));
     },
     save({state,commit}) {
-        
+
     },
     edit({state,commit}) {
 
@@ -48,7 +48,8 @@ const accountChartsModule = {
     namespaced: true,
     state,
     mutations,
-    getters
+    getters,
+    actions
 }
 
 export default accountChartsModule;

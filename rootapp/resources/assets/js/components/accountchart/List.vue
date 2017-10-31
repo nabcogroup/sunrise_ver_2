@@ -13,13 +13,17 @@
                 <v-live-view :grid="gridView" @action="doAction"></v-live-view>
             </div>
         </div>
+        <account-register-dialog></account-register-dialog>
     </v-panel>
 </template>
 <script>
 import {mapGetters} from "vuex";
-import {AccountRegisterDialog} from "./AccountRegisterDialog";
+import AccountRegisterDialog from "./AccountRegisterDialog.vue";
 import {EventBus} from "../../eventbus";
 export default {
+  components: {
+    AccountRegisterDialog
+  },
   data() {
     return {
       gridView: {
@@ -44,7 +48,8 @@ export default {
       },
       doAction(a, item, index) {
           if(a.key === 'edit') {
-              this.$store.dispatch('accountChart/redirectToUpdate',{id: item.id});
+              EventBus.$emit('accountChart.entry.open',{id: item.id});
+
           }
       }
     }

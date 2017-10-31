@@ -2,13 +2,13 @@
 <v-dialog dialog-title="Account Chart List" modal-id="accountList" v-model="toggle" @dismiss="save">
     <div class="form-horizontal">
       <v-input-wrapper label="Code" label-class="col-md-3 text-right">
-          <input class="form-control" type="text" name="serial_number" v-model="account.code">
+          <input class="form-control" type="text" name="account.code" v-model="account.code">
       </v-input-wrapper>
 
         <v-input-wrapper label="Account Type" label-class="col-md-3 text-right">
             <select class="form-control" v-model="account.account_type">
                 <option value="">--ACCOUNT TYPE--</option>
-                <option v-for="look in lookups.villa_location" :value="look.code">{{ look.name }}</option>
+                <option v-for="look in lookups.account_type" :value="look.code">{{ look.name }}</option>
             </select>
 
         </v-input-wrapper>
@@ -29,7 +29,7 @@ import { EventBus } from "../../eventbus";
     mixins: [toggleModal],
     computed: {
       ...mapGetters("accountCharts", {
-        lookups: "lookups",
+        lookups: "lookups"
       }),
       ...mapState("accountCharts", {
         account: state => state.account
@@ -44,9 +44,18 @@ import { EventBus } from "../../eventbus";
       };
     },
     methods: {
+      close() {
+        EventBus.$emit("accountChart.entry.close", true);
+      },
       open() {
-        this.$store.dispatch('accountCharts/create');
-        this.openDialog();
+        EventBus.$on("accountChart.entry.open", value => {
+          if(value) {
+              this.$store.dispatch('accountCharts/edit', value.id);
+          }else {
+            this.$store.dispatch('accountCharts/create');
+          }
+          this.openDialog();
+        });
       },
       save() {
         this.$store.dispatch("accountCharts/save", () => {

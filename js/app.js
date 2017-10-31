@@ -13779,9 +13779,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     };
   },
   methods: {
+    close() {
+      __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit("accountChart.entry.close", true);
+    },
     open() {
-      this.$store.dispatch('accountCharts/create');
-      this.openDialog();
+      __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("accountChart.entry.open", value => {
+        if (value) {
+          this.$store.dispatch('accountCharts/edit', value.id);
+        } else {
+          this.$store.dispatch('accountCharts/create');
+        }
+        this.openDialog();
+      });
     },
     save() {
       this.$store.dispatch("accountCharts/save", () => {
@@ -13800,9 +13809,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog__ = __webpack_require__(260);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue__ = __webpack_require__(260);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__eventbus__ = __webpack_require__(3);
+//
 //
 //
 //
@@ -13825,6 +13835,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    AccountRegisterDialog: __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue___default.a
+  },
   data() {
     return {
       gridView: {
@@ -13842,7 +13855,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     doAction(a, item, index) {
       if (a.key === 'edit') {
-        this.$store.dispatch('accountChart/redirectToUpdate', { id: item.id });
+        __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('accountChart.entry.open', { id: item.id });
       }
     }
   }
@@ -19530,7 +19543,7 @@ const mutations = {
         state.accounts = data;
     },
     create(state, data) {
-        state.lookups = data;
+        state.lookups = data.lookups;
     }
 };
 
@@ -19555,7 +19568,8 @@ const accountChartsModule = {
     namespaced: true,
     state,
     mutations,
-    getters
+    getters,
+    actions
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (accountChartsModule);
@@ -28270,7 +28284,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "action": _vm.doAction
     }
-  })], 1)])])
+  })], 1)]), _vm._v(" "), _c('account-register-dialog')], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -28925,7 +28939,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "name": "serial_number"
+      "name": "account.code"
     },
     domProps: {
       "value": (_vm.account.code)
@@ -28964,7 +28978,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": ""
     }
-  }, [_vm._v("--ACCOUNT TYPE--")]), _vm._v(" "), _vm._l((_vm.lookups.villa_location), function(look) {
+  }, [_vm._v("--ACCOUNT TYPE--")]), _vm._v(" "), _vm._l((_vm.lookups.account_type), function(look) {
     return _c('option', {
       domProps: {
         "value": look.code

@@ -1,8 +1,8 @@
 const state = {
     accounts: [],
     account: {
-        lookups: []
-    }
+    },
+    lookups: []
 
 };
 
@@ -13,12 +13,7 @@ const mutations = {
         state.accounts = data;
     },
     create(state,data) {
-        state.account = {
-            code: "",
-            description: "",
-            account_type: "",
-            lookups: data
-        };
+        state.lookups = data;
     }
 };
 
@@ -39,7 +34,11 @@ const actions = {
     }
 };
 
-const getters = {};
+const getters = {
+    lookups(state) {
+        return state.lookups || [];
+    }
+};
 
 
 const accountChartsModule = {

@@ -14,11 +14,9 @@ class AccountChartController extends Controller
 
     //Templates
 
-    public function index()
+    public function list()
     {
-
-       
-
+        return view("accountchart.list");
 
     }
 

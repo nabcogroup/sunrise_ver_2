@@ -16687,6 +16687,34 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -16706,7 +16734,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             fixedAssetTab: "summary",
             showTab: false,
             showSummary: false,
-            lockEdited: false
+            lockEdited: false,
+            isRefresh: false
         };
     },
     computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])("fixedAsset", {
@@ -16719,6 +16748,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         save() {
             this.$store.dispatch("fixedAsset/save", () => {
                 this.$store.redirectToList();
+            });
+        },
+        refresh() {
+            this.isRefresh = true;
+            this.$store.dispatch("fixedAsset/refresh", () => {
+                this.isRefresh = false;
             });
         },
         enableReading() {
@@ -19357,9 +19392,8 @@ const MyPlugins = {
 "use strict";
 const state = {
     accounts: [],
-    account: {
-        lookups: []
-    }
+    account: {},
+    lookups: []
 
 };
 
@@ -19368,12 +19402,7 @@ const mutations = {
         state.accounts = data;
     },
     create(state, data) {
-        state.account = {
-            code: "",
-            description: "",
-            account_type: "",
-            lookups: data
-        };
+        state.lookups = data;
     }
 };
 
@@ -19384,10 +19413,15 @@ const actions = {
     create({ state, commit }) {
         axiosRequest.dispatchGet("/api/chart/create").then(response => commit("create", response.data)).catch(error => toastr.error(e.response.message));
     },
+    save({ state, commit }) {},
     edit({ state, commit }) {}
 };
 
-const getters = {};
+const getters = {
+    lookups(state) {
+        return state.lookups || [];
+    }
+};
 
 const accountChartsModule = {
     namespaced: true,
@@ -20013,6 +20047,15 @@ const actions = {
     },
     edit({ state, commit }, payload) {
         axiosRequest.dispatchGet("/api/fixed-asset/edit/" + payload.id).then(result => commit('edit', { data: result.data.fixedAsset, lookups: result.data.lookups })).catch(errors => toastr.error(errros.response.message));
+    },
+    refresh({ state, commit }, cb) {
+        axiosRequest.dispatchGet("/api/fixed-asset/edit/" + state.data.id).then(result => {
+            commit('edit', { data: result.data.fixedAsset, lookups: result.data.lookups });
+            cb();
+        }).catch(errors => {
+            toastr.error(errros.response.message);
+            cb();
+        });
     },
     save({ state }, cb) {
         if (state.data.id !== 0) {
@@ -29857,7 +29900,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "cost"
     }
-  }, [_vm._v("Serial No:")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Reference No:")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-4"
   }, [_c('input', {
     directives: [{
@@ -30034,14 +30077,47 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     attrs: {
       "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.refresh($event)
+      }
     }
   }, [_c('i', {
-    staticClass: "fa fa-refresh fa-2x"
+    staticClass: "fa fa-refresh fa-2x fa-fw",
+    class: {
+      'fa-spin': _vm.isRefresh
+    }
   })])])]), _vm._v(" "), _c('div', {
+    staticClass: "panel-body"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-12"
+  }, [_c('h4', {
+    staticClass: "text-danger"
+  }, [_vm._v("Current Book Value")]), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm._f("toCurrencyFormat")(_vm.data.current_book_value)))]), _vm._v(" "), _c('hr')]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('strong', {
+    staticClass: "text-danger"
+  }, [_vm._v("Depreciation/Year")]), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm._f("toCurrencyFormat")(_vm.data.depreciation_amount)))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "x-panel"
+  }, [_c('div', {
     staticClass: "panel-body"
   }, [_c('strong', {
     staticClass: "text-danger"
-  }, [_vm._v("Depreciation/Year")]), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm._f("toCurrencyFormat")(_vm.data.depreciation_amount)))])])]) : _vm._e()])])], 1)], 1)])
+  }, [_vm._v("Cummulative")]), _vm._v(" "), _c('h3', [_vm._v("0.00")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-6"
+  }, [_c('div', {
+    staticClass: "x-panel"
+  }, [_c('div', {
+    staticClass: "panel-body"
+  }, [_c('strong', {
+    staticClass: "text-danger"
+  }, [_vm._v("Current Book Value")]), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm._f("toCurrencyFormat")(_vm.data.current_book_value)))])])])])])])]) : _vm._e()])])], 1)], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

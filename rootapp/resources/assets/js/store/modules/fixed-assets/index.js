@@ -41,12 +41,23 @@ const actions = {
             .catch(errors => {
                 toastr.error(errors.response.message);
             });
-
     },
     edit({state,commit},payload) {
         axiosRequest.dispatchGet("/api/fixed-asset/edit/" + payload.id)
             .then((result) => commit('edit',{data: result.data.fixedAsset,lookups:  result.data.lookups }))
             .catch(errors => toastr.error(errros.response.message));
+    },
+    refresh({state,commit},cb) {
+        axiosRequest.dispatchGet("/api/fixed-asset/edit/" + state.data.id)
+            .then((result) => {
+                commit('edit',{data: result.data.fixedAsset,lookups:  result.data.lookups })
+                cb();
+            })
+            .catch(errors =>
+            {
+                toastr.error(errros.response.message);
+                cb();
+            });
     },
     save({state},cb) {
         if(state.data.id !== 0) {

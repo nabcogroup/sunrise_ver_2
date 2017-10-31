@@ -3,10 +3,15 @@
         <div class="col-md-12">
             <v-panel header="Fixed Asset Register">
                 
+                <div class="pull-right">
+                    <a href="#" @click.prevent="enableEditing" v-if="lockEdited"><i class="fa fa-pencil"></i> Edit</a>
+                </div>
+                
                 <v-tab-group v-model="fixedAssetTab" v-if="showTab">
                     <v-tab tab-id="summary">Summary</v-tab>
                     <v-tab tab-id="depreciation">Depreciation Value</v-tab>
                 </v-tab-group>
+
                 <div class="tab-content" style="margin-top:15px; ">
                     <div class="col-md-8">
                         <div class="form-horizontal">
@@ -77,18 +82,17 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-info btn-block" @click="save">Save</button>
+                        <button class="btn btn-info btn-block" @click="save" v-if="!lockEdited">Save</button>
                         <hr/>
                         <div class="x-panel" v-if="showSummary">
+                            <div class="panel-header row">
+                                <div class="col-md-12">
+                                    <a href="#" class="pull-right" style="padding: 10px "><i class="fa fa-refresh fa-2x"></i></a>
+                                </div>
+                            </div>
                             <div class="panel-body">
-                                <p class="x-read-group">
-                                    <strong class="col-md-4 x-label">Current Book Value:</strong>
-                                    <span class="col-md-8 x-desc">0.00</span>
-                                </p>
-                                <p class="x-read-group">
-                                    <strong class="col-md-4 x-label">Current Year:</strong>
-                                    <span class="col-md-8 x-desc">0.00</span>
-                                </p>
+                                <strong class="text-danger">Depreciation/Year</strong>
+                                <h3>{{data.depreciation_amount | toCurrencyFormat}}</h3>
                             </div>
                         </div>
                     </div>
@@ -105,10 +109,13 @@
     export default {
         props: ["id"],
         mounted() {
-            if (this.id) 
+            if (this.id) {
                 this.$store.dispatch("fixedAsset/edit", {id: this.id});
-            else 
+                this.enableReading();
+            }
+            else {
                 this.$store.dispatch("fixedAsset/create");
+            }
         },
         data() {
             return {
@@ -133,6 +140,16 @@
                    this.$store.redirectToList();
                 });
             },
+            enableReading() {
+                this.showTab = true;
+                this.showSummary = true;
+                this.lockEdited = true;
+            },
+            enableEditing() {
+                this.showTab = false;
+                this.showSummary = false;
+                this.lockEdited = false;
+            }
             
         }
     };

@@ -10,7 +10,7 @@ class FixedAsset extends BaseModel
 {
 
     protected $fillable = ["purchase_date","description","fixed_asset_type","property","cost","tag_code","serial_no","year_span"];
-    protected $appends = ["full_fixed_asset_type","full_property","full_purchase_date","current_book_value"];
+    protected $appends = ["full_fixed_asset_type","full_property","full_purchase_date","depreciation_amount","depreciation_percentage"];
 
     public static function createInstance($values = array()) {
         
@@ -48,9 +48,28 @@ class FixedAsset extends BaseModel
         return $this->cost - $this->salvage_value;
     }
 
-    public function getCurrentBookValueAttribute() {
+    public function getDepreciationPercentageAttribute() {
+        if($this->cost > 0) {
+            $this->appends['depreciation_percentage'] = ($this->depreciation_amount / $this->getTotalCostForDepAttribute()) * 100;
+        }
+        else {
+            $this->appends['depreciation_percentage'] = 0;
+        }
+        
+        return $this->appends['depreciation_percentage'];
+    }
 
-        return $this->appends['current_book_value'] = $this->getTotalCostForDepAttribute() / $this->year_span;
+    public function getDepreciationAmountAttribute() {
+        
+        if($this->cost > 0) 
+        {
+            $this->appends['depreciation_amount'] = ($this->getTotalCostForDepAttribute() / $this->year_span);
+        }
+        else {
+            $this->appends['depreciation_amount'] = 0;
+        }
+
+        return $this->appends['depreciation_amount'];
 
     }
 

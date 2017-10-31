@@ -16556,26 +16556,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         };
     },
-    components: {
-        'fixedAssetRegisterDialog': __WEBPACK_IMPORTED_MODULE_1__FixedAssetRegisterDialog_vue___default.a,
-        FixedAssetFrame: __WEBPACK_IMPORTED_MODULE_2__FixedAssetFrame_vue___default.a
-    },
     methods: {
         create() {
-            //this.refresh();
-            //EventBus.$emit('fixedAsset.frame.open');
             this.$store.commit('fixedAsset/createNew');
         },
         doAction(a, item, index) {
-            this.refresh();
-            __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit('fixedAsset.frame.open', { data: item });
+            if (a.key === 'edit') {
+                this.$store.dispatch('fixedAsset/redirectToUpdate', { id: item.id });
+            }
         },
         refresh() {
             __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on('fixedAsset.frame.close', () => {
                 this.$store.dispatch('fixedAsset/redirect');
             });
         }
-
     }
 });
 
@@ -16689,6 +16683,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -16696,7 +16694,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ["id"],
     mounted() {
-        if (this.id) this.$store.dispatch("fixedAsset/edit", { id: this.id });else this.$store.dispatch("fixedAsset/create");
+        if (this.id) {
+            this.$store.dispatch("fixedAsset/edit", { id: this.id });
+            this.enableReading();
+        } else {
+            this.$store.dispatch("fixedAsset/create");
+        }
     },
     data() {
         return {
@@ -16717,6 +16720,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.dispatch("fixedAsset/save", () => {
                 this.$store.redirectToList();
             });
+        },
+        enableReading() {
+            this.showTab = true;
+            this.showSummary = true;
+            this.lockEdited = true;
+        },
+        enableEditing() {
+            this.showTab = false;
+            this.showSummary = false;
+            this.lockEdited = false;
         }
 
     }
@@ -19988,7 +20001,8 @@ const mutations = {
     },
     createNew() {
         axiosRequest.redirect('fixed-asset', 'register');
-    }
+    },
+    redirectToUpdate() {}
 };
 
 const actions = {
@@ -19998,7 +20012,6 @@ const actions = {
         });
     },
     edit({ state, commit }, payload) {
-        console.log(payload);
         axiosRequest.dispatchGet("/api/fixed-asset/edit/" + payload.id).then(result => commit('edit', { data: result.data.fixedAsset, lookups: result.data.lookups })).catch(errors => toastr.error(errros.response.message));
     },
     save({ state }, cb) {
@@ -20024,6 +20037,9 @@ const actions = {
     },
     redirectToList() {
         axiosRequest.redirect("fixed-asset", "");
+    },
+    redirectToUpdate({ state, commit }, payload) {
+        axiosRequest.redirect('fixed-asset', 'register', payload.id);
     },
     update() {}
 };
@@ -29662,7 +29678,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "header": "Fixed Asset Register"
     }
-  }, [(_vm.showTab) ? _c('v-tab-group', {
+  }, [_c('div', {
+    staticClass: "pull-right"
+  }, [(_vm.lockEdited) ? _c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.enableEditing($event)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-pencil"
+  }), _vm._v(" Edit")]) : _vm._e()]), _vm._v(" "), (_vm.showTab) ? _c('v-tab-group', {
     model: {
       value: (_vm.fixedAssetTab),
       callback: function($$v) {
@@ -29986,28 +30016,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1)], 1)]), _vm._v(" "), _c('div', {
     staticClass: "col-md-4"
-  }, [_c('button', {
+  }, [(!_vm.lockEdited) ? _c('button', {
     staticClass: "btn btn-info btn-block",
     on: {
       "click": _vm.save
     }
-  }, [_vm._v("Save")]), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.showSummary) ? _c('div', {
+  }, [_vm._v("Save")]) : _vm._e(), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.showSummary) ? _c('div', {
     staticClass: "x-panel"
   }, [_c('div', {
+    staticClass: "panel-header row"
+  }, [_c('div', {
+    staticClass: "col-md-12"
+  }, [_c('a', {
+    staticClass: "pull-right",
+    staticStyle: {
+      "padding": "10px"
+    },
+    attrs: {
+      "href": "#"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-refresh fa-2x"
+  })])])]), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_c('p', {
-    staticClass: "x-read-group"
   }, [_c('strong', {
-    staticClass: "col-md-4 x-label"
-  }, [_vm._v("Current Book Value:")]), _vm._v(" "), _c('span', {
-    staticClass: "col-md-8 x-desc"
-  }, [_vm._v("0.00")])]), _vm._v(" "), _c('p', {
-    staticClass: "x-read-group"
-  }, [_c('strong', {
-    staticClass: "col-md-4 x-label"
-  }, [_vm._v("Current Year:")]), _vm._v(" "), _c('span', {
-    staticClass: "col-md-8 x-desc"
-  }, [_vm._v("0.00")])])])]) : _vm._e()])])], 1)], 1)])
+    staticClass: "text-danger"
+  }, [_vm._v("Depreciation/Year")]), _vm._v(" "), _c('h3', [_vm._v(_vm._s(_vm._f("toCurrencyFormat")(_vm.data.depreciation_amount)))])])]) : _vm._e()])])], 1)], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

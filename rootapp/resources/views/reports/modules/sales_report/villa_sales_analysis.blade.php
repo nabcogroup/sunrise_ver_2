@@ -52,7 +52,7 @@
                                     @elseif($item->payment_status == "cancelled" && floatval($item->monthly_payable) == 0)
                                         <td class="text-center text-danger"><strong>VACATED</strong></td>    
                                     @else
-                                        <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
+                                        <td class="text-right">{{number_format(0,2)}}</td>
                                     @endif
                                 @endforeach
                             @else

@@ -196,6 +196,7 @@ class ContractBillController extends Controller
         try {
 
             $bill = $this->billRepository->includePayments()->findByBillNo($billNo)->first();
+            
             if(!$bill) {
                 throw new Exception("Internal Exception");
             }
@@ -209,7 +210,7 @@ class ContractBillController extends Controller
 
             $dompdf = PDF::loadView('bill.display', compact('bill', 'contract'));
 
-            return $dompdf->stream(); //view('bill.display',compact('bill', 'contract')); 
+            return $dompdf->stream(); //view('bill.display',compact('bill', 'contract'));
         }
         catch(Exception $e) {
 

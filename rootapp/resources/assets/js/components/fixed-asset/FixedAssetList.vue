@@ -45,26 +45,20 @@
                 }
             }
         },
-        components: {
-            'fixedAssetRegisterDialog': FixedAssetRegisterDialog,
-            FixedAssetFrame
-        },
         methods: {
             create() {
-                //this.refresh();
-                //EventBus.$emit('fixedAsset.frame.open');
                 this.$store.commit('fixedAsset/createNew');
             },
             doAction(a, item, index) {
-                this.refresh();
-                EventBus.$emit('fixedAsset.frame.open', {data: item});
+                if(a.key === 'edit') {
+                    this.$store.dispatch('fixedAsset/redirectToUpdate',{id: item.id});
+                }
             },
             refresh() {
                 EventBus.$on('fixedAsset.frame.close', () => {
                     this.$store.dispatch('fixedAsset/redirect')
                 })
             }
-
         }
     };
 </script>

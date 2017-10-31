@@ -28,6 +28,9 @@ const mutations = {
     },
     createNew() {
         axiosRequest.redirect('fixed-asset','register');
+    },
+    redirectToUpdate() {
+
     }
 }
 
@@ -41,7 +44,6 @@ const actions = {
 
     },
     edit({state,commit},payload) {
-        console.log(payload);
         axiosRequest.dispatchGet("/api/fixed-asset/edit/" + payload.id)
             .then((result) => commit('edit',{data: result.data.fixedAsset,lookups:  result.data.lookups }))
             .catch(errors => toastr.error(errros.response.message));
@@ -73,8 +75,11 @@ const actions = {
     redirectToList() {
         axiosRequest.redirect("fixed-asset","");
     },
+    redirectToUpdate({ state,commit },payload) {
+        axiosRequest.redirect('fixed-asset','register',payload.id);
+    },
     update() {
-
+        
     }
 }
 

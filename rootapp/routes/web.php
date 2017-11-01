@@ -103,13 +103,15 @@ Route::group(["middleware" => ["auth","roles"],"roles" => ["account"]],function(
 Route::group(["middleware" => ["auth","roles"],"roles" => ["account","admin"]],function() {
 
     Route::get("/chart/register/{id?}", "AccountChartController@register");
-    Route::get("/chart/list/","AccountChartController@list");
-
+    Route::get("/chart/","AccountChartController@index");
+ 
+    Route::post("api/chart/store","AccountChartController@store");
+    Route::post("api/chart/update","AccountChartController@store");
+    
     Route::get("api/chart/create", "AccountChartController@create");
     Route::get("api/chart/{id}/edit","AccountChartController@edit");
     Route::get("api/chart/","AccountChartController@all");
-    Route::post("api/chart/","AccountChartController@store");
-    Route::patch("api/chart/edit","AccountChartController@update");
+    
 });
 
 
@@ -122,7 +124,7 @@ Route::group(['middleware' => ['auth','roles'],'roles' => ['account','admin']],
     function() {
 
         Route::get('fixed-asset/','FixedAssetController@index');
-        Route::get('fixed-asset/register/{id?}','FixedAssetController@register');
+        Route::get('fixed-asset/{id?}','FixedAssetController@register');
 
         Route::get("api/fixed-asset/", "FixedAssetController@all");
         Route::get("api/fixed-asset/create", "FixedAssetController@create");

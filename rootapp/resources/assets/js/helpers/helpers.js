@@ -73,10 +73,7 @@ export class AxiosRequest {
         return axios.get(url);
     }
 
-
-
     route(url) {
-        
         var img = window.imagePath;
         window.location.href = url;
         return this;
@@ -84,7 +81,17 @@ export class AxiosRequest {
 
     redirect(controller,action = '',data = null,target = '_self') {
         var baseUrl = window.Laravel.baseUrl;
-        var url = baseUrl + "/" + controller + "/" + (action !== null ? action : "") + (data !== null ? "/" + data : "");
+        
+        var urlObj = {
+            controller: controller,
+            action: (action !== '') ? '/' + action : '',
+            data: (data !== null) ? '/' + data : '',
+            toUrlString() {
+                return urlObj.controller + urlObj.action + urlObj.data;
+            }
+        }
+        
+        var url = baseUrl +  "/" + urlObj.toUrlString();
         window.open(url,target);
     }
 

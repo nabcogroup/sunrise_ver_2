@@ -13,8 +13,10 @@ const mutations = {
         state.accounts = data;
     },
     create(state,data) {
-        state.lookups = data;
-    }
+        state.lookups = data.lookups;
+        state.account = data.account;
+    },
+    
 };
 
 
@@ -27,6 +29,14 @@ const actions = {
     create({state,commit}) {
         axiosRequest.dispatchGet("/api/chart/create")
             .then((response) => commit("create",response.data))
+            .catch((error) => toastr.error(e.response.message));
+    },
+    redirect({state,commit}) {
+        axiosRequest.redirect('chart','');
+    },
+    save({state,commit},cb) {
+        axiosRequest.post('chart','store',state.account)
+            .then((response) => cb())
             .catch((error) => toastr.error(e.response.message));
     },
     edit({state,commit}) {
@@ -45,7 +55,8 @@ const accountChartsModule = {
     namespaced: true,
     state,
     mutations,
-    getters
+    getters,
+    actions
 }
 
 export default accountChartsModule;

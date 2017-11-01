@@ -13,5 +13,15 @@ class AccountChart extends BaseModel
 
     /** mutator */
 
+    public static function createInstance($values = array()) {
+        return new AccountChart($values);
+    }
+
+    public function __construct($values = array()) {
+        $this->code = "";
+        $this->account_type = "";
+        $this->description = "";
+    }
+
 
 }

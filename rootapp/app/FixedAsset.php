@@ -10,7 +10,14 @@ class FixedAsset extends BaseModel
 {
 
     protected $fillable = ["purchase_date","description","fixed_asset_type","property","cost","tag_code","serial_no","year_span"];
-    protected $appends = ["full_fixed_asset_type","full_property","full_purchase_date","depreciation_amount","depreciation_percentage"];
+    protected $appends = [
+        "full_fixed_asset_type",
+        "full_property",
+        "full_purchase_date",
+        "depreciation_amount",
+        "depreciation_percentage",
+        "current_book_value",
+        "current_total_year"];
 
     public static function createInstance($values = array()) {
         
@@ -30,6 +37,8 @@ class FixedAsset extends BaseModel
         $this->serial_no = "";
         $this->year_span = 5;
         $this->salvage_value = 0;
+        $this->opening_date = Carbon::now();
+        $this->opening_amount = 0;
     }
 
     public function getFullFixedAssetTypeAttribute() {
@@ -57,6 +66,20 @@ class FixedAsset extends BaseModel
         }
         
         return $this->appends['depreciation_percentage'];
+    }
+
+    public function getCurrentTotalYearAttribute() {
+        return $this->appends['current_total_year'] = Carbon::now()->diff(Carbon::parse($this->purchase_date))->y;
+    }
+
+    public function getCurrentBookValueAttribute() {
+        if($this->cost > 0) {
+            $this->appends['current_book_value'] = $this->getTotalCostForDepAttribute() - ($this->current_total_year * $this->depreciation_amount);
+        }
+        else {
+            $this->appends['current_book_value'] = 0;
+        }
+        return $this->appends['current_book_value'];
     }
 
     public function getDepreciationAmountAttribute() {

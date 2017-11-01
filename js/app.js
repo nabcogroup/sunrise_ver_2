@@ -13779,6 +13779,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     };
   },
   methods: {
+
     open() {
       this.$store.dispatch('accountCharts/create');
       this.openDialog();
@@ -13788,6 +13789,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         this.closeDialog();
         this.close();
       });
+
     }
   }
 
@@ -13800,9 +13802,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog__ = __webpack_require__(260);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue__ = __webpack_require__(260);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__eventbus__ = __webpack_require__(3);
+//
 //
 //
 //
@@ -13825,10 +13828,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    AccountRegisterDialog: __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue___default.a
+  },
   data() {
     return {
       gridView: {
-        columns: [{ name: 'code', column: 'Code', style: 'width:20%', class: 'text-center' }, { name: 'description', column: 'Description', class: 'text-left' }, { name: 'account_type', column: 'Account Type', class: 'text-center', style: 'width:10%' }],
+        columns: [{ name: 'code', column: 'Code', style: 'width:20%', class: 'text-center' }, { name: 'description', column: 'Description', class: 'text-left', filter: true }, { name: 'account_type', column: 'Account Type', class: 'text-center', style: 'width:10%', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: 'width:5%' }],
+        actions: [{ key: 'edit', name: 'Edit' }],
         source: {
           url: '/api/chart'
         }
@@ -19550,7 +19557,7 @@ const mutations = {
         state.accounts = data;
     },
     create(state, data) {
-        state.lookups = data;
+        state.lookups = data.lookups;
     }
 };
 
@@ -19575,7 +19582,8 @@ const accountChartsModule = {
     namespaced: true,
     state,
     mutations,
-    getters
+    getters,
+    actions
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (accountChartsModule);
@@ -28286,8 +28294,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('v-live-view', {
     attrs: {
       "grid": _vm.gridView
+    },
+    on: {
+      "action": _vm.doAction
     }
-  })], 1)])])
+  })], 1)]), _vm._v(" "), _c('account-register-dialog')], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -28942,7 +28953,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "name": "serial_number"
+      "name": "account.code"
     },
     domProps: {
       "value": (_vm.account.code)
@@ -28981,7 +28992,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": ""
     }
-  }, [_vm._v("--ACCOUNT TYPE--")]), _vm._v(" "), _vm._l((_vm.lookups.villa_location), function(look) {
+  }, [_vm._v("--ACCOUNT TYPE--")]), _vm._v(" "), _vm._l((_vm.lookups.account_type), function(look) {
     return _c('option', {
       domProps: {
         "value": look.code

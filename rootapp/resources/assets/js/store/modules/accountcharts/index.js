@@ -13,7 +13,7 @@ const mutations = {
         state.accounts = data;
     },
     create(state,data) {
-        state.lookups = data;
+        state.lookups = data.lookups;
     }
 };
 
@@ -29,6 +29,7 @@ const actions = {
             .then((response) => commit("create",response.data))
             .catch((error) => toastr.error(e.response.message));
     },
+
     save({state,commit},cb) {
         axiosRequest.post('chart','store',state.account)
             .then((response) => cb())
@@ -50,7 +51,8 @@ const accountChartsModule = {
     namespaced: true,
     state,
     mutations,
-    getters
+    getters,
+    actions
 }
 
 export default accountChartsModule;

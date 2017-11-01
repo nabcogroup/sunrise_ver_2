@@ -14,7 +14,9 @@ const mutations = {
     },
     create(state,data) {
         state.lookups = data.lookups;
-    }
+        state.account = data.account;
+    },
+    
 };
 
 
@@ -29,7 +31,9 @@ const actions = {
             .then((response) => commit("create",response.data))
             .catch((error) => toastr.error(e.response.message));
     },
-
+    redirect({state,commit}) {
+        axiosRequest.redirect('chart','');
+    },
     save({state,commit},cb) {
         axiosRequest.post('chart','store',state.account)
             .then((response) => cb())

@@ -46,6 +46,7 @@ class MenuRepository
                     ['name' => 'Payee Master File', 'url' => url('payee/'), 'icon' => 'fa-certificate'],
                     ['name' => '$separator', 'url' => ''],
                     ['name' => 'Fixed Asset', 'url' => url('fixed-asset/'), 'icon' => 'fa-certificate'],
+                    ['name' => 'Account Chart', 'url' => url('chart/'), 'icon' => 'fa-certificate'],
                 ],
             ],
             'management' => [

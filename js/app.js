@@ -1029,7 +1029,6 @@ class AxiosRequest {
     }
 
     route(url) {
-
         var img = window.imagePath;
         window.location.href = url;
         return this;
@@ -1037,7 +1036,17 @@ class AxiosRequest {
 
     redirect(controller, action = '', data = null, target = '_self') {
         var baseUrl = window.Laravel.baseUrl;
-        var url = baseUrl + "/" + controller + "/" + (action !== null ? action : "") + (data !== null ? "/" + data : "");
+
+        var urlObj = {
+            controller: controller,
+            action: action !== '' ? '/' + action : '',
+            data: data !== null ? '/' + data : '',
+            toUrlString() {
+                return urlObj.controller + urlObj.action + urlObj.data;
+            }
+        };
+
+        var url = baseUrl + "/" + urlObj.toUrlString();
         window.open(url, target);
     }
 
@@ -13763,7 +13772,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'AccountRegisterDialog',
+  name: "AccountRegisterDialog",
   mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
   computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("accountCharts", {
     lookups: "lookups"
@@ -13779,20 +13788,26 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     };
   },
   methods: {
-
+    close() {
+      __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit("accountChart.entry.close", true);
+    },
     open() {
-      this.$store.dispatch('accountCharts/create');
-      this.openDialog();
+      __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("accountChart.entry.open", value => {
+        if (value) {
+          this.$store.dispatch("accountCharts/edit", value.id);
+        } else {
+          this.$store.dispatch("accountCharts/create");
+        }
+        this.openDialog();
+      });
     },
     save() {
       this.$store.dispatch("accountCharts/save", () => {
         this.closeDialog();
         this.close();
       });
-
     }
   }
-
 });
 
 /***/ }),
@@ -13845,6 +13860,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
     create() {
       __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('accountChart.entry.open');
+      __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$on('accountChart.entry.close', () => {
+        __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('onLiveViewFetch');
+      });
+    },
+    doAction(a, item, index) {
+      if (a.key === 'edit') {
+        __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('accountChart.entry.open', { id: item.id });
+      }
     }
   }
 });
@@ -19558,7 +19581,9 @@ const mutations = {
     },
     create(state, data) {
         state.lookups = data.lookups;
+        state.account = data.account;
     }
+
 };
 
 const actions = {
@@ -19568,7 +19593,12 @@ const actions = {
     create({ state, commit }) {
         axiosRequest.dispatchGet("/api/chart/create").then(response => commit("create", response.data)).catch(error => toastr.error(e.response.message));
     },
-    save({ state, commit }) {},
+    redirect({ state, commit }) {
+        axiosRequest.redirect('chart', '');
+    },
+    save({ state, commit }, cb) {
+        axiosRequest.post('chart', 'store', state.account).then(response => cb()).catch(error => toastr.error(e.response.message));
+    },
     edit({ state, commit }) {}
 };
 
@@ -20238,7 +20268,7 @@ const actions = {
         axiosRequest.redirect("fixed-asset", "");
     },
     redirectToUpdate({ state, commit }, payload) {
-        axiosRequest.redirect('fixed-asset', 'register', payload.id);
+        axiosRequest.redirect('fixed-asset', '', payload.id);
     },
     update() {}
 };
@@ -28994,6 +29024,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("--ACCOUNT TYPE--")]), _vm._v(" "), _vm._l((_vm.lookups.account_type), function(look) {
     return _c('option', {
+      key: look.code,
       domProps: {
         "value": look.code
       }

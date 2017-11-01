@@ -45,11 +45,13 @@ export default {
   methods: {
       create() {
           EventBus.$emit('accountChart.entry.open');
+          EventBus.$on('accountChart.entry.close',() =>{
+              EventBus.$emit('onLiveViewFetch');
+          })
       },
       doAction(a, item, index) {
           if(a.key === 'edit') {
               EventBus.$emit('accountChart.entry.open',{id: item.id});
-
           }
       }
     }

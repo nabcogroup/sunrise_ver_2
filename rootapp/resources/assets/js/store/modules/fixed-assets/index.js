@@ -87,7 +87,7 @@ const actions = {
         axiosRequest.redirect("fixed-asset","");
     },
     redirectToUpdate({ state,commit },payload) {
-        axiosRequest.redirect('fixed-asset','register',payload.id);
+        axiosRequest.redirect('fixed-asset','',payload.id);
     },
     update() {
         

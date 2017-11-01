@@ -38,9 +38,10 @@ class AccountChartController extends Controller
     public function create()
     {
 
+        $accountChart = AccountChart::createInstance();
         $lookups = Selection::getSelections(["account_type"]);
         
-        return response()->json(["lookups" => $lookups]);
+        return response()->json(["lookups" => $lookups, "account" => $accountChart]);
     }
 
     public function store(Request $request)

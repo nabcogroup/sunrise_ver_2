@@ -13793,10 +13793,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
       });
     },
     save() {
-      this.$store.dispatch("accountCharts/save", () => {
-        this.closeDialog();
-        this.close();
-      });
+      // this.$store.dispatch("accountCharts/save", () => {
+      //   this.closeDialog();
+      //   this.close();
+      // });
+      console.log('test');
     }
   }
 

@@ -45,20 +45,14 @@ class AccountChartController extends Controller
 
     public function store(Request $request)
     {
-
-        
         $this->validateEntry($request);
 
         try {
-            if ($request->input("id", 0) == 0) {
-                $accountChart = AccountChart::create($request->all());
-            } else {
-                $accountChart = AccountChart::find($request->input("id"));
-                $accountChart->toMap($request->all());
-                $accountChart->save();
-            }
             
+            $accountChart = $this->repo->attach($request->all())->instance();
+
             return Result::ok("Account successfully save", $accountChart);
+            
         } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }
@@ -68,7 +62,9 @@ class AccountChartController extends Controller
     {
 
         try {
-            $accounts = AccountChart::find($id);
+            
+            $accounts = $this->repo->findById($id);
+
             if ($accounts) {
                 $lookups = Selection::getSelections(["account_type"]);
             }

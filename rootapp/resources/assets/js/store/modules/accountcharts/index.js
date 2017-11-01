@@ -29,8 +29,11 @@ const actions = {
             .then((response) => commit("create",response.data))
             .catch((error) => toastr.error(e.response.message));
     },
-    save({state,commit}) {
 
+    save({state,commit},cb) {
+        axiosRequest.post('chart','store',state.account)
+            .then((response) => cb())
+            .catch((error) => toastr.error(e.response.message));
     },
     edit({state,commit}) {
 

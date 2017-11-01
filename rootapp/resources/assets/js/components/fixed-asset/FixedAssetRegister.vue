@@ -9,7 +9,7 @@
                     <v-tab tab-id="summary">Summary</v-tab>
                     <v-tab tab-id="depreciation">Depreciation Value</v-tab>
                 </v-tab-group>
-                <div class="tab-content" style="margin-top:15px; ">
+                <div class="tab-content" style="margin-top:15px; " v-if="fixedAssetTab == 'summary'">
                     <div class="col-md-8">
                         <div class="form-horizontal">
                             <div class="form-group">
@@ -74,6 +74,22 @@
                                     <error-span v-model="errorValidations" name="year_span"></error-span>
                                 </div>
                             </div>
+                             <div class="form-group">
+                                <label for="opening_date" class="col-md-2 text-right">Opening Date:</label>
+                                <div class="col-md-4">
+                                    <dt-picker
+                                            :value="data.opening_date"
+                                            :disabled="lockEdited"
+                                            @pick="data.opening_date =$event"></dt-picker>
+                                    <error-span v-model="errorValidations" name="opening_date"></error-span>
+                                </div>
+                                <label for="opening_amount" class="col-md-2 text-right">Opening Amount</label>
+                                <div class="col-md-4">
+                                   <input class="form-control" type="number" v-model="data.opening_amount"
+                                           :disabled="lockEdited">
+                                    <error-span v-model="errorValidations" name="opening_amount"></error-span>
+                                </div>
+                            </div>
                             <v-input-wrapper label="Salvage Value:"
                                              label-class="col-md-2 text-right"
                                              control-class="col-md-4">
@@ -125,6 +141,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="tab-content" style="margin-top:15px; " v-if="fixedAssetTab == 'depreciation'">
+                    <data-view :grid="grid">
+                        <template slot="body" scope="props">
+                            
+                        </template>
+                    </data-view>
+                </div>
             </v-panel>
         </div>
     </div>
@@ -147,6 +170,15 @@
         },
         data() {
             return {
+                grid: {
+                    columns: [
+                        {name: 'op_date', column: 'Opening Date'},
+                        {name: 'op_amount', column: 'Opening Amount'},
+                        {name: 'dp_amount', column: 'Depriciated Amount'},
+                        {name: 'book_value', column: 'Book Value'},
+                        {name: 'cummulative_amount', column: 'Cummulative Amount'}
+                    ]
+                },
                 fixedAssetTab: "summary",
                 showTab: false,
                 showSummary: false,

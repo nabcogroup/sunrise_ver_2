@@ -33,5 +33,7 @@ class AccountChartRepository extends AbstractRepository {
         });
 
     }
+
+    
 }
 

@@ -16898,11 +16898,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ["id"],
     mounted() {
+
         if (this.id) {
+
             this.$store.dispatch("fixedAsset/edit", { id: this.id });
             this.enableReading();
         } else {
             this.$store.dispatch("fixedAsset/create");
+            this.enableEditing();
         }
     },
     data() {
@@ -17367,8 +17370,6 @@ const confirmation = {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__eventbus__ = __webpack_require__(2);
-//
-//
 //
 //
 //
@@ -18892,9 +18893,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         disabled: false,
         value: String
     },
-    mounted() {
-        console.log(this.value);
-    },
+    mounted() {},
     methods: {
         onChange(value) {
             this.$emit('input', value);
@@ -20332,7 +20331,7 @@ const actions = {
         axiosRequest.redirect("fixed-asset", "");
     },
     redirectToUpdate({ state, commit }, payload) {
-        axiosRequest.redirect('fixed-asset', '', payload.id);
+        axiosRequest.redirect('fixed-asset', 'register', payload.id);
     },
     update() {}
 };
@@ -33631,7 +33630,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "value": ""
       }
-    }, [_vm._v("\n                            " + _vm._s(input.default_text) + "\n                        ")]) : _vm._e(), _vm._v(" "), _vm._l((_vm.selected.params.lookups[input.selection]), function(lookup, index) {
+    }, [_vm._v(_vm._s(input.default_text))]) : _vm._e(), _vm._v(" "), _vm._l((_vm.selected.params.lookups[input.selection]), function(lookup, index) {
       return _c('option', {
         key: index,
         domProps: {

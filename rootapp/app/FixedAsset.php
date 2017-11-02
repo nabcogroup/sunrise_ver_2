@@ -4,12 +4,14 @@ namespace App;
 
 use Carbon\Carbon;
 use App\Selection;
+use App\Depreciation;
 use Illuminate\Database\Eloquent\Model;
 
 class FixedAsset extends BaseModel
 {
 
     protected $fillable = ["purchase_date","description","fixed_asset_type","property","cost","tag_code","serial_no","year_span"];
+    
     protected $appends = [
         "full_fixed_asset_type",
         "full_property",
@@ -25,7 +27,6 @@ class FixedAsset extends BaseModel
         return $fixedAsset;
     }
 
-
     public function __construct($values = array()) {
         
         $this->purchase_date = Carbon::now()->toDateString();
@@ -39,6 +40,10 @@ class FixedAsset extends BaseModel
         $this->salvage_value = 0;
         $this->opening_date = Carbon::now();
         $this->opening_amount = 0;
+    }
+
+    public function depriciations() {
+        return $this->hasMany(Depreciation::class,'fixed_asset_id','id');
     }
 
     public function getFullFixedAssetTypeAttribute() {

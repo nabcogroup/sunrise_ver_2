@@ -28,13 +28,13 @@ class FixedAssetRepository extends AbstractRepository {
         if(!is_null($filter_field)) {
             if($filter_field == 'fixed_asset_type') {
                 $selection = Selection::where('category','fixed_asset_type')->where('name','like','%'.$filter_value.'%')->first();
-
                 $filter_value = (!is_null($selection)) ? $selection->code : '';
             }
             else if($filter_field == 'villa_location') {
                 $selection = Selection::where('category','villa_location')->where('name','like','%'.$filter_value.'%')->first();
                 $filter_value = (!is_null($selection)) ? $selection->code : '';
             }
+            
             $fixedAssets = $fixedAssets->where($filter_field,'like','%'.$filter_value.'%');
         }
 
@@ -57,6 +57,15 @@ class FixedAssetRepository extends AbstractRepository {
 
             return $item;
         });
+    }
+
+    public function saveFixedAsset($entity) {
+
+        $model = $this->attach($entity)->instance();
+
+        //create depreciation table
+        
+
     }
 
     

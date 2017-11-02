@@ -154,12 +154,15 @@
     export default {
         props: ["id"],
         mounted() {
+            
             if (this.id) {
+                
                 this.$store.dispatch("fixedAsset/edit", {id: this.id});
                 this.enableReading();
             }
             else {
                 this.$store.dispatch("fixedAsset/create");
+                this.enableEditing();
             }
         },
         data() {

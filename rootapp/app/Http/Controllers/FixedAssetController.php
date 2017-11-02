@@ -26,6 +26,7 @@ class FixedAssetController extends Controller
     }
 
     public function register($id = null) {
+
         return view('fixed-asset.register',compact('id'));
     }
 
@@ -40,17 +41,17 @@ class FixedAssetController extends Controller
 
     public function create()
     {
-        
         $data = $this->repository->createInstance();
+
         $lookups = Selection::getSelections(['villa_location','fixed_asset_type']);
-        
+
         return compact('lookups', 'data');
     }
 
     public function edit($id)
     {
          $fixedAsset = $this->repository->find($id);
-         
+
          $lookups = Selection::getSelections(['villa_location','fixed_asset_type']);
 
          return compact('lookups','fixedAsset');
@@ -61,6 +62,7 @@ class FixedAssetController extends Controller
     {
         $input = $request->filterInput();
         try {
+            
             $model = $this->repository->attach($input)->instance();
             return Result::ok('successful',$model);
         }
@@ -71,5 +73,16 @@ class FixedAssetController extends Controller
 
     public function cancel()
     {
+    }
+
+    public function addDepreciation(Request $request) {
+
+        $this->validate($request,[
+            'fixed_asset_id'    =>  'required',
+            'ob_amount'         =>  'required',
+            'ob_year'           =>  'required',
+            'depreciated_value' =>  'required'
+        ]);
+
     }
 }

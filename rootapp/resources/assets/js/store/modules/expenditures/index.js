@@ -31,7 +31,7 @@ const mutations = {
     },
     redirectToRegister(state,payload) {
         if(payload) {
-            axiosRequest.redirect('expenses','create',payload.id);
+            axiosRequest.redirect('expenses','',payload.id);
         }
         else {
             axiosRequest.redirect('expenses','create');

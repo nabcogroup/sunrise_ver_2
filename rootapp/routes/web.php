@@ -163,7 +163,7 @@ Route::group(["middleware" => ["auth","roles"],"roles" => ["account"]],
         Route::get("api/expenses/create","ExpenditureController@apiCreate");
         Route::post("api/expenses/store","ExpenditureController@apiStore");
         Route::post("api/expenses/update","ExpenditureController@apiStore");
-        Route::get("api/expenses/{id}/edit","ExpenditureController@apiEdit");
+        Route::get("api/expenses/edit/{id}","ExpenditureController@apiEdit");
         Route::get("api/expenses/{property?}","ExpenditureController@apiGetAll");
     }
 );

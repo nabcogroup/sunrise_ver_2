@@ -59,12 +59,18 @@ class ExpenditureRepository extends AbstractRepository
             $params['property'] = $property_code;
         }
 
-        $modelDb = $modelDb->select('expenditures.location','payment_date','villa_no','expense_type','account_charts.code','account_charts.description','payees.name','amount');
+        $modelDb = $modelDb->select(
+            'expenditures.id',
+            'expenditures.location',
+            'payment_date',
+            'villa_no',
+            'expense_type','account_charts.code','account_charts.description','payees.name','amount');
         
         return $this->createPagination($modelDb,
 
             function ($row) {
                 $item = [
+                    'id'                =>  $row->id,
                     'location'          =>  Selection::getValue('villa_no',$row->location),
                     'payment_date'      =>  Carbon::parse($row->payment_date)->format('d-M-Y'),
                     'villa'             =>  $row->villa_no,

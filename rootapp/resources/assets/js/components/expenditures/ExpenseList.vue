@@ -53,13 +53,12 @@
             }
         },
         methods: {
-            onSearch(value) {
-                
+            onSearch(value) {          
                 this.gridView.source.params.property = value;
                 EventBus.$emit("onLiveViewFetch");
             },
             doAction(a, item, index) {
-                
+
               if(a.key === 'edit') {
                   this.$store.commit('expenditures/redirectToRegister', {id: item.id});
               }

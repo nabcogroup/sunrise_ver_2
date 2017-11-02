@@ -1,7 +1,10 @@
 <template>
     <v-panel header="Fixed Asset">
         <div class="row">
-            <div class="col-md-2 col-md-offset-10">
+          <div class="col-md-10">
+                <v-search :config="searchObj" @click="onSearch"></v-search>
+          </div>
+            <div class="col-md-2">
                 <button class="btn btn-info btn-block" @click="create">
                     <i class="fa fa-plus"></i> Add Fixed Assets
                 </button>
@@ -40,9 +43,17 @@
                         {key: 'edit', name: 'Edit'}
                     ],
                     source: {
-                        url: '/api/fixed-asset'
+                        url: 'api/fixed-asset',
+                        params: {property: ''}
                     }
-                }
+                },
+                searchObj: {
+                    api: '/api/property',
+                    source: 'fixed-asset',
+                    keyValue: 'code',
+                    keyText: 'name'
+                },
+                returnValue: ''
             }
         },
         methods: {
@@ -58,6 +69,10 @@
                 EventBus.$on('fixedAsset.frame.close', () => {
                     this.$store.dispatch('fixedAsset/redirect')
                 })
+            },
+            onSearch(value) {
+                this.gridView.source.params.property = value;
+                EventBus.$emit("onLiveViewFetch");
             }
         }
     };

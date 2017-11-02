@@ -54,7 +54,7 @@ class FixedAsset extends BaseModel
     }
 
     public function getTotalCostForDepAttribute() {
-        return $this->cost - $this->salvage_value;
+        return $this->opening_amount;
     }
 
     public function getDepreciationPercentageAttribute() {
@@ -69,7 +69,7 @@ class FixedAsset extends BaseModel
     }
 
     public function getCurrentTotalYearAttribute() {
-        return $this->appends['current_total_year'] = Carbon::now()->diff(Carbon::parse($this->purchase_date))->y;
+        return $this->appends['current_total_year'] = Carbon::now()->diff(Carbon::parse($this->opening_date))->y;
     }
 
     public function getCurrentBookValueAttribute() {

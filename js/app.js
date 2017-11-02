@@ -16295,7 +16295,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data() {
         return {
             gridView: {
-                columns: [{ name: 'payment_date', column: 'Payment Date', class: 'text-center', dtype: 'date' }, { name: 'location', column: 'Villa Location', class: 'text-center', filter: true }, { name: 'villa', column: 'Villa No', class: 'text-center', filter: true }, { name: 'expense_type', column: 'Expense Type', class: 'text-center', filter: true }, { name: 'payee', column: 'Paid To', class: 'text-center' }, { name: 'amount', column: 'Amount', class: 'text-center' }, { name: '$action', column: ' ', static: true, class: 'text-center', style: 'width:5%' }],
+                columns: [{ name: 'payment_date', column: 'Payment Date', class: 'text-center', dtype: 'date' }, { name: 'villa_no', column: 'Villa No', class: 'text-center', filter: true }, { name: 'expense_type', column: 'Expense Type', class: 'text-center', filter: true }, { name: 'name', column: 'Paid To', class: 'text-center', filter: true }, { name: 'amount', column: 'Amount', class: 'text-center' }, { name: '$action', column: ' ', static: true, class: 'text-center', style: 'width:5%' }],
                 actions: [{ key: 'edit', name: 'Edit' }],
                 source: {
                     url: 'api/expenses',
@@ -16742,12 +16742,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(3);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -30579,44 +30573,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "errorValidations"
     }
-  })], 1)]), _vm._v(" "), _c('v-input-wrapper', {
-    attrs: {
-      "label": "Salvage Value:",
-      "label-class": "col-md-2 text-right",
-      "control-class": "col-md-4"
-    }
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.data.salvage_value),
-      expression: "data.salvage_value"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "disabled": _vm.lockEdited
-    },
-    domProps: {
-      "value": (_vm.data.salvage_value)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.data.salvage_value = $event.target.value
-      }
-    }
-  }), _vm._v(" "), _c('error-span', {
-    attrs: {
-      "name": "salvage_value"
-    },
-    model: {
-      value: (_vm.errorValidations),
-      callback: function($$v) {
-        _vm.errorValidations = $$v
-      },
-      expression: "errorValidations"
-    }
-  })], 1)], 1)]), _vm._v(" "), _c('div', {
+  })], 1)])], 1)]), _vm._v(" "), _c('div', {
     staticClass: "col-md-4"
   }, [(!_vm.lockEdited) ? _c('button', {
     staticClass: "btn btn-info btn-block",

@@ -90,12 +90,6 @@
                                     <error-span v-model="errorValidations" name="opening_amount"></error-span>
                                 </div>
                             </div>
-                            <v-input-wrapper label="Salvage Value:"
-                                             label-class="col-md-2 text-right"
-                                             control-class="col-md-4">
-                                <input class="form-control" v-model="data.salvage_value" :disabled="lockEdited">
-                                <error-span v-model="errorValidations" name="salvage_value"></error-span>
-                            </v-input-wrapper>
                         </div>
                     </div>
                     <div class="col-md-4">

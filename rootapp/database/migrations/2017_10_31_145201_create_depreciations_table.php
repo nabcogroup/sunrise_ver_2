@@ -23,18 +23,21 @@ class CreateDepreciationsTable extends Migration
 
             $table->decimal('ob_amount');
 
-            $table->date('cb_date');
-
-            $table->decimal('cb_amount');
+            $table->integer('ob_year');
 
             $table->decimal('depreciated_value');
 
             $table->decimal('book_value');
 
-            $table->decimal('cummulative_amount');
-
+            $table->string('acct_code');
 
             $table->timestamps();
+
+             //foreign key
+             $table->foreign('fixed_asset_id')
+             ->references('id')
+             ->on('fixed_assets')
+             ->onDelete('cascade');
         });
     }
    

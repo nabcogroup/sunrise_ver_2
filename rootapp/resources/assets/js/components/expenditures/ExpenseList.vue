@@ -29,10 +29,9 @@
                 gridView: {
                     columns: [
                         {name: 'payment_date', column: 'Payment Date', class: 'text-center', dtype: 'date'},
-                        {name: 'location', column: 'Villa Location', class: 'text-center', filter: true},
-                        {name: 'villa', column: 'Villa No', class: 'text-center', filter:true},
+                        {name: 'villa_no', column: 'Villa No', class: 'text-center', filter:true},
                         {name: 'expense_type', column: 'Expense Type', class: 'text-center', filter: true},
-                        {name: 'payee', column: 'Paid To', class: 'text-center'},
+                        {name: 'name', column: 'Paid To', class: 'text-center', filter:true},
                         {name: 'amount', column: 'Amount', class: 'text-center'},
                         {name: '$action', column: ' ', static: true, class: 'text-center', style: 'width:5%'}
                     ],

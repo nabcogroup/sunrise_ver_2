@@ -36,19 +36,16 @@ import { toggleModal } from "../mixins";
     },
     methods: {
       close() {
-        EventBus.$emit("fixedAsset.entry.close", true);
+        EventBus.$emit("depreciation.entry.close", true);
       },
       open() {
-        EventBus.$on("fixedAsset.entry.open", value => {
+        EventBus.$on("depreciation.entry.open", value => {
           this.$store.dispatch("depreciation/create");
           this.openDialog();
         });
       },
       save() {
-        this.$store.dispatch("depreciation/save", () => {
-          this.closeDialog();
-          this.close();
-        });
+        
       }
     }
   }

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Selection;
+use App\Services\EDB;
 use Carbon\Carbon;
 use App\FixedAsset;
 use App\Traits\PaginationTrait;
@@ -22,20 +23,21 @@ class FixedAssetRepository extends AbstractRepository {
     }
 
    
-    public function getAssets($filter_field,$filter_value) {
+    public function getAssets($property,$filter_field,$filter_value) {
 
         $fixedAssets = $this->model->orderBy('description');
+
         if(!is_null($filter_field)) {
             if($filter_field == 'fixed_asset_type') {
                 $selection = Selection::where('category','fixed_asset_type')->where('name','like','%'.$filter_value.'%')->first();
                 $filter_value = (!is_null($selection)) ? $selection->code : '';
             }
-            else if($filter_field == 'villa_location') {
-                $selection = Selection::where('category','villa_location')->where('name','like','%'.$filter_value.'%')->first();
-                $filter_value = (!is_null($selection)) ? $selection->code : '';
-            }
-            
+
             $fixedAssets = $fixedAssets->where($filter_field,'like','%'.$filter_value.'%');
+        }
+
+        if(!is_null($property)) {
+            $fixedAssets->where('property',$property);
         }
 
 

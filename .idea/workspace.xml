@@ -10,87 +10,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ExpenditureController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-153">
-              <caret line="25" column="36" lean-forward="true" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ExpenditureRepository.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/ExpenditureRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="58" column="49" lean-forward="true" selection-start-line="58" selection-start-column="49" selection-end-line="58" selection-end-column="49" />
-              <folding>
-                <element signature="e#128#149#0#PHP" expanded="true" />
-                <marker date="1509559252267" expanded="true" signature="1310:1438" ph="..." />
-                <marker date="1509559252267" expanded="true" signature="1698:2344" ph="..." />
-                <marker date="1509559252267" expanded="true" signature="1724:2298" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BaseModel.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/BaseModel.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PropertyController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/PropertyController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="10" column="27" lean-forward="false" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-              <folding>
-                <element signature="e#40#58#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="web.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="100" column="46" lean-forward="false" selection-start-line="100" selection-start-column="46" selection-end-line="100" selection-end-column="46" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VillaRepository.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/VillaRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="27" column="38" lean-forward="true" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EDB.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/app/Services/EDB.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="42" column="44" lean-forward="true" selection-start-line="42" selection-start-column="44" selection-end-line="42" selection-end-column="44" />
-              <folding>
-                <element signature="e#125#153#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -171,18 +91,14 @@
         <option value="$PROJECT_DIR$/rootapp/app/Http/Requests/FixedAssetForm.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetRegisterDialog.vue" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/FixedAssetController.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue" />
-        <option value="$PROJECT_DIR$/rootapp/app/Repositories/FixedAssetRepository.php" />
         <option value="$PROJECT_DIR$/rootapp/config/dompdf.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VComboBox.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetList.vue" />
         <option value="$PROJECT_DIR$/rootapp/app/FixedAsset.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/fixed-assets/index.js" />
         <option value="$PROJECT_DIR$/rootapp/app/Repositories/AccountChartRepository.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/AccountChartController.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetRegister.vue" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/PropertyController.php" />
         <option value="$PROJECT_DIR$/rootapp/routes/web.php" />
         <option value="$PROJECT_DIR$/rootapp/app/BaseModel.php" />
@@ -190,6 +106,10 @@
         <option value="$PROJECT_DIR$/rootapp/app/Services/EDB.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Repositories/TenantRepository.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Repositories/FixedAssetRepository.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/FixedAssetController.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetList.vue" />
       </list>
     </option>
   </component>
@@ -255,6 +175,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -272,13 +193,46 @@
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
               <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="fixed-asset" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -637,11 +591,12 @@
       <workItem from="1509554078025" duration="1793000" />
       <workItem from="1509555886920" duration="1791000" />
       <workItem from="1509557696289" duration="1781000" />
+      <workItem from="1509642652883" duration="1558000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="929150000" />
+    <option name="totallyTimeSpent" value="930708000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -654,9 +609,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1977612" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19989339" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2820513" sideWeight="0.38303342" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -860,13 +814,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/FixedAssetController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="36" column="41" lean-forward="false" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2142">
@@ -944,13 +891,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="51" column="35" lean-forward="false" selection-start-line="51" selection-start-column="35" selection-end-line="51" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/fixed-assets/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="952">
@@ -962,13 +902,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="986">
           <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/FixedAssetRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="40" column="0" lean-forward="false" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -995,10 +928,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/PropertyController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
+        <state relative-caret-position="170">
           <caret line="10" column="27" lean-forward="false" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
           <folding>
-            <element signature="e#40#58#0#PHP" expanded="true" />
+            <element signature="e#40#58#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1007,7 +940,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1884">
           <caret line="494" column="20" lean-forward="false" selection-start-line="494" selection-start-column="20" selection-end-line="494" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1015,16 +947,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="479">
           <caret line="153" column="45" lean-forward="false" selection-start-line="153" selection-start-column="45" selection-end-line="153" selection-end-column="45" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Services/EDB.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
+        <state relative-caret-position="612">
           <caret line="42" column="44" lean-forward="true" selection-start-line="42" selection-start-column="44" selection-end-line="42" selection-end-column="44" />
           <folding>
-            <element signature="e#125#153#0#PHP" expanded="true" />
+            <element signature="e#125#153#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1042,22 +973,40 @@
         <state relative-caret-position="293">
           <caret line="56" column="22" lean-forward="true" selection-start-line="56" selection-start-column="22" selection-end-line="56" selection-end-column="22" />
           <folding>
-            <element signature="e#36#57#0#PHP" expanded="true" />
+            <element signature="e#36#57#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
+        <state relative-caret-position="1547">
           <caret line="100" column="46" lean-forward="false" selection-start-line="100" selection-start-column="46" selection-end-line="100" selection-end-column="46" />
-          <folding />
+          <folding>
+            <marker date="1509642521594" expanded="true" signature="5849:6031" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="5932:6031" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="7315:7357" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="7315:7359" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="7367:7491" ph=" Report ..." />
+            <marker date="1509642521594" expanded="true" signature="7507:7773" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="7577:7772" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="7790:7982" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="7864:7981" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="7990:8113" ph=" Payee ..." />
+            <marker date="1509642521594" expanded="true" signature="8129:8369" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="8197:8368" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="8386:8727" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="8458:8726" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="8734:8858" ph=" Tenant ..." />
+            <marker date="1509642521594" expanded="true" signature="8874:9156" ph="..." />
+            <marker date="1509642521594" expanded="true" signature="8943:9155" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/VillaRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
+        <state relative-caret-position="408">
           <caret line="27" column="38" lean-forward="true" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="38" />
           <folding />
         </state>
@@ -1065,7 +1014,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/BaseModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
+        <state relative-caret-position="544">
           <caret line="34" column="5" lean-forward="true" selection-start-line="34" selection-start-column="5" selection-end-line="34" selection-end-column="5" />
           <folding />
         </state>
@@ -1073,21 +1022,58 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/ExpenditureRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
+        <state relative-caret-position="816">
           <caret line="58" column="49" lean-forward="true" selection-start-line="58" selection-start-column="49" selection-end-line="58" selection-end-column="49" />
           <folding>
-            <element signature="e#128#149#0#PHP" expanded="true" />
-            <marker date="1509559252267" expanded="true" signature="1310:1438" ph="..." />
-            <marker date="1509559252267" expanded="true" signature="1698:2344" ph="..." />
-            <marker date="1509559252267" expanded="true" signature="1724:2298" ph="..." />
+            <element signature="e#128#149#0#PHP" expanded="false" />
+            <marker date="1509621448850" expanded="true" signature="2378:2564" ph="..." />
+            <marker date="1509621448850" expanded="true" signature="2378:2546" ph="..." />
+            <marker date="1509621448850" expanded="true" signature="2378:2500" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-153">
+        <state relative-caret-position="17">
           <caret line="25" column="36" lean-forward="true" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="36" />
+          <folding>
+            <marker date="1509607196917" expanded="true" signature="393:2731" ph="{...}" />
+            <marker date="1509607196917" expanded="true" signature="1186:1666" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="1569:1659" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="1570:1658" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="1725:2052" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="1783:1941" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="1972:2046" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="2089:2720" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="2103:2608" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="2499:2597" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="2500:2596" ph="..." />
+            <marker date="1509607196917" expanded="true" signature="2639:2713" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/FixedAssetController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="36" column="0" lean-forward="false" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/FixedAssetRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="25" column="32" lean-forward="false" selection-start-line="25" selection-start-column="32" selection-end-line="25" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/fixed-asset/FixedAssetList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="30" column="20" lean-forward="false" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
           <folding />
         </state>
       </provider>

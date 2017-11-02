@@ -162,83 +162,77 @@
 </template>
 
 <script>
-    import {ErrorValidations} from "../../helpers/helpers";
-    import {mapGetters, mapState} from "vuex";
-    import DepreciationDialog from "./DepreciationDialog.vue"
-    import {EventBus} from "../../eventbus";
-    export default {
-      components: {
-        DepreciationDialog
+import { ErrorValidations } from "../../helpers/helpers";
+import { mapGetters, mapState } from "vuex";
+import DepreciationDialog from "./DepreciationDialog.vue";
+import { EventBus } from "../../eventbus";
+export default {
+  components: {
+    DepreciationDialog
+  },
+  props: ["id"],
+  mounted() {
+    if (this.id) {
+      this.$store.dispatch("fixedAsset/edit", { id: this.id });
+      this.enableReading();
+    } else {
+      this.$store.dispatch("fixedAsset/create");
+      this.enableEditing();
+    }
+  },
+  data() {
+    return {
+      grid: {
+        columns: [
+          { name: "op_date", column: "Opening Date" },
+          { name: "op_amount", column: "Opening Amount" },
+          { name: "dp_amount", column: "Depriciated Amount" },
+          { name: "book_value", column: "Book Value" },
+          { name: "cummulative_amount", column: "Cummulative Amount" }
+        ]
       },
-        props: ["id"],
-        mounted() {
-            
-            if (this.id) {
-                
-                this.$store.dispatch("fixedAsset/edit", {id: this.id});
-                this.enableReading();
-            }
-            else {
-                this.$store.dispatch("fixedAsset/create");
-                this.enableEditing();
-            }
-        },
-        data() {
-            return {
-                grid: {
-                    columns: [
-                        {name: 'op_date', column: 'Opening Date'},
-                        {name: 'op_amount', column: 'Opening Amount'},
-                        {name: 'dp_amount', column: 'Depriciated Amount'},
-                        {name: 'book_value', column: 'Book Value'},
-                        {name: 'cummulative_amount', column: 'Cummulative Amount'}
-                    ]
-                },
-                fixedAssetTab: "summary",
-                showTab: false,
-                showSummary: false,
-                lockEdited: false,
-                isRefresh: false
-            };
-        },
-        computed: {
-            ...mapGetters("fixedAsset", {
-                lookups: "lookups",
-                errorValidations: "errorValidations"
-            }),
-            ...mapState("fixedAsset", {
-                data: state => state.data
-            })
-        },
-        methods: {
-          create() {
-              EventBus.$emit('fixedAsset.entry.open');
-              EventBus.$on('fixedAsset.entry.close',() =>{
-                  EventBus.$emit('onLiveViewFetch');
-              })
-          },
-            save() {
-                this.$store.dispatch("fixedAsset/save", () => {
-                    this.$store.redirectToList();
-                });
-            },
-            refresh() {
-                this.isRefresh = true;
-                this.$store.dispatch("fixedAsset/refresh",() => {
-                    this.isRefresh = false;
-                });
-            },
-            enableReading() {
-                this.showTab = true;
-                this.showSummary = true;
-                this.lockEdited = true;
-            },
-            enableEditing() {
-                this.showTab = false;
-                this.showSummary = false;
-                this.lockEdited = false;
-            }
-
-        }
+      fixedAssetTab: "summary",
+      showTab: false,
+      showSummary: false,
+      lockEdited: false,
+      isRefresh: false
     };
+  },
+  computed: {
+    ...mapGetters("fixedAsset", {
+      lookups: "lookups",
+      errorValidations: "errorValidations"
+    }),
+    ...mapState("fixedAsset", {
+      data: state => state.data
+    })
+  },
+  methods: {
+    create() {
+      EventBus.$emit("depreciation.entry.open");
+      EventBus.$on("depreciation.entry.close", () => {});
+    },
+    save() {
+      this.$store.dispatch("fixedAsset/save", () => {
+        this.$store.redirectToList();
+      });
+    },
+    refresh() {
+      this.isRefresh = true;
+      this.$store.dispatch("fixedAsset/refresh", () => {
+        this.isRefresh = false;
+      });
+    },
+    enableReading() {
+      this.showTab = true;
+      this.showSummary = true;
+      this.lockEdited = true;
+    },
+    enableEditing() {
+      this.showTab = false;
+      this.showSummary = false;
+      this.lockEdited = false;
+    }
+  }
+};
 </script>

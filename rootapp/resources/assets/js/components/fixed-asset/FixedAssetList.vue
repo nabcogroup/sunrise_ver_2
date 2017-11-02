@@ -34,7 +34,7 @@
                         {name: 'full_purchase_date', column: 'Purchase Date', filter: true, class: 'text-center', style: 'width:10%'},
                         {name: 'full_fixed_asset_type', column: 'Asset Type', filter: true, filterBind: 'fixed_asset_type', class:'text-center',style:'width:10%'},
                         {name: 'description', column: 'Description', filter: true},
-                        {name: 'full_property', column: 'Property', filter: true},
+                        {name: 'full_property', column: 'Property'},
                         {name: 'cost', column: 'Cost', filter: true, dtype: 'currency', class: 'text-right'},
                         {name: 'tag_code', column: 'Tag No', filter: true},
                         {name: '$action', column: ' ', static: true, class: 'text-center', style: "width:5%"}

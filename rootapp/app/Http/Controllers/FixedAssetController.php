@@ -30,12 +30,12 @@ class FixedAssetController extends Controller
         return view('fixed-asset.register',compact('id'));
     }
 
-    public function all(Request $request) {
+    public function all($property = null, Request $request) {
 
-        $filter_field = $request->input('filter_field');
-        $filter_value = $request->input('filter_value');
+        $filter_field = $request->input('filter_field',null);
+        $filter_value = $request->input('filter_value',null);
 
-        return $this->repository->getAssets($filter_field,$filter_value);
+        return $this->repository->getAssets($property,$filter_field,$filter_value);
     }
 
 

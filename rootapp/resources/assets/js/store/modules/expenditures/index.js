@@ -75,6 +75,18 @@ const actions = {
                 }
             });
     },
+    edit({commit,state}) {
+        axiosRequest.post('expenses','update',state.expense)
+        .then(r => {
+            toastr.success('Save successfully!!!');
+            commit("redirectToList");
+        })
+        .catch(e => {
+            if(e.response.status === 422) {
+                state.errors.expense.register(e.response.data);
+            }
+        });
+    },
     fetchPayees({commit,state}) {
         axiosRequest.post('payee','store',state.payee.single)
             .then(r => {

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Services\EDB;
 use Carbon\Carbon;
 use App\Selection;
 use Dompdf\Exception;
@@ -53,44 +54,25 @@ class ContractRepository extends AbstractRepository
 
     public function getContracts($state,$filter_field = null,$filter_value = null) {
 
-        $contracts = $this->createDb('contracts')
-            ->join('villas', 'contracts.villa_id', '=', 'villas.id')
-            ->join('tenants', 'contracts.tenant_id', '=', 'tenants.id')
-            ->leftJoin('contract_bills','contracts.id','=','contract_bills.contract_id')
-            ->select(
-                "contracts.id",
-                "contracts.contract_no",
-                "villas.villa_no",
-                "tenants.full_name",
-                "contracts.created_at AS contract_created",
-                "contracts.period_start",
-                "contract_bills.bill_no",
-                "contracts.period_end_extended", "contracts.amount", "contracts.status AS contracts_status")
-            ->where('contracts.status', $state);
-
         $params  = [];
-        if ($filter_field) {
-            
-            $params = ['filter_field' => $filter_field,'filter_value' => $filter_value];
+        $edb = EDB::createQuery('contracts');
+        $modelDb =  $edb->joins([
+                        'villas'    =>  'contracts.villa_id=villas.id',
+                        'tenants'   =>  'contracts.tenant_id=tenants.id'
+                        ])->leftJoins(['contract_bills'    =>  'contract_bills.id=contract_bills.contract_id'])
+                    ->self($params);
+        $modelDb = $modelDb->select(
+                        "contracts.id",
+                        "contracts.contract_no",
+                        "villas.villa_no",
+                        "tenants.full_name",
+                        "contracts.created_at AS contract_created",
+                        "contracts.period_start",
+                        "contract_bills.bill_no",
+                        "contracts.period_end_extended", "contracts.amount", "contracts.status AS contracts_status")
+                    ->where('contracts.status', $state);
 
-            if ($filter_field == 'villa_no') {
-                $contracts->where('villas.villa_no', 'LIKE', '%' . $filter_value . '%');
-            }
-            else if ($filter_field == 'full_name') {
-                $contracts->where('tenants.full_name', 'LIKE', '%' . $filter_value . '%');
-            }
-            else if($filter_field == 'period') {
-                //split filter
-                
-            }
-            else {
-                $contracts->where('contracts.' . $filter_field, 'LIKE', '%' . $filter_value . '%');
-            }
-        }
-
-
-        return $this->createPagination($contracts, function ($row) {
-            
+        return $this->createPagination($modelDb, function ($row) {
             $item = [
                 "id" => $row->id,
                 "contract_no" => $row->contract_no,

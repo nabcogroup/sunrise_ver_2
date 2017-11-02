@@ -70,7 +70,6 @@ const actions = {
         if (payload.paramUrl === undefined) {
             const source = payload.grid.source;
             let params = "";
-
             if (source.params) {
                 _.forEach(source.params, (value, key) => {
                     params = params + "/" + value;
@@ -82,6 +81,7 @@ const actions = {
             }
 
             url = source.url + params + query;
+            console.log(url);
             state.selectedFilter = -1;
             state.filter.value = '';
         }

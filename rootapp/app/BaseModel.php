@@ -17,9 +17,6 @@ class BaseModel extends Model {
     protected function beforeSave() {return false;}
     protected function afterSave() {return false;}
 
-
-
-
     protected function setField($field,$value) {
         
         if(!in_array($field,$this->appends)) {
@@ -40,22 +37,9 @@ class BaseModel extends Model {
     public function toMap($fields = array()) {
         if(sizeof($fields) > 0) {
             foreach ($fields as $key => $value) {
-                if(sizeof($this->fillable) > 0) {
-                    
-                    if(in_array($key,$this->fillable)) {
-                        $this->{$key} = $value;
-                        //$this->setField($key,$value);
-                    }
+                if($this->isFillable($key) && !in_array($key,$this->appends)) {
+                    $this->{$key} = $value;
                 }
-                else {
-                    //do not include custom attribute
-                    if(!in_array($key,$this->appends) && !in_array($key,$this->guarded)) {
-                        $value = "";
-                        $this->{$key} = $value;
-                        //$this->setField($key,$value);
-                    }
-                }
-
             }
         }
 
@@ -68,14 +52,28 @@ class BaseModel extends Model {
         return $this->where($fieldKey,$fieldValue);
     }
 
-    public function customFilter() {
+    public function customFilter(&$params,$callback = null) {
 
         if(request('filter_field',false)) {
             
             $filter_field = request('filter_field');
             $filter_value = request('filter_value');
 
-            return $this->where($filter_field,'LIKE','%'.$filter_value.'%');
+            $params['filter_field'] = $filter_field;
+            $params['filter_value'] = $filter_value;
+
+            if(!is_null($callback)) {
+                $filters = $callback($this,$filter_field,$filter_value);
+                if(!empty($filters)) {
+                    return $this->where($filters['filter_field'],'LIKE','%'.$filters['filter_value'].'%');
+                }
+                else {
+                    return $this;
+                }
+            }
+            else {
+                return $this->where($filter_field,'LIKE','%'.$filter_value.'%');
+            }
         }
 
         return $this;

@@ -43,7 +43,8 @@ class TenantRepository extends AbstractRepository {
 
     public function getTenants($inputs = array()) {
 
-        $tenants = $this->model->customFilter();
+        $params = [];
+        $tenants = $this->model->customFilter($params);
         return $this->createPagination($tenants,function($row) {
             $item = [
                 'id'            =>  $row->id,
@@ -53,7 +54,7 @@ class TenantRepository extends AbstractRepository {
                 'mobile_no'     =>  $row->mobile_no,
             ];
             return $item;
-        },$inputs);
+        },$params);
     }
 
     public function getTenantByRegId($regId) {

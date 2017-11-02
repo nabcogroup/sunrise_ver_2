@@ -10,7 +10,7 @@
                         <label class="col-md-2 col-form-label">Property:</label>
                         <div class="col-md-4">
                             <select class="form-control" v-model='expense.location'>
-                                <option value="">SELECT PROPERTY</option>
+                                <option value="">--SELECT PROPERTY--</option>
                                 <option v-for="look in lookups.villa_location" v-bind:value="look.code">{{ look.name
                                     }}
                                 </option>
@@ -26,20 +26,8 @@
                             <error-span :value="errors" name="villa_id"></error-span>
                         </div>
                     </div>
-
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Expenses:</label>
-                        <div class="col-md-10">
-                            <select class="form-control" v-model='expense.expense_type'>
-                                <option v-for="look in lookups.expense_type" v-bind:value="look.code">{{ look.name }}
-                                </option>
-                            </select>
-                            <error-span :value="errors" name="expense_type"></error-span>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Category</label>
+                        <label class="col-md-2 col-form-label">Account:</label>
                         <div class="col-md-10">
                             <select class="form-control" v-model='expense.acct_code'>
                                 <option value="">SELECT CATEGORY</option>
@@ -54,10 +42,6 @@
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Paid to:</label>
                         <div class="col-md-6">
-                            <!-- <select class="form-control" v-model="expense.payee">
-                              <option value=""></option>
-                              <option v-for="look in lookups.payees" :value="look.payee_code">{{ look.name }}</option>
-                            </select> -->
                             <v-input :value="expense.payee"
                               @input="expense.payee=$event"
                              :items="lookups.payees"

@@ -34,8 +34,6 @@ import MyPlugins from './plugins/plugins';
 
 import {store} from './store/modules';
 
-Vue.use(VeeValidate);
-Vue.use(Vuex);
 Vue.use(MyPlugins);
 
 /**************************
@@ -72,9 +70,7 @@ Vue.filter('toDateFormat', (value) => {
 });
 
 Vue.filter('toCurrencyFormat', (value) => {
-
     if(isNaN(Number.parseFloat(value))) {
-
         value = 0;
     }
     return accounting.formatNumber(value)

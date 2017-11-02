@@ -41,7 +41,7 @@ class ExpenditureForm extends FormRequest
     public function filterInput() {
 
         $inputs = $this->request->all();
-
+        
         $inputs['payment_date'] = Carbon::parse($inputs['payment_date']);
         
         return $inputs;

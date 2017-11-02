@@ -117,6 +117,17 @@ Route::group(["middleware" => ["auth","roles"],"roles" => ["account","admin"]],f
 
 /*
 |--------------------------------------------------------------------------
+| Property Web Routes
+|--------------------------------------------------------------------------
+*/
+Route::group(["middleware" => ["auth","roles"], "roles" => ["account","admin"]], function() {
+    Route::get("api/property", "PropertyController@all");
+});
+
+
+
+/*
+|--------------------------------------------------------------------------
 | Fixed Asset Web Routes
 |--------------------------------------------------------------------------
 */
@@ -147,12 +158,13 @@ Route::group(["middleware" => ["auth","roles"],"roles" => ["account"]],
 
         Route::get("expenses/","ExpenditureController@index");
         Route::get("expenses/create","ExpenditureController@register");
-        Route::get("expenses/edit/{id}","ExpenditureController@edit");
+        Route::get("expenses/{id}","ExpenditureController@edit");
 
         Route::get("api/expenses/create","ExpenditureController@apiCreate");
         Route::post("api/expenses/store","ExpenditureController@apiStore");
-        Route::get("api/expenses/edit/{id}","ExpenditureController@apiEdit");
-        Route::get("api/expenses/","ExpenditureController@apiGetAll");
+        Route::post("api/expenses/update","ExpenditureController@apiStore");
+        Route::get("api/expenses/{id}/edit","ExpenditureController@apiEdit");
+        Route::get("api/expenses/{property?}","ExpenditureController@apiGetAll");
     }
 );
 

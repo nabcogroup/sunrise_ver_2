@@ -18,7 +18,7 @@ import VTab from "./containers/VTab.vue";
 import VTabGroup from "./containers/VTabGroup.vue";
 import VInputWrapper from "./containers/VInputWrapper.vue";
 import VSwitch from "./controls/VSwitch.vue";
-
+import VSearch from "./controls/VSearch.vue";
 
 
 const MyPlugins = {
@@ -39,6 +39,7 @@ const MyPlugins = {
         Vue.component(VInputWrapper.name,VInputWrapper);
         Vue.component(VComboBox.name,VComboBox);
         Vue.component(VSwitch.name,VSwitch);
+        Vue.component(VSearch.name,VSearch);
 
     }
 }

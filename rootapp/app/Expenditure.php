@@ -13,6 +13,8 @@ class Expenditure extends BaseModel
 
     protected $table = "expenditures";
 
+    
+
     protected $appends = ["full_expense_type","full_location","full_bank_provider"];
 
 

@@ -130,10 +130,10 @@ module.exports = function normalizeComponent (
 
 "use strict";
 /* unused harmony export Store */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapState; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return mapMutations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapGetters; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return mapActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return mapState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return mapMutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return mapActions; });
 /**
  * vuex v2.3.0
  * (c) 2017 Evan You
@@ -934,7 +934,7 @@ var index_esm = {
   mapActions: mapActions
 };
 
-/* harmony default export */ __webpack_exports__["a"] = (index_esm);
+/* harmony default export */ __webpack_exports__["e"] = (index_esm);
 
 
 /***/ }),
@@ -12275,8 +12275,6 @@ window.VueEvent = new Vue();
 
 
 
-Vue.use(__WEBPACK_IMPORTED_MODULE_0_vee_validate___default.a);
-Vue.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_2__plugins_plugins__["a" /* default */]);
 
 /**************************
@@ -12312,9 +12310,7 @@ Vue.filter('toDateFormat', value => {
 });
 
 Vue.filter('toCurrencyFormat', value => {
-
     if (isNaN(Number.parseFloat(value))) {
-
         value = 0;
     }
     return accounting.formatNumber(value);
@@ -13774,9 +13770,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "AccountRegisterDialog",
   mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
-  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("accountCharts", {
+  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* mapGetters */])("accountCharts", {
     lookups: "lookups"
-  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("accountCharts", {
+  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])("accountCharts", {
     account: state => state.account
   })),
   beforeMount() {
@@ -13893,7 +13889,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["chartId"],
   beforeMount() {},
-  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])("accountCharts", {
+  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapState */])("accountCharts", {
     account: state => state.account
   }))
 
@@ -14175,7 +14171,7 @@ const createGridColumn = value => {
             lookups: this.instanceLookups
         });
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["b" /* mapGetters */])('bills', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["a" /* mapGetters */])('bills', {
         contract: 'contract',
         bill: 'bill',
         totalPayment: 'totalPayment',
@@ -14558,7 +14554,7 @@ const confirmation = {
             paymentStatus: ''
         };
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_vuex__["b" /* mapGetters */])('payments', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7_vuex__["a" /* mapGetters */])('payments', {
         contract: 'contract',
         bill: 'bill',
         filtered: 'filtered',
@@ -15564,7 +15560,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             if (direct) this.$store.dispatch('contracts/recalc', { rate: 0 });else this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapGetters */])('contracts', {
         contract: 'contract',
         lookups: 'lookups',
         errors: 'stateContractError',
@@ -15674,7 +15670,7 @@ const confirmation = {
         'error': __WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue___default.a,
         'terminateDialog': __WEBPACK_IMPORTED_MODULE_1__ContractTerminate_vue___default.a
     },
-    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["e" /* mapMutations */])("contracts", ["setContractForTerminate"]), {
+    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["d" /* mapMutations */])("contracts", ["setContractForTerminate"]), {
         create() {
             this.$store.commit('contracts/redirectToRegister');
         },
@@ -15709,7 +15705,7 @@ const confirmation = {
             }
         }
     }),
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* mapGetters */])('contracts', {
         contracts: 'contracts',
         status: 'status',
         contractForTerminate: 'contractForTerminate'
@@ -15895,9 +15891,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.dispatch("contracts/terminate", onResult);
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* mapGetters */])('contracts', {
         contractForTerminate: 'contractForTerminate'
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapState */])('contracts', {
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapState */])('contracts', {
         errors: state => state.errors.terminateError
     }))
 });
@@ -15966,13 +15962,13 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         }
     },
     mounted() {},
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])('contracts', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* mapGetters */])('contracts', {
         villas: 'villas',
         contract: 'contract',
         stateContractError: 'stateContractError',
         lookups: 'lookups',
         selectedVilla: "selectedVilla"
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])('contracts', {
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])('contracts', {
         filter: state => state.filter
     }), {
         fullVilla() {
@@ -16111,9 +16107,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             rate_per_month: 0
         };
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("contracts", {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])("contracts", {
         contract: state => state.contract
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("contracts", {
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* mapGetters */])("contracts", {
         stateRenewError: "stateRenewError",
         lookups: "lookups"
     })),
@@ -16253,8 +16249,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     components: {
         'error': __WEBPACK_IMPORTED_MODULE_0__ErrorLabel_vue___default.a
     },
-    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["d" /* mapActions */])('contracts', ['searchTenant'])),
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])('contracts', {
+    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapActions */])('contracts', ['searchTenant'])),
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* mapGetters */])('contracts', {
         tenant: 'tenant',
         lookups: 'lookups',
         labels: 'labels',
@@ -16270,6 +16266,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__eventbus__ = __webpack_require__(3);
 //
 //
 //
@@ -16286,6 +16283,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -16296,10 +16297,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             gridView: {
                 columns: [{ name: 'payment_date', column: 'Payment Date', class: 'text-center', dtype: 'date' }, { name: 'location', column: 'Villa Location', class: 'text-center' }, { name: 'villa', column: 'Villa No', class: 'text-center' }, { name: 'expense_type', column: 'Expense Type', class: 'text-center' }, { name: 'payee', column: 'Paid To', class: 'text-center' }, { name: 'amount', column: 'Amount', class: 'text-center' }],
                 source: {
-                    url: 'api/expenses'
+                    url: 'api/expenses',
+                    params: { property: '' }
                 }
-            }
+            },
+            searchObj: {
+                api: '/api/property',
+                source: 'villa_location',
+                keyValue: 'code',
+                keyText: 'name'
+            },
+            returnValue: ''
         };
+    },
+    methods: {
+        onSearch(value) {
+            console.log(value);
+            this.gridView.source.params.property = value;
+            __WEBPACK_IMPORTED_MODULE_1__eventbus__["a" /* EventBus */].$emit("onLiveViewFetch");
+        }
     }
 });
 
@@ -16313,22 +16329,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__payee_Register_vue__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__payee_Register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__payee_Register_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__eventbus__ = __webpack_require__(3);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -16519,7 +16519,7 @@ const confirmation = {
         }
     },
     props: ['index'],
-    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('expenditures', {
+    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapGetters */])('expenditures', {
         expense: 'expense',
         lookups: 'lookups',
         filtered_villas: 'filtered_villas',
@@ -16621,10 +16621,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FixedAssetRegisterFrame",
   mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
-  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("fixedAsset", {
+  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* mapGetters */])("fixedAsset", {
     lookups: "lookups",
     errorValidations: "errorValidations"
-  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("fixedAsset", {
+  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])("fixedAsset", {
     data: state => state.data
   })),
 
@@ -16916,10 +16916,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             isRefresh: false
         };
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])("fixedAsset", {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* mapGetters */])("fixedAsset", {
         lookups: "lookups",
         errorValidations: "errorValidations"
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["c" /* mapState */])("fixedAsset", {
+    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapState */])("fixedAsset", {
         data: state => state.data
     })),
     methods: {
@@ -17013,10 +17013,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "FixedAssetRegisterDialog",
   mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
-  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])("fixedAsset", {
+  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* mapGetters */])("fixedAsset", {
     lookups: "lookups",
     errorValidations: "errorValidations"
-  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])("fixedAsset", {
+  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])("fixedAsset", {
     data: state => state.data
   })),
 
@@ -17342,7 +17342,7 @@ const confirmation = {
         this.$store.dispatch('payees/create');
     },
     props: ['type'],
-    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('payees', {
+    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapGetters */])('payees', {
         payee: 'payee',
         payeeTypes: 'payeeTypes',
         errors: 'errors'
@@ -17794,7 +17794,7 @@ const confirmation = {
             });
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('tenants', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapGetters */])('tenants', {
         tenant: 'tenant',
         lookups: 'lookups',
         labels: 'labels',
@@ -17866,7 +17866,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.commit('villas/redirectToRegister', 0);
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])('liveviews', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapGetters */])('liveviews', {
         cache: 'cache'
     }))
 });
@@ -18089,7 +18089,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             //this.viewModel.remove(id);
         }
     },
-    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_vuex__["b" /* mapGetters */])('villas', {
+    computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4_vuex__["a" /* mapGetters */])('villas', {
         villa: 'villa',
         lookups: 'lookups',
         errors: 'errors'
@@ -19177,7 +19177,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.fetchData({ grid: this.grid });
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])('liveviews', { filteredData: 'filteredData' }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapState */])('liveviews', {
+    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* mapGetters */])('liveviews', { filteredData: 'filteredData' }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])('liveviews', {
         filter: state => state.filter,
         selectedFilter: state => state.selectedFilter,
         sortKey: state => state.sortKey,
@@ -19188,7 +19188,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             return this.grid.actions;
         }
     }),
-    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["d" /* mapActions */])('liveviews', ['fetchData']), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["e" /* mapMutations */])('liveviews', ['loadData', 'filterWrap']), {
+    methods: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["c" /* mapActions */])('liveviews', ['fetchData']), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["d" /* mapMutations */])('liveviews', ['loadData', 'filterWrap']), {
         sortBy: function (key) {
 
             if (key.static) return false;
@@ -19519,6 +19519,9 @@ class ContractTerminationModel {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__containers_VInputWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__containers_VInputWrapper_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue__ = __webpack_require__(306);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue__ = __webpack_require__(396);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue__);
+
 
 
 
@@ -19558,6 +19561,7 @@ const MyPlugins = {
         Vue.component(__WEBPACK_IMPORTED_MODULE_13__containers_VInputWrapper_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_13__containers_VInputWrapper_vue___default.a);
         Vue.component(__WEBPACK_IMPORTED_MODULE_7__controls_VComboBox_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_7__controls_VComboBox_vue___default.a);
         Vue.component(__WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue___default.a);
     }
 };
 
@@ -20129,6 +20133,16 @@ const actions = {
             }
         });
     },
+    edit({ commit, state }) {
+        axiosRequest.post('expenses', 'update', state.expense).then(r => {
+            toastr.success('Save successfully!!!');
+            commit("redirectToList");
+        }).catch(e => {
+            if (e.response.status === 422) {
+                state.errors.expense.register(e.response.data);
+            }
+        });
+    },
     fetchPayees({ commit, state }) {
         axiosRequest.post('payee', 'store', state.payee.single).then(r => {
             state.lookups.payees = r.data;
@@ -20325,9 +20339,9 @@ const fixedAssetModule = {
 
 
 
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["e" /* default */]);
 
-const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
+const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["e" /* default */].Store({
     modules: {
         villas: __WEBPACK_IMPORTED_MODULE_2__villas__["a" /* default */],
         contracts: __WEBPACK_IMPORTED_MODULE_3__contracts__["a" /* default */],
@@ -20419,7 +20433,6 @@ const actions = {
         if (payload.paramUrl === undefined) {
             const source = payload.grid.source;
             let params = "";
-
             if (source.params) {
                 _.forEach(source.params, (value, key) => {
                     params = params + "/" + value;
@@ -20431,6 +20444,7 @@ const actions = {
             }
 
             url = source.url + params + query;
+            console.log(url);
             state.selectedFilter = -1;
             state.filter.value = '';
         } else {
@@ -26527,7 +26541,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
-    staticClass: "col-md-2 col-md-offset-10"
+    staticClass: "col-md-10"
+  }, [_c('v-search', {
+    attrs: {
+      "config": _vm.searchObj
+    },
+    on: {
+      "click": _vm.onSearch
+    }
+  })], 1), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2"
   }, [_c('button', {
     staticClass: "btn btn-info btn-block",
     on: {
@@ -26547,9 +26570,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('v-live-view', {
     attrs: {
       "grid": _vm.gridView
-    },
-    on: {
-      "action": _vm.doAction
     }
   })], 1)])])
 },staticRenderFns: []}
@@ -26712,7 +26732,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": ""
     }
-  }, [_vm._v("SELECT PROPERTY")]), _vm._v(" "), _vm._l((_vm.lookups.villa_location), function(look) {
+  }, [_vm._v("--SELECT PROPERTY--")]), _vm._v(" "), _vm._l((_vm.lookups.villa_location), function(look) {
     return _c('option', {
       domProps: {
         "value": look.code
@@ -26761,43 +26781,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-group row"
   }, [_c('label', {
     staticClass: "col-md-2 col-form-label"
-  }, [_vm._v("Expenses:")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-10"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.expense.expense_type),
-      expression: "expense.expense_type"
-    }],
-    staticClass: "form-control",
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.expense.expense_type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.lookups.expense_type), function(look) {
-    return _c('option', {
-      domProps: {
-        "value": look.code
-      }
-    }, [_vm._v(_vm._s(look.name) + "\n                            ")])
-  })), _vm._v(" "), _c('error-span', {
-    attrs: {
-      "value": _vm.errors,
-      "name": "expense_type"
-    }
-  })], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
-  }, [_c('label', {
-    staticClass: "col-md-2 col-form-label"
-  }, [_vm._v("Category")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Account:")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-10"
   }, [_c('select', {
     directives: [{
@@ -35191,6 +35175,151 @@ __webpack_require__(143);
 __webpack_require__(144);
 module.exports = __webpack_require__(142);
 
+
+/***/ }),
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: 'vSearch',
+    props: ['config', 'value'],
+    data() {
+        return {
+            options: [],
+            currentValue: ''
+        };
+    },
+    mounted() {
+        axiosRequest.dispatchGet(this.config.api).then(result => {
+            this.options = result.data[this.config.source];
+        });
+    },
+    methods: {
+        onChange(value) {
+            this.currentValue = value;
+        },
+        onSearchClick() {
+            this.$emit('click', this.currentValue);
+        }
+    }
+});
+
+/***/ }),
+/* 396 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(395),
+  /* template */
+  __webpack_require__(397),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\VSearch.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] VSearch.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-de4a8bd4", Component.options)
+  } else {
+    hotAPI.reload("data-v-de4a8bd4", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 397 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-horizontal"
+  }, [_c('div', {
+    staticClass: "form-group row"
+  }, [_c('div', {
+    staticClass: "col-md-4"
+  }, [_c('select', {
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        _vm.onChange($event.target.value)
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("--Select--")]), _vm._v(" "), _vm._l((_vm.options), function(options, index) {
+    return _c('option', {
+      key: index,
+      domProps: {
+        "value": options[_vm.config.keyValue],
+        "selected": _vm.value === options[_vm.config.keyValue]
+      }
+    }, [_vm._v(_vm._s(options[_vm.config.keyText]))])
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-2"
+  }, [_c('button', {
+    staticClass: "btn btn-primary",
+    on: {
+      "click": _vm.onSearchClick
+    }
+  }, [_vm._v("Search")])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-de4a8bd4", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

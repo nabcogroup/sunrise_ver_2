@@ -43,26 +43,10 @@ class ExpenditureController extends Controller
         return view('expenditures.register',compact('id'));
     }
 
-    public function apiGetAll(Request $request) {
+    public function apiGetAll($property = null) {
+        $result = $this->repo->getExpenses($property);
         
-        $expenses = $this->repo->includes(['accounts','villas','payees'])->paginate(20);
-        $items = [];
-
-        foreach ($expenses as $expense) {
-            $accounts = $expense->accounts()->first();
-            $item = [
-                'location'          =>  $expense->getFullLocationAttribute(),
-                'payment_date'      =>  \Carbon\Carbon::parse($expense->payment_date)->toDateString(),
-                'villa'             =>  $expense->villas()->first()->villa_no,
-                'expense_type'      =>  $expense->getFullExpenseTypeAttribute(),
-                'accounts'          =>  $accounts->code.'-'.$accounts->description,
-                'payee'             =>  $expense->payees->name,
-                'amount'            =>  number_format($expense->amount,2)
-            ];
-            array_push($items,$item);
-        }
-        
-        return $this->createOutput($expenses,$items);
+        return response()->json($result);
     }
 
     public function apiCreate() {
@@ -84,10 +68,8 @@ class ExpenditureController extends Controller
 
         $inputs = $request->filterInput();
         try {
-
-            $this->repo->save($inputs);
-
-            Result::ok("Successfully Save");
+            $expenditure = $this->repo->attach($inputs,[],true)->instance();
+            Result::ok("Successfully Save",['result' => $expenditure]);
         }
         catch(Exception $e) {
             Result::badRequest(['message' => $e->getMessage()]);

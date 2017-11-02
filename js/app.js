@@ -16583,6 +16583,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -16598,12 +16615,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     open() {
       __WEBPACK_IMPORTED_MODULE_1__eventbus__["a" /* EventBus */].$on("fixedAsset.entry.open", value => {
-        this.$store.dispatch("fixedAsset/create");
+        this.$store.dispatch("depreciation/create");
         this.openDialog();
       });
     },
     save() {
-      this.$store.dispatch("fixedAsset/save", () => {
+      this.$store.dispatch("depreciation/save", () => {
         this.closeDialog();
         this.close();
       });
@@ -33046,7 +33063,45 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "form-horizontal"
-  })])
+  }, [_c('v-input-wrapper', {
+    attrs: {
+      "label": "Opening",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('select', {
+    staticClass: "form-control"
+  }, [_c('option')])]), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Opening Year",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    }
+  })]), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Depreciated Value",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    }
+  })]), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Account",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('select', {
+    staticClass: "form-control"
+  }, [_c('option', {
+    attrs: {
+      "value": ""
+    }
+  }, [_vm._v("--ACCOUNT--")]), _vm._v(" "), _c('option')])])], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

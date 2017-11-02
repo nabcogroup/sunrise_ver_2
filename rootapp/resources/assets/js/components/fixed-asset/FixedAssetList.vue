@@ -49,7 +49,7 @@
                 },
                 searchObj: {
                     api: '/api/property',
-                    source: 'fixed-asset',
+                    source: 'villa_location',
                     keyValue: 'code',
                     keyText: 'name'
                 },

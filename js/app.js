@@ -16718,7 +16718,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             },
             searchObj: {
                 api: '/api/property',
-                source: 'fixed-asset',
+                source: 'villa_location',
                 keyValue: 'code',
                 keyText: 'name'
             },

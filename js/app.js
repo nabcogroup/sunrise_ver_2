@@ -16600,6 +16600,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -33083,6 +33086,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label": "Depreciated Value",
+      "label-class": "col-md-3 text-right"
+    }
+  }, [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    }
+  })]), _vm._v(" "), _c('v-input-wrapper', {
+    attrs: {
+      "label": "Book Value",
       "label-class": "col-md-3 text-right"
     }
   }, [_c('input', {

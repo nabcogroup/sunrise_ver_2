@@ -139,7 +139,7 @@
                 <div class="tab-content" style="margin-top:15px;" v-if="fixedAssetTab == 'depreciation'">
                   <div class="row">
                     <div class="col-md-2">
-                      <button class="btn btn-info btn-block"><i
+                      <button class="btn btn-info btn-block" @click="create"><i
                         class="fa fa-plus" aria-hidden="true"></i> Add Depreciation</button>
                       </div>
                   </div>
@@ -153,17 +153,23 @@
                     </div>
                   </div>
                 </div>
-
+        <depreciation-dialog></depreciation-dialog>
             </v-panel>
         </div>
+
     </div>
+
 </template>
 
 <script>
     import {ErrorValidations} from "../../helpers/helpers";
     import {mapGetters, mapState} from "vuex";
-
+    import DepreciationDialog from "./DepreciationDialog.vue"
+    import {EventBus} from "../../eventbus";
     export default {
+      components: {
+        DepreciationDialog
+      },
         props: ["id"],
         mounted() {
             if (this.id) {
@@ -202,6 +208,12 @@
             })
         },
         methods: {
+          create() {
+              EventBus.$emit('fixedAsset.entry.open');
+              EventBus.$on('fixedAsset.entry.close',() =>{
+                  EventBus.$emit('onLiveViewFetch');
+              })
+          },
             save() {
                 this.$store.dispatch("fixedAsset/save", () => {
                     this.$store.redirectToList();

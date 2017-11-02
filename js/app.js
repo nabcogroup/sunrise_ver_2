@@ -16905,6 +16905,18 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -26648,7 +26660,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.onSearch
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "col-md-2"
+    staticClass: "col-md-2 "
   }, [_c('button', {
     staticClass: "btn btn-info btn-block",
     on: {
@@ -30652,6 +30664,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "margin-top": "15px"
     }
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-2"
+  }, [_c('button', {
+    staticClass: "btn btn-info btn-block"
+  }, [_c('i', {
+    staticClass: "fa fa-plus",
+    attrs: {
+      "aria-hidden": "true"
+    }
+  }), _vm._v(" Add Depreciation")])])]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-12"
   }, [_c('data-view', {
     attrs: {
       "grid": _vm.grid
@@ -30662,7 +30689,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         return void 0
       }
     }])
-  })], 1) : _vm._e()], 1)], 1)])
+  })], 1)])]) : _vm._e()], 1)], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

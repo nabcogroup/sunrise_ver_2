@@ -4,7 +4,7 @@
             <div class="col-md-10">
                 <v-search :config="searchObj" @click="onSearch"></v-search>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 ">
                 <button class="btn btn-info btn-block" @click="$store.commit('expenditures/redirectToRegister')"><i
                         class="fa fa-plus" aria-hidden="true"></i> Add Expenses</button>
             </div>
@@ -53,7 +53,7 @@
             }
         },
         methods: {
-            onSearch(value) {          
+            onSearch(value) {
                 this.gridView.source.params.property = value;
                 EventBus.$emit("onLiveViewFetch");
             },

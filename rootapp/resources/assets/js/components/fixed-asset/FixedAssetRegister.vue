@@ -135,13 +135,25 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-content" style="margin-top:15px; " v-if="fixedAssetTab == 'depreciation'">
-                    <data-view :grid="grid">
-                        <template slot="body" scope="props">
-                            
-                        </template>
-                    </data-view>
+
+                <div class="tab-content" style="margin-top:15px;" v-if="fixedAssetTab == 'depreciation'">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <button class="btn btn-info btn-block"><i
+                        class="fa fa-plus" aria-hidden="true"></i> Add Depreciation</button>
+                      </div>
+                  </div>
+                <hr/>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <data-view :grid="grid">
+                          <template slot="body" scope="props">
+                          </template>
+                        </data-view>
+                    </div>
+                  </div>
                 </div>
+
             </v-panel>
         </div>
     </div>

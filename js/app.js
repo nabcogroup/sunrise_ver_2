@@ -16316,6 +16316,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             console.log(value);
             this.gridView.source.params.property = value;
             __WEBPACK_IMPORTED_MODULE_1__eventbus__["a" /* EventBus */].$emit("onLiveViewFetch");
+        },
+        doAction(a, item, index) {
+
+            if (a.key === 'edit') {
+                this.$store.commit('expenditures/redirectToRegister', { id: item.id });
+            }
         }
     }
 });
@@ -26654,6 +26660,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('v-live-view', {
     attrs: {
       "grid": _vm.gridView
+    },
+    on: {
+      "action": _vm.doAction
     }
   })], 1)])])
 },staticRenderFns: []}

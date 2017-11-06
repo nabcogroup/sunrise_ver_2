@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\Memoization;
 use Illuminate\Database\Eloquent\Model;
 
 class Selection extends BaseModel
@@ -21,17 +22,17 @@ class Selection extends BaseModel
     }
     
     public static function getValue($category,$key) {
-        
-        $values = Selection::where('category',$category)->where('code',$key)->orderBy('category')->get();
-        
-        $retValue = ""; 
-
-        foreach($values as $value) {
-            
-            $retValue = $value->name;
+        //add value to memoization
+        if(!Memoization::isExist($key)) {
+            $values = Selection::where('category',$category)->where('code',$key)->orderBy('category')->get();
+            $retValue = "";
+            foreach($values as $value) {
+                $retValue = $value->name;
+            }
+            Memoization::addValues($key,$retValue);
         }
         
-        return $retValue;
+        return Memoization::getValues($key);
     }
 
     public static function getValues(Array $keys = array()) {

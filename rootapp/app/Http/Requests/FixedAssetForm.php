@@ -30,6 +30,7 @@ class FixedAssetForm extends FormRequest
             'description'       =>  'required',
             'property'          =>  'required',
             'fixed_asset_type'  =>  'required',
+            'year_span'         =>  'required|',
             'cost'              =>  array("required","regex:/^\d+?|^\d+\.\d{2}?/")
         ];
     }

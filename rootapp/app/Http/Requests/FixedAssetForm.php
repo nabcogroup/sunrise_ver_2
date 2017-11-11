@@ -23,14 +23,14 @@ class FixedAssetForm extends FormRequest
      * @return array
      */
     public function rules()
-    {
-       
+    {  
         return [
             'purchase_date'     =>  'required|date',
             'description'       =>  'required',
             'property'          =>  'required',
             'fixed_asset_type'  =>  'required',
-            'year_span'         =>  'required|',
+            'year_span'         =>  'required|integer|min:1',
+            'salvage_value'     =>  'required',
             'cost'              =>  array("required","regex:/^\d+?|^\d+\.\d{2}?/")
         ];
     }

@@ -64,23 +64,20 @@ class FixedAssetRepository extends AbstractRepository
         });
     }
 
-    public function saveFixedAsset($entity)
+   
+
+    public function saveFixedAsset($request)
     {
-
         try {
-            if(isset($entity['id']) && $entity['id'] > 0) {
-
+            if($this->isEditMode($request)) {
                 $model = $this->model->with('depreciations')->find($entity['id']);
                 $existingDepreciations = $model->depreciations->get();
                 if ($existingRecord->count() > 0) {
                     throw new Exception('Cannot modify exisiting fixed asset');
                 }
             }
-            else {
-                $model = $this->attach($entity)->instance();
-            }
             
-            
+            $model = $this->attach($entity)->instance();
             
             //check if there is an existing record
             $existingDepreciations = $model->depreciations()->get();
@@ -89,12 +86,20 @@ class FixedAssetRepository extends AbstractRepository
                     $depreciation->delete();
                 }
             }
-        
+            
+            $attributes = [
+                'num_year'              => $this->model->year_span,
+                'current_book_value'    => $this->model->current_book_value,
+                'depreciation_value'    => $this->model->depreciation_amount,
+                'opening_balance_amount' => $this->model->total_cost_for_dep,
+                ''
+            ];
             $num_year = $this->model->year_span;
             $current_book_value = $this->model->current_book_value;
             $depreciation_value = $this->model->depreciation_amount;
             $opening_balance_amount = $this->model->opening_amount;
             $opening_year = Carbon::parse($this->model->opening_year);
+
 
             for ($i =0; $i < $num_year; $i++) {
                 
@@ -109,8 +114,6 @@ class FixedAssetRepository extends AbstractRepository
                 $opening_balance_amount = $opening_balance_amount - $depreciation_value;
                 $opening_year = $opening_year + 1;
                 $current_book_value =  $current_book_value - $depreciation_value;
-
-
             }
 
             //create depreciation table
@@ -119,4 +122,6 @@ class FixedAssetRepository extends AbstractRepository
             Result::badRequest(['message' => $e->getMessage()]);
         }
     }
+
+   
 }

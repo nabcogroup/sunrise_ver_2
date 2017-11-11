@@ -53,7 +53,6 @@ class FixedAsset extends BaseModel
                 'opening_amount' => 0
             ]);
         }
-
     }
 
     // DEFINE RELATIONSHIPS --------------------------------------------------

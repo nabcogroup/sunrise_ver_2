@@ -149,4 +149,9 @@ abstract class AbstractRepository {
         return $this->model->find($id)->delete();
     }
 
+
+    public function isEditMode($request) {
+        return (isset($request['id']) && $request['id'] > 0);
+    }
+
 }

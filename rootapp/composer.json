@@ -28,7 +28,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "KielPack\\LaraLibs\\": "modules/kielpack/laralibs/src",
+            "Accounting\\": "modules/Accounting/src"
         }
     },
     "scripts": {

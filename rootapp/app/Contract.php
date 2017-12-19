@@ -145,8 +145,11 @@ class Contract extends BaseModel
     }
 
     public function toComputeAmount($rate) {
+
         $totalPeriod = $this->getDiffDays();
+        
         $totalMonth = intval($totalPeriod / 30);
+        
         $this->amount = $rate * $totalMonth;
     }
 
@@ -165,12 +168,19 @@ class Contract extends BaseModel
 
 
     public function saveContract($entity, $userId) {
+        
         $villaNo = $entity['villa_no'];
+        
         unset($entity['villa_no']);
+        
         $entity['contract_no'] = "C" . $villaNo . "-" . Carbon::now()->year . "-" . $this->createNewId();
+        
         $this->toMap($entity);
+        
         $this->user_id = $userId;
+        
         $this->pending()->save();
+        
         return $this;
     }
 
@@ -220,7 +230,6 @@ class Contract extends BaseModel
 
     public function isReconcile($total_payment)
     {
-
         if ($total_payment >= $this->amount) {
             return true;
         }
@@ -243,6 +252,5 @@ class Contract extends BaseModel
         catch(Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }
-        
     }
 }

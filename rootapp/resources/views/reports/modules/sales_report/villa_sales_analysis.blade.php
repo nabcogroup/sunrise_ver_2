@@ -19,6 +19,7 @@
             <tr>
         </thead>
         <tbody>
+
             @php
                 $grand_total_per_month;
                 $grand_total_payable = 0; 
@@ -32,29 +33,43 @@
                         <td><a href="/reports/villa_history?villa_no={{$villa_key}}" target="_blank">{{$villa_key}}</a></td>
                         @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
                             @if(isset($villa[$i]))
-                                @foreach($villa[$i] as $item)
-                                    @if($item->payment_status === "clear")
-                                        @php
-                                            $total_payable += $item->monthly_payable;
-                                            $month_name = date('M', mktime(0, 0, 0, $i, 10));
-                                            
-                                            if(!isset($grand_total_per_month[$month_name])) {
-                                                $grand_total_per_month[$month_name] = $item->monthly_payable;
+                                <?php 
+                                    $item = null;                                    
+                                    //remove conflict
+                                    if(count($villa[$i]) > 1) {
+                                        foreach($villa[$i] as $key => $value) {
+                                            if($value->payment_status != 'cancelled') {
+                                                $item = $value;
                                             }
-                                            else {
-                                                $grand_total_per_month[$month_name] += $item->monthly_payable;
-                                            }
-                                            
-                                            $grand_total_payable += $item->monthly_payable;
-                                        @endphp
+                                        }
+                                    }
+                                    else {
+                                        $item = $villa[$i][0];
+                                    }
+                                ?>
+                                @if($item->payment_status === "clear")
+                                    @php
 
-                                        <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
-                                    @elseif($item->payment_status == "cancelled" && floatval($item->monthly_payable) == 0)
-                                        <td class="text-center text-danger"><strong>VACATED</strong></td>    
-                                    @else
-                                        <td class="text-right">{{number_format(0,2)}}</td>
-                                    @endif
-                                @endforeach
+                                        $total_payable += $item->monthly_payable;
+                                        $month_name = date('M', mktime(0, 0, 0, $i, 10));
+                                        
+                                        if(!isset($grand_total_per_month[$month_name])) {
+                                            $grand_total_per_month[$month_name] = $item->monthly_payable;
+                                        }
+                                        else {
+                                            $grand_total_per_month[$month_name] += $item->monthly_payable;
+                                        }
+                                        
+                                        $grand_total_payable += $item->monthly_payable;
+
+                                    @endphp
+                                    <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
+                                @elseif($item->payment_status == "cancelled" && floatval($item->monthly_payable) == 0)
+                                    <td class="text-center text-danger"><strong>VACATED</strong></td>    
+                                @else
+                                    <td class="text-right">{{number_format(0,2)}}</td>
+                                @endif
+                               
                             @else
                                 <td class="text-center text-danger"><strong>VACATED</strong></td>
                             @endif

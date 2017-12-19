@@ -13,7 +13,6 @@ use KielPack\LaraLibs\Traits\PaginationTrait;
 use KielPack\LaraLibs\Supports\Facades\Result;
 use KielPack\LaraLibs\Selections\SelectionModel as Selection;
 
-
 class FixedAssetController extends Controller
 {
     use PaginationTrait;
@@ -30,7 +29,6 @@ class FixedAssetController extends Controller
                 $selection = Selection::where('category', 'fixed_asset_type')->where('name', 'like', '%'.$filter_value.'%')->first();
                 $filter_value = (!is_null($selection)) ? $selection->code : '';
             }
-            
             $fixedAssets = $fixedAssets->where($filter_field, 'like', '%'.$filter_value.'%');
         }
 
@@ -65,23 +63,33 @@ class FixedAssetController extends Controller
         $this->validateRequest($request);
         
         $fixedAsset = new FixedAsset($request->all());
+        
         $fixedAsset->save();
 
         $attributes = [
             'ob_amount'                 =>  $fixedAsset->cost,
+
             'ob_date'                   =>  Carbon::parse($fixedAsset->purchase_date),
+
             'ob_year'                   =>  Carbon::parse($fixedAsset->purchase_date)->year,
+
             'depreciated_value'         =>  $fixedAsset->depreciation_amount,
+
             'acct_code'                 =>  '100',
+            
             'book_value'                =>  $fixedAsset->cost - $fixedAsset->depreciation_amount,
         ];
 
         $num_year = $model->year_span;
 
         for ($i =0; $i < $num_year; $i++) {
+            
             $depreciation = $model->depreciations()->create($attributes);
+
             $attributes['ob_amount'] = $attributes['ob_amount'] - $attributes['depreciated_value'];
+            
             $attributes['ob_year'] = $attributes['ob_year'] + 1;
+            
             $attributes['book_value'] = $attributes['book_value'] - $attributes['depreciated_value'];
         }
 

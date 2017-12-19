@@ -17,6 +17,9 @@ class LaraLibProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . "/Selections/migrations" => base_path("database/migrations")
         ]);
+
+
+        //$this->loadHelpers();
     }
 
     /**
@@ -39,5 +42,12 @@ class LaraLibProvider extends ServiceProvider
         $loader->alias('EventListenerRegister','KielPack\LaraLibs\Supports\Facades\EventListenerRegister');
         $loader->alias('FileManager','KielPack\LaraLibs\Supports\Facades\FileManager');
         $loader->alias('Result','KielPack\LaraLibs\Supports\Facades\Result');
+    }
+
+
+
+    public function loadHelpers() {
+        $filename = glob(__DIR__.'/Helpers/Functions.php');
+        require_once $filename;
     }
 }

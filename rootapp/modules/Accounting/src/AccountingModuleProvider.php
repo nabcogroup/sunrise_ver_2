@@ -13,8 +13,6 @@ class AccountingModuleProvider extends ServiceProvider {
         $this->publishes([
             __DIR__ . "/database/migrations" => base_path("database/migrations")
         ]);
-
-
     }
 
     public function register() {
@@ -28,7 +26,7 @@ class AccountingModuleProvider extends ServiceProvider {
     }
 
     public function registerPublishableResources() {
-
+        
     }
 
 }

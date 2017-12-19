@@ -46,7 +46,7 @@ class VillaSales implements IDataSource
                 "villas.villa_no",
                 \DB::raw("MONTH(payments.effectivity_date)"),
                 \DB::raw("YEAR(payments.effectivity_date)"),
-                "payments.status")
+                "payment_status")
             ->whereNull("contracts.deleted_at")
             ->where("villas.location",$location)
             ->where(\DB::raw("YEAR(payments.effectivity_date)"),$year)

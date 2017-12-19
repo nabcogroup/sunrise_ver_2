@@ -24,8 +24,9 @@ Route::group(['prefix' => '/api_villa'], function() {
     Route::get('/{id?}', "VillaController@apiCreate");
 });
 
+Route::get("api_property", "PropertyController@all");
 
-Route::group(['prefix' => 'api/bill'],function() {
+Route::group(['prefix' => 'bill'],function() {
 
     Route::get('/list',["uses" => "ContractBillController@apiGetList", "roles" => ["account"]]);
     Route::get('/create/{contractNo}',["uses" => "ContractBillController@apiCreate", "roles" => ["contract","account"]]);

@@ -198,6 +198,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
 
+
         /*
         * DOMPDF Converter
         * */
@@ -225,6 +226,10 @@ return [
 
         //global function helper
         App\Providers\HelperFunctionProvider::class,
+
+        KielPack\LaraLibs\LaraLibProvider::class,
+
+        Accounting\AccountingModuleProvider::class
 
     ],
 

@@ -135,83 +135,104 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-content" style="margin-top:15px; " v-if="fixedAssetTab == 'depreciation'">
-                    <data-view :grid="grid">
-                        <template slot="body" scope="props">
-                            
-                        </template>
-                    </data-view>
+
+                <div class="tab-content" style="margin-top:15px;" v-if="fixedAssetTab == 'depreciation'">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <button class="btn btn-info btn-block" @click="create"><i
+                        class="fa fa-plus" aria-hidden="true"></i> Add Depreciation</button>
+                      </div>
+                  </div>
+                <hr/>
+                  <div class="row">
+                    <div class="col-md-12">
+                        <data-view :grid="grid">
+                          <template slot="body" scope="props">
+                          </template>
+                        </data-view>
+                    </div>
+                  </div>
                 </div>
+        <depreciation-dialog></depreciation-dialog>
             </v-panel>
         </div>
+
     </div>
+
 </template>
 
 <script>
-    import {ErrorValidations} from "../../helpers/helpers";
-    import {mapGetters, mapState} from "vuex";
-
-    export default {
-        props: ["id"],
-        mounted() {
-            if (this.id) {
-                this.$store.dispatch("fixedAsset/edit", {id: this.id});
-                this.enableReading();
-            }
-            else {
-                this.$store.dispatch("fixedAsset/create");
-            }
-        },
-        data() {
-            return {
-                grid: {
-                    columns: [
-                        {name: 'op_date', column: 'Opening Date'},
-                        {name: 'op_amount', column: 'Opening Amount'},
-                        {name: 'dp_amount', column: 'Depriciated Amount'},
-                        {name: 'book_value', column: 'Book Value'},
-                        {name: 'cummulative_amount', column: 'Cummulative Amount'}
-                    ]
-                },
-                fixedAssetTab: "summary",
-                showTab: false,
-                showSummary: false,
-                lockEdited: false,
-                isRefresh: false
-            };
-        },
-        computed: {
-            ...mapGetters("fixedAsset", {
-                lookups: "lookups",
-                errorValidations: "errorValidations"
-            }),
-            ...mapState("fixedAsset", {
-                data: state => state.data
-            })
-        },
-        methods: {
-            save() {
-                this.$store.dispatch("fixedAsset/save", () => {
-                    this.$store.redirectToList();
-                });
-            },
-            refresh() {
-                this.isRefresh = true;
-                this.$store.dispatch("fixedAsset/refresh",() => {
-                    this.isRefresh = false;
-                });
-            },
-            enableReading() {
-                this.showTab = true;
-                this.showSummary = true;
-                this.lockEdited = true;
-            },
-            enableEditing() {
-                this.showTab = false;
-                this.showSummary = false;
-                this.lockEdited = false;
-            }
-
-        }
+import { ErrorValidations } from "../../helpers/helpers";
+import { mapGetters, mapState } from "vuex";
+import DepreciationDialog from "./DepreciationDialog.vue";
+import { EventBus } from "../../eventbus";
+export default {
+  components: {
+    DepreciationDialog
+  },
+  props: ["id"],
+  mounted() {
+    if (this.id) {
+      this.$store.dispatch("fixedAsset/edit", { id: this.id });
+      this.enableReading();
+    } else {
+      this.$store.dispatch("fixedAsset/create");
+      this.enableEditing();
+    }
+  },
+  data() {
+    return {
+      grid: {
+        columns: [
+          { name: "op_date", column: "Opening Date" },
+          { name: "op_amount", column: "Opening Amount" },
+          { name: "dp_amount", column: "Depriciated Amount" },
+          { name: "book_value", column: "Book Value" },
+          { name: "cummulative_amount", column: "Cummulative Amount" }
+        ]
+      },
+      fixedAssetTab: "summary",
+      showTab: false,
+      showSummary: false,
+      lockEdited: false,
+      isRefresh: false
     };
+  },
+  computed: {
+    ...mapGetters("fixedAsset", {
+      lookups: "lookups",
+      errorValidations: "errorValidations"
+    }),
+    ...mapState("fixedAsset", {
+      data: state => state.data
+    })
+  },
+  methods: {
+    create() {
+      EventBus.$emit("depreciation.entry.open");
+      EventBus.$on("depreciation.entry.close", () => {});
+    },
+    save() {
+      this.$store.dispatch("fixedAsset/save", () => {
+        this.$store.redirectToList();
+      });
+    },
+    refresh() {
+      this.isRefresh = true;
+      this.$store.dispatch("fixedAsset/refresh", () => {
+        this.isRefresh = false;
+      });
+    },
+    enableReading() {
+      this.showTab = true;
+      this.showSummary = true;
+      this.lockEdited = true;
+    },
+    enableEditing() {
+      this.showTab = false;
+      this.showSummary = false;
+      this.lockEdited = false;
+    }
+  }
+};
 </script>

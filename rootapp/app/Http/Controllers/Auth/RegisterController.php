@@ -24,12 +24,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
+    
     protected $redirectTo = '/';
 
     /**
@@ -59,12 +54,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
+   
     protected function create(array $data)
     {
         $user = User::create([

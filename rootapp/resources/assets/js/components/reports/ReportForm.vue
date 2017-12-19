@@ -8,9 +8,7 @@
                         <select class="form-control"
                                 v-if="input.type=='dropdown'"
                                 v-model="selected.params.models[input.model]" @change="onChange(input,$event.target.value)">
-                            <option v-if="input.default === ''" value="">
-                                {{input.default_text}}
-                            </option>
+                            <option v-if="input.default === ''" value="">{{input.default_text}}</option>
                             <option v-for="(lookup,index) in selected.params.lookups[input.selection]" 
                                 :value="lookup[getLookupValue(input.value)]"
                                 :key="index">

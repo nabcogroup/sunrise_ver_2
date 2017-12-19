@@ -155,6 +155,7 @@ class Payment extends BaseModel
     public function setStatusToCancel()
     {
         $this->status = "cancelled";
+        $this->effectivity_date = "0000-00-00";
         $this->amount = 0;
     }
 

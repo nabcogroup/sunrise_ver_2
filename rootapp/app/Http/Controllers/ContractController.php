@@ -383,6 +383,7 @@ class ContractController extends Controller
     {
 
         try {
+            
             $inputs = $request->all();
             
             //validate password

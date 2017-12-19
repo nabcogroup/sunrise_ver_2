@@ -18,7 +18,7 @@
             value: String
         },
         mounted() {
-            console.log(this.value);
+            
         },
         methods: {
             onChange(value) {

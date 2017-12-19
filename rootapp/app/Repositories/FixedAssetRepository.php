@@ -5,37 +5,42 @@ namespace App\Repositories;
 use App\Selection;
 use Carbon\Carbon;
 use App\FixedAsset;
-use App\Traits\PaginationTrait;
+use App\Services\EDB;
+use App\Services\Result;
 use Zend\Diactoros\Request;
+use App\Traits\PaginationTrait;
 
-class FixedAssetRepository extends AbstractRepository {
+class FixedAssetRepository extends AbstractRepository
+{
     
     use PaginationTrait;
 
-    protected function definedModel() {
+    protected function definedModel()
+    {
         
         return new FixedAsset();
     }
 
-    public function createInstance($data = array()) {
+    public function createInstance($data = array())
+    {
         return FixedAsset::createInstance($data);
     }
 
    
-    public function getAssets($filter_field,$filter_value) {
+    public function getAssets($property, $filter_field, $filter_value)
+    {
 
         $fixedAssets = $this->model->orderBy('description');
-        if(!is_null($filter_field)) {
-            if($filter_field == 'fixed_asset_type') {
-                $selection = Selection::where('category','fixed_asset_type')->where('name','like','%'.$filter_value.'%')->first();
+        if (!is_null($filter_field)) {
+            if ($filter_field == 'fixed_asset_type') {
+                $selection = Selection::where('category', 'fixed_asset_type')->where('name', 'like', '%'.$filter_value.'%')->first();
+                $filter_value = (!is_null($selection)) ? $selection->code : '';
+            }
+            $fixedAssets = $fixedAssets->where($filter_field, 'like', '%'.$filter_value.'%');
+        }
 
-                $filter_value = (!is_null($selection)) ? $selection->code : '';
-            }
-            else if($filter_field == 'villa_location') {
-                $selection = Selection::where('category','villa_location')->where('name','like','%'.$filter_value.'%')->first();
-                $filter_value = (!is_null($selection)) ? $selection->code : '';
-            }
-            $fixedAssets = $fixedAssets->where($filter_field,'like','%'.$filter_value.'%');
+        if (!is_null($property)) {
+            $fixedAssets->where('property', $property);
         }
 
 
@@ -43,7 +48,7 @@ class FixedAssetRepository extends AbstractRepository {
             
             $item = [
                 "id"                    =>  $row->id,
-                "purchase_date"          =>  $row->purchase_date,    
+                "purchase_date"          =>  $row->purchase_date,
                 "full_purchase_date"    =>  $row->full_purchase_date,
                 "description"           =>  $row->description,
                 "fixed_asset_type"      =>  $row->fixed_asset_type,
@@ -59,5 +64,64 @@ class FixedAssetRepository extends AbstractRepository {
         });
     }
 
-    
+   
+
+    public function saveFixedAsset($request)
+    {
+        try {
+            if($this->isEditMode($request)) {
+                $model = $this->model->with('depreciations')->find($entity['id']);
+                $existingDepreciations = $model->depreciations->get();
+                if ($existingRecord->count() > 0) {
+                    throw new Exception('Cannot modify exisiting fixed asset');
+                }
+            }
+            
+            $model = $this->attach($entity)->instance();
+            
+            //check if there is an existing record
+            $existingDepreciations = $model->depreciations()->get();
+            if ($existingRecord->count() > 0) {
+                foreach ($existingDepreciations as $depreciation) {
+                    $depreciation->delete();
+                }
+            }
+            
+            $attributes = [
+                'num_year'              => $this->model->year_span,
+                'current_book_value'    => $this->model->current_book_value,
+                'depreciation_value'    => $this->model->depreciation_amount,
+                'opening_balance_amount' => $this->model->total_cost_for_dep,
+                ''
+            ];
+            $num_year = $this->model->year_span;
+            $current_book_value = $this->model->current_book_value;
+            $depreciation_value = $this->model->depreciation_amount;
+            $opening_balance_amount = $this->model->opening_amount;
+            $opening_year = Carbon::parse($this->model->opening_year);
+
+
+            for ($i =0; $i < $num_year; $i++) {
+                
+                $depreciation = $model->depreciation()->create([
+                    'ob_amount'         =>  $opening_balance_amount,
+                    'ob_year'           =>  $opening_year,
+                    'depreciated_value' =>  $depreciation_value,
+                    'book_value'        =>  $current_book_value,
+                    'acct_code'         =>  '100'
+                ]);
+                
+                $opening_balance_amount = $opening_balance_amount - $depreciation_value;
+                $opening_year = $opening_year + 1;
+                $current_book_value =  $current_book_value - $depreciation_value;
+            }
+
+            //create depreciation table
+        }
+        catch(Exception $e) {
+            Result::badRequest(['message' => $e->getMessage()]);
+        }
+    }
+
+   
 }

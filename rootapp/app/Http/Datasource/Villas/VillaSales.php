@@ -45,7 +45,8 @@ class VillaSales implements IDataSource
             ->groupBy(
                 "villas.villa_no",
                 \DB::raw("MONTH(payments.effectivity_date)"),
-                \DB::raw("YEAR(payments.effectivity_date)"))
+                \DB::raw("YEAR(payments.effectivity_date)"),
+                "payments.status")
             ->whereNull("contracts.deleted_at")
             ->where("villas.location",$location)
             ->where(\DB::raw("YEAR(payments.effectivity_date)"),$year)
@@ -53,8 +54,9 @@ class VillaSales implements IDataSource
             ->get();
 
         $groupSummary = $this->arrayGroupBy($recordset,null,["villa_no","monthly_schedule"]);
+        
         $this->params->update("location",\App\Selection::getValue("villa_location",$location));
-
+        
         return new ReportMapper("Villa Sales Report",$this->params->toArray(),$groupSummary);
 
     }

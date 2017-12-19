@@ -135,11 +135,12 @@ Route::group(['middleware' => ['auth','roles'],'roles' => ['account','admin']],
     function() {
 
         Route::get('fixed-asset/','FixedAssetController@index');
-        Route::get('fixed-asset/{id?}','FixedAssetController@register');
+        Route::get('fixed-asset/register/{id?}','FixedAssetController@register');
 
-        Route::get("api/fixed-asset/", "FixedAssetController@all");
+        
         Route::get("api/fixed-asset/create", "FixedAssetController@create");
         Route::get("api/fixed-asset/edit/{id}", "FixedAssetController@edit");
+        Route::get("api/fixed-asset/{property?}", "FixedAssetController@all");
         Route::post("api/fixed-asset/store", "FixedAssetController@store");
         Route::post("api/fixed-asset/update", "FixedAssetController@store");
 

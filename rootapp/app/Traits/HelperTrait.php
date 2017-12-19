@@ -90,6 +90,15 @@ trait HelperTrait
         return $diff;
     }
 
+    public function breakApart($value1,$value2) {
+        $result = 0;
+        if($value1 > 0) {
+            $result = $value1 / $value2;
+        }
+
+        return $result;
+    }
+
 
     public function getMonthLookups() {
         return [

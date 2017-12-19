@@ -11,7 +11,6 @@ const state = {
     errorValidations: new ErrorValidations()
 }
 
-
 const mutations = {
     create(state,data) {
         state.data = data.data.data;
@@ -87,7 +86,7 @@ const actions = {
         axiosRequest.redirect("fixed-asset","");
     },
     redirectToUpdate({ state,commit },payload) {
-        axiosRequest.redirect('fixed-asset','',payload.id);
+        axiosRequest.redirect('fixed-asset','register',payload.id);
     },
     update() {
         

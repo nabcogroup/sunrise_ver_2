@@ -83,6 +83,10 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
             'Lcobucci\\JWT\\' => 13,
             'Laravel\\Tinker\\' => 15,
         ),
+        'K' => 
+        array (
+            'KielPack\\LaraLibs\\' => 18,
+        ),
         'I' => 
         array (
             'Illuminate\\' => 11,
@@ -125,6 +129,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'A' => 
         array (
             'App\\' => 4,
+            'Accounting\\' => 11,
         ),
     );
 
@@ -247,6 +252,10 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         array (
             0 => __DIR__ . '/..' . '/laravel/tinker/src',
         ),
+        'KielPack\\LaraLibs\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src',
+        ),
         'Illuminate\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate',
@@ -323,6 +332,10 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Accounting\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/modules/Accounting/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -376,6 +389,10 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
     );
 
     public static $classMap = array (
+        'Accounting\\AccountingModuleProvider' => __DIR__ . '/../..' . '/modules/Accounting/src/AccountingModuleProvider.php',
+        'Accounting\\App\\Http\\Controllers\\FixedAssetController' => __DIR__ . '/../..' . '/modules/Accounting/src/app/Http/Controllers/FixedAssetController.php',
+        'Accounting\\App\\Http\\Routes\\AccountingRoute' => __DIR__ . '/../..' . '/modules/Accounting/src/app/Http/Routes/AccountingRoute.php',
+        'Accounting\\App\\Http\\Routes\\Facades\\AccountingRoute' => __DIR__ . '/../..' . '/modules/Accounting/src/app/Http/Routes/Facades/AccountingRoute.php',
         'App\\AccountChart' => __DIR__ . '/../..' . '/app/AccountChart.php',
         'App\\BankAccount' => __DIR__ . '/../..' . '/app/BankAccount.php',
         'App\\BaseModel' => __DIR__ . '/../..' . '/app/BaseModel.php',
@@ -383,6 +400,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'App\\Contract' => __DIR__ . '/../..' . '/app/Contract.php',
         'App\\ContractBill' => __DIR__ . '/../..' . '/app/ContractBill.php',
         'App\\ContractTermination' => __DIR__ . '/../..' . '/app/ContractTermination.php',
+        'App\\Depreciation' => __DIR__ . '/../..' . '/app/Depreciation.php',
         'App\\Events\\Bill\\NotifyUpdate' => __DIR__ . '/../..' . '/app/Events/Bill/NotifyUpdate.php',
         'App\\Events\\Bill\\OnDisplay' => __DIR__ . '/../..' . '/app/Events/Bill/OnDisplay.php',
         'App\\Events\\Bill\\OnRegister' => __DIR__ . '/../..' . '/app/Events/Bill/OnRegister.php',
@@ -408,11 +426,13 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'App\\Http\\Controllers\\ContractController' => __DIR__ . '/../..' . '/app/Http/Controllers/ContractController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
+        'App\\Http\\Controllers\\DepreciationController' => __DIR__ . '/../..' . '/app/Http/Controllers/DepreciationController.php',
         'App\\Http\\Controllers\\ExpenditureController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExpenditureController.php',
         'App\\Http\\Controllers\\FixedAssetController' => __DIR__ . '/../..' . '/app/Http/Controllers/FixedAssetController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\MockupMobileController' => __DIR__ . '/../..' . '/app/Http/Controllers/MockupMobileController.php',
         'App\\Http\\Controllers\\PayeeController' => __DIR__ . '/../..' . '/app/Http/Controllers/PayeeController.php',
+        'App\\Http\\Controllers\\PropertyController' => __DIR__ . '/../..' . '/app/Http/Controllers/PropertyController.php',
         'App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportController.php',
         'App\\Http\\Controllers\\TenantController' => __DIR__ . '/../..' . '/app/Http/Controllers/TenantController.php',
         'App\\Http\\Controllers\\Utilities\\ContractUtilityController' => __DIR__ . '/../..' . '/app/Http/Controllers/Utilities/ContractUtilityController.php',
@@ -509,9 +529,11 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'App\\Selection' => __DIR__ . '/../..' . '/app/Selection.php',
         'App\\Services\\Bundle' => __DIR__ . '/../..' . '/app/Services/Bundle.php',
         'App\\Services\\CalendarService' => __DIR__ . '/../..' . '/app/Services/CalendarService.php',
+        'App\\Services\\EDB' => __DIR__ . '/../..' . '/app/Services/EDB.php',
         'App\\Services\\Evaluator' => __DIR__ . '/../..' . '/app/Services/Evaluator.php',
         'App\\Services\\EventListenerRegister' => __DIR__ . '/../..' . '/app/Services/EventListenerRegister.php',
         'App\\Services\\FileManager' => __DIR__ . '/../..' . '/app/Services/FileManager.php',
+        'App\\Services\\Memoization' => __DIR__ . '/../..' . '/app/Services/Memoization.php',
         'App\\Services\\PaymentScheduleGeneratorService' => __DIR__ . '/../..' . '/app/Services/PaymentScheduleGeneratorService.php',
         'App\\Services\\ReportService\\ColHeader' => __DIR__ . '/../..' . '/app/Services/ReportSevice/ReportViewer.php',
         'App\\Services\\ReportService\\Header' => __DIR__ . '/../..' . '/app/Services/ReportSevice/ReportViewer.php',
@@ -2000,6 +2022,37 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/ConsoleColor.php',
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/JakubOnderka/PhpConsoleColor/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/JakubOnderka/PhpConsoleHighlighter/Highlighter.php',
+        'KielPack\\LaraLibs\\Base\\AbstractRepository' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Base/AbstractRepository.php',
+        'KielPack\\LaraLibs\\Base\\BaseModel' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Base/BaseModel.php',
+        'KielPack\\LaraLibs\\Base\\Controller' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Base/Controller.php',
+        'KielPack\\LaraLibs\\Base\\Traits\\BaseModelSaveTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Base/Traits/BaseModelSaveTrait.php',
+        'KielPack\\LaraLibs\\Base\\Traits\\RepoQueryTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Base/Traits/RepoQueryTrait.php',
+        'KielPack\\LaraLibs\\Base\\Traits\\StatusTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Base/Traits/StatusTrait.php',
+        'KielPack\\LaraLibs\\Helpers\\EDB' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Helpers/EDB.php',
+        'KielPack\\LaraLibs\\Helpers\\FileManager' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Helpers/FileManager.php',
+        'KielPack\\LaraLibs\\LaraLibProvider' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/LaraLibProvider.php',
+        'KielPack\\LaraLibs\\Repositories\\IRepositories' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Repositories/IRepositories.php',
+        'KielPack\\LaraLibs\\Selections\\SelectionModel' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Selections/SelectionModel.php',
+        'KielPack\\LaraLibs\\Supports\\Bundle' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Supports/Bundle.php',
+        'KielPack\\LaraLibs\\Supports\\EventListenerRegister' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Supports/EventListenerRegister.php',
+        'KielPack\\LaraLibs\\Supports\\Facades\\Bundle' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Supports/Facades/Bundle.php',
+        'KielPack\\LaraLibs\\Supports\\Facades\\EventListenerRegister' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Supports/Facades/EventListenerRegister.php',
+        'KielPack\\LaraLibs\\Supports\\Facades\\FileManager' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Supports/Facades/FileManager.php',
+        'KielPack\\LaraLibs\\Supports\\Facades\\Result' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Supports/Facades/Result.php',
+        'KielPack\\LaraLibs\\Supports\\Memoized' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Supports/Memoized.php',
+        'KielPack\\LaraLibs\\Supports\\Result' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Supports/Result.php',
+        'KielPack\\LaraLibs\\Traits\\ArrayGroupTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Traits/ArrayGroupTrait.php',
+        'KielPack\\LaraLibs\\Traits\\MathTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Traits/MathTrait.php',
+        'KielPack\\LaraLibs\\Traits\\PaginationTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Traits/PaginationTrait.php',
+        'KielPack\\LaraLibs\\Traits\\PeriodTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Traits/PeriodTrait.php',
+        'KielPack\\LaraLibs\\Traits\\SerializeTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Traits/SerializeTrait.php',
+        'KielPack\\LaraLibs\\Traits\\StringTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Traits/StringTrait.php',
+        'KielPack\\LaraLibs\\Traits\\UserRegistrationTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Traits/UserRegistrationTrait.php',
+        'KielPack\\LaraLibs\\Traits\\UserRoleTrait' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Traits/UserRoleTrait.php',
+        'KielPack\\LaraLibs\\Users\\Middleware\\RoleAuthMiddleware' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Users/Middleware/RoleAuthMiddleware.php',
+        'KielPack\\LaraLibs\\Users\\Middleware\\VerifyAdminMiddleware' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Users/Middleware/VerifyAdminMiddleware.php',
+        'KielPack\\LaraLibs\\Users\\Role' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Users/Role.php',
+        'KielPack\\LaraLibs\\Users\\User' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Users/User.php',
         'Laravel\\Tinker\\Console\\TinkerCommand' => __DIR__ . '/..' . '/laravel/tinker/src/Console/TinkerCommand.php',
         'Laravel\\Tinker\\TinkerCaster' => __DIR__ . '/..' . '/laravel/tinker/src/TinkerCaster.php',
         'Laravel\\Tinker\\TinkerServiceProvider' => __DIR__ . '/..' . '/laravel/tinker/src/TinkerServiceProvider.php',

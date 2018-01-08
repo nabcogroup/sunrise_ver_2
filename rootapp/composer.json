@@ -30,7 +30,8 @@
         "psr-4": {
             "Tests\\": "tests/",
             "KielPack\\LaraLibs\\": "modules/kielpack/laralibs/src",
-            "Accounting\\": "modules/Accounting/src"
+            "Accounting\\": "modules/Accounting/src",
+            "Admin\\": "modules/Admin/src"
         }
     },
     "scripts": {

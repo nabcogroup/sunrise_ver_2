@@ -55,5 +55,6 @@ return array(
     'Barryvdh\\DomPDF\\' => array($vendorDir . '/barryvdh/laravel-dompdf/src'),
     'Barryvdh\\Cors\\' => array($vendorDir . '/barryvdh/laravel-cors/src'),
     'App\\' => array($baseDir . '/app'),
+    'Admin\\' => array($baseDir . '/modules/Admin/src'),
     'Accounting\\' => array($baseDir . '/modules/Accounting/src'),
 );

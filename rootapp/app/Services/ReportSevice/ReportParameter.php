@@ -22,6 +22,7 @@ class ReportParameter
     }
 
     public function field($name,$default = null) {
+
         return $this->request->query($name,$default);
     }
 

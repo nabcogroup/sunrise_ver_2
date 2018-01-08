@@ -26,7 +26,8 @@ class TerminateForm extends FormRequest
         return [
             "description"   =>  'required',
             "password"      =>  'required',
-            'ref_no'        =>  'required'
+            'ref_no'        =>  'required',
+            'date_termination'  => 'required|date'
         ];
     }
 }

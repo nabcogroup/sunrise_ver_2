@@ -27,7 +27,9 @@ class Contract extends BaseModel
     protected $table = "contracts";
     protected $appends = ['full_status', 'full_contract_type', 'payable_per_month', 'full_period_start', 'full_period_end', 'total_year_month', 'total_received_payment'];
     protected $hidden = ['deleted_at'];
-    
+
+
+
 
     //factory method
     public static function createInstance($defaultMonths)
@@ -52,6 +54,10 @@ class Contract extends BaseModel
         return $contract;
     }
 
+
+
+
+
     /******** mutators ********/
     protected function getFullStatusAttribute()
     {
@@ -65,7 +71,6 @@ class Contract extends BaseModel
 
     protected function getPayablePerMonthAttribute()
     {
-        
         if ($this->amount > 0) {
             $totalAmountPerDays = $this->calculatePayableAmount($this->period_start, $this->period_end, $this->amount);
             return $totalAmountPerDays;
@@ -90,7 +95,8 @@ class Contract extends BaseModel
     {
         if ($value !== null) {
             return $this->getMetaValue($value);
-        } else {
+        }
+        else {
             false;
         }
     }
@@ -165,6 +171,8 @@ class Contract extends BaseModel
 
         return $payments;
     }
+
+
 
 
     public function saveContract($entity, $userId) {
@@ -253,4 +261,14 @@ class Contract extends BaseModel
             return Result::badRequest(["message" => $e->getMessage()]);
         }
     }
+
+    public function getPeriodStartYearRecords() {
+
+        return \DB::table('contracts')
+                ->select(\DB::raw('YEAR(period_start) as period_start_year'))
+                ->whereNull('deleted_at')  
+                ->distinct();
+    }
+
+
 }

@@ -82,6 +82,10 @@ class ContractBill extends BaseModel
         return $this->contract()->first()->tenant()->first();
 
     }
+
+    public function villa() {
+        return $this->contract()->first()->villa()->first();
+    }
     /******************
     * end navigation
      *******************/
@@ -141,5 +145,17 @@ class ContractBill extends BaseModel
     }
     public function isPending() {
         return $this->hasStatusOf('received');
+    }
+
+    public function clearance(Carbon $terminationDate) {
+
+        $payments = $this->Payments()->where("status","received")->get();
+
+        foreach ($payments as $payment) {
+            if(Carbon::parse($payment->effectivity_date)->gt($terminationDate)) {
+                $payment->setStatusToCancel();
+                $payment->save();
+            }
+        }
     }
 }

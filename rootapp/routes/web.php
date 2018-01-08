@@ -2,6 +2,19 @@
 
 /*
 |--------------------------------------------------------------------------
+| Admin Utility
+|--------------------------------------------------------------------------
+*/
+
+Route::group(['prefix' => "admin"],function() {
+
+    AdminRoute::routes();
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 |
@@ -13,17 +26,13 @@
 
 Auth::routes();
 
-
 /*
-|--------------------------------------------------------------------------
-| User Web Routes
-|--------------------------------------------------------------------------
-*/
-Route::group(['prefix' =>  "register"], function() {
-        Route::get("/edit/{id}", "Auth\RegisterController@edit")->name('user.edit');
-        Route::post("/update", "Auth\RegisterController@update")->name('user.update');
-   
-});
+    |--------------------------------------------------------------------------
+    | User Web Routes
+    |--------------------------------------------------------------------------
+    */
+Route::get("register/edit/{id}", "Auth\RegisterController@edit")->name('user.edit');
+Route::post("register/update", "Auth\RegisterController@update")->name('user.update');
 
 
 /********************************************************
@@ -37,7 +46,7 @@ Route::get('/api/about', "HomeController@apiInfo");
 | Villa Web Routes
 |--------------------------------------------------------------------------
 */
-Route::group(['middleware' => ['auth','roles'],'roles' => ['contract']],function() {
+Route::group(['middleware' => ['auth','roles'],'roles' => ['contract','admin']],function() {
 
     Route::get('villa/',"VillaController@index")->name('villa.manage');
     Route::get('villa/register/{id?}',"VillaController@register")->name('villa.register');
@@ -174,13 +183,13 @@ Route::group(["middleware" => ["auth","roles"],"roles" => ["account"]],
  * Report
  ***********************************************************/
 Route::group(['prefix' => 'reports', 'middleware' => ['auth','roles']],function() {
-    Route::get("/",["uses" => "ReportController@index","roles" => ["contract","account"]]);
-    Route::get("/{reportId}",["uses" => "ReportController@show","roles" => ["contract","account"]]);
+    Route::get("/",["uses" => "ReportController@index","roles" => ["contract","account","admin"]]);
+    Route::get("/{reportId}",["uses" => "ReportController@show","roles" => ["contract","account","admin"]]);
 
 });
 
 Route::group(['prefix' => 'api/reports', 'middleware' => ['auth','roles']],function() {
-    Route::get("/lookups/{reportId}",["uses" =>  "ReportController@apiLookups","roles" => ["contract","account"]]);
+    Route::get("/lookups/{reportId}",["uses" =>  "ReportController@apiLookups","roles" => ["contract","account","admin"]]);
 });
 
 
@@ -202,14 +211,14 @@ Route::group(['prefix' => 'api/payee', 'middleware' => ['auth','roles']],functio
  * Tenant
  ***********************************************************/
 Route::group(['prefix' => 'tenant', 'middleware' => ['auth','roles']],function() {
-    Route::get("/",["uses" =>  "TenantController@index","roles" => ["contract", "account"]]);
-    Route::get("/register/{tenantId?}",["uses" =>  "TenantController@register","roles" => ["contract", "account"]]);
+    Route::get("/",["uses" =>  "TenantController@index","roles" => ["contract", "account","admin"]]);
+    Route::get("/register/{tenantId?}",["uses" =>  "TenantController@register","roles" => ["contract", "account","admin"]]);
 });
 Route::group(['prefix' => 'api/tenant', 'middleware' => ['auth','roles']],function() {
 
-    Route::get("/list",["uses" =>  "TenantController@apiList","roles" => ["contract", "account"]]);
-    Route::get("/edit/{tenantId}",["uses" =>  "TenantController@apiShow","roles" => ["contract", "account"]]);
-    Route::get("/search/{regId?}",["uses" =>  "TenantController@apiSearch","roles" => ["contract", "account"]]);
-    Route::post("/store",["uses" =>  "TenantController@apiStore","roles" => ["contract", "account"]]);
+    Route::get("/list",["uses" =>  "TenantController@apiList","roles" => ["contract", "account","admin"]]);
+    Route::get("/edit/{tenantId}",["uses" =>  "TenantController@apiShow","roles" => ["contract", "account","admin"]]);
+    Route::get("/search/{regId?}",["uses" =>  "TenantController@apiSearch","roles" => ["contract", "account","admin"]]);
+    Route::post("/store",["uses" =>  "TenantController@apiStore","roles" => ["contract", "account", "admin"]]);
 
 });

@@ -19,7 +19,9 @@ class MenuRepository
         $menus = [
             'contract' => [
                 'name' => 'Contract',
+                'roles' => ['contract'],
                 'icon' => 'fa-certificate',
+                'visible' => false,
                 'submenus' => [
                     ['name' => 'Dashboard', 'url' => url('contract'), 'disabled' => true, 'icon' => 'fa-certificate'],
                     ['name' => 'Manage', 'url' => url('contract'), 'icon' => 'fa-certificate'],
@@ -34,6 +36,7 @@ class MenuRepository
                 'name' => 'Account',
                 'roles' => ['account'],
                 'icon' => 'fa-money',
+                'visible' => false,
                 'submenus' => [
                     ['name' => 'Dashboard', 'url' => url('bill'), 'disabled' => true, 'icon' => 'fa-certificate'],
                     ['name' => 'Manage Receivable', 'url' => url('bill'), 'icon' => 'fa-certificate'],
@@ -52,7 +55,8 @@ class MenuRepository
             'management' => [
                 'name' => 'Management',
                 'icon' => 'fa-suitcase',
-                'roles' => ['management'],
+                'roles' => ['management','admin'],
+                'visible' => false,
                 'submenus' => [
                     ['name' => 'Message', 'url' => url('reports'), 'disabled' => true, 'icon' => 'fa-certificate'],
                     ['name' => 'Sales Chart', 'url' => url('reports'), 'disabled' => true, 'icon' => 'fa-certificate'],
@@ -61,25 +65,26 @@ class MenuRepository
             ],
             'admin' => [
                 'name' => 'Administration',
+                'roles' => ['admin'],
                 'icon' => 'fa-suitcase',
+                'visible' => false,
                 'submenus' => [
-                    ['name' => 'Selection', 'url' => url('/'), 'disabled' => true, 'icon' => 'fa-certificate'],
-                    ['name' => 'Unpost Payment', 'url' => url(''), 'disabled' => true, 'icon' => 'fa-certificate'],
-                    ['name' => 'User Management', 'url' => url('register'), 'disabled' => true, 'icon' => 'fa-certificate']
+                    ['name' => 'Admin Dashboard', 'url' => url('/admin'), 'disabled' => false, 'icon' => 'fa-user'],
+                    ['name' => 'Tenants', 'url' => url('tenant'), 'disabled' => false, 'icon' => 'fa-certificate'],
+                    ['name' => 'Villa Master File', 'url' => url('villa'), 'icon' => 'fa-certificate']
                 ],
             ],
-
         ];
 
         $currentUser = $this->getCurrentUser();
         foreach ($menus as $key => &$value) {
-            if ($currentUser && $currentUser->hasRole($key)) {
-                $value['visible'] = true;
-            } else {
-                $value['visible'] = false;
+            $roles = $value['roles'];
+            foreach ($roles as $role) {
+                if($currentUser->hasRole($role)) {
+                    $value['visible'] = true;
+                }
             }
         }
-
 
         return $menus;
     }

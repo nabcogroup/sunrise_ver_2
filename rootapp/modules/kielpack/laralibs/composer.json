@@ -1,6 +1,7 @@
 {
     "name": "kielpack/laralibs",
     "type": "library",
+    "description": "",
     "require": {
         "php": "^7.1"
     },
@@ -13,9 +14,6 @@
     ],
     "minimum-stability": "dev",
     "autoload": {
-        "classmap": [
-            "database"
-        ],
         "psr-4": {
             "KielPack\\LaraLibs\\": "packages/kielpack/laralibs/src/"
         }

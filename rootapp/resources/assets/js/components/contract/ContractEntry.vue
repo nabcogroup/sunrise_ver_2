@@ -92,7 +92,6 @@ export default {
                 this.$store.dispatch('contracts/recalc', { rate: 0 });
             else
                 this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
-
         }
     },
     computed: {

@@ -1,8 +1,6 @@
 @php
     $data = $datasource->getData();
 
-
-
 @endphp
 
 {{ $slot }}

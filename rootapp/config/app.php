@@ -225,11 +225,13 @@ return [
 
 
         //global function helper
-        App\Providers\HelperFunctionProvider::class,
+        //App\Providers\HelperFunctionProvider::class,
 
-        KielPack\LaraLibs\LaraLibProvider::class,
+        // KielPack\LaraLibs\LaraLibProvider::class,
 
-        Accounting\AccountingModuleProvider::class
+        // Accounting\AccountingModuleProvider::class
+
+        Admin\AdminProvider::class
 
     ],
 

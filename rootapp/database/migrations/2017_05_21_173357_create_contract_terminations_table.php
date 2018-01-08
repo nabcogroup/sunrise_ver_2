@@ -14,13 +14,16 @@ class CreateContractTerminationsTable extends Migration
     public function up()
     {
         Schema::create('contract_terminations', function (Blueprint $table) {
-            $table->timestamps();
             
             $table->integer('contract_id')->unsigned()->index();
 
             $table->text('description');
 
             $table->string('ref_no');
+
+            $table->date('termination_date')->nullable();
+
+            $table->timestamps();
 
             $table->primary('contract_id');
 

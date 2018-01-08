@@ -23,6 +23,7 @@ class ReportController extends Controller
 
     public function apiLookups($reportId) {
         $report = ReportManager::get($reportId,[]);
+
         return $report->getLookups();
     }
 
@@ -54,7 +55,7 @@ class ReportController extends Controller
     public function apiShow($reportId,Request $request) {
         
         $params = new ReportParameter($request);
-        
+
         $report = ReportManager::get($reportId,$params);
         $datasource = $report->execute();
         

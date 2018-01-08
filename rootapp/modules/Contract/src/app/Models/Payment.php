@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Contract\Models;
+namespace Contract\App\Models;
 
 
 use KielPack\LaraLibs\Base\BaseModel;

@@ -104,6 +104,7 @@
                 this.$store.commit('contracts/redirectToRegister');
             },
             doAction(a, item, index) {
+
                 if (a.key == 'create') {
                     this.$store.commit('contracts/createBill', item.contract_no);
                 }

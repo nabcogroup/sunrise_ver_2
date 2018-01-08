@@ -2,13 +2,18 @@
     <v-dialog dialog-title="Terminate Contract" modal-id="terminateContract" v-model="toggle" @dismiss="save">
         <form class="form-horizontal" @keydown="validations.clear($event.target.name)">
             <div class="x-read-group">
-                <label class="col-md-3 x-label">Contract No:</label>
-                <label class="col-md-9 x-desc">{{contractForTerminate.contract_no}}</label>
+                <label class="col-md-3 x-label">Villa No:</label>
+                <label class="col-md-9 x-desc">{{contractForTerminate.villa_no}}</label>
             </div>
             <div class="x-read-group">
                 <label class="col-md-3 x-label">Tenant Name:</label>
                 <label class="col-md-9 x-desc">{{contractForTerminate.tenant_name}}</label>
             </div>
+            <div class="x-read-group">
+                <label class="col-md-3 x-label">Contract No:</label>
+                <label class="col-md-9 x-desc">{{contractForTerminate.contract_no}}</label>
+            </div>
+
             <div class="form-group">
                 <label for="description" class="col-md-3">Description</label>
                 <div class="col-md-9">
@@ -21,6 +26,13 @@
                 <div class="col-md-9">
                     <input type="text" name="ref_no" id="ref_no" class="form-control" v-model="contractForTerminate.ref_no" />
                     <error-span :value="errors" name="ref_no"></error-span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="date_termination" class="col-md-3">Termination Date:</label>
+                <div class="col-md-9">
+                    <dt-picker dp-name="date_termination" @pick="contractForTerminate.date_termination = $event" :value="contractForTerminate.date_termination"></dt-picker>
+                    <error-span v-model="errors" name="date_termination"></error-span>
                 </div>
             </div>
             <div class="form-group">

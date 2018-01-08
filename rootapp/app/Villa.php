@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Villa extends BaseModel
@@ -75,6 +76,21 @@ class Villa extends BaseModel
         return $this->attributes['full_status'] = Selection::convertCode($this->status);
     }
 
+    public function getRentCommencementAttribute($value) {
+        if(is_null($value)) {
+            return false;
+        }
+        else {
+            return Carbon::parse($value);
+        }
+    }
+
+    public function getTotalContractValueAttribute() {
+        return $this->contracts()->sum("amount");
+    }
+
+
+
 
 
 
@@ -102,4 +118,8 @@ class Villa extends BaseModel
     public function statusCount() {
         return $this->select('status',\DB::raw('count(id) as count'))->groupBy('status')->get();
     }
+
+
+
+   
 }

@@ -15675,6 +15675,7 @@ const confirmation = {
             this.$store.commit('contracts/redirectToRegister');
         },
         doAction(a, item, index) {
+
             if (a.key == 'create') {
                 this.$store.commit('contracts/createBill', item.contract_no);
             } else if (a.key == 'cancelled') {
@@ -15821,6 +15822,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins__ = __webpack_require__(8);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16986,67 +16999,64 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: {
-        DepreciationDialog: __WEBPACK_IMPORTED_MODULE_2__DepreciationDialog_vue___default.a
-    },
-    props: ["id"],
-    mounted() {
-
-        if (this.id) {
-
-            this.$store.dispatch("fixedAsset/edit", { id: this.id });
-            this.enableReading();
-        } else {
-            this.$store.dispatch("fixedAsset/create");
-            this.enableEditing();
-        }
-    },
-    data() {
-        return {
-            grid: {
-                columns: [{ name: 'op_date', column: 'Opening Date' }, { name: 'op_amount', column: 'Opening Amount' }, { name: 'dp_amount', column: 'Depriciated Amount' }, { name: 'book_value', column: 'Book Value' }, { name: 'cummulative_amount', column: 'Cummulative Amount' }]
-            },
-            fixedAssetTab: "summary",
-            showTab: false,
-            showSummary: false,
-            lockEdited: false,
-            isRefresh: false
-        };
-    },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* mapGetters */])("fixedAsset", {
-        lookups: "lookups",
-        errorValidations: "errorValidations"
-    }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapState */])("fixedAsset", {
-        data: state => state.data
-    })),
-    methods: {
-        create() {
-            __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit('depreciation.entry.open');
-            __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on('depreciation.entry.close', () => {});
-        },
-        save() {
-            this.$store.dispatch("fixedAsset/save", () => {
-                this.$store.redirectToList();
-            });
-        },
-        refresh() {
-            this.isRefresh = true;
-            this.$store.dispatch("fixedAsset/refresh", () => {
-                this.isRefresh = false;
-            });
-        },
-        enableReading() {
-            this.showTab = true;
-            this.showSummary = true;
-            this.lockEdited = true;
-        },
-        enableEditing() {
-            this.showTab = false;
-            this.showSummary = false;
-            this.lockEdited = false;
-        }
-
+  components: {
+    DepreciationDialog: __WEBPACK_IMPORTED_MODULE_2__DepreciationDialog_vue___default.a
+  },
+  props: ["id"],
+  mounted() {
+    if (this.id) {
+      this.$store.dispatch("fixedAsset/edit", { id: this.id });
+      this.enableReading();
+    } else {
+      this.$store.dispatch("fixedAsset/create");
+      this.enableEditing();
     }
+  },
+  data() {
+    return {
+      grid: {
+        columns: [{ name: "op_date", column: "Opening Date" }, { name: "op_amount", column: "Opening Amount" }, { name: "dp_amount", column: "Depriciated Amount" }, { name: "book_value", column: "Book Value" }, { name: "cummulative_amount", column: "Cummulative Amount" }]
+      },
+      fixedAssetTab: "summary",
+      showTab: false,
+      showSummary: false,
+      lockEdited: false,
+      isRefresh: false
+    };
+  },
+  computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* mapGetters */])("fixedAsset", {
+    lookups: "lookups",
+    errorValidations: "errorValidations"
+  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapState */])("fixedAsset", {
+    data: state => state.data
+  })),
+  methods: {
+    create() {
+      __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit("depreciation.entry.open");
+      __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("depreciation.entry.close", () => {});
+    },
+    save() {
+      this.$store.dispatch("fixedAsset/save", () => {
+        this.$store.redirectToList();
+      });
+    },
+    refresh() {
+      this.isRefresh = true;
+      this.$store.dispatch("fixedAsset/refresh", () => {
+        this.isRefresh = false;
+      });
+    },
+    enableReading() {
+      this.showTab = true;
+      this.showSummary = true;
+      this.lockEdited = true;
+    },
+    enableEditing() {
+      this.showTab = false;
+      this.showSummary = false;
+      this.lockEdited = false;
+    }
+  }
 });
 
 /***/ }),
@@ -17531,16 +17541,17 @@ const func = {
 
         onNotify(response) {
             this.report_title = response.report_title;
-
             const params = this.params.params.find(item => {
                 return item.report_id === response.id;
             });
-            console.log(response);
 
             if (params !== undefined) {
                 if (params.lookups !== undefined && params.lookups.length === 0) {
-                    axiosRequest.get("reports", "lookups", response.report_name).then(r => params.lookups = r.data);
+                    axiosRequest.get("reports", "lookups", response.report_name).then(r => {
+                        params.lookups = r.data;
+                    });
                 }
+
                 this.selected.params = params;
             } else {
                 this.selected.params = {};
@@ -18988,7 +18999,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         dtext: "",
         includeDefault: false,
         disabled: false,
-        value: String
+        value: ""
     },
     mounted() {},
     methods: {
@@ -19944,6 +19955,7 @@ const state = {
         contract_no: '',
         tenant_name: '',
         description: '',
+        date_termination: moment(),
         password: '',
         ref_no: ''
     },
@@ -19993,6 +20005,7 @@ const mutations = {
     setContractForTerminate(state, payload) {
         if (payload) {
             state.contractForTerminate.id = payload.id;
+            state.contractForTerminate.villa_no = payload.villa_no;
             state.contractForTerminate.contract_no = payload.contract_no;
             state.contractForTerminate.tenant_name = payload.full_name;
         }
@@ -33324,6 +33337,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "disabled": _vm.disabled
     },
+    domProps: {
+      "value": _vm.value
+    },
     on: {
       "change": function($event) {
         _vm.onChange($event.target.value)
@@ -33337,8 +33353,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('option', {
       key: index,
       domProps: {
-        "value": option[_vm.keyValue],
-        "selected": _vm.value === option[_vm.keyValue]
+        "value": option[_vm.keyValue]
       }
     }, [_vm._v(_vm._s(option[_vm.keyText]))])
   })], 2)
@@ -33966,15 +33981,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "x-read-group"
   }, [_c('label', {
     staticClass: "col-md-3 x-label"
-  }, [_vm._v("Contract No:")]), _vm._v(" "), _c('label', {
+  }, [_vm._v("Villa No:")]), _vm._v(" "), _c('label', {
     staticClass: "col-md-9 x-desc"
-  }, [_vm._v(_vm._s(_vm.contractForTerminate.contract_no))])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.contractForTerminate.villa_no))])]), _vm._v(" "), _c('div', {
     staticClass: "x-read-group"
   }, [_c('label', {
     staticClass: "col-md-3 x-label"
   }, [_vm._v("Tenant Name:")]), _vm._v(" "), _c('label', {
     staticClass: "col-md-9 x-desc"
   }, [_vm._v(_vm._s(_vm.contractForTerminate.tenant_name))])]), _vm._v(" "), _c('div', {
+    staticClass: "x-read-group"
+  }, [_c('label', {
+    staticClass: "col-md-3 x-label"
+  }, [_vm._v("Contract No:")]), _vm._v(" "), _c('label', {
+    staticClass: "col-md-9 x-desc"
+  }, [_vm._v(_vm._s(_vm.contractForTerminate.contract_no))])]), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     staticClass: "col-md-3",
@@ -34045,6 +34066,36 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": _vm.errors,
       "name": "ref_no"
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    staticClass: "col-md-3",
+    attrs: {
+      "for": "date_termination"
+    }
+  }, [_vm._v("Termination Date:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-9"
+  }, [_c('dt-picker', {
+    attrs: {
+      "dp-name": "date_termination",
+      "value": _vm.contractForTerminate.date_termination
+    },
+    on: {
+      "pick": function($event) {
+        _vm.contractForTerminate.date_termination = $event
+      }
+    }
+  }), _vm._v(" "), _c('error-span', {
+    attrs: {
+      "name": "date_termination"
+    },
+    model: {
+      value: (_vm.errors),
+      callback: function($$v) {
+        _vm.errors = $$v
+      },
+      expression: "errors"
     }
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "form-group"

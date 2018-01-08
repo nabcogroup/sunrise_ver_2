@@ -37,7 +37,7 @@ class ReportMapper {
 
     public function getParam($name,$default = null) {
 
-        return  !is_null($this->mappers["params"][$name]) ? $this->mappers["params"][$name] : $default;
+        return (isset($this->mappers["params"][$name]) &&  !is_null($this->mappers["params"][$name])) ? $this->mappers["params"][$name] : $default;
         
     }
 

@@ -2,28 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NotifyUpdate;
-use App\Events\OnCalculation;
-use App\Events\OnCreating;
-use App\Events\Verify;
-
-use App\Http\Requests\ContractCalcForm;
-use App\Http\Requests\ContractForm;
-use App\Http\Requests\RenewalForm;
-use App\Http\Requests\TerminateForm;
-
-use App\Repositories\ContractRepository;
-use App\Selection;
 use App\User;
+use Carbon\Carbon;
+use App\Selection;
+use Dompdf\Exception;
+
+use App\Events\Verify;
+use App\Events\OnCreating;
+use App\Events\NotifyUpdate;
+use Illuminate\Http\Request;
+
+use App\Events\OnCalculation;
+use App\Http\Requests\RenewalForm;
+use App\Http\Requests\ContractForm;
 
 use App\Services\Bundle;
 use App\Services\EventListenerRegister;
 use App\Services\Result;
 
-use Carbon\Carbon;
-use Dompdf\Exception;
-use Illuminate\Http\Request;
+use App\Http\Requests\TerminateForm;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ContractCalcForm;
+use App\Repositories\ContractRepository;
+
+
 
 class ContractController extends Controller
 {
@@ -36,7 +38,9 @@ class ContractController extends Controller
     public function __construct(ContractRepository $repository)
     {
         $this->contractRepo = $repository;
+
         $this->selections = new Selection();
+
     }
 
     public function index()
@@ -109,33 +113,8 @@ class ContractController extends Controller
                     $event["contract_no"]   =  $collection->contract_no;
             });
 
-
-//            $contracts = $this->contractRepo->includeAssociates()
-//                ->activeOnly()
-//                ->getExpiryContracts(Carbon::parse($periods['start']), Carbon::parse($periods['end']))
-//                ->get();
-//
-//            $events = array();
-//
-//            if ($contracts) {
-//                foreach ($contracts as $contract) {
-//                    $event = [
-//                        "contract"      =>  $contract,
-//                        "id"            =>  $contract->getId(),
-//                        "contract_no"   =>  $contract->contract_no,
-//                        "full_name"   =>  $contract->tenant()->first()->full_name,
-//                        "period"        =>  ["start" => $contract->period_start, "end" => $contract->period_end_extended],
-//                        "title"         =>  $contract->villa()->first()->villa_no ." - ".$contract->tenant()->first()->full_name,
-//                        "start"         =>  Carbon::parse($contract->period_end_extended)->subDays(self::DEFAULT_EXPIRED_PERIOD)->toDateString(),
-//                        "end"           =>  Carbon::parse($contract->period_end_extended)->toDateString(),
-//                        "canRenew"      =>  true,
-//                    ];
-//
-//                    array_push($events, $event);
-//                }
-//            }
-
             return $eventCalendar->getEvents();
+
         } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }
@@ -143,13 +122,14 @@ class ContractController extends Controller
 
     public function apiGetList(Request $request, $status = 'pending')
     {
-
         try {
+
             //get user contractsp
             $contracts = $this->contractRepo->getContracts($status, $request->input('filter_field'), $request->input('filter_value'));
-            //evaluate contract pending
             
+            //evaluate contract pending
             return $contracts;
+
         } catch (Exception $e) {
             Result::badRequest(["message" => $e->getMessage()]);
         }
@@ -203,7 +183,9 @@ class ContractController extends Controller
                 //fire event
                 $bundle = new Bundle();
                 $bundle->add("villaId", $inputs['villa_id']);
+
                 event(new OnCalculation($bundle, new EventListenerRegister(["GetVillaOnRecalculate"])));
+
                 $villaOutput = $bundle->getOutput('villa');
                 if ($villaOutput != null) {
                     $ratePerMonth = $villaOutput->rate_per_month;
@@ -259,10 +241,16 @@ class ContractController extends Controller
     public function apiCancel(Request $request)
     {
         try {
+
+
             $contract = $this->contractRepo->find($request->input('id'));
+
             if ($contract->isPending()) {
+                
                 $tenantId = $contract->tenant_id;
+
                 $villaId = $contract->villa_id;
+
                 $contract->cancel();
                 $contract->save();
                 //cancel and delete
@@ -271,9 +259,11 @@ class ContractController extends Controller
                 $bundle = new Bundle();
                 $bundleValue = ["id" => $villaId, "status" => "vacant"];
                 $bundle->add("villa", $bundleValue);
+
                 event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus"])));
 
                 return Result::ok('Succefully cancelled!!!');
+
             } else {
                 throw new Exception("Unable to cancel the contract");
             }
@@ -383,15 +373,17 @@ class ContractController extends Controller
     {
 
         try {
-            
+
             $inputs = $request->all();
             
             //validate password
             $userId = Auth::user()->getAuthIdentifier();
+
             $user = User::find($userId);
             
             //verify password
             if (!$user->isPasswordMatch($inputs['password'])) {
+
                 throw new Exception('Password does not match');
             }
 
@@ -399,16 +391,18 @@ class ContractController extends Controller
             
             //terminate the contract
             if ($contract->isTerminated()) {
-                //update villa event
-                $bundle = new Bundle();
-                $bundleValue = ["id" => $contract->villa()->first()->id, "status" => "vacant"];
-                
-                $bundle->add("villa", $bundleValue);
-                $bundle->add('contract', $contract);
-                $bundle->add('user', $user);
-                
-                event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus","UpdatePayment"])));
-                
+                    //update villa event
+                    $bundle = new Bundle();
+                    $bundleValue = ["id" => $contract->villa()->first()->id, "status" => "vacant"];
+
+                    $bundle->add("villa", $bundleValue);
+
+                    $bundle->add('contract', $contract);
+
+                    $bundle->add('user', $user);
+
+                    event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus"])));
+
                 return Result::ok('Succefully terminated!!!');
             } else {
                 throw new Exception('Contract failed to terminate');

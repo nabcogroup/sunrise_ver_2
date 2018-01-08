@@ -21,7 +21,22 @@ class Payment extends BaseModel
         'full_date_deposited',
         'full_amount'
     ];
+
     protected $guarded = ['id','created_at','updated_at','deleted_at','replace_ref','bill_id'];
+
+    protected $fillable = [
+            "effectivity_date",
+            "payment_mode",
+            "payment_type",
+            "payment_no",
+            "period_start",
+            "period_end",
+            "description",
+            "bank",
+            "amount",
+            "remarks",
+            "deposited_bank",
+            "bank_account","date_deposited","reference_no","status","replace_ref","user_id"];
 
     //
     public function __construct(array $attributes = [])
@@ -31,8 +46,7 @@ class Payment extends BaseModel
         parent::__construct($attributes);
     }
 
-    public static function createInstance($initValues = array())
-    {
+    public static function createInstance($initValues = array()) {
         $p = new Payment([
             "effectivity_date"      =>  Carbon::now()->toDateTimeString(),
             "payment_type"          =>  "cheque",
@@ -65,12 +79,12 @@ class Payment extends BaseModel
     /**Mutator*/
     protected function getFullStatusAttribute()
     {
-        return $this->appends['full_status'] = Selection::getValue('payment_status', $this->status);
+        return Selection::convertCode($this->status);
     }
 
     protected function getFullPaymentTypeAttribute()
     {
-        return $this->appends['full_payment_type'] = Selection::convertCode($this->payment_type);
+        return Selection::convertCode($this->payment_type);
     }
 
     protected function getFullPaymentModeAttribute()
@@ -155,8 +169,10 @@ class Payment extends BaseModel
     public function setStatusToCancel()
     {
         $this->status = "cancelled";
-        $this->effectivity_date = "0000-00-00";
-        $this->amount = 0;
+    }
+
+    public function setStatusToReceived() {
+        $this->status = "received";
     }
 
     public function isClear()
@@ -183,10 +199,22 @@ class Payment extends BaseModel
     {
         return $this->hasStatusOf('deposit');
     }
-
    
     public function onlyClear() {
+
         return $this->where("status","clear");
+
+
+    }
+
+    public function revert() {
+
+        $this->status = "received";
+
+        $this->bank_account = "";
+
+        $this->date_deposited = null;
+
     }
 
     public function toOutputArray()

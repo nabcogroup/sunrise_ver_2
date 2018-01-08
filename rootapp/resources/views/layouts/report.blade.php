@@ -40,17 +40,18 @@
         }
     </style>
 </head>
+
 <body>
-<header class="container-fluid wrapper" style="border-bottom: 1px solid lightgray; margin-bottom: 55px">
-    <div class="row">
-        <div class="col-md-3 col-xs-2">
-            <img src="{{asset('imgs/logo.png')}}" class="img-logo"/>
+    <header class="container-fluid wrapper" style="border-bottom: 1px solid lightgray; margin-bottom: 55px">
+        <div class="row">
+            <div class="col-md-3 col-xs-2">
+                <img src="{{asset('imgs/logo.png')}}" class="img-logo"/>
+            </div>
+            <div class="col-md-9 col-xs-10">
+                {{$report_title or "Reports"}}
+            </div>
         </div>
-        <div class="col-md-9 col-xs-10">
-            {{$report_title or "Reports"}}
-        </div>
-    </div>
-</header>
+    </header>
 <main class="container-fluid">
     {{$slot}}
 </main>

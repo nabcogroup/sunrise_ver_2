@@ -108,4 +108,30 @@ trait ArrayGroupTrait
         }
         return $grouped;
     }
+
+    public function createDistinctGroup(&$sources,&$item,$key,$value) {
+        if(is_object($item) && isset($item->{$key})) {
+            if(!isset($sources[$item->{$key}])) {
+                $sources[$item->{$key}] = [$item->{$value}];
+            }
+            else {
+                if(!in_array($item->{$value},$sources[$item->{$key}])) {
+                    array_push($sources[$item->{$key}],$item->{$value});
+                }
+            }
+        }
+        elseif(isset($item[$key])) {
+            if(!isset($sources[$item[$key]])) {
+                $sources[$item[$key]] = [$item[$value]];
+            }
+            else {
+                if(!in_array($item[$value],$sources[$item[$key]])) {
+                    array_push($sources[$item[$key]],$item[$value]);
+                }
+            }            
+        }
+        else {
+            
+        }
+    }
 }

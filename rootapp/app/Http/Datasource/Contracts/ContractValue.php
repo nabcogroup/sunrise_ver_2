@@ -54,6 +54,7 @@ class ContractValue implements IDataSource
         $recordset = $recordset->get();
         
         $rows = $this->arrayGroup($recordset, function ($row) {
+
             $item = [
                 'villa_no'      =>  $row->villa_no,
                 'contract_no'   =>  $row->contract_no,
@@ -66,12 +67,16 @@ class ContractValue implements IDataSource
                 'contract_status'   =>  ucfirst($row->status)];
 
             return $item;
+
         });
-        
+
+        $title = "Contract Master List - ". Selection::getValue("villa_location",$location);
+
         $this->params->add("total", $recordset->sum('amount'));
+
         $this->params->update("location", Selection::getValue('villa_location', $location));
 
 
-        return new ReportMapper("Contract Master List", $this->params->toArray(), $rows["data"]);
+        return new ReportMapper($title, $this->params->toArray(), $rows["data"]);
     }
 }

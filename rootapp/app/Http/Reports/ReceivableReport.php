@@ -16,7 +16,19 @@ class ReceivableReport extends BaseReport {
     public function __construct($params)
     {
         $this->dataSource = new PaymentSchedule($params);
-        $this->templateSource = "receivable.schedule";
+
+        if(is_object($params)) {
+            if($params->field("report_type") == "per_property") {
+                $this->templateSource = "receivable.property";
+            }
+            else {
+                $this->templateSource = "receivable.schedule";
+            }
+
+
+        }
+
+
     }
 
 
@@ -30,7 +42,10 @@ class ReceivableReport extends BaseReport {
     {
         $lookups = Selection::getSelections(["villa_location"]);
         $lookups["months"] = $this->getMonthLookups();
-
+        $lookups["report_type"] = [
+            ["code" => "per_property", "name" => "Per Property"],
+            ["code" => "per_villa", "name" => "Per Villa"]
+        ];
         return $lookups;
     }
 }

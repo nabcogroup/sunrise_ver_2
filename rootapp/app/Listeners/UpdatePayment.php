@@ -27,13 +27,20 @@ class UpdatePayment
     public function handle(NotifyUpdate $event)
     {
         if($event->eventListener->isRegistered("UpdatePayment")) {
+
             $contract = $event->bundle->get('contract');
+
             $bill = $contract->bill()->first();
+
             $payments = $bill->payments()->get();
+
             foreach($payments as $payment) {
                 if($payment->isPending()) {
+
                     $payment->setStatusToCancel();
+
                     $payment->saveWithUser();
+
                 }
             }
         }

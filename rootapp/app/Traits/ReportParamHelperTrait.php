@@ -10,6 +10,8 @@ namespace App\Traits;
 
 
 use Carbon\Carbon;
+use KielPack\LaraLibs\Supports\Facades\Result;
+
 
 trait ReportParamHelperTrait
 {
@@ -74,5 +76,26 @@ trait ReportParamHelperTrait
             return Carbon::createFromDate($date->year,$date->month,1);
         }
 
+    }
+
+    public static function createYearFromDropdown($label, $model, $selection, $value = "code", $text = "name", $default_text = '--SELECT--', $default = '', $actions = null) {
+        try {
+           
+            $params = [
+                "label" => $label,
+                "type" => "dropdown",
+                "model" => $modelName,
+                "selection" => $selection,
+                "value" => $value,
+                "text" => $text,
+                "default_text" => $default_text,
+                "default" => $default
+            ];
+
+        }
+        catch(Exception $e) {
+            Result::badRequest(["errors" => $e->getMessage()]);
+        }
+        
     }
 }

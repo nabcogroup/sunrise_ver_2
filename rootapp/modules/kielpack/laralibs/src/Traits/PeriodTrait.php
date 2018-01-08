@@ -54,8 +54,6 @@ trait PeriodTrait
 
         $this->period_start = $startPeriod->toDateTimeString();
         $this->period_end = $startPeriod->addMonth($default)->addDay(-1)->toDateTimeString();
-
-
     }
 
     public function setPeriod($periodStart, $periodEnd)
@@ -111,5 +109,10 @@ trait PeriodTrait
         $period_end = $this->globalPeriodEnd($period_end);
 
         return Carbon::parse($period_start)->format($format) . $separator . Carbon::parse($period_end)->format($format);
+    }
+
+    public function getPeriodStartYearRecords() {
+
+        return $this->select('period_start')->distinct();
     }
 }

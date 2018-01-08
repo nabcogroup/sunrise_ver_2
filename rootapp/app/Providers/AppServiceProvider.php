@@ -20,6 +20,9 @@ class AppServiceProvider extends ServiceProvider
          //for old ver of my sql 
         Schema::defaultStringLength(191);
         View::composer('layouts.master', "\App\Http\ViewComposers\MenuComposer");
+
+        $this->loadHelpers();
+
     }
 
     /**
@@ -30,5 +33,15 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+    }
+
+    public function loadHelpers() {
+
+        $functionFiles = glob(dirname(__DIR__) . "/Helpers/*.php");
+        
+        foreach($functionFiles as $filename) {
+            if(file_exists($filename))
+                require_once $filename;
+        }
     }
 }

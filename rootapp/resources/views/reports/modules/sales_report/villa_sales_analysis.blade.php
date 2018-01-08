@@ -49,7 +49,6 @@
                                 ?>
                                 @if($item->payment_status === "clear")
                                     @php
-
                                         $total_payable += $item->monthly_payable;
                                         $month_name = date('M', mktime(0, 0, 0, $i, 10));
                                         
@@ -59,11 +58,15 @@
                                         else {
                                             $grand_total_per_month[$month_name] += $item->monthly_payable;
                                         }
-                                        
-                                        $grand_total_payable += $item->monthly_payable;
 
+                                        $grand_total_payable += $item->monthly_payable;
                                     @endphp
-                                    <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
+                                    @if($item->monthly_payable == 0)
+                                        <td class="text-center text-warning"><strong>FREE</strong></td>
+                                    @else
+                                        <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
+                                    @endif
+
                                 @elseif($item->payment_status == "cancelled" && floatval($item->monthly_payable) == 0)
                                     <td class="text-center text-danger"><strong>VACATED</strong></td>    
                                 @else

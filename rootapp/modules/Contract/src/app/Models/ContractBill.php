@@ -6,7 +6,7 @@
  * Time: 9:43 AM
  */
 
-namespace Contract\Models;
+namespace Contract\App\Models;
 
 
 use KielPack\LaraLibs\Base\BaseModel;

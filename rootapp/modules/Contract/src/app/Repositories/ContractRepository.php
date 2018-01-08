@@ -12,6 +12,12 @@ use KielPack\Laralibs\Repositories\BaseRepository;
 class ContractRepository extends BaseRepository {
 
 
+    /**
+     * ContractRepository constructor.
+     */
+    public function __construct(Request $request)
+    {
+    }
 
     protected function model()
     {
@@ -19,7 +25,6 @@ class ContractRepository extends BaseRepository {
     }
 
     public function expireContracts($start,$end) {
-
         return $this->model->whereBetween('period_end',[$start,$end]);
 
     }
@@ -60,6 +65,17 @@ class ContractRepository extends BaseRepository {
             
             
         }
+    }
+
+    public function getEventCalendar($start,$end) {
+
+        $contracts = $this->model
+            ->with('tenant','villa')
+            ->where('status','active')
+            ->whereBetween("period_end_extended",[$start, $end])->get();
+
+        return $contracts;
+
     }
 
 

@@ -16,3 +16,19 @@ if(!function_exists("create_calender_header")) {
     }
 
 }
+
+if(!function_exists("array_value_handling")) {
+    function array_value_handling(&$sources, $value,$increase = false) {
+
+        if(!isset($sources)) {
+            $sources = $value;
+
+        }
+        else {
+            if($increase) {
+                $sources += $value;
+            }
+        }
+
+    }
+}

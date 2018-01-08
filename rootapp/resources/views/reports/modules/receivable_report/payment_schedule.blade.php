@@ -36,22 +36,20 @@
                         @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
                             @if(isset($villa[$i]))
                                 @foreach($villa[$i] as $item)
-                                        @php
-                                            $total_payments += $item->total_payments;
-                                            $month_name = date('M', mktime(0, 0, 0, $i, 10));
-
-                                            if(!isset($grand_total_per_month[$month_name])) {
-                                                $grand_total_per_month[$month_name] = $item->total_payments;
-                                            }
-                                            else {
-                                                $grand_total_per_month[$month_name] += $item->total_payments;
-                                            }
-
-                                            $grand_total_payable += $item->total_payments;
-                                        @endphp
-                                        <td class="text-right">{{number_format($item->total_payments,2)}}</td>
+                                    @php
+                                        $total_payments += $item->monthly_payable;
+                                        if(!isset($grand_total_per_month[$i])) {
+                                            $grand_total_per_month[$i] = $item->monthly_payable;
+                                        }
+                                        else {
+                                            $grand_total_per_month[$i] += $item->monthly_payable;
+                                        }
+                                        $grand_total_payable += $item->monthly_payable;
+                                    @endphp
+                                    <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
                                 @endforeach
                             @else
+
                                 <td class="text-right">0.00</td>
                             @endif
                         @endfor
@@ -62,7 +60,7 @@
                 <tfoot>
                 <td class="text-right text-danger"><strong>GRAND TOTAL</strong></td>
                     @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
-                        <td class="text-right text-danger"><strong>{{number_format(isset($grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))]) ? $grand_total_per_month[date('M', mktime(0, 0, 0, $i, 10))] : 0,2)}}<srong></th>
+                        <td class="text-right text-danger"><strong>{{number_format(isset($grand_total_per_month[$i]) ? $grand_total_per_month[$i] : 0,2)}}<srong></th>
                     @endfor
                     <td class="text-right text-danger"><strong>{{number_format($grand_total_payable,2)}}</strong></td>
                 </tfoot>

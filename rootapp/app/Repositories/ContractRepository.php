@@ -59,9 +59,10 @@ class ContractRepository extends AbstractRepository
         $modelDb =  $edb->joins([
                         'villas'    =>  'contracts.villa_id=villas.id',
                         'tenants'   =>  'contracts.tenant_id=tenants.id'
-                        ])->leftJoins(['contract_bills'    =>  'contract_bills.id=contract_bills.contract_id'])
+                        ])->leftJoins(['contract_bills'    =>  'contracts.id=contract_bills.contract_id'])
                     ->self($params);
-        $modelDb = $modelDb->select(
+
+        $modelDb = $modelDb->distinct('contracts.id')->select(
                         "contracts.id",
                         "contracts.contract_no",
                         "villas.villa_no",
@@ -168,27 +169,27 @@ class ContractRepository extends AbstractRepository
 
     public function terminate($models = array())
     {
-        $contract = $this->find($models['id']);
+
+        $contract = $this->model->findOrFail($models['id']);
 
         if ($contract->isActive()) {
+
             $contract->terminate();
+
             $contract->saveWithUser();
-            $contract->contractTerminations()->create([
+
+            $termination = $contract->contractTerminations()->create([
                 'description' => $models['description'],
-                'ref_no' => $models['ref_no']]);
-            
-            //cancelled all the payment
-            $payments = $contract->bill()->first()->payments()->where("status","=","received")->get();
-            if($payments->count() > 0) {
-                foreach($payments as $payment) {    
-                    $payment->setStatusToCancel();
-                    $payment->save();
-                }
-            }
+                'ref_no' => $models['ref_no'],
+                'date_termination' => Carbon::parse($models['date_termination'])
+            ]);
+
+            $termination->clearance();
         }
         else {
             throw new Exception("Unable to terminate contract either contract is not active or internal error occured");
         }
+
         return $contract;
     }
 

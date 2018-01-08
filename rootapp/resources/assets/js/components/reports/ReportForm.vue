@@ -62,17 +62,18 @@
             
             onNotify(response) {
                 this.report_title = response.report_title;
-
                 const params = this.params.params.find((item) => {
                     return item.report_id === response.id;
                 });
-                console.log(response);
 
                 if (params !== undefined) {
                     if (params.lookups !== undefined
                         && params.lookups.length === 0) {
-                        axiosRequest.get("reports", "lookups", response.report_name).then(r => params.lookups = r.data);
+                        axiosRequest.get("reports", "lookups", response.report_name).then(r => {
+                            params.lookups = r.data;
+                        });
                     }
+
                     this.selected.params = params;
                 }
                 else {

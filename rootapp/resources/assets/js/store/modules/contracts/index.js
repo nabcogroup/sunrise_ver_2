@@ -15,6 +15,7 @@ const state = {
         contract_no: '',
         tenant_name: '',
         description: '',
+        date_termination: moment(),
         password: '',
         ref_no: ''
     },
@@ -64,6 +65,7 @@ const mutations = {
     setContractForTerminate(state, payload) {
         if (payload) {
             state.contractForTerminate.id = payload.id
+            state.contractForTerminate.villa_no = payload.villa_no;
             state.contractForTerminate.contract_no = payload.contract_no;
             state.contractForTerminate.tenant_name = payload.full_name;
         }

@@ -17,7 +17,14 @@ class VillaSalesReport extends BaseReport
     public function __construct($params)
     {
         $this->dataSource = new VillaSales($params);
-        $this->templateSource = "sales.analysis";
+
+        if(is_object($params)) {
+            if ($params->field("report_type","") == "per_property") {
+                $this->templateSource = "sales.property";
+            } else {
+                $this->templateSource = "sales.analysis";
+            }
+        }
     }
 
 
@@ -32,6 +39,7 @@ class VillaSalesReport extends BaseReport
         // TODO: Implement getLookups() method.
         $lookups = Selection::getSelections(["villa_location"]);
         $lookups["months"] = $this->getMonthLookups();
+        $lookups["report_type"] = [ ["code" => "per_property", "name" => "Per Property"],["code" => "per_villa", "name" => "Per Villa"]];
         return $lookups;
     }
 

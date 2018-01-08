@@ -2,20 +2,24 @@
 
 namespace App\Services\ReportService;
 
-use App\Http\Datasource\Bank\VillaBankDeposit;
-use App\Http\Reports\BillStatementReport;
-use App\Http\Reports\ReceivableReport;
-use App\Http\Reports\VillaPaymentCollectionReport;
-use App\Traits\ReportParamHelperTrait;
+
+use App\Http\Reports\ContractSummaryReport;
+use App\Http\Reports\ProfitLossReport;
 use Carbon\Carbon;
 use App\Http\Reports\BankReport;
 use App\Http\Reports\TenantReport;
+use App\Http\Reports\PropertyReport;
 use App\Http\Reports\ContractReport;
 use App\Http\Reports\VillaFormReport;
+use App\Traits\ReportParamHelperTrait;
+use App\Http\Reports\ReceivableReport;
 use App\Http\Reports\VillaSalesReport;
+use App\Http\Reports\BillStatementReport;
 use App\Http\Reports\ExpenseMasterReport;
-
 use App\Http\Reports\VillaMasterListReport;
+
+use App\Http\Datasource\Bank\VillaBankDeposit;
+use App\Http\Reports\VillaPaymentCollectionReport;
 
 
 class ReportManager
@@ -43,7 +47,10 @@ class ReportManager
             'bank_report_detail'    =>  new BankReport("detail",$params),
             'bank_report_summary'   =>  new BankReport("summary",$params),
             'villa_master_list'     =>  new VillaMasterListReport($params),
-            'villa_bank_deposit'    =>  new BankReport("per_villa", $params)
+            'villa_bank_deposit'    =>  new BankReport("per_villa", $params),
+            'property'              =>  new PropertyReport($params),
+            'profit_loss'           =>  new ProfitLossReport($params),
+            'contract_summary'      =>  new ContractSummaryReport($params)
         ];
         
         return self::$reports[$key];
@@ -76,7 +83,7 @@ class ReportManager
             [
                 'report_id' => 1,
                 'inputs' => [
-                    ['label' => 'Enter Villa No', 'type' => 'dropdown','selection' => 'villas','model' => 'villa_no','default_text' => 'All','default' => ''],
+                    self::createDropdowns("Enter Villa No","villa_no","villas","villa_no","villa_no"),
                 ],
                 'models' => [
                     'villa_no' => ''
@@ -87,7 +94,22 @@ class ReportManager
                 'report_id' => 3,
                 'inputs' =>
                     [
-                        ['label' => 'Property', 'type' => 'dropdown','selection' => 'villa_location','model' => 'location','default_text' => '--Select Property--', 'default' => '' ],
+                        [
+                            'label' => 'Report Type',
+                            'type' => 'dropdown',
+                            'selection' => 'report_type',
+                            'model' => 'report_type',
+                            'default_text' => '--Select Report Type--',
+                            'default' => ''
+                        ],
+                        [
+                            'label' => 'Property',
+                            'type' => 'dropdown',
+                            'selection' => 'villa_location',
+                            'model' => 'location',
+                            'default_text' => '--Select Property--',
+                            'default' => ''
+                        ],
                         [
                             'label' => 'Month From', 
                             'type' => 'dropdown',
@@ -112,7 +134,8 @@ class ReportManager
                     'month_from' => '',
                     'month_to' => '',
                     'year' => '',
-                    'location' => ''
+                    'location' => '',
+                    'report_type' => ''
                 ],
                 'lookups' => []
             ],
@@ -161,6 +184,14 @@ class ReportManager
                 'inputs' =>
                     [
                         [
+                            'label' => 'Report Type',
+                            'type' => 'dropdown',
+                            'selection' => 'report_type',
+                            'model' => 'report_type',
+                            'default_text' => '--Select Report Type--',
+                            'default' => ''
+                        ],
+                        [
                             'label' => 'Month From',
                             'type' => 'dropdown',
                             'selection' => 'months',
@@ -190,7 +221,8 @@ class ReportManager
                 'models' => [
                     'month_from' => '',
                     'month_to' => '',
-                    'location' => ''
+                    'location' => '',
+                    'report_type' => ''
                 ],
                 'lookups' => []
             ],
@@ -216,7 +248,6 @@ class ReportManager
                         ],  
                         ['label' => 'Date From', 'type' => 'date','model' => 'month_from','placeholder' => 'Enter Month From'],
                         ['label' => 'Date To', 'type' => 'date', 'model' => 'month_to', 'placeholder' => 'Enter Month To'],
-                        
                     ],
                 'models' => [
                     'account_no' => '',
@@ -241,6 +272,38 @@ class ReportManager
                     "year"          =>  Carbon::now()->year,
                     "month_from"    =>  self::createMonthModel(Carbon::now())->month,
                     "month_to"      =>  self::createMonthModel(Carbon::now(),true)->month
+                ],
+                "lookups" => []
+            ],
+            [
+                'report_id' =>  11,
+                'inputs' => [
+                    self::createMonthLookup("Month From","month_from"),
+                    self::createMonthLookup("Month To","month_to"),
+                    self::createInput("Year","year","number","Enter Year ie(2017)"),
+                ],
+                "models" => [
+                    "year" => "",
+                    "month_from" => self::createMonthModel(Carbon::now())->month,
+                    "month_to" => self::createMonthModel(Carbon::now(),true)->month
+                ],
+                "lookups" => []
+            ],
+            [
+                'report_id' =>  12,
+                'inputs' => [
+                    self::createMonthLookup("Month From","month_from"),
+                    self::createMonthLookup("Month To","month_to"),
+                    self::createDropdowns("Property","location","villa_location","code","name","--Select Property--"),
+                    self::createDropdowns("Report Type","report_type","report_type","code","name","--Select Report Type--"),
+                    self::createInput("Year","year","number","Enter Year ie(2017)"),
+                ],
+                "models" => [
+                    "year" => "",
+                    "month_from" => self::createMonthModel(Carbon::now())->month,
+                    "month_to" => self::createMonthModel(Carbon::now(),true)->month,
+                    "location" => "",
+                    "report_type" => ""
                 ],
                 "lookups" => []
             ]

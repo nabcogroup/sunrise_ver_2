@@ -25,7 +25,6 @@ return [
                     'report_name' => 'contract_expiry',
 
                 ],
-
             ]
         ],
         'bill' => [
@@ -46,8 +45,12 @@ return [
                     'id' => 1,
                     'report_title' => 'Villa Master List',
                     'report_name' => 'villa_master',
-
                 ],
+                [
+                    'id' => 11,
+                    'report_title' => 'Property Total Contract Summary',
+                    'report_name' => 'property',
+                ]
             ]
         ],
         'expenses' => [
@@ -57,7 +60,6 @@ return [
                     'id' => 4,
                     'report_title' => 'Expenses Master List - Property',
                     'report_name' => 'expense_property',
-
                 ]
             ],
         ],
@@ -68,7 +70,6 @@ return [
                     'id'    => 9,
                     'report_title'  =>  "Bank Detail Report",
                     'report_name'   =>  "bank_report_detail",
-
                 ]
             ]
         ],
@@ -84,7 +85,13 @@ return [
                     'id' => 10,
                     'report_title'  =>  'Payment Sales Collection',
                     'report_name'   =>  'payment_collection'
-                ]
+                ],
+                [
+                    'id' => 12,
+                    'report_title'  =>  'Loss of Rent',
+                    'report_name'   =>  'profit_loss'
+                ],
+
             ]
         ],
     ],
@@ -102,14 +109,15 @@ return [
             "active" => "contract_report.contract_active",
             "expiry" => "contract_report.contract_expiry",
             "pending" => "contract_report.contract_pending",
-            "value" => "contract_report.contract_value"
-
+            "value" => "contract_report.contract_value",
+            "summary" => "contract_report.contract_summary"
         ],
         "expense" => [
             "pre_prop" => "expense_report.expense_per_prop"
         ],
         "receivable" => [
             "schedule"  =>  "receivable_report.payment_schedule",
+            "property"  =>  "receivable_report.property_schedule",
             "statement" =>  "receivable_report.bill_statement"
         ],
         "tenant" => [
@@ -118,11 +126,14 @@ return [
         "villa" => [
             "masterlist"    =>  "villa_report.villa_masterlist",
             "per_villa"     =>  "villa_report.villa_form",
-            "history"       =>  "villa_report.villa_history"
+            "history"       =>  "villa_report.villa_history",
+            "property"      =>  "villa_report.property_summary"
         ],
         "sales" => [
             "analysis" => "sales_report.villa_sales_analysis",
-            "collection" => "sales_report.villa_payment_collection"
+            "property"   =>  "sales_report.property_sales_analysis",
+            "collection" => "sales_report.villa_payment_collection",
+            "villa_profit_loss"  => "sales_report.villa_loss_analysis"
         ],
         "bank_report" => [
             "detail" => "bank_report.bank_account_detail",

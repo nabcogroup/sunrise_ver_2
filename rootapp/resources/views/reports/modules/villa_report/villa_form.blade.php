@@ -85,7 +85,5 @@
                 </div>
             </div>
         @endslot
-
-
     @endforeach
 @endcomponent

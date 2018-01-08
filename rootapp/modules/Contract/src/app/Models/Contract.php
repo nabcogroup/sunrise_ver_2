@@ -1,6 +1,6 @@
 <?php
 
-namespace Contract\Models;
+namespace Contract\App\Models;
 
 
 use Carbon\Carbon;
@@ -16,20 +16,21 @@ class Contract extends BaseModel
     protected $fillable = [""];
 
 
+
     public function bill() {
-        return $this->hasMany("Contract\Models\ContractBill","contract_id","id");
+        return $this->hasMany("Contract\App\Models\ContractBill","contract_id","id");
     }
 
     public function termination() {
-        return $this->hasOne('Contract\Models\ContractTermination','contract_id','id');
+        return $this->hasOne('Contract\App\Models\ContractTermination','contract_id','id');
     }
 
     public function villa() {
-        
+        return $this->belongsTo("Properties\App\Models\Villa","villa_id");
     }
 
     public function tenant() {
-
+        return $this->belongsTo("Contract\App\Models\Tenant");
     }
 
     /*mutator and accessor*/
@@ -62,15 +63,12 @@ class Contract extends BaseModel
         $this->setStatus('cancelled');
     }
 
-
     /***/
     public function isPending() {
         return $this->hasStatusOf('pending');
     }
 
-    public function hasDue() {
 
-    }
 
 
 

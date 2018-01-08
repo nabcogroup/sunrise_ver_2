@@ -1,8 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/rootapp/vendor/nexmo/client" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/psy/psysh" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/davejamesmiller/laravel-breadcrumbs" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/tijsverkoyen/css-to-inline-styles" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/hamcrest/hamcrest-php" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/jakub-onderka/php-console-highlighter" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/jakub-onderka/php-console-color" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/php-http/guzzle6-adapter" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/php-http/httplug" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/mockery/mockery" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/php-http/promise" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/barryvdh/laravel-cors" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/barryvdh/laravel-dompdf" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpunit/php-token-stream" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpunit/phpunit-mock-objects" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/dnoegel/php-xdg-base-dir" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/composer" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/laravel/tinker" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/laravel/framework" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phenx/php-svg-lib" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/mtdowling/cron-expression" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phenx/php-font-lib" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/league/flysystem" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/fzaninotto/faker" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/erusev/parsedown" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/zendframework/zend-diactoros" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/rootapp/vendor/ramsey/uuid" />
+    </include_path>
+  </component>
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings load_method="CUSTOM_LOADER" />
+      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/rootapp/vendor/autoload.php" />
     </phpunit_settings>
   </component>
 </project>

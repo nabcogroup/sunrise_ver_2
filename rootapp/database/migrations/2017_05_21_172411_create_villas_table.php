@@ -41,6 +41,8 @@ class CreateVillasTable extends Migration
 
             $table->enum('type',['public','private']);
 
+            $table->date('rent_commencement')->nullable();
+
             $table->softDeletes();
             
             $table->string("status",20);

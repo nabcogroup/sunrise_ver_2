@@ -9,7 +9,7 @@ trait PeriodTrait {
 
     public function getDiffDays() {
 
-         return Carbon::parse($this->period_start)->diffInDays(Carbon::parse($this->period_end),true);
+        return Carbon::parse($this->period_start)->diffInDays(Carbon::parse($this->period_end),true);
     }
 
     public function getRemainingPeriod() {
@@ -33,7 +33,7 @@ trait PeriodTrait {
         $this->period_end = $periodEnd;
     }
 
-  
+    
 
 
 

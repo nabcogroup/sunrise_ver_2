@@ -129,6 +129,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'A' => 
         array (
             'App\\' => 4,
+            'Admin\\' => 6,
             'Accounting\\' => 11,
         ),
     );
@@ -332,6 +333,10 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Admin\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/modules/Admin/src',
+        ),
         'Accounting\\' => 
         array (
             0 => __DIR__ . '/../..' . '/modules/Accounting/src',
@@ -393,6 +398,11 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'Accounting\\App\\Http\\Controllers\\FixedAssetController' => __DIR__ . '/../..' . '/modules/Accounting/src/app/Http/Controllers/FixedAssetController.php',
         'Accounting\\App\\Http\\Routes\\AccountingRoute' => __DIR__ . '/../..' . '/modules/Accounting/src/app/Http/Routes/AccountingRoute.php',
         'Accounting\\App\\Http\\Routes\\Facades\\AccountingRoute' => __DIR__ . '/../..' . '/modules/Accounting/src/app/Http/Routes/Facades/AccountingRoute.php',
+        'Admin\\AdminProvider' => __DIR__ . '/../..' . '/modules/Admin/src/AdminProvider.php',
+        'Admin\\AdminRoute' => __DIR__ . '/../..' . '/modules/Admin/src/AdminRoute.php',
+        'Admin\\App\\Http\\Controllers\\PaymentController' => __DIR__ . '/../..' . '/modules/Admin/src/app/Http/Controllers/PaymentController.php',
+        'Admin\\Facades\\AdminRoute' => __DIR__ . '/../..' . '/modules/Admin/src/Facades/AdminRoute.php',
+        'Admin\\app\\Http\\Controllers\\VillaController' => __DIR__ . '/../..' . '/modules/Admin/src/app/Http/Controllers/VillaController.php',
         'App\\AccountChart' => __DIR__ . '/../..' . '/app/AccountChart.php',
         'App\\BankAccount' => __DIR__ . '/../..' . '/app/BankAccount.php',
         'App\\BaseModel' => __DIR__ . '/../..' . '/app/BaseModel.php',
@@ -436,6 +446,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReportController.php',
         'App\\Http\\Controllers\\TenantController' => __DIR__ . '/../..' . '/app/Http/Controllers/TenantController.php',
         'App\\Http\\Controllers\\Utilities\\ContractUtilityController' => __DIR__ . '/../..' . '/app/Http/Controllers/Utilities/ContractUtilityController.php',
+        'App\\Http\\Controllers\\UtilityController' => __DIR__ . '/../..' . '/app/Http/Controllers/UtilityController.php',
         'App\\Http\\Controllers\\VillaController' => __DIR__ . '/../..' . '/app/Http/Controllers/VillaController.php',
         'App\\Http\\Datasource\\Bank\\BankDepositDetail' => __DIR__ . '/../..' . '/app/Http/Datasource/Bank/BankDepositDetail.php',
         'App\\Http\\Datasource\\Bank\\BankDepositSummary' => __DIR__ . '/../..' . '/app/Http/Datasource/Bank/BankDepositSummary.php',
@@ -449,12 +460,14 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'App\\Http\\Datasource\\Receivables\\BillStatement' => __DIR__ . '/../..' . '/app/Http/Datasource/Receivables/BillStatement.php',
         'App\\Http\\Datasource\\Receivables\\PaymentSchedule' => __DIR__ . '/../..' . '/app/Http/Datasource/Receivables/PaymentSchedule.php',
         'App\\Http\\Datasource\\Tenants\\TenantHistory' => __DIR__ . '/../..' . '/app/Http/Datasource/Tenants/TenantHistory.php',
+        'App\\Http\\Datasource\\Villas\\PropertySummary' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/PropertySummary.php',
         'App\\Http\\Datasource\\Villas\\VacantVillaDataSource' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VacantVillaDataSource.php',
         'App\\Http\\Datasource\\Villas\\VillaForm' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaForm.php',
         'App\\Http\\Datasource\\Villas\\VillaHistory' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaHistory.php',
         'App\\Http\\Datasource\\Villas\\VillaMasterMainDatasource' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaMasterMainDatasource.php',
         'App\\Http\\Datasource\\Villas\\VillaMasterlist' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaMasterlist.php',
         'App\\Http\\Datasource\\Villas\\VillaPaymentCollection' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaPaymentCollection.php',
+        'App\\Http\\Datasource\\Villas\\VillaProfitLoss' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaProfitLoss.php',
         'App\\Http\\Datasource\\Villas\\VillaSales' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaSales.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\AdminVerify' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminVerify.php',
@@ -468,6 +481,8 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'App\\Http\\Reports\\BillStatementReport' => __DIR__ . '/../..' . '/app/Http/Reports/BillStatementReport.php',
         'App\\Http\\Reports\\ContractReport' => __DIR__ . '/../..' . '/app/Http/Reports/ContractReport.php',
         'App\\Http\\Reports\\ExpenseMasterReport' => __DIR__ . '/../..' . '/app/Http/Reports/ExpenseMasterReport.php',
+        'App\\Http\\Reports\\ProfitLossReport' => __DIR__ . '/../..' . '/app/Http/Reports/ProfitLossReport.php',
+        'App\\Http\\Reports\\PropertyReport' => __DIR__ . '/../..' . '/app/Http/Reports/PropertyReport.php',
         'App\\Http\\Reports\\ReceivableReport' => __DIR__ . '/../..' . '/app/Http/Reports/ReceivableReport.php',
         'App\\Http\\Reports\\TenantReport' => __DIR__ . '/../..' . '/app/Http/Reports/TenantReport.php',
         'App\\Http\\Reports\\VillaFormReport' => __DIR__ . '/../..' . '/app/Http/Reports/VillaFormReport.php',
@@ -2031,6 +2046,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'KielPack\\LaraLibs\\Helpers\\EDB' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Helpers/EDB.php',
         'KielPack\\LaraLibs\\Helpers\\FileManager' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Helpers/FileManager.php',
         'KielPack\\LaraLibs\\LaraLibProvider' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/LaraLibProvider.php',
+        'KielPack\\LaraLibs\\Repositories\\ICriteria' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Repositories/ICriteria.php',
         'KielPack\\LaraLibs\\Repositories\\IRepositories' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Repositories/IRepositories.php',
         'KielPack\\LaraLibs\\Selections\\SelectionModel' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Selections/SelectionModel.php',
         'KielPack\\LaraLibs\\Supports\\Bundle' => __DIR__ . '/../..' . '/modules/kielpack/laralibs/src/Supports/Bundle.php',

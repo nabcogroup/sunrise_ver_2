@@ -14,7 +14,7 @@
         <div class="row">
             <div col-xs-12>
                     <div class="col-xs-8">
-                        <p><strong>Code: </strong> <span>{{$data["contract"]->tenant()->first()->code}}</span></p>
+                        <p><strong>Villa No: </strong> <span>{{$data["contract"]->villa()->first()->villa_no}}</span></p>
                         <p>Full Name: {{$data["contract"]->tenant()->first()->full_name}}</p>
                         <p>Email Address: {{$data["contract"]->tenant()->first()->email_address}}</p>
                     </div>
@@ -37,21 +37,27 @@
                             <th class="text-center">Date</th>
                             <th class="text-center">Type</th>
                             <th class="text-center">No</th>
-                            <th class="text-center">Payment</th>
                             <th class="text-center">Deposited</th>
+                            <th class="text-center">Amount</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($data["clear_payments"] as $payment)
                             <tr>
-                                <td>{{$payment->full_effectivity_date->format("d/m/Y")}}</td>
-                                <td>{{$payment->full_payment_type}}</td>
-                                <td>{{$payment->payment_no}}</td>
-                                <td>{{$payment->full_date_deposited->format("d/m/Y")}}</td>
-                                <td>{{$payment->full_amount}}</td>
+                                <td class="text-center">{{$payment->full_effectivity_date->format("d-M-Y")}}</td>
+                                <td class="text-center">{{$payment->full_payment_type}}</td>
+                                <td class="text-center">{{$payment->payment_no}}</td>
+                                <td class="text-center">{{$payment->full_date_deposited->format("d-M-Y")}}</td>
+                                <td class="text-right">{{$payment->full_amount}}</td>
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="4"></th>
+                            <th class="text-right">{{$data['total_payments']}}</th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

@@ -48,11 +48,12 @@
                                         <th class="text-center">Period To</th>
                                         <th style="width:10%" class="text-center">Amount</th>
                                         <th class="text-center" style="width:5%">Status</th>
+                                        <th class="text-center" style="width:5%">Revert</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if(isset($bill))
-                                        @foreach($bill->payments()->where('status','clear')->get() as $payment)
+                                        @foreach($bill->payments()->get() as $payment)
                                         <tr>
                                             <td style="width:15%">
                                                 <input name="payments[{{$payment->id}}][id]" type="hidden" value="{{$payment->getId()}}"/>
@@ -68,21 +69,17 @@
                                                            value="{{$payment->payment_no }}">
                                                 </div>
                                             </td>
-                                            <td>
-                                                {{Carbon\Carbon::parse($payment->period_start)->format("d-M-Y")}}
-                                            </td>
-                                            <td>
-                                                {{Carbon\Carbon::parse($payment->period_end)->format("d-M-Y")}}
-                                            </td>
+                                            <td>{{Carbon\Carbon::parse($payment->period_start)->format("d-M-Y")}}</td>
+                                            <td>{{Carbon\Carbon::parse($payment->period_end)->format("d-M-Y")}}</td>
                                             <td style="width:10%">
                                                 <div class="form-group">
                                                     <input type="text"
                                                            class="form-control"
                                                            name="payments[{{$payment->id}}][amount]"
-                                                           value="{{$payment->amount}}">
+                                                           value="{{$payment->amount}}" />
                                                 </div>
-
                                             </td>
+                                            <td>{{$payment->full_status}}</td>
                                             <td style="width:5%">
                                                 <div class="form-group">
                                                     <button data-key="payments[{{$payment->id}}][revert]" class="btn btn-info" type="button">Revert</button>

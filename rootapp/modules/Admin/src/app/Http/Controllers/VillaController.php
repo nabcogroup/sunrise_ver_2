@@ -1,6 +1,6 @@
 <?php
 
-namespace Admin\app\Http\Controllers;
+namespace Admin\App\Http\Controllers;
 
 use App\Villa;
 use Illuminate\Http\Request;

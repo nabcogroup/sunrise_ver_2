@@ -93,7 +93,10 @@ class ContractRepository extends AbstractRepository
     }
 
     public function getExpiryContracts($start, $end) {
-        return $this->model->whereBetween("period_end_extended",[$start, $end]);
+        return $this->model
+            ->with('tenant','villa')
+            ->where('status','active')
+            ->whereBetween("period_end_extended",[$start, $end]);
     }
 
     public function getExistingBill($contractNo)
@@ -174,17 +177,15 @@ class ContractRepository extends AbstractRepository
 
         if ($contract->isActive()) {
 
-            $contract->terminate();
-
-            $contract->saveWithUser();
-
             $termination = $contract->contractTerminations()->create([
                 'description' => $models['description'],
                 'ref_no' => $models['ref_no'],
                 'date_termination' => Carbon::parse($models['date_termination'])
             ]);
 
-            $termination->clearance();
+            $contract->terminate();
+
+            $contract->saveWithUser();
         }
         else {
             throw new Exception("Unable to terminate contract either contract is not active or internal error occured");

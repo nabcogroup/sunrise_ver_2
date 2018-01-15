@@ -67,8 +67,9 @@ class ContractExpiring implements IDataSource
             $dbRaw = $dbRaw->where('contracts.period_end','<=',Carbon::now()->toDateString());
         }
 
+
         $items = $this->arrayItemize($dbRaw,function($row) {
-            
+
             $item = [
                 "villa_no"          =>  $row->villa_no,
                 "location"          =>  $row->location,

@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnold.mercado
- * Date: 1/8/2018
- * Time: 11:26 AM
- */
 
-namespace Admin\app\Http\Controllers;
+
+namespace Admin\App\Http\Controllers;
 
 
 use App\Contract;
@@ -36,10 +31,15 @@ class ContractController extends LaraLibController
 
 
         if ($parameter->contract_no) {
-            $data['data'] = Contract::with(['bill', 'tenant', 'villa'])->where("status", "terminated")->where('contract_no', $parameter->contract_no)->first();
+
+            $data['data'] = Contract::with(['bill', 'tenant', 'villa','contractTerminations'])->where("status", "terminated")->where('contract_no', $parameter->contract_no)->first();
+
             $data['has_data'] = $data['data'] ? true : false;
+
             if ($data['has_data']) {
+
                 $data['editable'] = $data['data']->villa()->first()->status == "vacant" ? true : false;
+
             }
         }
 
@@ -59,14 +59,6 @@ class ContractController extends LaraLibController
 
         $bill = $contract->bill()->first();
 
-        $payments = $bill->payments()->where("status","cancelled")->get();
-        if($payments->count() > 0) {
-            foreach ($payments as $payment) {
-                $payment->setStatusToReceived();
-                $payment->save();
-            }
-        }
-
         $contract->save();
 
         if ($contract->hasStatusOf("active")) {
@@ -81,6 +73,7 @@ class ContractController extends LaraLibController
             $bundle->add('user', $user);
 
             event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus"])));
+
         }
 
         return redirect("/admin/contract/terminate");

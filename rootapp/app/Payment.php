@@ -74,12 +74,10 @@ class Payment extends BaseModel
         return $this->belongsTo("App\ContractBill", "bill_id", "id");
     }
 
-
-
     /**Mutator*/
     protected function getFullStatusAttribute()
     {
-        return Selection::convertCode($this->status);
+        return Selection::getValue("payment_status",$this->status);
     }
 
     protected function getFullPaymentTypeAttribute()
@@ -112,8 +110,11 @@ class Payment extends BaseModel
     }
 
     protected function getFullAmountAttribute() {
+
         $this->appends['full_amount'] = number_format($this->amount,2);
+
         return $this->appends['full_amount'];
+
     }
 
     protected function getSelectedAttribute()
@@ -203,7 +204,6 @@ class Payment extends BaseModel
     public function onlyClear() {
 
         return $this->where("status","clear");
-
 
     }
 

@@ -227,28 +227,43 @@ class ContractBillController extends Controller
     public function apiEdit($billNo = null)  {
 
         if($billNo == null) {
+
             return Result::badRequest(["message" => "Invalid Bill No"]);
+
         }
 
         $bill = $this->billRepository->includePayments()->findByBillNo($billNo)->first();
+
+
         if(!$bill) {
             return Result::badRequest(["message" => "Invalid Bill No"]);
         }
 
+        //clone of instance
         $paymentInstance = $bill->createInstanceOfPayment();
+
 
         //create payment summary
         $bundle = new Bundle();
+
         $contractId = $bill->contract_id;
+
         $bundle->add("contractId",$contractId);
+
         $isIncluded = true;
+
         $bundle->add("paymentIncluded",$isIncluded);
 
+        //fire event to get contract
         event(new OnGetContract($bundle,new EventListenerRegister(["GetContract"])));
 
         $contract = $bundle->getOutput("contract");
+
         $lookups = $this->selection->getSelections(array("payment_mode","payment_term","payment_status","bank"));
+
         $lookups['bank_accounts'] = $this->bankAccountRepository->getAll();
+
+
 
         $paymentSummary = [
             "total_payment" => $bill->settled_amount,

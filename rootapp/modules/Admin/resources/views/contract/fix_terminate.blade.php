@@ -38,8 +38,18 @@
                                     class="text-danger">{{ucfirst($data['data']->villa()->first()->status)}}</strong>
                         </p>
                         <p class="col-md-12">Amount: <strong>{{$data['data']->amount or ""}}</strong></p>
-                        <p class="col-md-12">Contract Status: <strong
+                        <p class="col-md-3">Contract Status: <strong
                                     class="text-danger">{{$data['data']->full_status or ""}}</strong></p>
+                        <p class="col-md-6">Period: <strong
+                                    class="text-danger">{{\Carbon\Carbon::parse($data['data']->period_start)->format("d-M-Y")}} - {{\Carbon\Carbon::parse($data['data']->period_end)->format("d-M-Y")}}</strong></p>
+
+                        <div class="col-md-6">
+                            Termination Description:
+                            @if($data['data']->contractTerminations !== null)
+                                {{$data['data']->contractTerminations()->first()->description}}
+                            @endif
+                        </div>
+
                         <div class="col-md-12">
                             <table class="table table-condensed table-bordered">
                                 <thead>

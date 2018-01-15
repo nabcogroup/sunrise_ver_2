@@ -13,7 +13,7 @@ class ProfitLossReport extends BaseReport
     public function __construct($params) {
 
         $this->dataSource = new VillaProfitLoss($params);
-        $this->templateSource = "sales.villa_profit_loss";
+        $this->templateSource = "sales.loss_of_rent";
 
     }
     public function isPdfRender()

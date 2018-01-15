@@ -71,7 +71,7 @@ export default {
                 payment:item
             });
 
-            if(this.cloneOfInstance.date_deposited == "0000-00-00") {
+            if(this.cloneOfInstance.date_deposited == "0000-00-00" || this.cloneOfInstance.date_deposited == "") {
                 this.cloneOfInstance.date_deposited = moment().format('L');
             }
             

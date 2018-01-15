@@ -20,9 +20,9 @@ if(!function_exists("create_calender_header")) {
 if(!function_exists("array_value_handling")) {
     function array_value_handling(&$sources, $value,$increase = false) {
 
+        $value = is_null($value) ? 0 : $value;
         if(!isset($sources)) {
             $sources = $value;
-
         }
         else {
             if($increase) {

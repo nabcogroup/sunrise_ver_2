@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Villa extends BaseModel
 {
-    
 
     protected $custSelectionKeys = ["villa_class","status","location"];
 
@@ -89,10 +88,15 @@ class Villa extends BaseModel
         return $this->contracts()->sum("amount");
     }
 
+    public function getDailyRateAttribute() {
 
+        $ratePerMonth = $this->rate_per_month;
 
+        $dailyRate = $ratePerMonth / 30;
 
+        return $dailyRate;
 
+    }
 
     /*************************************************************/
     public function isActive() {

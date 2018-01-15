@@ -31,9 +31,11 @@ const mutations = {
         state.bill.payments = [];
     },
     validate(state, payload) {
+
         //validate on client side
         const result = validation().validate(state.cloneOfInstance, state.bill.payments);
         payload.cb(result);
+
     },
     createInstance(state) {
         state.cloneOfInstance = cloneObject(state.bill.instance);
@@ -46,35 +48,50 @@ const mutations = {
         const result = validation().validate(state.cloneOfInstance, state.bill.payments);
         if(result.isValid) {
             if(trigger === 'createInstance') {
+
                 state.bill.payments.push(state.cloneOfInstance);
+
                 reIndexing(state.bill.payments);
+
                 payload.cb(true);
+
             }
             else {
                 let p = state.bill.payments.find( item => item.id === state.cloneOfInstance.id);
+
                 copiedValue(state.cloneOfInstance,p);
+
                 payload.cb(true);
             }    
         }
         else {
             toastr.error(result.error);
+
             payload.cb(false);
         }
     },
     convertPayment(state,payload) {
+
         const convertion = state.lookups[payload.source].find(item => {
+
             return item.code == state.cloneOfInstance[payload.needle];
+
         });
+
         state.cloneOfInstance[payload.target] = convertion.name;
     },
     removePayment(state, id) {
+
         state.bill.payments = state.bill.payments.filter((payment) => {
             return payment.id !== id
         });
+
         reIndexing(state.bill.payments);
     },
     redirectToPrint(state) {
+
         axiosRequest.redirect('bill', 'show', state.bill.bill_no, "_blank");
+
     }
 }
 

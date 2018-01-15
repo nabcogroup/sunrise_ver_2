@@ -58,14 +58,14 @@ Route::group(["prefix" => "calendar"],function() {
 -----------------------------------------------*/
 Route::get('reports/{reportId}',"ReportController@apiShow");
 
-
+Route::get('management/',"ManagementController@apiGetData");
 
 
 
 //Route mockup
-Route::get("mockups/main","MockupMobileController@mockMain");
-Route::get("mockups/calendars","MockupMobileController@mockCalendar");
-Route::get("mockups/contracts/{status?}","MockupMobileController@mockContractList");
+//Route::get("mockups/main","MockupMobileController@mockMain");
+//Route::get("mockups/calendars","MockupMobileController@mockCalendar");
+//Route::get("mockups/contracts/{status?}","MockupMobileController@mockContractList");
 
 
 //Utilities 

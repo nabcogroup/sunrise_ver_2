@@ -30,26 +30,30 @@
                 @foreach($datasource->getData() as $villa_key => $villa)
                     @php
                         $total_payments = 0;
+                        $oneTime = false;
                     @endphp
                     <tr>
                         <td><a href="/reports/villa_history?villa_no={{$villa_key}}" target="_blank">{{$villa_key}}</a></td>
                         @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
                             @if(isset($villa[$i]))
+
                                 @foreach($villa[$i] as $item)
                                     @php
+
                                         $total_payments += $item->monthly_payable;
+
                                         if(!isset($grand_total_per_month[$i])) {
                                             $grand_total_per_month[$i] = $item->monthly_payable;
                                         }
                                         else {
                                             $grand_total_per_month[$i] += $item->monthly_payable;
                                         }
+
                                         $grand_total_payable += $item->monthly_payable;
                                     @endphp
                                     <td class="text-right">{{number_format($item->monthly_payable,2)}}</td>
                                 @endforeach
                             @else
-
                                 <td class="text-right">0.00</td>
                             @endif
                         @endfor
@@ -60,7 +64,7 @@
                 <tfoot>
                 <td class="text-right text-danger"><strong>GRAND TOTAL</strong></td>
                     @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
-                        <td class="text-right text-danger"><strong>{{number_format(isset($grand_total_per_month[$i]) ? $grand_total_per_month[$i] : 0,2)}}<srong></th>
+                        <td class="text-right text-danger"><strong>{{number_format(isset($grand_total_per_month[$i]) ? $grand_total_per_month[$i] : 0,2)}}<srong></td>
                     @endfor
                     <td class="text-right text-danger"><strong>{{number_format($grand_total_payable,2)}}</strong></td>
                 </tfoot>

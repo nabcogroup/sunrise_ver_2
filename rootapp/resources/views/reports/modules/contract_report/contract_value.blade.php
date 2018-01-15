@@ -20,13 +20,15 @@
                     <th class="text-center">No Years / No Months</th>
                     <th class="text-center">Rate per Month</th>
                     <th class="text-center">Contract Value</th>
-                    <th class="text-center">Contract<br/>Status</th>
+                    <th class="text-center">Total Payment</th>
+                    <th class="text-center">Balance</th>
                 </tr>
             </thead>
             <tbody>
             @foreach($datasource->getData() as $row)
+
                 <tr>
-                    <td style="width:10%" class="text-center">{{$row['villa_no']}}</td>
+                    <td style="width:5%" class="text-center">{{$row['villa_no']}}</td>
                     <td style="width: 10% " class="text-center">{{$row['contract_no']}}</td>
                     <td style="width:10%" class="text-center">{{$row['date_entry']}}</td>
                     <td  class="text-left">{{$row['full_name']}}</td>
@@ -34,15 +36,19 @@
                     <td style="width:7%" class="text-center">{{$row['total_year']}}</td>
                     <td class="text-right" style="width:10%">{{$row['rate_per_month']}}</td>
                     <td class="text-right" style="width:10%">{{$row['full_value']}}</td>
-                    <td style="width: 8% " class="text-center">{{$row['contract_status']}}</td>
+                    <td class="text-right" style="width:10%">{{$row['total_payment']}}</td>
+                    <td class="text-right" style="width:10%">{{$row['total_balance']}}</td>
+
                 </tr>
+
             @endforeach
-            </tbody>
-            <tfoot>
+            <tr>
                 <td colspan="7" class="text-right text-danger" style="font-size:18px">GRAND TOTAL:</td>
-                <td class="text-right text-danger" style="font-size:18px">{{number_format($datasource->getParam("total","0"),2)}}</td>
-                <td class="text-left text-danger" style="font-size:18px"><i>QAR</i></td>
-            </tfoot>
+                <td class="text-right text-danger" style="font-size:18px">{{number_format($datasource->getParam("total_value","0"),2)}}</td>
+                <td class="text-right text-danger" style="font-size:18px">{{number_format($datasource->getParam("total_payment","0"),2)}}</td>
+                <td class="text-right text-danger" style="font-size:18px">{{number_format($datasource->getParam("total_balance","0"),2)}}</td>
+            </tr>
+            </tbody>
         </table>
     </div>
 @endcomponent

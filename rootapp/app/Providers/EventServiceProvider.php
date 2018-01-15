@@ -35,7 +35,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\GetContractPayments'],
         'App\Events\Verify' => [
             'App\Listeners\VerifyBalance',
-            'App\Listeners\VerifyVillaVacancy'
+            'App\Listeners\VerifyVillaVacancy',
+            'App\Listeners\VerifyOutstandingBalance'
         ]
     ];
 

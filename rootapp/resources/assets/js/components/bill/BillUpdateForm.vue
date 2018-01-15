@@ -77,7 +77,7 @@
                                 </p>
                                 <p class="x-read-group">
                                     <strong class="col-md-3 x-label">Status:</strong>
-                                    <span class="col-md-9 x-desc">{{contract.full_status}}</span>
+                                    <strong class="col-md-9 x-desc text-danger">{{contract.full_status}}</strong>
                                 </p>
                             </div>
                         </div>
@@ -86,9 +86,7 @@
                     <div v-if="bill.id" class="col-md-12">
                         <v-tab-group v-model="options.currentTabIndex">
                             <v-tab tab-id="received">For Clearing</v-tab>
-                            <v-tab tab-id="deposit">Deposited</v-tab>
                             <v-tab tab-id="clear">Cleared</v-tab>
-                            <v-tab tab-id="bounce">Bounced</v-tab>
                         </v-tab-group>
                         <div class="tab-content">
                             <div class="tab-pane active">
@@ -99,7 +97,6 @@
                                         @click="openReplaceModal">Replace New Payment</button>
                                     </div>
                                 </div>
-
                                 <div class="col-md-12" id="main">
                                     <data-view :grid="gridColumn" :data="filtered">
                                         <template slot="body" scope="props">
@@ -161,12 +158,15 @@
                                                         Action <span class="caret"></span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#" @click.prevent="actionTrigger('info',props.items.items)">Info</a></li>
-                                                        <li v-if="props.items.items.replace_ref"><a href="#" @click.prevent="actionTrigger('rep-info',props.items.items)">Replacement - Info</a></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('info',props.items.items)">Information</a></li>
+                                                        <li v-if="props.items.items.replace_ref"><a href="#" @click.prevent="actionTrigger('rep-info',props.items.items)">Replacement</a></li>
                                                         <li role="separator" class="divider"></li>
                                                         <li><a href="#" @click.prevent="actionTrigger('edit',props.items.items)">Edit</a></li>
                                                         <li><a href="#" @click.prevent="actionTrigger('deposit',props.items.items)">Add Deposit</a></li>
                                                         <li role="separator" class="divider"></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('bounce',props.items.items)">Bounce Cheque</a></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('cancelled',props.items.items)">Cancelled</a></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('pending',props.items.items)">Pending Case</a></li>
                                                         <li v-if="props.items.items.replace_ref === undefined || props.items.items.replace_ref === null"><a href="#" @click.prevent="actionTrigger('replacement',props.items.items)">Replacement</a></li>
                                                     </ul>
                                                 </div>
@@ -413,6 +413,7 @@ export default {
             console.log(ob);
         },
         actionTrigger(action,value) {
+
            if(action === 'info') {
                 EventBus.$emit('payment.info.open',value);
            }  
@@ -425,8 +426,11 @@ export default {
            else if(action == 'replacement') {
                EventBus.$emit("payment.replace.open",value)
            }
-           else {
-               
+           else if(action == 'cancelled') {
+               this.$store.commit('payments/cancelPayment',{value: value});
+           }
+           else if(action == 'pending') {
+               this.$store.commit('payments/pendingPayment',{value:value});
            }
         }
     },

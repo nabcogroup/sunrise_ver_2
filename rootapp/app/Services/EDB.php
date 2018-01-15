@@ -25,8 +25,14 @@ class EDB
         return new EDB($table);
     }
 
-    public function withSoftDelete() {
-        $this->db = $this->db->whereNull('deleted_at');
+    public function withSoftDelete($table = null) {
+        if(!is_null($table)) {
+            $deleted_at = $table.".deleted_at";
+        }
+        else {
+            $deleted_at = "deleted_at";
+        }
+        $this->db = $this->db->whereNull($deleted_at);
         return $this;
     }
 
@@ -51,9 +57,10 @@ class EDB
 
 
 
-    public function self(&$params,$callback = null) {
+    public function self(&$params = null,$callback = null) {
 
         $filter_field = request()->input('filter_field',null);
+
         if(!is_null($filter_field)) {
 
             $filter_value = request()->input('filter_value',null);
@@ -63,6 +70,7 @@ class EDB
             else {
                 $this->db = $this->db->where($filter_field,'LIKE', '%'.$filter_value.'%');
             }
+
             $params['filter_field'] = $filter_field;
             $params['filter_value'] = $filter_value;
 

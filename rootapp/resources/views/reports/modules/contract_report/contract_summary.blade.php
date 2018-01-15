@@ -17,7 +17,7 @@
             @for($i = $datasource->getParamInt("month_from");$i <= $datasource->getParamInt("month_to");$i++)
                 <th class="text-center">{{date('M', mktime(0, 0, 0, $i, 10))}}</th>
             @endfor
-            <th></th>
+            <th class="text-center">Grand Total</th>
         </tr>
         </thead>
         <tbody>
@@ -26,26 +26,36 @@
                 $grand_total = 0;
             @endphp
             @foreach($datasource->getData() as $property_key => $properties)
-
                 <?php $sub_total = 0; ?>
-
                 <tr>
 
-                    <td>{{App\Selection::getValue("villa_location",$property_key)}}</td>
+                    @if($datasource->getParam("report_type") == "per_property")
+                        <td>{{App\Selection::getValue("villa_location",$property_key)}}</td>
+                    @else
+                        <td>{{$property_key}}</td>
+                    @endif
 
                     @for($i = $datasource->getParamInt("month_from");$i <= $datasource->getParamInt("month_to");$i++)
-                        @php
 
-                            $sub_total = $sub_total + $properties["periods"][$i];
-                            $grand_total = $grand_total + floatval($properties["periods"][$i]);
-                            if(isset($per_subtotal_month[$i])) {
-                                $per_subtotal_month[$i] = $per_subtotal_month[$i] + floatval($properties["periods"][$i]);
-                            }
-                            else {
-                                $per_subtotal_month[$i] = floatval($properties["periods"][$i]);
-                            }
-                        @endphp
-                        <td class="text-right">{{number_format($properties["periods"][$i],2)}}</td>
+                        @if(isset($properties[$i]))
+
+                            @php
+                                $property = $properties[$i][0];
+
+                                $sub_total = $sub_total + $property->contract_value;
+                                $grand_total = $grand_total + floatval($property->contract_value);
+
+                                if(isset($per_subtotal_month[$i])) {
+                                    $per_subtotal_month[$i] = $per_subtotal_month[$i] + floatval($property->contract_value);
+                                }
+                                else {
+                                    $per_subtotal_month[$i] = floatval($property->contract_value);
+                                }
+                            @endphp
+                            <td class="text-right">{{number_format($property->contract_value,2)}}</td>
+                        @else
+                            <td class="text-center">--</td>
+                        @endif
                     @endfor
 
                     <td class="text-right"><strong>{{number_format($sub_total,2)}}</strong></td>
@@ -57,7 +67,8 @@
             <tr>
                 <td><strong>Sub Total</strong></td>
                 @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
-                    <td class="text-right"><strong>{{number_format($per_subtotal_month[$i],2)}}</strong></td>
+
+                    <td class="text-right"><strong>{{number_format((isset($per_subtotal_month[$i]) ? $per_subtotal_month[$i] : 0) ,2)}}</strong></td>
                 @endfor
                 <td class="text-right"><strong>{{number_format($grand_total,2)}}</strong></td>
             </tr>

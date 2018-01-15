@@ -60,6 +60,8 @@ import AccountChartRegister from "./components/accountchart/Register.vue";
 import AccountList from "./components/accountchart/List.vue";
 import FixedAssetList from "./components/fixed-asset/FixedAssetList.vue";
 import FixedAssetRegister from "./components/fixed-asset/FixedAssetRegister.vue";
+import ManagementDashboard from "./components/management/ManagementDashboard.vue";
+
 
 
 Vue.filter('toDateFormat', (value) => {
@@ -99,6 +101,8 @@ new Vue({
         AccountChartRegister,
         FixedAssetList,
         FixedAssetRegister,
-        AccountList
+        AccountList,
+        ManagementDashboard
+
     }
 });

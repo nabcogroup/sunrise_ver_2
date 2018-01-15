@@ -29,13 +29,15 @@ class GetVillaOnRecalculate
     {
         if($event->eventListener->isRegistered("GetVillaOnRecalculate"))
         {
-            $fullName = $contract->tenant->first()->full_name;
-
 
             $villaId = $event->bundle->get("villaId");
+
             if($villaId != null) {
+
                 $repository = new VillaRepository($villaId);
+
                 $villa = $repository->instance();
+
                 $event->bundle->addOutput('villa',$villa);
             }
         }

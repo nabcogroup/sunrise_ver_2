@@ -5,6 +5,7 @@ namespace App\Services\ReportService;
 
 use App\Http\Reports\ContractSummaryReport;
 use App\Http\Reports\ProfitLossReport;
+use App\Http\Reports\VillaSalesProjectionReport;
 use Carbon\Carbon;
 use App\Http\Reports\BankReport;
 use App\Http\Reports\TenantReport;
@@ -18,7 +19,7 @@ use App\Http\Reports\BillStatementReport;
 use App\Http\Reports\ExpenseMasterReport;
 use App\Http\Reports\VillaMasterListReport;
 
-use App\Http\Datasource\Bank\VillaBankDeposit;
+
 use App\Http\Reports\VillaPaymentCollectionReport;
 
 
@@ -49,8 +50,9 @@ class ReportManager
             'villa_master_list'     =>  new VillaMasterListReport($params),
             'villa_bank_deposit'    =>  new BankReport("per_villa", $params),
             'property'              =>  new PropertyReport($params),
-            'profit_loss'           =>  new ProfitLossReport($params),
-            'contract_summary'      =>  new ContractSummaryReport($params)
+            'loss_of_rent'           =>  new ProfitLossReport($params),
+            'contract_summary'      =>  new ContractSummaryReport($params),
+            'sales_projection'      =>  new VillaSalesProjectionReport($params)
         ];
         
         return self::$reports[$key];

@@ -133,7 +133,9 @@ return [
             "analysis" => "sales_report.villa_sales_analysis",
             "property"   =>  "sales_report.property_sales_analysis",
             "collection" => "sales_report.villa_payment_collection",
-            "villa_profit_loss"  => "sales_report.villa_loss_analysis"
+            "villa_profit_loss"  => "sales_report.villa_loss_analysis",
+            "sales_projection"  => "sales_report.sales_projection",
+            "loss_of_rent" => "sales_report.loss_of_rent"
         ],
         "bank_report" => [
             "detail" => "bank_report.bank_account_detail",

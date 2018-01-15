@@ -20,6 +20,10 @@ import VInputWrapper from "./containers/VInputWrapper.vue";
 import VSwitch from "./controls/VSwitch.vue";
 import VSearch from "./controls/VSearch.vue";
 
+import VLineChart from "./misc/VLineChart.vue";
+import VListValue from "./misc/VListValue.vue";
+
+
 
 const MyPlugins = {
     install(Vue,options) {
@@ -40,6 +44,9 @@ const MyPlugins = {
         Vue.component(VComboBox.name,VComboBox);
         Vue.component(VSwitch.name,VSwitch);
         Vue.component(VSearch.name,VSearch);
+        Vue.component(VLineChart.name,VLineChart);
+        Vue.component(VListValue.name,VListValue);
+
 
     }
 }

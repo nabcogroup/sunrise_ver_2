@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnold.mercado
- * Date: 1/8/2018
- * Time: 5:23 PM
- */
 
-namespace Admin\app\Http\Controllers;
+
+namespace Admin\App\Http\Controllers;
 
 
 class DefaultController

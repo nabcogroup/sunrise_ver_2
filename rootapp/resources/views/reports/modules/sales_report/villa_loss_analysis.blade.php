@@ -30,7 +30,13 @@
                 @foreach($datasource->getData() as $villa_key => $villas)
                     <?php $sub_total = 0; ?>
                     <tr>
-                        <td>{{strtoupper($villa_key)}}</td>
+                        @if($datasource->getParam("report_type","") != "per_property")
+                            <td>{{strtoupper($villa_key)}}</td>
+                        @else
+                            <td>{{strtoupper(App\Selection::getValue('villa_location',$villa_key))}}</td>
+                        @endif
+
+
                         @for($i = $datasource->getParamInt('month_from');$i <= $datasource->getParamInt('month_to');$i++)
                             <?php
                                 $sub_total += floatval($villas[$i]);

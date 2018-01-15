@@ -20,6 +20,7 @@ class ContractTermination extends BaseModel
 
         $contractBill = $this->contract()->first()
                             ->bill()->first();
+
         $contractBill->clearance($this->date_termination);
 
     }

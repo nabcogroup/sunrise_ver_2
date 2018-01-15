@@ -18,26 +18,36 @@ trait HelperTrait
     public function calculatePayableAmount($period_start,$period_end,$amount) {
 
         $totalDays = Carbon::parse($period_start)->diffInDays(Carbon::parse($period_end));
+
         $totalAmountPerDays = $amount / intval($totalDays / 30);
 
         return $totalAmountPerDays;
+
     }
+
+
 
     public function calculateTotalYearMonth($period_start,$period_end) {
 
         $totalDays = (Carbon::parse($period_end)->diffInDays(Carbon::parse($period_start)));
+
         $totalMonths = floor($totalDays / 30);
+
         $totalRemaining = $totalMonths % 12;
 
         $totalYear = ($totalMonths - $totalRemaining) / 12;
+
         if ($totalRemaining > 0) {
+
             if ($totalYear > 0)
                 return $totalYear . "." . $totalRemaining . " / " . $totalMonths;
             else
                 return $totalYear . "." . $totalRemaining . " / " . $totalMonths;
         }
         else {
+
             return $totalYear . " / " . $totalMonths;
+
         }
     }
 
@@ -84,10 +94,15 @@ trait HelperTrait
     }
 
     public function getDiff($value1,$value2) {
+
         $total_value_1 = $value1 == null ? 0 : floatval($value1);
+
         $total_value_2 = $value2 == null ? 0 : floatval($value2);
+
         $diff = floatval($total_value_1) - floatval($total_value_2);
+
         return $diff;
+
     }
 
     public function breakApart($value1,$value2) {

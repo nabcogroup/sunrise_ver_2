@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CalendarService;
 use App\User;
 use Carbon\Carbon;
 use App\Selection;
-use Dompdf\Exception;
+
 
 use App\Events\Verify;
 use App\Events\OnCreating;
 use App\Events\NotifyUpdate;
+
 use Illuminate\Http\Request;
 
 use App\Events\OnCalculation;
@@ -24,7 +26,7 @@ use App\Http\Requests\TerminateForm;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContractCalcForm;
 use App\Repositories\ContractRepository;
-
+use Mockery\Exception;
 
 
 class ContractController extends Controller
@@ -91,21 +93,32 @@ class ContractController extends Controller
 
     public function apiUpdateExtended()
     {
-
         $contracts = \App\Contract::all();
+
         foreach ($contracts as $contract) {
             $contract->period_end_extended = Carbon::parse($contract->period_end)->addDays($contract->extra_days);
             $contract->save();
         }
+
         return Result::ok("Successful");
     }
 
     public function apiCalendar(Request $request)
     {   
         try {
+
             $periods = $request->all();
 
-            $eventCalendar  = $this->contractRepo->getEventCalendar($periods['start'],$periods['end']);
+            $expiryContracts = $this->contractRepo->getExpiryContracts($periods['start'],$periods['end'])->get();
+
+            $args = [
+                "model"         =>  "contract",
+                "base_period"   =>  "period_end_extended",
+                "grace_period"  =>  "3"
+            ];
+
+            $eventCalendar = new CalendarService($expiryContracts,$args);
+
             $eventCalendar->create(function($collection,&$event) {
                     $event["title"] = $collection->villa()->first()->villa_no ." - ".$collection->tenant()->first()->full_name;
                     $event["id"]    = $collection->getId();
@@ -283,10 +296,12 @@ class ContractController extends Controller
             if (!$oldContract->isActive()) {
                 throw new Exception('Contract is not active');
             }
-            
-            //check if amount balance
-            $amountBalance = $oldContract->getRemainingBalance();
-            if ($amountBalance > 0) {
+
+
+            //check payment  receivables
+            $amountReceivables = $oldContract->bill()->first()->withPendingPayments()->sum('amount');
+
+            if ($amountReceivables > 0) {
                 throw new Exception('Unable to renew. Contract has a pending balance');
             }
 
@@ -295,7 +310,7 @@ class ContractController extends Controller
 
             //display contract
             $oldContract->setDefaultPeriod(\Carbon\Carbon::parse($oldContract->period_end), self::DEFAULT_PERIOD);
-            //extra
+            //extras
             $oldContract->prep_series = 1;
             $oldContract->prep_bank = "";
             $oldContract->prep_due_date = "";
@@ -383,31 +398,41 @@ class ContractController extends Controller
             
             //verify password
             if (!$user->isPasswordMatch($inputs['password'])) {
-
                 throw new Exception('Password does not match');
             }
 
+
+            $contract = $this->contractRepo->find($inputs["id"]);
+
+            $bundle = new Bundle();
+
+            $bundle->add("contract",$contract);
+
+            //trigger event to check on the accounts
+            event(new Verify($bundle,new EventListenerRegister(["VerifyOutstandingBalance"])));
+
             $contract = $this->contractRepo->terminate($inputs);
-            
+
             //terminate the contract
             if ($contract->isTerminated()) {
+
                     //update villa event
                     $bundle = new Bundle();
+
                     $bundleValue = ["id" => $contract->villa()->first()->id, "status" => "vacant"];
-
                     $bundle->add("villa", $bundleValue);
-
-                    $bundle->add('contract', $contract);
-
                     $bundle->add('user', $user);
 
                     event(new NotifyUpdate($bundle, new EventListenerRegister(["UpdateVillaStatus"])));
-
-                return Result::ok('Succefully terminated!!!');
-            } else {
+            }
+            else {
                 throw new Exception('Contract failed to terminate');
             }
-        } catch (Exception $e) {
+
+            return Result::ok('Succefully terminated!!!');
+
+        }
+        catch (Exception $e) {
             return Result::badRequest(['message' => $e->getMessage()]);
         }
     }

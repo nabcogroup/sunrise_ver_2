@@ -221,11 +221,15 @@ class Contract extends BaseModel
         return $this->hasStatusOf('pending');
     }
     public function isTerminated() {
-        if ($this->hasStatusOf('terminated') && $this->contractTerminations()->get()) {
+        if ($this->hasStatusOf('terminated')) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public function isCompleted() {
+        return $this->hasStatusOf('completed');
     }
     
     public function getRemainingBalance() {

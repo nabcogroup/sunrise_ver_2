@@ -12,11 +12,11 @@ use Mockery\Exception;
 
 class ContractBill extends BaseModel
 {
-    
+
     const DEFAULT_PERIOD = 1;
 
-    protected $appends = ["settled_amount","balance"];
-    
+    protected $appends = ["settled_amount", "balance"];
+
 
     public function __construct(array $attributes = [])
     {
@@ -27,7 +27,8 @@ class ContractBill extends BaseModel
 
     }
 
-    public static function createInstance($contractId) {
+    public static function createInstance($contractId)
+    {
 
         $bill = new ContractBill();
         $bill->contract_id = $contractId;
@@ -39,8 +40,9 @@ class ContractBill extends BaseModel
         return $bill;
     }
 
-    public static function createInstanceOfPayment() {
-        $instance =  Payment::createInstance();
+    public static function createInstanceOfPayment()
+    {
+        $instance = Payment::createInstance();
         $instance->initPeriod(self::DEFAULT_PERIOD);
         return $instance;
     }
@@ -48,14 +50,16 @@ class ContractBill extends BaseModel
     /*********************
      * mutation
      ********************/
-    public function getSettledAmountAttribute() {
+    public function getSettledAmountAttribute()
+    {
 
-        return $this->Payments()->where("status","clear")->sum("amount");
+        return $this->Payments()->where("status", "clear")->sum("amount");
     }
 
 
-    public function getBalanceAttribute() {
-        
+    public function getBalanceAttribute()
+    {
+
         $settled_total = $this->settled_amount;
         $contract_amount = $this->contract()->first()->amount;
         return $this->appends['balance'] = ($contract_amount - $settled_total);
@@ -66,30 +70,37 @@ class ContractBill extends BaseModel
     /*********************
      * navigation
      ********************/
-    public function Payments() {
+    public function Payments()
+    {
 
-        return $this->hasMany(Payment::class,'bill_id','id');
-
-    }
-    public function contract() {
-
-        return $this->belongsTo('App\Contract','contract_id');
+        return $this->hasMany(Payment::class, 'bill_id', 'id');
 
     }
-    
-    public function tenant() {
+
+    public function contract()
+    {
+
+        return $this->belongsTo('App\Contract', 'contract_id');
+
+    }
+
+    public function tenant()
+    {
 
         return $this->contract()->first()->tenant()->first();
 
     }
 
-    public function villa() {
+    public function villa()
+    {
         return $this->contract()->first()->villa()->first();
     }
+
     /******************
-    * end navigation
+     * end navigation
      *******************/
-    public function activate() {
+    public function activate()
+    {
 
         $this->status = 'active';
 
@@ -99,63 +110,81 @@ class ContractBill extends BaseModel
     /********************************
      *  Payments with status
      **********************************/
-    public function withClearedPayments() {
+    public function withClearedPayments()
+    {
 
-        return $this->payments()->where('status','clear');
+        return $this->payments()->where('status', 'clear');
 
     }
-    public function withPendingPayments() {
-        return $this->payments()->where('payment_mode','payment')->where('status','received');
+
+    public function withPendingPayments()
+    {
+        return $this->payments()->where('payment_mode', 'payment')->whereIn('status',['received']);
     }
-    public function withPaymentStatusOf($status) {
-        return $this->payments()->where('status',$status);
+
+    public function withPaymentStatusOf($status)
+    {
+        return $this->payments()->where('status', $status);
     }
 
     /********************************
      *  Payments total payment amount
      **********************************/
-    public function getSummary() {
-        return $this->Payments()->where("status","clear")->sum("amount");
+    public function getSummary()
+    {
+        return $this->Payments()->where("status", "clear")->sum("amount");
     }
 
-    public function withPaymentLine() {
+    public function withPaymentLine()
+    {
         return $this->with('Payments');
     }
 
-    public function getBillByNo($billNo) {
-        return $this->where('bill_no',$billNo)->get();
+    public function getBillByNo($billNo)
+    {
+        return $this->where('bill_no', $billNo)->get();
     }
 
-    public function getExistingContract($contractNo) {
+    public function getExistingContract($contractNo)
+    {
 
-        $raw =  DB::table('contracts AS c')
-                ->select('cb.bill_no')
-                ->join('contract_bills AS cb','c.id', '=' ,'cb.contract_id')
-                ->where('c.contract_no','=',$contractNo)->first();
+        $raw = DB::table('contracts AS c')
+            ->select('cb.bill_no')
+            ->join('contract_bills AS cb', 'c.id', '=', 'cb.contract_id')
+            ->where('c.contract_no', '=', $contractNo)->first();
 
         return $raw;
 
     }
 
-    public function isClear() {
+    public function isClear()
+    {
         return $this->hasStatusOf('clear');
     }
-    public function isCancel() {
+
+    public function isCancel()
+    {
         return $this->hasStatusOf('bounce');
     }
-    public function isPending() {
+
+    public function isPending()
+    {
         return $this->hasStatusOf('received');
     }
 
-    public function clearance(Carbon $terminationDate) {
+    public function clearance(Carbon $terminationDate)
+    {
 
-        $payments = $this->Payments()->where("status","received")->get();
+        $payments = $this->Payments()->where("status", "received")->get();
 
-        foreach ($payments as $payment) {
-            if(Carbon::parse($payment->effectivity_date)->gt($terminationDate)) {
-                $payment->setStatusToCancel();
-                $payment->save();
+        if ($payments->count() > 0) {
+            foreach ($payments as $payment) {
+                if (Carbon::parse($payment->effectivity_date)->gt($terminationDate)) {
+                    $payment->setStatusToCancel();
+                    $payment->save();
+                }
             }
         }
+
     }
 }

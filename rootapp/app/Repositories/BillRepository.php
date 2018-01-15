@@ -169,8 +169,8 @@ class BillRepository extends AbstractRepository
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
             ->join('tenants', 'contracts.tenant_id', '=', 'tenants.id')
             ->join('villas', 'contracts.villa_id', '=', 'villas.id')
-            ->select('contracts.contract_no', 'villas.villa_no', 'contracts.id', 'tenants.code', 'tenants.full_name', 'contract_bills.bill_no')
-            ->where('contracts.status', 'active');
+            ->select('contracts.contract_no', 'villas.villa_no', 'contracts.id', 'tenants.code', 'tenants.full_name', 'contract_bills.bill_no');
+
 
         if ($field == 'villas.villa_no') {
             $dbraw = $dbraw->where($field, '=', $value);

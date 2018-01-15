@@ -37,18 +37,28 @@ class ContractValue implements IDataSource
         $recordset = $this->createDb('contracts')
                         ->join('villas', 'villas.id', '=', 'contracts.villa_id')
                         ->join('tenants', 'tenants.id', '=', 'contracts.tenant_id')
-                        ->where('villas.location', $location)
+                        ->join('contract_bills','contract_bills.contract_id','=','contracts.id')
                         ->orderBy('villas.villa_no')
-                        ->select('villas.villa_no', 'contracts.contract_no',
-                            'contracts.created_at', 'tenants.full_name',
-                            'contracts.period_start', 'contracts.period_end',
-                            'villas.rate_per_month', 'contracts.amount', 'contracts.status');
-        
+                        ->select('villas.villa_no',
+                            'contracts.contract_no',
+                            'contracts.created_at',
+                            'tenants.full_name',
+                            'contracts.period_start',
+                            'contracts.period_end',
+                            'villas.rate_per_month',
+                            \DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.status = 'clear' AND bill_id = contract_bills.id) as total_payment"),
+                            'contracts.amount',
+                            'contracts.status'
+                            );
+
+        $recordset = $recordset->where('villas.location', $location);
+        $recordset = $recordset->where(\DB::raw('YEAR(contracts.period_start)'),$contract_year);
+
         if (!is_null($contract_status)) {
             $recordset->where('contracts.status', $contract_status);
         } 
         else {
-            $recordset->whereIn('contracts.status', ["pending","terminated","active"]);
+            $recordset->whereIn('contracts.status', ["terminated","active"]);
         }
         
         $recordset = $recordset->get();
@@ -64,15 +74,21 @@ class ContractValue implements IDataSource
                 'total_year'    =>  $this->calculateTotalYearMonth($row->period_start, $row->period_end),
                 'rate_per_month'    =>  number_format($row->rate_per_month, 2),
                 'full_value'        =>  number_format($row->amount, 2),
+                'total_payment'       =>  number_format($row->total_payment,2),
+                'total_balance'     =>  number_format(($row->amount - $row->total_payment),2),
                 'contract_status'   =>  ucfirst($row->status)];
 
             return $item;
 
         });
 
-        $title = "Contract Master List - ". Selection::getValue("villa_location",$location);
+        $title = ucwords($contract_status). " Contract Master List - ". Selection::getValue("villa_location",$location);
+        $total_balance = $recordset->sum('amount') - $recordset->sum('total_payment');
 
-        $this->params->add("total", $recordset->sum('amount'));
+        $this->params->add("total_value", $recordset->sum('amount'));
+        $this->params->add("total_payment",$recordset->sum('total_payment'));
+
+        $this->params->add("total_balance",$total_balance);
 
         $this->params->update("location", Selection::getValue('villa_location', $location));
 

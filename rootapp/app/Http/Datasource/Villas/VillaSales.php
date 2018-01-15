@@ -34,6 +34,7 @@ class VillaSales implements IDataSource
         $report_type = $this->params->field("report_type","");
 
         if($report_type == "per_property") {
+
             $recordset = $this->createDb('villas')
                 ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
                 ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
@@ -53,9 +54,12 @@ class VillaSales implements IDataSource
                 ->get();
 
             $groupSummary = $this->arrayGroupBy($recordset,null,["location","monthly_schedule"]);
+
             $title= "Summary of Property: Payment Collection Report";
+
         }
         else {
+
             //create two queries
             $recordset = $this->createDb('villas')
                 ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
@@ -79,7 +83,9 @@ class VillaSales implements IDataSource
                 ->get();
 
             $groupSummary = $this->arrayGroupBy($recordset,null,["villa_no","monthly_schedule"]);
+
             $title = "Villa Payment Collection Report - ".Selection::getValue("villa_location",$location);
+
         }
 
 

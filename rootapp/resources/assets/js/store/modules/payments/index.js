@@ -33,6 +33,7 @@ const state = {
 }
 
 const mutations = {
+
     clearSearch(state) {
         state.search.data = [];
         state.search.field = "";
@@ -45,16 +46,24 @@ const mutations = {
         copiedValue(payload.payment, state.cloneOfInstance);
     },
     replace(state,payload) {
-        let p = state.bill.payments.find( item => item.id === payload.item.id);
+
+        let p = state.bill.payments.find(item => item.id === payload.item.id);
+
         p.replace_ref = cloneObject(p);
-        p.date_deposited = "0000-00-00";
+
+        p.date_deposited = "";
+
         state.cloneOfInstance.id = p.id;
+
         copiedValue(state.cloneOfInstance,p,["replace_ref"]);
+
         payload.cb(true);
+
     },
     store(state,payload) {
         const trigger = payload.trigger;
         const result = validation().validate(state.cloneOfInstance, state.bill.payments);
+
         if(result.isValid) {
             if(trigger === 'createInstance') {
                 state.bill.payments.push(state.cloneOfInstance);
@@ -67,10 +76,33 @@ const mutations = {
             }    
         }
         else {
+
             toastr.error(result.error);
+
             payload.cb(false);
+
         }
         
+    },
+    cancelPayment(state,payload) {
+
+        var status = state.lookups.payment_status.find(item => {
+            return item.id == 124;
+        });
+
+        payload.value.status = status.code;
+        payload.value.full_status = status.name;
+        
+    },
+    pendingPayment(state,payload) {
+
+        var status = state.lookups.payment_status.find(item => {
+            return item.id == 123;
+        });
+
+        payload.value.status = status.code;
+        payload.value.full_status = status.name;
+
     },
 
     convertPayment(state,payload) {
@@ -120,17 +152,27 @@ const mutations = {
 
 const actions = {
     edit({commit, state}, payload) {
+
         state.options.loadingSearch = true;
         state.options.currentTabIndex = 'received';
+
         axiosRequest.get('bill', 'edit', state.bill.bill_no)
             .then(res => {
+
                 state.bill = res.data.bill;
                 state.bill.instance = res.data.paymentInstance;
                 state.contract = res.data.contract;
                 state.lookups = res.data.lookups;
+
                 state.bill.payments.forEach(p => {
-                    
+                    if(p.status == 'clear') {
+                        p.status_flag = 'clear';
+                    }
+                    else {
+                        p.status_flag = 'received';
+                    }
                 });
+
                 state.options.loadingSearch = false;
                 commit('createInstance');
             })
@@ -179,19 +221,18 @@ const getters = {
         return state.bill;
     },
     filtered(state) {
+
         let payments = [];
+
         if ((state.options.currentTabIndex === 'received')) {
-            const exception = ["received", "bounce", "deposit", "replace"];
+            //const exception = ["received", "bounce", "deposit", "replace","pending_case","cancelled"];
             payments = state.bill.payments.filter(item => {
-                for (var i = 0; i < exception.length; i++) {
-                    let stat = (item.status_flag === exception[i] && item.payment_mode === 'payment');
-                    if (stat) return stat;
-                }
+                return (item.status_flag !== "clear" && item.payment_mode === 'payment');
             });
         }
         else {
             payments = state.bill.payments.filter(item => {
-                return item.full_status.toLowerCase() === state.options.currentTabIndex;
+                return item.status === state.options.currentTabIndex;
             });
         }
 

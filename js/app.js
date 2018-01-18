@@ -17803,7 +17803,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\ErrorLabel.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\ErrorLabel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ErrorLabel.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -29467,7 +29467,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\Slider.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\Slider.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Slider.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -29501,7 +29501,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\PaymentModal.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\PaymentModal.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PaymentModal.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -29535,7 +29535,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\TotalPayment.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\TotalPayment.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] TotalPayment.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -29569,7 +29569,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\contract\\ContractTerminate.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\contract\\ContractTerminate.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ContractTerminate.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -29603,7 +29603,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\payee\\Register.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\payee\\Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -33010,7 +33010,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     methods: {
         calc(direct = false) {
-            if (direct) this.$store.dispatch('contracts/recalc', { rate: 0 });else this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
+            this.$store.dispatch('contracts/recalc', { isRate: true });
         }
     },
     computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapGetters */])('contracts', {
@@ -37582,7 +37582,8 @@ const state = {
             tenant_address: {}
         },
         tenant: {},
-        villa: {}
+        villa: {},
+        rate_per_month: 0
     },
     rate_per_month: 0,
     tenant_default: {
@@ -37649,6 +37650,7 @@ const actions = {
         axiosRequest.get('contract', 'create').then(r => {
             state.contract = {};
             state.contract = r.data.data;
+            state.contract.rate_per_month = 0;
             state.lookups = r.data.lookups;
             state.tenant_default = state.contract.register_tenant;
         });
@@ -37683,14 +37685,19 @@ const actions = {
         });
     },
     recalc({ state }, payload) {
-
         const data = {
             villa_id: state.contract.villa_id,
             period_start: state.contract.period_start,
-            custom_rate: payload !== undefined ? payload.rate : 0,
+            custom_rate: payload !== undefined ? state.contract.rate_per_month : 0,
             period_end: state.contract.period_end
         };
-        axiosRequest.post("contract", "recalc", data).then(r => state.contract.amount = r.data.amount).catch(e => toastr.errors(e.response.message));
+
+        axiosRequest.post("contract", "recalc", data).then(r => {
+
+            state.contract.amount = r.data.amount;
+
+            state.contract.rate_per_month = r.data.rate_per_month;
+        }).catch(e => toastr.errors(e.response.message));
     },
     save({ state }) {
         let contract = {};
@@ -37725,9 +37732,12 @@ const actions = {
             }
         }).catch(e => {
             if (e.response.status === 422) {
+
                 state.errors.terminateError.register(e.response.data);
+
                 toastr.error("Unable to save!!!");
             } else {
+
                 toastr.error(e.response.data.message);
             }
         });
@@ -56330,7 +56340,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\Calendar.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\Calendar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Calendar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56364,7 +56374,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\DateTimePicker.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\DateTimePicker.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DateTimePicker.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56402,7 +56412,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\GridView.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\GridView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] GridView.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56440,7 +56450,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\ImageUpload.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\ImageUpload.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ImageUpload.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56478,7 +56488,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\Sidebar.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\Sidebar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Sidebar.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56512,7 +56522,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\accountchart\\AccountRegisterDialog.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\accountchart\\AccountRegisterDialog.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] AccountRegisterDialog.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56546,7 +56556,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\accountchart\\List.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\accountchart\\List.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] List.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56580,7 +56590,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\accountchart\\Register.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\accountchart\\Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56614,7 +56624,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\BillList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\BillList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BillList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56648,7 +56658,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\BillRegister.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\BillRegister.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BillRegister.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56686,7 +56696,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\BillUpdateForm.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\BillUpdateForm.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] BillUpdateForm.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56720,7 +56730,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\ContractInfo.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\ContractInfo.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ContractInfo.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56754,7 +56764,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\DepositModal.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\DepositModal.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DepositModal.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56788,7 +56798,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\PaymentInfoModal.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\PaymentInfoModal.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PaymentInfoModal.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56822,7 +56832,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\ReplaceModal.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\ReplaceModal.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ReplaceModal.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56860,7 +56870,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\bill\\SearchBill.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\bill\\SearchBill.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] SearchBill.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56894,7 +56904,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\contract\\CalendarEntry.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\contract\\CalendarEntry.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] CalendarEntry.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56928,7 +56938,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\contract\\ContractEntry.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\contract\\ContractEntry.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ContractEntry.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56962,7 +56972,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\contract\\ContractList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\contract\\ContractList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ContractList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -56996,7 +57006,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\contract\\ContractRegister.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\contract\\ContractRegister.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ContractRegister.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57030,7 +57040,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\contract\\ContractVilla.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\contract\\ContractVilla.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ContractVilla.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57064,7 +57074,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\contract\\Renewal.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\contract\\Renewal.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Renewal.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57098,7 +57108,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\contract\\TenantRegister.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\contract\\TenantRegister.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] TenantRegister.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57132,7 +57142,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\expenditures\\ExpenseList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\expenditures\\ExpenseList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ExpenseList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57166,7 +57176,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\expenditures\\Register.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\expenditures\\Register.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Register.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57200,7 +57210,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\DepreciationDialog.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\DepreciationDialog.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DepreciationDialog.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57234,7 +57244,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\FixedAssetFrame.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\FixedAssetFrame.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FixedAssetFrame.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57268,7 +57278,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\FixedAssetList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\FixedAssetList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FixedAssetList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57302,7 +57312,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\FixedAssetRegister.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\FixedAssetRegister.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FixedAssetRegister.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57336,7 +57346,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\FixedAssetRegisterDialog.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\fixed-asset\\FixedAssetRegisterDialog.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] FixedAssetRegisterDialog.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57370,7 +57380,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\home\\Info.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\home\\Info.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Info.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57404,7 +57414,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\management\\ManagementDashboard.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\management\\ManagementDashboard.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ManagementDashboard.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57438,7 +57448,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\payee\\PayeeList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\payee\\PayeeList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] PayeeList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57472,7 +57482,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\reports\\ReportForm.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\reports\\ReportForm.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ReportForm.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57506,7 +57516,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\reports\\ReportList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\reports\\ReportList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ReportList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57540,7 +57550,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\tenant\\TenantList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\tenant\\TenantList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] TenantList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57574,7 +57584,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\tenant\\TenantReg.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\tenant\\TenantReg.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] TenantReg.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57608,7 +57618,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\villa\\VillaList.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\villa\\VillaList.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VillaList.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57642,7 +57652,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\components\\villa\\VillaRegister.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\components\\villa\\VillaRegister.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VillaRegister.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57680,7 +57690,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\containers\\VDialog.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\containers\\VDialog.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VDialog.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57714,7 +57724,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\containers\\VInputWrapper.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\containers\\VInputWrapper.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VInputWrapper.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57748,7 +57758,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\containers\\VPanel.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\containers\\VPanel.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VPanel.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57782,7 +57792,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\containers\\VTab.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\containers\\VTab.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VTab.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57816,7 +57826,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\containers\\VTabGroup.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\containers\\VTabGroup.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VTabGroup.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57850,7 +57860,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\Accordion.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\Accordion.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Accordion.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57888,7 +57898,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\DataView.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\DataView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DataView.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57922,7 +57932,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\DateTimePicker.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\DateTimePicker.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] DateTimePicker.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57956,7 +57966,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\ErrorSpan.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\ErrorSpan.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] ErrorSpan.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -57994,7 +58004,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\GridView.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\GridView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] GridView.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58028,7 +58038,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\Pagination.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\Pagination.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Pagination.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58062,7 +58072,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\VComboBox.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\VComboBox.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VComboBox.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58100,7 +58110,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\VInput.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\VInput.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VInput.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58138,7 +58148,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\VLiveView.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\VLiveView.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VLiveView.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58172,7 +58182,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\VSearch.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\VSearch.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VSearch.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58206,7 +58216,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\controls\\VSwitch.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\VSwitch.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VSwitch.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58240,7 +58250,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\misc\\VLineChart.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\misc\\VLineChart.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -58273,7 +58283,7 @@ var Component = __webpack_require__(1)(
   /* cssModules */
   null
 )
-Component.options.__file = "C:\\xampp\\htdocs\\git\\sunrise_ver_2\\rootapp\\resources\\assets\\js\\plugins\\misc\\VListValue.vue"
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\misc\\VListValue.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] VListValue.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -64597,20 +64607,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.rate_per_month),
-      expression: "rate_per_month"
+      value: (_vm.contract.rate_per_month),
+      expression: "contract.rate_per_month"
     }],
     staticClass: "form-control text-right",
     attrs: {
       "type": "number"
     },
     domProps: {
-      "value": (_vm.rate_per_month)
+      "value": (_vm.contract.rate_per_month)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.rate_per_month = $event.target.value
+        _vm.contract.rate_per_month = $event.target.value
       },
       "blur": function($event) {
         _vm.$forceUpdate()
@@ -64688,20 +64698,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.rate_per_month),
-      expression: "rate_per_month"
+      value: (_vm.contract.rate_per_month),
+      expression: "contract.rate_per_month"
     }],
     staticClass: "form-control text-right",
     attrs: {
       "type": "number"
     },
     domProps: {
-      "value": (_vm.rate_per_month)
+      "value": (_vm.contract.rate_per_month)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.rate_per_month = $event.target.value
+        _vm.contract.rate_per_month = $event.target.value
       },
       "blur": function($event) {
         _vm.$forceUpdate()

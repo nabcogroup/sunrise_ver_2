@@ -61,7 +61,9 @@ class ContractBillController extends Controller
     public function apiGetList(Request $request) {
 
         $inputs = $request->all();
+
         unset($inputs['page']);
+
         $bills = $this->billRepository->getPendingBills($inputs);
 
         return $bills;

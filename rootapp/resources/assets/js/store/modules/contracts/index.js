@@ -24,7 +24,8 @@ const state = {
             tenant_address: {}
         },
         tenant: {},
-        villa: {}
+        villa: {},
+        rate_per_month: 0
     },
     rate_per_month: 0,
     tenant_default: {
@@ -92,6 +93,7 @@ const actions = {
         axiosRequest.get('contract', 'create').then((r) => {
             state.contract = {};
             state.contract = r.data.data;
+            state.contract.rate_per_month = 0;
             state.lookups = r.data.lookups;
             state.tenant_default = state.contract.register_tenant;
         });
@@ -128,15 +130,21 @@ const actions = {
             .catch(e => {if (e.response.status === 422) state.errors.renewError.register(e.response.data);});
     },
     recalc({state}, payload) {
-
         const data = {
             villa_id: state.contract.villa_id,
             period_start: state.contract.period_start,
-            custom_rate: payload !== undefined ? payload.rate : 0,
+            custom_rate: payload !== undefined ? state.contract.rate_per_month : 0,
             period_end: state.contract.period_end
         };
+
         axiosRequest.post("contract", "recalc", data)
-            .then((r) => state.contract.amount = r.data.amount)
+            .then((r) => {
+
+                state.contract.amount = r.data.amount;
+
+                state.contract.rate_per_month = r.data.rate_per_month;
+
+            })
             .catch((e) => toastr.errors(e.response.message));
     },
     save({state}) {
@@ -184,10 +192,16 @@ const actions = {
             })
             .catch((e) => {
                 if (e.response.status === 422) {
+
                     state.errors.terminateError.register(e.response.data);
+
                     toastr.error("Unable to save!!!");
-                } else {
+
+                }
+                else {
+
                     toastr.error(e.response.data.message);
+
                 }
 
 

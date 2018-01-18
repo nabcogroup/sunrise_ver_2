@@ -89,6 +89,7 @@ class ContractController extends Controller
     {
 
         return view("contract.calendar");
+
     }
 
     public function apiUpdateExtended()
@@ -137,9 +138,10 @@ class ContractController extends Controller
     {
         try {
 
-            //get user contractsp
+            //get user contract
             $contracts = $this->contractRepo->getContracts($status, $request->input('filter_field'), $request->input('filter_value'));
             
+
             //evaluate contract pending
             return $contracts;
 
@@ -189,28 +191,46 @@ class ContractController extends Controller
         $inputs = $request->filterInput();
 
         try {
+
             $ratePerMonth = floatval($inputs["custom_rate"]);
 
             //check if there is a custom calculation
+
             if ($ratePerMonth == 0) {
+
                 //fire event
                 $bundle = new Bundle();
+
                 $bundle->add("villaId", $inputs['villa_id']);
 
                 event(new OnCalculation($bundle, new EventListenerRegister(["GetVillaOnRecalculate"])));
 
                 $villaOutput = $bundle->getOutput('villa');
+
                 if ($villaOutput != null) {
+
                     $ratePerMonth = $villaOutput->rate_per_month;
+
                 }
             }
+
             //create contract with new rate
             $contract = $this->contractRepo->create(self::DEFAULT_PERIOD);
+
+            $contract->rate_per_month = $ratePerMonth;
+
+
             $contract->setPeriod($inputs['period_start'], $inputs['period_end']);
+
             $contract->toComputeAmount($ratePerMonth);
+
             return $contract;
-        } catch (Exception $e) {
+
+        }
+        catch (Exception $e) {
+
             return Result::badRequest(["message" => $e->getMessage()]);
+
         }
     }
 

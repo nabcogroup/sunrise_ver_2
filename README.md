@@ -1,4 +1,4 @@
-# Sunrise ver2.8 
+# Sunrise ver 2.9.2
 
 ## Description
 To be able to create a web base application system that will standardize and centralize the operation of Nabco Real State.  The proposed system will manage rental contracts, account receivable and expenditures thru out the entire operation.

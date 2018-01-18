@@ -70,12 +70,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Sidebar.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Sidebar.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/Sidebar.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="340">
               <caret line="20" column="146" lean-forward="false" selection-start-line="20" selection-start-column="146" selection-end-line="20" selection-end-column="146" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="0">
+                <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -140,7 +153,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Datasource/Tenants/TenantHistory.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Datasource/Villas/LossOfRent.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Datasource/Villas/PropertySummary.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Datasource/Villas/VillaHistory.php" />
@@ -191,6 +203,7 @@
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/reports/ReportList.vue" />
         <option value="$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/Sidebar.vue" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -300,7 +313,7 @@
       <path value="$PROJECT_DIR$/rootapp/vendor/ramsey/uuid" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="width" value="960" />
     <option name="height" value="1040" />
   </component>
@@ -343,41 +356,6 @@
             <path>
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
               <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -781,12 +759,12 @@
       <workItem from="1515564293449" duration="21449000" />
       <workItem from="1515652253080" duration="15400000" />
       <workItem from="1515825753710" duration="49044000" />
-      <workItem from="1515996434209" duration="96105000" />
+      <workItem from="1515996434209" duration="96304000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1325373000" />
+    <option name="totallyTimeSpent" value="1325572000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -798,7 +776,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17803837" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -860,67 +838,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/receivable_report/payment_schedule.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="25" lean-forward="false" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
-          <folding>
-            <marker date="1516264160423" expanded="true" signature="11:36" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="49:63" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="116:139" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="199:228" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="279:344" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="349:378" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="386:449" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="454:483" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="532:554" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="596:629" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="880:971" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="1027:1061" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="1256:1325" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="1376:1422" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="1473:1535" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="1660:1670" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="1692:1702" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="1743:1834" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="1868:1885" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="1929:1948" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="2032:2571" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="2156:2294" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="2342:2481" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="2677:2716" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="2998:3030" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="3260:3351" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="3422:3505" ph="..." />
-            <marker date="1516264160423" expanded="true" signature="3613:3650" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/receivable_report/property_schedule.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="20" lean-forward="true" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-          <folding>
-            <marker date="1516264167610" expanded="true" signature="11:36" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="49:63" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="116:139" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="386:477" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="525:559" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="831:885" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="1179:1192" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="1241:1296" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="1333:1424" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="1454:1473" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="2258:2301" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="2937:2964" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="3161:3252" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="3344:3384" ph="..." />
-            <marker date="1516264167610" expanded="true" signature="3474:3503" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/loss_of_rent.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -1558,11 +1475,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="17" lean-forward="true" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/Sidebar.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="20" column="146" lean-forward="false" selection-start-line="20" selection-start-column="146" selection-end-line="20" selection-end-column="146" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="0">
+            <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>

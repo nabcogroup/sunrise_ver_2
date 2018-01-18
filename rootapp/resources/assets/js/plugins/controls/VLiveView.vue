@@ -154,6 +154,7 @@
                 sortOrders: state => state.sortOrders,
                 fetchLoading: state => state.fetchLoading
             }),
+
             actionButtons() {
                 return this.grid.actions;
             }

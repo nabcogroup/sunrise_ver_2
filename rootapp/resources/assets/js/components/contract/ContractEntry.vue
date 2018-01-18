@@ -43,7 +43,7 @@
           <label for="" class="col-md-3 text-right">Rate Per Month:</label>
           <div class="col-md-9">
             <div class='input-group'>
-              <input type="number" class="form-control text-right" v-model="rate_per_month" />
+              <input type="number" class="form-control text-right" v-model="contract.rate_per_month" />
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
                             <li class="container-fluid">
                                 <div class="row">
                                     <div class="col-md-10">
-                                        <input type="number" class="form-control text-right" v-model="rate_per_month" />
+                                        <input type="number" class="form-control text-right" v-model="contract.rate_per_month" />
                                     </div>
                                     <div class="col-md-1">
                                         <button type="button" class="btn btn-info" @click.prevent="calc()">
@@ -95,10 +95,7 @@ export default {
     },
     methods: {
         calc(direct = false) {
-            if(direct)
-                this.$store.dispatch('contracts/recalc', { rate: 0 });
-            else
-                this.$store.dispatch('contracts/recalc', { rate: this.rate_per_month });
+            this.$store.dispatch('contracts/recalc',{isRate : true});
         }
     },
     computed: {

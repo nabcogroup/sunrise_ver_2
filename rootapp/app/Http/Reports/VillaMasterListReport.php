@@ -2,9 +2,10 @@
 
 namespace App\Http\Reports;
 
+use App\Http\Datasource\Villas\VillaMasterMainDatasource;
 use App\Http\Reports\BaseReport;
 use App\Http\Datasource\Villas\VillaMasterlist;
-
+use App\Selection;
 
 
 class VillaMasterListReport extends BaseReport {
@@ -12,8 +13,9 @@ class VillaMasterListReport extends BaseReport {
 
     public function __construct($params) {
         
-        $this->dataSource = new VillaMasterlist($params);
-        $this->templateSource = "villas.masterlist";
+        $this->dataSource = new VillaMasterMainDatasource($params);  //VillaMasterlist($params);
+
+        $this->templateSource = "villa.masterlist";
     }
 
 
@@ -23,13 +25,13 @@ class VillaMasterListReport extends BaseReport {
     }
 
     public function isApi() {
-        return true;
+        return false;
     }
 
     public function getLookups()
     {
         // TODO: Implement getLookups() method.
-        $lookups = Selection::getSelections(["villa_location"]);
+        $lookups = Selection::getSelections(["villa_status"]);
         return $lookups;
     }
 

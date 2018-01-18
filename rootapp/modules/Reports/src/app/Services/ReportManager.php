@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\ReportService;
+namespace Reports\App\Services;
 
 
 use App\Http\Reports\ContractSummaryReport;

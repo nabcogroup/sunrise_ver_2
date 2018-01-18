@@ -47,7 +47,7 @@ class Villa extends BaseModel
     }
 
     public function engageContracts() {
-        return $this->hasMany(Contract::class,'villa_id')->whereIn('status',['active','pending']);
+        return $this->hasMany(Contract::class,'villa_id')->where('status','active');
     }
 
 
@@ -101,6 +101,10 @@ class Villa extends BaseModel
     /*************************************************************/
     public function isActive() {
         return $this->status == 'active';
+    }
+
+    public function isOccupied() {
+        return $this->status == "occupied";
     }
 
     public function vacantOnly() {

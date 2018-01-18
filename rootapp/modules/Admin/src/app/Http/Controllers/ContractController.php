@@ -32,7 +32,7 @@ class ContractController extends LaraLibController
 
         if ($parameter->contract_no) {
 
-            $data['data'] = Contract::with(['bill', 'tenant', 'villa','contractTerminations'])->where("status", "terminated")->where('contract_no', $parameter->contract_no)->first();
+            $data['data'] = Contract::with(['bill', 'tenant', 'villa','contractTerminations'])->where("status", "!=","active")->where('contract_no', $parameter->contract_no)->first();
 
             $data['has_data'] = $data['data'] ? true : false;
 

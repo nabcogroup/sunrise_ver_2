@@ -44,7 +44,7 @@ return [
                 [
                     'id' => 1,
                     'report_title' => 'Villa Master List',
-                    'report_name' => 'villa_master',
+                    'report_name' => 'villa_master_list',
                 ],
                 [
                     'id' => 11,
@@ -88,8 +88,12 @@ return [
                 ],
                 [
                     'id' => 12,
-                    'report_title'  =>  'Loss of Rent',
-                    'report_name'   =>  'profit_loss'
+                    'report_title'  =>  'Loss of Rental Income Report',
+                    'report_name'   =>  'loss_of_rent'
+                ], [
+                    'id' => 13,
+                    'report_title'  =>  'Active Property Sales Report',
+                    'report_name'   =>  'sales_projection'
                 ],
 
             ]
@@ -124,7 +128,7 @@ return [
             "history" => "tenant_report.tenant_history"
         ],
         "villa" => [
-            "masterlist"    =>  "villa_report.villa_masterlist",
+            "masterlist"    =>  "villa_report.villa_summary",
             "per_villa"     =>  "villa_report.villa_form",
             "history"       =>  "villa_report.villa_history",
             "property"      =>  "villa_report.property_summary"

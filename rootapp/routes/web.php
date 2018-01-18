@@ -130,7 +130,9 @@ Route::group(["middleware" => ["auth", "roles"], "roles" => ["account", "admin"]
 |--------------------------------------------------------------------------
 */
 Route::group(["middleware" => ["auth", "roles"], "roles" => ["account", "admin"]], function () {
+
     Route::get("api/property", "PropertyController@all");
+
 });
 
 
@@ -165,10 +167,13 @@ Route::group(["middleware" => ["auth", "roles"], "roles" => ["account"]],
     function () {
 
         Route::get("expenses/", "ExpenditureController@index");
+
         Route::get("expenses/create", "ExpenditureController@register");
+
         Route::get("expenses/{id}", "ExpenditureController@edit");
 
         Route::get("api/expenses/create", "ExpenditureController@apiCreate");
+
         Route::post("api/expenses/store", "ExpenditureController@apiStore");
         Route::post("api/expenses/update", "ExpenditureController@apiStore");
         Route::get("api/expenses/edit/{id}", "ExpenditureController@apiEdit");
@@ -200,8 +205,11 @@ Route::group(['prefix' => 'payee', 'middleware' => ['auth', 'roles']], function 
 });
 
 Route::group(['prefix' => 'api/payee', 'middleware' => ['auth', 'roles']], function () {
+
     Route::post("/store", ["uses" => "PayeeController@apiStore", "roles" => ["account"]]);
+
     Route::get("/create", ["uses" => "PayeeController@apiCreate", "roles" => ["account"]]);
+
     Route::get("/list", ["uses" => "PayeeController@apiList", "roles" => ["account"]]);
 });
 
@@ -209,14 +217,20 @@ Route::group(['prefix' => 'api/payee', 'middleware' => ['auth', 'roles']], funct
  * Tenant
  ***********************************************************/
 Route::group(['prefix' => 'tenant', 'middleware' => ['auth', 'roles']], function () {
+
     Route::get("/", ["uses" => "TenantController@index", "roles" => ["contract", "account", "admin"]]);
+
     Route::get("/register/{tenantId?}", ["uses" => "TenantController@register", "roles" => ["contract", "account", "admin"]]);
 });
+
 Route::group(['prefix' => 'api/tenant', 'middleware' => ['auth', 'roles']], function () {
 
     Route::get("/list", ["uses" => "TenantController@apiList", "roles" => ["contract", "account", "admin"]]);
+
     Route::get("/edit/{tenantId}", ["uses" => "TenantController@apiShow", "roles" => ["contract", "account", "admin"]]);
+
     Route::get("/search/{regId?}", ["uses" => "TenantController@apiSearch", "roles" => ["contract", "account", "admin"]]);
+
     Route::post("/store", ["uses" => "TenantController@apiStore", "roles" => ["contract", "account", "admin"]]);
 
 });

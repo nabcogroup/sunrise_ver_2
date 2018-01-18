@@ -26,7 +26,7 @@ class ProfitLossReport extends BaseReport
         // TODO: Implement getLookups() method.
         $lookups = Selection::getSelections(["villa_location"]);
         $lookups["months"] = $this->getMonthLookups();
-        $lookups["report_type"] = [ ["code" => "per_property", "name" => "Per Property"],["code" => "per_villa", "name" => "Per Villa"]];
+        $lookups["report_type"] = [ ["code" => "property", "name" => "Per Property"],["code" => "", "name" => "Per Villa"]];
 
         return $lookups;
     }

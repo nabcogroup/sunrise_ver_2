@@ -2,7 +2,7 @@
 
     @slot('report_title')
         <div class="text-right">
-            <h1>{{ucfirst($datasource->getParam("status"))}} {{$datasource->getTitle()}}</h1>
+            <h1>Active {{$datasource->getTitle()}}</h1>
         </div>
     @endslot
 

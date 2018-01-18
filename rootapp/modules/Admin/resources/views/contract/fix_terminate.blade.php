@@ -40,6 +40,8 @@
                         <p class="col-md-12">Amount: <strong>{{$data['data']->amount or ""}}</strong></p>
                         <p class="col-md-3">Contract Status: <strong
                                     class="text-danger">{{$data['data']->full_status or ""}}</strong></p>
+                        <p class="col-md-3">Contract Id: <strong
+                                    class="text-danger">{{$data['data']->getId()}}</strong></p>
                         <p class="col-md-6">Period: <strong
                                     class="text-danger">{{\Carbon\Carbon::parse($data['data']->period_start)->format("d-M-Y")}} - {{\Carbon\Carbon::parse($data['data']->period_end)->format("d-M-Y")}}</strong></p>
 

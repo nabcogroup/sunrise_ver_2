@@ -32,13 +32,17 @@ class ExpenseMasterReport extends BaseReport
     public function getLookups()
     {
         $lookups = Selection::getSelections(["villa_location"]);
+
         $lookups['villas'] = [];
 
         $villas = Villa::select('id', 'villa_no')->orderBy('villa_no')->get();
 
         foreach ($villas as $villa) {
+
             $vdata = ['code' => $villa->id, 'name' => $villa->villa_no];
+
             array_push($lookups['villas'], $vdata);
+
         }
 
         return $lookups;

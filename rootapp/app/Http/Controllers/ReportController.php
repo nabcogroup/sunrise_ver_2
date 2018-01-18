@@ -14,6 +14,7 @@ class ReportController extends Controller
 {
     public function index() {
 
+
         $reportList = ReportManager::getReportList();
         $params = ReportManager::getParameter();
 

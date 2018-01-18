@@ -162,9 +162,10 @@
                                                         <li v-if="props.items.items.replace_ref"><a href="#" @click.prevent="actionTrigger('rep-info',props.items.items)">Replacement</a></li>
                                                         <li role="separator" class="divider"></li>
                                                         <li><a href="#" @click.prevent="actionTrigger('edit',props.items.items)">Edit</a></li>
-                                                        <li><a href="#" @click.prevent="actionTrigger('deposit',props.items.items)">Add Deposit</a></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('clear',props.items.items)">Add Deposit</a></li>
                                                         <li role="separator" class="divider"></li>
                                                         <li><a href="#" @click.prevent="actionTrigger('bounce',props.items.items)">Bounce Cheque</a></li>
+                                                        <li><a href="#" @click.prevent="actionTrigger('deposit',props.items.items)">Deposit Status</a></li>
                                                         <li><a href="#" @click.prevent="actionTrigger('cancelled',props.items.items)">Cancelled</a></li>
                                                         <li><a href="#" @click.prevent="actionTrigger('pending',props.items.items)">Pending Case</a></li>
                                                         <li v-if="props.items.items.replace_ref === undefined || props.items.items.replace_ref === null"><a href="#" @click.prevent="actionTrigger('replacement',props.items.items)">Replacement</a></li>
@@ -420,7 +421,7 @@ export default {
            else if(action == 'edit') {
                EventBus.$emit('payment.register.open',"edit", value);
            }
-           else if(action == 'deposit') {
+           else if(action == 'clear') {
                EventBus.$emit("payment.deposit.open",value)
            }
            else if(action == 'replacement') {
@@ -431,6 +432,12 @@ export default {
            }
            else if(action == 'pending') {
                this.$store.commit('payments/pendingPayment',{value:value});
+           }
+           else if(action == 'bounce') {
+               this.$store.commit('payments/bouncePayment',{value:value});
+           }
+           else if(action == 'deposit') {
+               this.$store.commit('payments/depositPayment',{value:value});
            }
         }
     },

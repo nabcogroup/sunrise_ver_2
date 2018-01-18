@@ -1,17 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnold.mercado
- * Date: 10/16/2017
- * Time: 10:32 AM
- */
 
-namespace App\Http\Datasource\Receivables;
+
+namespace Reports\App\Datasource\Receivables;
 
 
 use App\ContractBill;
-use App\Http\Datasource\IDataSource;
-use App\Services\ReportService\ReportMapper;
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class BillStatement implements IDataSource
 {
@@ -27,9 +22,11 @@ class BillStatement implements IDataSource
     {
         
         $bill_no = $this->params->field("bill_no");
+
         $bill = ContractBill::with("contract","payments")->where("bill_no",$bill_no)->first();
 
         $payments = $bill->payments()->where("status","clear")->get();
+
         $data = [
              "bill"              => $bill,
              "contract"          => $bill->contract,
@@ -39,5 +36,10 @@ class BillStatement implements IDataSource
 
         return new ReportMapper("Payment Statement",$this->params->toArray(),$data);
 
+    }
+
+    public function lookups()
+    {
+        // TODO: Implement lookups() method.
     }
 }

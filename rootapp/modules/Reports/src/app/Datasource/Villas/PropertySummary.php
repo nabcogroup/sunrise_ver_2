@@ -2,16 +2,21 @@
 
 namespace Reports\App\Datasource\Villas;
 
-use App\Traits\ArrayGroupTrait;
-use App\Traits\QuerySoftDeleteTrait;
-use Carbon\Carbon;
-use Reports\App\Datasource\IDataSource;
 
+
+
+use App\Traits\ArrayGroupTrait;
+use App\Traits\HelperTrait;
+use App\Traits\QuerySoftDeleteTrait;
+
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class PropertySummary implements IDataSource {
 
-    use QuerySoftDeleteTrait, 
-        ArrayGroupTrait;
+    use QuerySoftDeleteTrait,
+
+        ArrayGroupTrait,HelperTrait;
     
     private $params;
 
@@ -56,5 +61,12 @@ class PropertySummary implements IDataSource {
 
         return new ReportMapper("Property Contract Summary Report",$this->params->toArray(),$groupSummary);
 
+    }
+
+    public function lookups()
+    {
+        $lookups["months"] = $this->getMonthLookups();
+
+        return $lookups;
     }
 }

@@ -4,6 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/rootapp/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/rootapp/modules/Accounting/src" isTestSource="true" packagePrefix="Accounting\" />
+      <sourceFolder url="file://$MODULE_DIR$/rootapp/modules/Reports/src" isTestSource="true" packagePrefix="Reports\" />
       <sourceFolder url="file://$MODULE_DIR$/rootapp/app" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/rootapp/modules/Admin/src" isTestSource="true" packagePrefix="Admin\" />
       <sourceFolder url="file://$MODULE_DIR$/rootapp/modules/kielpack/laralibs/src" isTestSource="true" packagePrefix="KielPack\LaraLibs\" />

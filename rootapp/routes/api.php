@@ -38,11 +38,15 @@ Route::group(['prefix' => 'bill'],function() {
 
 //contract api
 Route::group(['prefix' => 'api_contract'],
+
     function() {
 
         Route::get('/list/{status?}',"ContractController@apiGetList");
+
         Route::get('/create', "ContractController@apiCreate");
+
         Route::get('/renew/{id}', "ContractController@apiRenew");
+
         Route::get('/calendar',"ContractController@apiCalendar");
 
     });
@@ -50,7 +54,9 @@ Route::group(['prefix' => 'api_contract'],
 
 //calendar api
 Route::group(["prefix" => "calendar"],function() {
+
    Route::get("/contract", "CalendarController@contract");
+
 });
 
 /*----------------------------------------------

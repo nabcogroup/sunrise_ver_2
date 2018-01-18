@@ -7,7 +7,9 @@ namespace Reports\App\Datasource\Bank;
 use App\BankAccount;
 use App\Traits\ArrayGroupTrait;
 use App\Traits\HelperTrait;
+
 use Carbon\Carbon;
+
 use Reports\App\Datasource\IDataSource;
 use Reports\App\Services\ReportMapper;
 
@@ -78,5 +80,15 @@ class BankDepositDetail implements IDataSource
         return new ReportMapper("Bank Deposit Detail Report",$this->params->toArray(),$rows);
 
 
+    }
+
+    public function lookups()
+    {
+        $lookups = [
+            "bank_account"  =>  BankAccount::all(),
+            "months"        =>  $this->getMonthLookups()
+        ];
+
+        return $lookups;
     }
 }

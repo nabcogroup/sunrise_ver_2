@@ -18,7 +18,7 @@
                 <ul class="nb-dropdown-menu" role="menu">
                     <li v-for="submenu in menu.submenus" :class="submenu.name==='$separator' ? 'separator' : 'sub-menu'">
                         <span v-if="submenu.disabled" class="nav-disabled">{{submenu.name}}</span>
-                        <a v-if="submenu.name !== '$separator' && !submenu.disabled" :href="submenu.url">{{submenu.name}}</a>
+                        <a v-if="submenu.name !== '$separator' && !submenu.disabled" :href="submenu.url"  :style="submenu.unused ? 'color:red' : '' ">{{submenu.name}}</a>
                     </li>
                 </ul>
             </li>

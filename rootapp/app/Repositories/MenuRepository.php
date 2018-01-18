@@ -23,10 +23,9 @@ class MenuRepository
                 'icon' => 'fa-certificate',
                 'visible' => false,
                 'submenus' => [
-                    ['name' => 'Dashboard', 'url' => url('contract'), 'disabled' => true, 'icon' => 'fa-certificate'],
+                    ['name' => 'Calendar', 'url' => url('contract/calendar'), 'icon' => 'fa-certificate'],
                     ['name' => 'Manage', 'url' => url('contract'), 'icon' => 'fa-certificate'],
                     ['name' => 'Create', 'url' => url('contract/register'), 'icon' => 'fa-certificate'],
-                    ['name' => 'Calendar', 'url' => url('contract/calendar'), 'icon' => 'fa-certificate'],
                     ['name' => '$separator', 'url' => ''],
                     ['name' => 'Tenants', 'url' => url('tenant'), 'disabled' => false, 'icon' => 'fa-certificate'],
                     ['name' => 'Villa Master File', 'url' => url('villa'), 'icon' => 'fa-certificate']
@@ -38,18 +37,17 @@ class MenuRepository
                 'icon' => 'fa-money',
                 'visible' => false,
                 'submenus' => [
-                    ['name' => 'Dashboard', 'url' => url('bill'), 'disabled' => true, 'icon' => 'fa-certificate'],
-                    ['name' => 'Manage Receivable', 'url' => url('bill'), 'icon' => 'fa-certificate'],
                     ['name' => 'Update Payment', 'url' => url('bill/edit'), 'icon' => 'fa-certificate'],
+                    ['name' => 'Manage Receivable', 'url' => url('bill'), 'icon' => 'fa-certificate'],
                     ['name' => 'Manage Expenses', 'url' => url('expenses/'), 'icon' => 'fa-certificate'],
                     ['name' => '$separator', 'url' => ''],
                     ['name' => 'Posting', 'url' => url('bill'), 'disabled' => true, 'icon' => 'fa-certificate'],
 
                     ['name' => '$separator', 'url' => '', 'icon' => 'fa-certificate'],
-                    ['name' => 'Payee Master File', 'url' => url('payee/'), 'icon' => 'fa-certificate'],
+                    ['name' => 'Payee Master File', 'url' => url('payee/'), 'icon' => 'fa-certificate', 'unused' => true],
                     ['name' => '$separator', 'url' => ''],
-                    ['name' => 'Fixed Asset', 'url' => url('fixed-asset/'), 'icon' => 'fa-certificate'],
-                    ['name' => 'Account Chart', 'url' => url('chart/'), 'icon' => 'fa-certificate'],
+                    ['name' => 'Fixed Asset', 'url' => url('fixed-asset/'), 'icon' => 'fa-certificate', 'unused' => true],
+                    ['name' => 'Account Chart', 'url' => url('chart/'), 'icon' => 'fa-certificate', 'unused' => true],
                 ],
             ],
             'management' => [

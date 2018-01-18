@@ -60,6 +60,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         ),
         'R' => 
         array (
+            'Reports\\' => 8,
             'Ramsey\\Uuid\\' => 12,
         ),
         'P' => 
@@ -212,6 +213,10 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'Symfony\\Component\\Console\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Reports\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/modules/Reports/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -442,6 +447,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'App\\Http\\Controllers\\ExpenditureController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExpenditureController.php',
         'App\\Http\\Controllers\\FixedAssetController' => __DIR__ . '/../..' . '/app/Http/Controllers/FixedAssetController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\ManagementController' => __DIR__ . '/../..' . '/app/Http/Controllers/ManagementController.php',
         'App\\Http\\Controllers\\MockupMobileController' => __DIR__ . '/../..' . '/app/Http/Controllers/MockupMobileController.php',
         'App\\Http\\Controllers\\PayeeController' => __DIR__ . '/../..' . '/app/Http/Controllers/PayeeController.php',
         'App\\Http\\Controllers\\PropertyController' => __DIR__ . '/../..' . '/app/Http/Controllers/PropertyController.php',
@@ -472,6 +478,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'App\\Http\\Datasource\\Villas\\VillaPaymentCollection' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaPaymentCollection.php',
         'App\\Http\\Datasource\\Villas\\VillaProfitLoss' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaProfitLoss.php',
         'App\\Http\\Datasource\\Villas\\VillaSales' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaSales.php',
+        'App\\Http\\Datasource\\Villas\\VillaSalesProjection' => __DIR__ . '/../..' . '/app/Http/Datasource/Villas/VillaSalesProjection.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\AdminVerify' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminVerify.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
@@ -492,6 +499,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'App\\Http\\Reports\\VillaFormReport' => __DIR__ . '/../..' . '/app/Http/Reports/VillaFormReport.php',
         'App\\Http\\Reports\\VillaMasterListReport' => __DIR__ . '/../..' . '/app/Http/Reports/VillaMasterListReport.php',
         'App\\Http\\Reports\\VillaPaymentCollectionReport' => __DIR__ . '/../..' . '/app/Http/Reports/VillaPaymentCollectionReport.php',
+        'App\\Http\\Reports\\VillaSalesProjectionReport' => __DIR__ . '/../..' . '/app/Http/Reports/VillaSalesProjectionReport.php',
         'App\\Http\\Reports\\VillaSalesReport' => __DIR__ . '/../..' . '/app/Http/Reports/VillaSalesReport.php',
         'App\\Http\\Requests\\BillForm' => __DIR__ . '/../..' . '/app/Http/Requests/BillForm.php',
         'App\\Http\\Requests\\ContractCalcForm' => __DIR__ . '/../..' . '/app/Http/Requests/ContractCalcForm.php',
@@ -3258,6 +3266,30 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'Ramsey\\Uuid\\UuidFactory' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidFactory.php',
         'Ramsey\\Uuid\\UuidFactoryInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidFactoryInterface.php',
         'Ramsey\\Uuid\\UuidInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/UuidInterface.php',
+        'Reports\\App\\Datasource\\Bank\\BankDepositDetail' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Bank/BankDepositDetail.php',
+        'Reports\\App\\Datasource\\Bank\\BankDepositSummary' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Bank/BankDepositSummary.php',
+        'Reports\\App\\Datasource\\Bank\\VillaBankDeposit' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Bank/VillaBankDeposit.php',
+        'Reports\\App\\Datasource\\Contracts\\ContractActive' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Contracts/ContractActive.php',
+        'Reports\\App\\Datasource\\Contracts\\ContractExpiring' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Contracts/ContractExpiring.php',
+        'Reports\\App\\Datasource\\Contracts\\ContractSummary' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Contracts/ContractSummary.php',
+        'Reports\\App\\Datasource\\Contracts\\ContractValue' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Contracts/ContractValue.php',
+        'Reports\\App\\Datasource\\Expenses\\ExpensesMaster' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Expenses/ExpensesMaster.php',
+        'Reports\\App\\Datasource\\IDataSource' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/IDataSource.php',
+        'Reports\\App\\Datasource\\Receivables\\BillStatement' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Receivables/BillStatement.php',
+        'Reports\\App\\Datasource\\Receivables\\PaymentSchedule' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Receivables/PaymentSchedule.php',
+        'Reports\\App\\Datasource\\Tenants\\TenantHistory' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Tenants/TenantHistory.php',
+        'Reports\\App\\Datasource\\Villas\\LossOfRent' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Villas/LossOfRent.php',
+        'Reports\\App\\Datasource\\Villas\\PropertySummary' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Villas/PropertySummary.php',
+        'Reports\\App\\Datasource\\Villas\\VillaHistory' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Villas/VillaHistory.php',
+        'Reports\\App\\Datasource\\Villas\\VillaMasterMain' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Villas/VillaMasterMain.php',
+        'Reports\\App\\Datasource\\Villas\\VillaMasterlist' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Villas/VillaMasterlist.php',
+        'Reports\\App\\Datasource\\Villas\\VillaPaymentCollection' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Villas/VillaPaymentCollection.php',
+        'Reports\\App\\Datasource\\Villas\\VillaSales' => __DIR__ . '/../..' . '/modules/Reports/src/app/Datasource/Villas/VillaSales.php',
+        'Reports\\App\\Http\\Controllers\\ReportController' => __DIR__ . '/../..' . '/modules/Reports/src/app/Http/ReportController.php',
+        'Reports\\App\\Services\\ReportManager' => __DIR__ . '/../..' . '/modules/Reports/src/app/Services/ReportManager.php',
+        'Reports\\App\\Services\\ReportMapper' => __DIR__ . '/../..' . '/modules/Reports/src/app/Services/ReportMapper.php',
+        'Reports\\App\\Services\\ReportParameter' => __DIR__ . '/../..' . '/modules/Reports/src/app/Services/ReportParameter.php',
+        'Reports\\ReportProvider' => __DIR__ . '/../..' . '/modules/Reports/src/ReportProvider.php',
         'Sabberworm\\CSS\\CSSList\\AtRuleBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/lib/Sabberworm/CSS/CSSList/AtRuleBlockList.php',
         'Sabberworm\\CSS\\CSSList\\CSSBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/lib/Sabberworm/CSS/CSSList/CSSBlockList.php',
         'Sabberworm\\CSS\\CSSList\\CSSList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/lib/Sabberworm/CSS/CSSList/CSSList.php',

@@ -48,6 +48,7 @@ class ReportManager
             'bank_report_detail'    =>  new BankReport("detail",$params),
             'bank_report_summary'   =>  new BankReport("summary",$params),
             'villa_master_list'     =>  new VillaMasterListReport($params),
+            'villa_form'            =>     new VillaFormReport($params),
             'villa_bank_deposit'    =>  new BankReport("per_villa", $params),
             'property'              =>  new PropertyReport($params),
             'loss_of_rent'           =>  new ProfitLossReport($params),
@@ -326,7 +327,17 @@ class ReportManager
                     "report_type" => ""
                 ],
                 "lookups" => []
-            ]
+            ],
+            [
+                'report_id' => 14,
+                'inputs' => [
+                    self::createDropdowns("Villa","villa_no","villas","code","name"),
+                ],
+                'models' => [
+                    'villa_no' => ''
+                ],
+                'lookups' => []
+            ],
         ];
 
         return [

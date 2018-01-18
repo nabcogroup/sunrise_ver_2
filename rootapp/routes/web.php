@@ -185,7 +185,10 @@ Route::group(["middleware" => ["auth", "roles"], "roles" => ["account"]],
 /********************************************************
  * Report
  ***********************************************************/
-Route::group(['prefix' => 'reports', 'middleware' => ['auth', 'roles']], function () {
+Route::group(['prefix' => 'reports','middleware' => ['auth', 'roles']], function () {
+
+
+
     Route::get("/", ["uses" => "ReportController@index", "roles" => ["contract", "account", "admin"]]);
     Route::get("/{reportId}", ["uses" => "ReportController@show", "roles" => ["contract", "account", "admin"]]);
 

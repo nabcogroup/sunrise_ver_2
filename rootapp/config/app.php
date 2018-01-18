@@ -231,7 +231,9 @@ return [
 
         // Accounting\AccountingModuleProvider::class
 
-        Admin\AdminProvider::class
+        Admin\AdminProvider::class,
+
+        //Reports\ReportProvider::class
 
     ],
 

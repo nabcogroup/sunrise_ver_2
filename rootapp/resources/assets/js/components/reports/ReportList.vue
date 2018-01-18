@@ -9,16 +9,14 @@
                     <div class="panel panel-success active" v-for="(report,i) in reportList" :key="i">
                         <div class="panel-heading">
                             <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#" href="#one">
-                                    {{report.title}}
-                                </a>
+                                {{report.title}}
                             </h4>
                         </div>
                         <div id="one" class="panel-collapse">
                             <div class="panel-body">
                                 <ul>
                                     <li v-for="(data,index) in report.data">
-                                        <a href="#" @click="onReportClick(data)">{{data.report_title}}</a>
+                                        <a href="#" @click="onReportClick(data)" :style="data.disabled ? 'color:red': ''  ">{{data.report_title}}</a>
                                     </li>
                                 </ul>
                             </div>

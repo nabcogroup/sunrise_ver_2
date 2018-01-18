@@ -1,22 +1,21 @@
 <?php
 
 
-namespace App\Http\Datasource\Receivables;
+namespace Reports\App\Datasource\Receivables;
 
 
-use App\Http\Datasource\IDataSource;
 use App\Selection;
-use App\Services\ReportService\ReportMapper;
 use App\Traits\ArrayGroupTrait;
+use App\Traits\HelperTrait;
 use App\Traits\QuerySoftDeleteTrait;
-use App\Villa;
-use Carbon\Carbon;
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class PaymentSchedule implements IDataSource
 {
     use QuerySoftDeleteTrait;
 
-    use ArrayGroupTrait;
+    use ArrayGroupTrait,HelperTrait;
 
     private $params;
 
@@ -38,7 +37,7 @@ class PaymentSchedule implements IDataSource
 
         $prev_year = $year - 1;
 
-        if($report_type == "per_property") {
+        if($report_type == "property") {
 
             $rows = $this->createDb('villas')
                 ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
@@ -123,4 +122,19 @@ class PaymentSchedule implements IDataSource
     }
 
 
+    public function lookups()
+    {
+        $lookups = Selection::getSelections(["villa_location"]);
+
+        $lookups["months"] = $this->getMonthLookups();
+
+        $lookups["report_type"] = [
+
+            ["code" => "per_property", "name" => "Per Property"],
+
+            ["code" => "per_villa", "name" => "Per Villa"]
+
+        ];
+        return $lookups;
+    }
 }

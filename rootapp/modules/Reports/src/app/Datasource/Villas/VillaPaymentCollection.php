@@ -1,20 +1,25 @@
 <?php
 
 
-namespace App\Http\Datasource\Villas;
+namespace Reports\App\Datasource\Villas;
 
-use Carbon\Carbon;
+
+
+use App\Selection;
 use App\Traits\ArrayGroupTrait;
-use App\Http\Datasource\IDataSource;
+use App\Traits\HelperTrait;
 use App\Traits\QuerySoftDeleteTrait;
-use App\Services\ReportService\ReportMapper;
+use Carbon\Carbon;
 
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class VillaPaymentCollection implements IDataSource
 {
 
     use QuerySoftDeleteTrait,
-        ArrayGroupTrait;
+
+        ArrayGroupTrait,HelperTrait;
 
     private $params;
 
@@ -28,7 +33,9 @@ class VillaPaymentCollection implements IDataSource
     {
 
         $date_month_from = Carbon::createFromDate($this->params->field("year"),$this->params->field("month_from"),1);
+
         $date_month_to = Carbon::createFromDate($this->params->field("year"),$this->params->field("month_to"),1)->addMonth()->subDay();
+
         $payment_type = $this->params->field("payment_type");
         
         $recordset = $this->createDb("villas")
@@ -49,7 +56,9 @@ class VillaPaymentCollection implements IDataSource
             ->orderBy("villas.villa_no");
 
         if(!is_null($payment_type)) {
+
             $recordset = $recordset->where("payments.payment_type",$payment_type);
+
         }
 
         $payment_types = [];
@@ -73,4 +82,12 @@ class VillaPaymentCollection implements IDataSource
         return new ReportMapper("Payment Collection", $this->params->toArray(), $groupSummary);
     }
 
+    public function lookups()
+    {
+        $lookups = Selection::getSelections(["villa_location","payment_term"]);
+
+        $lookups["months"] = $this->getMonthLookups();
+
+        return $lookups;
+    }
 }

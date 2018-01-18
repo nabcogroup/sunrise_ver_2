@@ -2,6 +2,7 @@
 
 namespace App\Http\Reports;
 
+use App\Http\Datasource\Villas\LossOfRent;
 use App\Http\Datasource\Villas\VillaProfitLoss;
 use App\Selection;
 use App\Traits\HelperTrait;

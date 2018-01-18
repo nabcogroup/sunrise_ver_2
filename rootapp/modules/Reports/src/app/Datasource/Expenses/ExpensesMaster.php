@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Http\Datasource\Expenses;
+namespace Reports\App\Datasource\Expenses;
 
+
+use App\Expenditure;
+use App\Selection;
+use App\Villa;
 
 use Carbon\Carbon;
-use App\Selection;
-use App\Expenditure;
-use App\Http\Datasource\IDataSource;
-use App\Services\ReportService\ReportMapper;
+
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class ExpensesMaster implements IDataSource
 {
@@ -87,5 +90,24 @@ class ExpensesMaster implements IDataSource
         
 
 
+    }
+
+    public function lookups()
+    {
+        $lookups = Selection::getSelections(["villa_location"]);
+
+        $lookups['villas'] = [];
+
+        $villas = Villa::select('id', 'villa_no')->orderBy('villa_no')->get();
+
+        foreach ($villas as $villa) {
+
+            $vdata = ['code' => $villa->id, 'name' => $villa->villa_no];
+
+            array_push($lookups['villas'], $vdata);
+
+        }
+
+        return $lookups;
     }
 }

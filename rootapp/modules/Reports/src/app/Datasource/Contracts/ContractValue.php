@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Datasource\Contracts;
+namespace Reports\App\Datasource\Contracts;
 
-use App\Contract;
+
 use App\Selection;
-use Carbon\Carbon;
-use App\Traits\HelperTrait;
 use App\Traits\ArrayGroupTrait;
-use App\Http\Datasource\IDataSource;
+use App\Traits\HelperTrait;
 use App\Traits\QuerySoftDeleteTrait;
-use App\Services\ReportService\ReportMapper;
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class ContractValue implements IDataSource
 {
@@ -94,5 +93,12 @@ class ContractValue implements IDataSource
 
 
         return new ReportMapper($title, $this->params->toArray(), $rows["data"]);
+    }
+
+    public function lookups()
+    {
+        $lookups = Selection::getSelections(["villa_location","contract_status"]);
+
+        return $lookups;
     }
 }

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Datasource\Contracts;
+namespace Reports\App\Datasource\Contracts;
 
 
-use Carbon\Carbon;
 use App\Selection;
-use App\Traits\HelperTrait;
 use App\Traits\ArrayGroupTrait;
-use App\Http\Datasource\IDataSource;
+use App\Traits\HelperTrait;
 use App\Traits\QuerySoftDeleteTrait;
-use App\Services\ReportService\ReportMapper;
+use Carbon\Carbon;
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class ContractExpiring implements IDataSource
 {
@@ -95,5 +95,12 @@ class ContractExpiring implements IDataSource
         
         return new ReportMapper("Expiring Contract",$this->params->toArray(),$items);
 
+    }
+
+    public function lookups()
+    {
+        $lookups = Selection::getSelections(["villa_location","contract_status"]);
+
+        return $lookups;
     }
 }

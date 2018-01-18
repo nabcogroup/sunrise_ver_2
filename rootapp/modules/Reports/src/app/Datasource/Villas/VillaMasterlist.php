@@ -1,14 +1,16 @@
 <?php
 
 
-namespace App\Http\Datasource\Villas;
+namespace Reports\App\Datasource\Villas;
 
 
 use App\Villa;
 use Carbon\Carbon;
 use App\Selection;
+
 use App\Traits\ArrayGroupTrait;
-use App\Http\Datasource\IDataSource;
+use Reports\App\Datasource\IDataSource;
+
 
 class VillaMasterlist implements IDataSource {
 
@@ -60,5 +62,12 @@ class VillaMasterlist implements IDataSource {
             ]
         ];
     }
-    
+
+    public function lookups()
+    {
+
+        $lookups = Selection::getSelections(["villa_status"]);
+
+        return $lookups;
+    }
 }

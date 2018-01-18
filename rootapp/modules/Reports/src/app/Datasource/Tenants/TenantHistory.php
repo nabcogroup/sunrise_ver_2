@@ -1,11 +1,14 @@
 <?php 
 
 
-namespace App\Http\Datasource\Tenants;
+namespace Reports\App\Datasource\Tenants;
 
-use App\Http\Datasource\IDataSource;
+
+
 use App\Traits\ArrayGroupTrait;
 use Carbon\Carbon;
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class TenantHistory implements IDatasource {
 
@@ -74,8 +77,11 @@ class TenantHistory implements IDatasource {
 
         },["reg_id"]);
 
+        return new ReportMapper("Tenant History",$this->params->toArray(), $rows);
+    }
 
-
-        return $rows;
+    public function lookups()
+    {
+        // TODO: Implement lookups() method.
     }
 }

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Datasource\Villas;
+namespace Reports\App\Datasource\Villas;
 
 
 use App\Traits\QuerySoftDeleteTrait;
 use App\Traits\ArrayGroupTrait;
-use App\Http\Datasource\IDataSource;
+
 
 use Carbon\Carbon;
+use Reports\App\Datasource\IDataSource;
 
 
 class VillaHistory implements IDataSource {
@@ -72,4 +73,8 @@ class VillaHistory implements IDataSource {
             
     }
 
+    public function lookups()
+    {
+        // TODO: Implement lookups() method.
+    }
 }

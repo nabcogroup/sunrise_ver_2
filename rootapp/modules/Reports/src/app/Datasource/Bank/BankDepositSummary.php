@@ -1,17 +1,21 @@
 <?php
 
-namespace App\Http\Datasource\Bank;
+namespace Reports\App\Datasource\Bank;
+
 
 
 use App\BankAccount;
-use App\Http\Datasource\IDataSource;
 
 
+use App\Traits\HelperTrait;
+use Reports\App\Datasource\IDataSource;
 
 class BankDepositSummary implements IDataSource {
 
+    use HelperTrait;
 
     private $params;
+
     public function __construct($params) {
         $this->params = $params;
     }
@@ -38,4 +42,13 @@ class BankDepositSummary implements IDataSource {
     }
 
 
+    public function lookups()
+    {
+        $lookups = [
+            "bank_account"  =>  BankAccount::all(),
+            "months"        =>  $this->getMonthLookups()
+        ];
+
+        return $lookups;
+    }
 }

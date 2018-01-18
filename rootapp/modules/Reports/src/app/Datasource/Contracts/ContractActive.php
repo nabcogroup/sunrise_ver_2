@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Datasource\Contracts;
+namespace Reports\App\Datasource\Contracts;
 
-use Carbon\Carbon;
+
+
 use App\Selection;
-
-use App\Traits\HelperTrait;
 use App\Traits\ArrayGroupTrait;
+use App\Traits\HelperTrait;
 use App\Traits\QueryTemplateTrait;
-use App\Http\Datasource\IDataSource;
-use App\Services\ReportService\ReportMapper;
+
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class ContractActive implements IDataSource
 {
@@ -24,7 +25,9 @@ class ContractActive implements IDataSource
 
 
     public function __construct($params) {
+
         $this->params = $params;
+
     }
     public function execute()
     {
@@ -47,6 +50,7 @@ class ContractActive implements IDataSource
                 ->orderBy('villa_no');
 
         $rows = $this->arrayItemize($records,function($row) {
+
             $item = [
                 'villa_no'          =>  $row->villa_no,
                 'contract_no'       =>  $row->contract_no,
@@ -57,7 +61,9 @@ class ContractActive implements IDataSource
                 'gross_sale'        =>  ($row->gross_sale == null) ? 0 : $row->gross_sale,
                 'credit_sale'       =>  floatval($row->contract_value) - floatval($row->gross_sale)
             ];
+
             return $item;
+
         },['villa_location']);
         
         $this->params->update("location",Selection::getValue("villa_location",$location));
@@ -65,5 +71,12 @@ class ContractActive implements IDataSource
         return new ReportMapper("Active Contracts",$this->params->toArray(),$rows);
 
 
+    }
+
+    public function lookups()
+    {
+        $lookups = Selection::getSelections(["villa_location","contract_status"]);
+
+        return $lookups;
     }
 }

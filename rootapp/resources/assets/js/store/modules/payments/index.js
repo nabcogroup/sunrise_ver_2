@@ -87,7 +87,7 @@ const mutations = {
     cancelPayment(state,payload) {
 
         var status = state.lookups.payment_status.find(item => {
-            return item.id == 124;
+            return item.code == 'cancelled';
         });
 
         payload.value.status = status.code;
@@ -97,14 +97,27 @@ const mutations = {
     pendingPayment(state,payload) {
 
         var status = state.lookups.payment_status.find(item => {
-            return item.id == 123;
+            return item.code == 'pending_case';
         });
 
         payload.value.status = status.code;
         payload.value.full_status = status.name;
 
     },
-
+    bouncePayment(state,payload) {
+        var status = state.lookups.payment_status.find(item => {
+            return item.code == 'bounce';
+        });
+        payload.value.status = status.code;
+        payload.value.full_status = status.name;
+    },
+    depositPayment(state,payload) {
+        var status = state.lookups.payment_status.find(item => {
+            return item.code == 'deposit';
+        });
+        payload.value.status = status.code;
+        payload.value.full_status = status.name;
+    },
     convertPayment(state,payload) {
         
         const convertion = state.lookups[payload.source].find(item => {

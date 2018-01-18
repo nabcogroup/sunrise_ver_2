@@ -21,6 +21,7 @@ use App\Http\Reports\VillaMasterListReport;
 
 
 use App\Http\Reports\VillaPaymentCollectionReport;
+use Illuminate\Support\Facades\App;
 
 
 class ReportManager
@@ -30,37 +31,33 @@ class ReportManager
 
     protected static $reports = [];
 
+
     public static function get($key,$params)
     {
-        self::$reports = [
-            'villa_master'          =>  new VillaFormReport($params,'form'),
-            'contract_value'        =>  new ContractReport($params,'value'),
-            'contract_pending'      =>  new ContractReport($params,'pending'),
-            'contract_expiry'       =>  new ContractReport($params,'expiry'),
-            'contract_active'       =>  new ContractReport($params,'active'),
-            'payment_schedule'      =>  new ReceivableReport($params),
-            'bill_statement'        =>  new BillStatementReport($params),
-            'villa_payment'         =>  new VillaSalesReport($params),
-            'payment_collection'    =>  new VillaPaymentCollectionReport($params),
-            'expense_property'      =>  new ExpenseMasterReport($params),
-            'villa_history'         =>  new VillaFormReport($params,'ledger'),
-            'tenant_history'        =>  new TenantReport($params),
-            'bank_report_detail'    =>  new BankReport("detail",$params),
-            'bank_report_summary'   =>  new BankReport("summary",$params),
-            'villa_master_list'     =>  new VillaMasterListReport($params),
-            'villa_bank_deposit'    =>  new BankReport("per_villa", $params),
-            'property'              =>  new PropertyReport($params),
-            'loss_of_rent'           =>  new ProfitLossReport($params),
-            'contract_summary'      =>  new ContractSummaryReport($params),
-            'sales_projection'      =>  new VillaSalesProjectionReport($params)
-        ];
-        
-        return self::$reports[$key];
+
+        $configs = config("appreport.php");
+
+        foreach ($configs["report"] as $report) {
+
+            if(key_exists($key,$report["data"])) {
+
+                $data = (object)$report["data"][$key];
+
+                $data->datasource = App::make("Reports\\App\\Datasource\\".$data->datasource);
+
+                return $data;
+            }
+        }
+
+        return false;
+
     }
+
+
 
     public static function getReportList()
     {
-        $reports = config("appreport.report");
+        $reports = config("report.report");
 
         return $reports;
     }

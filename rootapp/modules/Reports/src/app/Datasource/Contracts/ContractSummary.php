@@ -1,23 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnold.mercado
- * Date: 1/7/2018
- * Time: 9:52 AM
- */
-
-namespace App\Http\Datasource\Contracts;
 
 
-use App\Contract;
-use App\Http\Datasource\IDataSource;
+namespace Reports\App\Datasource\Contracts;
+
+
 use App\Selection;
 use App\Services\EDB;
-use App\Services\ReportService\ReportMapper;
 use App\Traits\ArrayGroupTrait;
 use App\Traits\QuerySoftDeleteTrait;
-use App\Villa;
-use Carbon\Carbon;
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class ContractSummary implements IDataSource
 {
@@ -59,16 +51,20 @@ class ContractSummary implements IDataSource
                     ->groupBy("villas.location","start_month");
 
             $groups = ["location","start_month"];
+
             $title = " Summary of Property: ".ucwords($contract_status)." Contract Value Summary";
 
         }
         else {
 
             $model = $model->where("location",$location)
+
                 ->groupBy("villas.location", "villas.villa_no","start_month")
+
                 ->select(\DB::raw("SUM(contracts.amount) contract_value"),"villas.location","villas.villa_no", \DB::raw("MONTH(contracts.period_start) as start_month"));
 
             $groups = ["villa_no", "start_month"];
+
             $title = ucwords($contract_status) ." Contract Value Summary - ".Selection::getValue("villa_location",$location);
 
         }
@@ -96,5 +92,10 @@ class ContractSummary implements IDataSource
         return new ReportMapper($title, $this->params->toArray(), $data);
 
 
+    }
+
+    public function lookups()
+    {
+        // TODO: Implement lookups() method.
     }
 }

@@ -1,24 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arnold.mercado
- * Date: 10/12/2017
- * Time: 5:48 PM
- */
 
-namespace App\Http\Datasource\Bank;
+namespace Reports\App\Datasource\Bank;
 
 
 use App\BankAccount;
 use App\Traits\ArrayGroupTrait;
-use App\Http\Datasource\IDataSource;
-use App\Services\ReportService\ReportMapper;
+use App\Traits\HelperTrait;
 use Carbon\Carbon;
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class VillaBankDeposit implements IDataSource
 {
 
-    use ArrayGroupTrait;
+    use ArrayGroupTrait,HelperTrait;
 
     private $params;
 
@@ -65,5 +60,15 @@ class VillaBankDeposit implements IDataSource
 
         return new ReportMapper("Bank detail per Villa",$this->params->toArray(),$rows);
 
+    }
+
+    public function lookups()
+    {
+        $lookups = [
+            "bank_account"  =>  BankAccount::all(),
+            "months"        =>  $this->getMonthLookups()
+        ];
+
+        return $lookups;
     }
 }

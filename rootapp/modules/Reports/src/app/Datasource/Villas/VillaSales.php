@@ -1,22 +1,23 @@
 <?php
 
 
-namespace App\Http\Datasource\Villas;
+namespace Reports\App\Datasource\Villas;
 
 
-use App\Http\Datasource\IDataSource;
 use App\Selection;
-use App\Services\ReportService\ReportMapper;
-
 use App\Traits\ArrayGroupTrait;
+use App\Traits\HelperTrait;
 use App\Traits\QuerySoftDeleteTrait;
+
+use Reports\App\Datasource\IDataSource;
+use Reports\App\Services\ReportMapper;
 
 class VillaSales implements IDataSource
 {
 
     use QuerySoftDeleteTrait;
     
-    use ArrayGroupTrait;
+    use ArrayGroupTrait,HelperTrait;
 
     private $params;
 
@@ -28,12 +29,16 @@ class VillaSales implements IDataSource
     public function execute()
     {   
         $month_from = $this->params->fieldInt("month_from",0);
+
         $month_to = $this->params->fieldInt("month_to",0);
+
         $location = $this->params->field("location","");
+
         $year = $this->params->field("year",\Carbon\Carbon::now()->year);
+
         $report_type = $this->params->field("report_type","");
 
-        if($report_type == "per_property") {
+        if($report_type == "property") {
 
             $recordset = $this->createDb('villas')
                 ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
@@ -95,5 +100,14 @@ class VillaSales implements IDataSource
         
         return new ReportMapper($title,$this->params->toArray(),$groupSummary);
 
+    }
+
+    public function lookups()
+    {
+        // TODO: Implement getLookups() method.
+        $lookups = Selection::getSelections(["villa_location"]);
+        $lookups["months"] = $this->getMonthLookups();
+        $lookups["report_type"] = [ ["code" => "property", "name" => "Per Property"],["code" => "", "name" => "Per Villa"]];
+        return $lookups;
     }
 }

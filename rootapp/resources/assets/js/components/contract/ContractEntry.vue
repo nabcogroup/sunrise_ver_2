@@ -39,12 +39,19 @@
             </div>
             <hr/>
         </div>
-
+        <div class="form-group">
+          <label for="" class="col-md-3 text-right">Rate Per Month:</label>
+          <div class="col-md-9">
+            <div class='input-group'>
+              <input type="number" class="form-control text-right" v-model="rate_per_month" />
+            </div>
+          </div>
+        </div>
         <div class="row">
             <label for="" class="col-md-3 text-right">Contract Value:</label>
             <div class="col-md-9">
                 <div class='input-group'>
-                    <input name="amount" type="text" class="form-control text-right" placeholder="AMOUNT" v-model='contract.amount'>
+                    <input name="amount" type="text" class="form-control text-right" disabled="true" placeholder="AMOUNT" v-model='contract.amount'>
                     <div class="input-group-btn">
                         <button class="btn btn-default" type="button" @click.prevent="calc('direct')">
                             <i class="fa fa-calculator"></i>

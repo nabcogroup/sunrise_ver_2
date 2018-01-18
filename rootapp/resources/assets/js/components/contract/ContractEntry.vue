@@ -41,11 +41,13 @@
         </div>
         <div class="form-group">
           <label for="" class="col-md-3 text-right">Rate Per Month:</label>
-          <div class="col-md-9">
-            <div class='input-group'>
+
+
+              <div class="col-md-4">
               <input type="number" class="form-control text-right" v-model="contract.rate_per_month" />
             </div>
-          </div>
+
+
         </div>
         <div class="row">
             <label for="" class="col-md-3 text-right">Contract Value:</label>
@@ -56,23 +58,6 @@
                         <button class="btn btn-default" type="button" @click.prevent="calc('direct')">
                             <i class="fa fa-calculator"></i>
                         </button>
-                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-                            <i class="fa fa-chevron-down"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right" style="width:450px">
-                            <li class="container-fluid">
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <input type="number" class="form-control text-right" v-model="contract.rate_per_month" />
-                                    </div>
-                                    <div class="col-md-1">
-                                        <button type="button" class="btn btn-info" @click.prevent="calc()">
-                                            <i class="fa fa-calculator" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
                     </div>
                 </div>
                 <error-span v-model="errors" name="amount"></error-span>

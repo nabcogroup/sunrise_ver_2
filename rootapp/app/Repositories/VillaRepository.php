@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Selection;
 use App\Traits\PaginationTrait;
 use App\VillaGallery;
 use Carbon\Carbon;
@@ -56,9 +57,11 @@ class VillaRepository extends AbstractRepository
                 "qtel_no"           =>  $row->qtel_no,
                 "rate_per_month"    =>  $row->rate_per_month,
                 "full_location"     =>  $row->full_location,
+                "full_villa_class"  =>  Selection::getValue('villa_type', $row->villa_class),
                 "full_status"       =>  $row->full_status,
                 "is_active"         =>  true,
-                "is_disabled"       =>  $row->status == "vacant" ? false : true
+                "is_disabled"       =>  $row->status == "vacant" ? false : true,
+                "tag_color"         =>  $row->status == "vacant" ? "text-warning text-center" : "text-center",
             ];
 
             return $item;

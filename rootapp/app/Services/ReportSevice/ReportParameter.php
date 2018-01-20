@@ -24,21 +24,25 @@ class ReportParameter
     public function field($name,$default = null) {
 
         return $this->request->query($name,$default);
+
     }
 
     public function fieldInt($name,$default = 0) {
+
         return (int)$this->request->query($name,$default);
+
     }
 
     public function fieldDate($name,$default = null) {
+
         $date = $this->request->query($name,$default);
+
         if(!is_null($date))  {
             return Carbon::parse($date);
         }
         else {
             return $date;
         }
-        
     }
 
     public function add($name,$value) {

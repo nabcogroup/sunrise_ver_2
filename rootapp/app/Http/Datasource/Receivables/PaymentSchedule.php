@@ -29,16 +29,16 @@ class PaymentSchedule implements IDataSource
     public function execute()
     {
 
-        $month_from = $this->params->field("month_from",Carbon::now()->month);
-        $month_to = $this->params->field("month_to",Carbon::now()->addMonth()->month);
+        $month_from = $this->params->field("month_from", Carbon::now()->month);
+        $month_to = $this->params->field("month_to", Carbon::now()->addMonth()->month);
 
-        $location = $this->params->field("location","");
-        $year = $this->params->field("year",Carbon::now()->year);
-        $report_type = $this->params->field("report_type","");
+        $location = $this->params->field("location", "");
+        $year = $this->params->field("year", Carbon::now()->year);
+        $report_type = $this->params->field("report_type", "");
 
         $prev_year = $year - 1;
 
-        if($report_type == "per_property") {
+        if ($report_type == "per_property") {
 
             $rows = $this->createDb('villas')
                 ->join('contracts', 'contracts.villa_id', '=', 'villas.id')
@@ -53,21 +53,28 @@ class PaymentSchedule implements IDataSource
                     \DB::raw("MONTH(payments.effectivity_date)"),
                     \DB::raw("YEAR(payments.effectivity_date)"))
                 ->whereNull("contracts.deleted_at")
-                ->whereIn("payments.status",["received","pending_case"])
-                ->where(\DB::raw("YEAR(payments.effectivity_date)"),$year)
-                ->orderBy("villas.location")
-                ->get()
-                ->pipe(function($collection) {
+                ->whereIn("payments.status", ["received", "pending_case"])
+                ->where(\DB::raw("YEAR(payments.effectivity_date)"), $year)
+                ->orderBy("villas.location");
+
+            if (!is_null($location) && $location !== "") {
+
+                $rows = $rows->where("villas.location", $location);
+
+            }
+
+
+            $rows = $rows->get()
+                ->pipe(function ($collection) {
                     $items = [];
                     foreach ($collection as $item) {
-                        if(!isset($items[$item->location])) {
+                        if (!isset($items[$item->location])) {
                             $items[$item->location] = [
                                 "begbal" => 0,
                                 "periods" => [$item->monthly_schedule => $item]
                             ];
-                        }
-                        else {
-                            array_push($items[$item->location]["periods"], $item);
+                        } else {
+                            $items[$item->location]["periods"][$item->monthly_schedule] = $item;
                         }
                     }
 
@@ -76,12 +83,10 @@ class PaymentSchedule implements IDataSource
                 });
 
 
-
             $title = "Summary of Property: Payment Receivable Report";
 
 
-        }
-        else {
+        } else {
 
             //create two queries
             $recordset = $this->createDb('villas')
@@ -99,25 +104,33 @@ class PaymentSchedule implements IDataSource
                     \DB::raw("YEAR(payments.effectivity_date)"),
                     "payment_status")
                 ->whereNull("contracts.deleted_at")
-                ->whereIn("payments.status",["received","deposited","pending_case"])
-                ->where("villas.location",$location)
-                ->where(\DB::raw("YEAR(payments.effectivity_date)"),$year)
-                ->orderBy("villas.villa_no")
-                ->get();
+                ->whereIn("payments.status", ["received", "deposited", "pending_case"])
+                ->where(\DB::raw("YEAR(payments.effectivity_date)"), $year)
+                ->orderBy("villas.villa_no");
 
-            $title = "Villa Payment Receivable Report - " . Selection::getValue("villa_location",$location);
-            $rows = $this->arrayGroupBy($recordset, null,["villa_no","monthly_schedule"]);
+            $property_name = "All";
+
+            if(!is_null($location) && $location != "") {
+
+                $recordset = $recordset->where("villas.location", $location);
+
+                $property_name = Selection::getValue("villa_location", $location);
+
+            }
+
+
+            $title = "Villa Payment Receivable Report - ".$property_name;
+
+            $rows = $this->arrayGroupBy($recordset->get(), null, ["villa_no", "monthly_schedule"]);
+
         }
-
-        
-
 
 
         $column_month = [];
-        $this->params->update("location",Selection::getValue('villa_location', $location));
 
-        return new ReportMapper($title,$this->params->toArray(),$rows);
+        $this->params->update("location", Selection::getValue('villa_location', $location));
 
+        return new ReportMapper($title, $this->params->toArray(), $rows);
 
 
     }

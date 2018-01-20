@@ -43,7 +43,9 @@ class ContractBill extends BaseModel
     public static function createInstanceOfPayment()
     {
         $instance = Payment::createInstance();
+
         $instance->initPeriod(self::DEFAULT_PERIOD);
+
         return $instance;
     }
 
@@ -61,7 +63,9 @@ class ContractBill extends BaseModel
     {
 
         $settled_total = $this->settled_amount;
+
         $contract_amount = $this->contract()->first()->amount;
+
         return $this->appends['balance'] = ($contract_amount - $settled_total);
 
     }
@@ -185,6 +189,7 @@ class ContractBill extends BaseModel
                 }
             }
         }
-
     }
+
+
 }

@@ -46,8 +46,7 @@
                         {name: 'qtel_no', column: 'QTel No',class:'text-center'},
                         {name: 'full_villa_class', column: 'Class',class:'text-center'},
                         {name: 'rate_per_month', column: 'Rate/Month', class:'text-right', dtype:'currency'},
-                        {name: 'full_status', column: 'Status', class:'text-center',style: 'width:10%',filter: true},
-                        {name: '$switch', column: 'Active', bind: 'is_active', disabled:'is_disabled'},
+                        {name: 'full_status', column: 'Status', class:'text-center',style: 'width:10%',filter: true,bindClass: 'tag_color'},
                         {name: '$action', column: '',static:true, class: 'text-center'},
                     ],
                     source: {

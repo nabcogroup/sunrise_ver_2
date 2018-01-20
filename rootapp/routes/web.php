@@ -100,6 +100,7 @@ Route::group(["middleware" => ["auth", "roles"], "roles" => ["account"]], functi
     Route::get('api/bill/edit/{billNo?}', ["uses" => "ContractBillController@apiEdit", "roles" => ["account"]]);
     Route::post('api/bill/update', ["uses" => "ContractBillController@apiUpdate", "roles" => ["account"]]);
     Route::get('api/bill/search/{filter?}/{value?}', ["uses" => "ContractBillController@apiSearch", "roles" => ["account"]]);
+    Route::get('api/bill/get_balance_total',["uses" => "ContractBillController@apiGetTotalBalance","roles" => ["account"]]);
 
 });
 

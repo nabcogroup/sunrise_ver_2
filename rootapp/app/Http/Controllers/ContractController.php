@@ -97,8 +97,11 @@ class ContractController extends Controller
         $contracts = \App\Contract::all();
 
         foreach ($contracts as $contract) {
+
             $contract->period_end_extended = Carbon::parse($contract->period_end)->addDays($contract->extra_days);
+
             $contract->save();
+
         }
 
         return Result::ok("Successful");
@@ -237,18 +240,25 @@ class ContractController extends Controller
     public function apiStore(ContractForm $request) {
 
         $inputs = $request->filterInput();
+
+
         try {
+
             $bundle = new Bundle();
+
             $bundle->add('tenant', $inputs['register_tenant']);
             $bundle->add('villaId', $inputs['villa_id']);
 
             event(new OnCreating($bundle, new EventListenerRegister(["GetVilla", "CreateTenant"])));
 
             if (!$bundle->hasOutput()) {
+
                 throw new Exception("Internal Error");
+
             }
 
             $tenantOutput = $bundle->getOutput('tenant');
+
             $villaOutput = $bundle->getOutput('villa');
 
             //remove tenant
@@ -256,7 +266,11 @@ class ContractController extends Controller
 
             $inputs['tenant_id'] = $tenantOutput->id;
             $inputs['villa_no']  = $villaOutput->villa_no;
-            
+
+            if($inputs["rate_per_month"]) {
+                unset($inputs["rate_per_month"]);
+            }
+
             $contract = $this->contractRepo->saveContract($inputs);
 
             $bundle->clearAll();

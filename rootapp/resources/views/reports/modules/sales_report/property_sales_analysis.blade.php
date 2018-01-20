@@ -5,6 +5,8 @@
         <h1>{{$datasource->getTitle()}}</h1>
     </div>
 @endslot
+    @if($datasource->hasData())
+
     <div class="row">
         <table class="table table-bordered table-condensed">
             <thead>
@@ -66,6 +68,8 @@
             </tbody>
         </table>
     </div>
-
+    @else
+        <h1>Sorry no payment records found</h1>
+    @endif
 
 @endcomponent

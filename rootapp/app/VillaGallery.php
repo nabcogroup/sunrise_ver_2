@@ -14,17 +14,21 @@ class VillaGallery extends BaseModel
         parent::__construct($attributes);
 
         $this->created_at = Carbon::now();
+
         $this->updated_at = Carbon::now();
 
     }
 
 
     protected function getDeleteMarkAttribute() {
+
         return $this->attributes['delete_mark'] = isset($this->attributes['delete_mark']) ? $this->attributes['delete_mark'] : false;
+
     }
 
 
     public function setDeleteMarkAttribute($value) {
+
         $this->attributes['delete_mark'] = $value;
     }
 

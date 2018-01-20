@@ -9,7 +9,6 @@
     @endslot
 
     @if($datasource->hasData())
-        <p><strong>Property: </strong>{{$datasource->getParam('location')}}</p>
         <div class="row">
             <table class="table table-condensed table-bordered">
                 <thead>

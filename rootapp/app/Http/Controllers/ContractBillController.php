@@ -302,6 +302,12 @@ class ContractBillController extends Controller
         }
     }
 
+    public function apiGetTotalBalance(Request $request) {
+
+        return $this->billRepository->getPendingTotalBills($request->all());
+
+    }
+
     public function apiSearch($filter='bill',$value='') {
 
         try {

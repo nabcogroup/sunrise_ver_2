@@ -1,7 +1,16 @@
 <template>
     <div>
+        <div class="row">
+            <div class="col-md-3 col-md-offset-9">
+                <div class="btn-group pull-right">
+                    <a href="#" class="btn btn-default"><i class="fa fa-print"></i></a>
+                    <a href="#" class="btn btn-default"><i class="fa fa-file-pdf-o"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr>
         <v-panel header="Pending Bill">
-            <v-live-view :grid="gridView" @action="doAction"></v-live-view>
+            <v-live-view :grid="gridView" @action="doAction" @beforeFetch="onFetch"></v-live-view>
         </v-panel>
     </div>
 </template>
@@ -19,8 +28,9 @@
                         {name: 'contract_no', column: 'Contract No', class: 'text-center', filter:true},
                         {name: 'full_name', column: 'Name'},
                         {name: 'period', column: 'Period', class: 'text-center'},
-                        {name: 'total_payment', column: 'Total Payment', class: 'text-right'},
+                        {name: 'contract_status', column: 'Status', class: 'text-center'},
                         {name: 'total_balance', column: 'Total Balance', class: 'text-right'},
+                        {name: 'last_payment', column: 'Last Payment', class: 'text-center'},
                         {name: '$action', column: '', static: true, class: 'text-center'}
                     ],
                     actions: [
@@ -40,6 +50,9 @@
             doAction(a,item,index) {
 
                 this.redirectToUpdatePayment(item.bill_no);
+            },
+            onFetch(value) {
+                console.log(value.filter);
             }
         }
     }

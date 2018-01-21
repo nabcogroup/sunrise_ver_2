@@ -54,6 +54,7 @@ class PaymentSchedule implements IDataSource
                     \DB::raw("YEAR(payments.effectivity_date)"))
                 ->whereNull("contracts.deleted_at")
                 ->whereIn("payments.status", ["received", "pending_case"])
+                ->where("payments.payment_mode","payment")
                 ->where(\DB::raw("YEAR(payments.effectivity_date)"), $year)
                 ->orderBy("villas.location");
 
@@ -64,17 +65,23 @@ class PaymentSchedule implements IDataSource
             }
 
 
-            $rows = $rows->get()
-                ->pipe(function ($collection) {
+            $rows = $rows->get()->pipe(function ($collection) {
+
                     $items = [];
+
                     foreach ($collection as $item) {
+
                         if (!isset($items[$item->location])) {
+
                             $items[$item->location] = [
                                 "begbal" => 0,
                                 "periods" => [$item->monthly_schedule => $item]
                             ];
+
                         } else {
+
                             $items[$item->location]["periods"][$item->monthly_schedule] = $item;
+
                         }
                     }
 
@@ -105,6 +112,7 @@ class PaymentSchedule implements IDataSource
                     "payment_status")
                 ->whereNull("contracts.deleted_at")
                 ->whereIn("payments.status", ["received", "deposited", "pending_case"])
+                ->where("payments.payment_mode","payment")
                 ->where(\DB::raw("YEAR(payments.effectivity_date)"), $year)
                 ->orderBy("villas.villa_no");
 
@@ -124,7 +132,6 @@ class PaymentSchedule implements IDataSource
             $rows = $this->arrayGroupBy($recordset->get(), null, ["villa_no", "monthly_schedule"]);
 
         }
-
 
         $column_month = [];
 

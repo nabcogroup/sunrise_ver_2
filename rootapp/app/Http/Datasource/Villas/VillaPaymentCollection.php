@@ -49,12 +49,17 @@ class VillaPaymentCollection implements IDataSource
             ->orderBy("villas.villa_no");
 
         if(!is_null($payment_type)) {
+
             $recordset = $recordset->where("payments.payment_type",$payment_type);
+
         }
 
         $payment_types = [];
+
         $recordset = $recordset->get();
+
         $month_from = $this->params->field("month_from");
+
         $month_to = $this->params->field("month_to");
 
         $groupSummary = $this->arrayGroupBy($recordset, function ($row) use (&$payment_types,$month_from,$month_to) {

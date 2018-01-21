@@ -194,12 +194,12 @@ class BillRepository extends AbstractRepository
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
             ->join('tenants', 'tenants.id', '=', 'contracts.tenant_id')
             ->join('villas', 'villas.id', '=', 'contracts.villa_id')
-            ->whereNotNull(\DB::raw("(SELECT SUM(amount) FROM payments WHERE status IN ('received','pending_case') AND payments.bill_id = contract_bills.id)"))
+            ->whereNotNull(\DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.bill_id = contract_bills.id AND payment_mode = 'payment' AND status IN ('received','pending_case'))"))
             ->distinct()
             ->select(
                 "contract_bills.id as bill_id",
-                \DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.bill_id = contract_bills.id) total_payment "),
-                \DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.status = 'clear' AND payments.bill_id = contract_bills.id) total_clear_payment"))
+                \DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.bill_id = contract_bills.id AND payment_mode = 'payment') total_payment "),
+                \DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.bill_id = contract_bills.id AND payment_mode = 'payment' AND payments.status = 'clear') total_clear_payment"))
             ->groupBy("bill_id");
 
 
@@ -207,6 +207,7 @@ class BillRepository extends AbstractRepository
 
             if ($filters['filter_field'] == 'full_location') {
                 $filter_locations = Selection::where('category', 'villa_location')->where('name', 'LIKE', '%' . $filters['filter_value'] . '%')->get();
+
                 $full_location_filters = [];
 
                 foreach ($filter_locations as $filter_location) {
@@ -228,11 +229,14 @@ class BillRepository extends AbstractRepository
 
         $data = $contracts->get()->pipe(function($collection) {
             $items = [];
+
             foreach ($collection as $item) {
 
                 array_value_handling($items["total_payment"],$item->total_payment,true);
+
                 array_value_handling($items["total_clear_payment"],$item->total_clear_payment,true);
             }
+
             return $items;
         });
 
@@ -250,7 +254,7 @@ class BillRepository extends AbstractRepository
             ->join('contract_bills', 'contract_bills.contract_id', '=', 'contracts.id')
             ->join('tenants', 'tenants.id', '=', 'contracts.tenant_id')
             ->join('villas', 'villas.id', '=', 'contracts.villa_id')
-            ->whereNotNull(\DB::raw("(SELECT SUM(amount) FROM payments WHERE status IN ('received','pending_case') AND payments.bill_id = contract_bills.id)"))
+            ->whereNotNull(\DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.bill_id = contract_bills.id AND payments.payment_mode = 'payment' AND status IN ('received','pending_case'))"))
             ->select(
                 'contract_bills.bill_no',
                 'villas.location as location',
@@ -260,7 +264,7 @@ class BillRepository extends AbstractRepository
                 'contract_bills.id AS bill_id',
                 'contracts.status',
                 'contracts.amount as contract_amount',
-                \DB::raw("(SELECT SUM(amount) FROM payments WHERE status IN ('received','pending_case') AND payments.bill_id = contract_bills.id) AS payment_with_balance"))
+                \DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.bill_id = contract_bills.id AND payments.payment_mode = 'payment' AND status IN ('received','pending_case')) AS payment_with_balance"))
             ->groupBy(
                 'contract_bills.bill_no',
                 'villas.location',
@@ -276,14 +280,17 @@ class BillRepository extends AbstractRepository
         if (isset($filters['filter_field'])) {
 
             if ($filters['filter_field'] == 'full_location') {
+
                 $filter_locations = Selection::where('category', 'villa_location')->where('name', 'LIKE', '%' . $filters['filter_value'] . '%')->get();
+
                 $full_location_filters = [];
+
                 foreach ($filter_locations as $filter_location) {
                     $full_location_filters[] = $filter_location->code;
                 }
 
-
                 $dbraw = $dbraw->whereIn('villas.location', $full_location_filters);
+
             }
             else {
                 $dbraw = $dbraw->where($filters['filter_field'], 'LIKE', '%' . $filters['filter_value'] . '%');
@@ -298,7 +305,7 @@ class BillRepository extends AbstractRepository
 
             $totalBalance = $row->payment_with_balance;
 
-            $last_payment = $payments->where("status","clear")->sortBy("effectivity_date")->first();
+            $last_payment = $payments->where("status","clear")->sortBy("effectivity_date")->reverse()->first();
 
             $item = [
                 'bill_no' => $row->bill_no,

@@ -49,6 +49,7 @@ class VillaSales implements IDataSource
                     \DB::raw("YEAR(payments.effectivity_date)"))
                 ->whereNull("contracts.deleted_at")
                 ->where("payments.status","clear")
+                ->where("payments.payment_mode","payment")
                 ->where(\DB::raw("YEAR(payments.effectivity_date)"),$year)
                 ->orderBy("villas.location");
 
@@ -75,13 +76,14 @@ class VillaSales implements IDataSource
                     \DB::raw("YEAR(payments.effectivity_date) AS year_schedule"),
                     \DB::raw("MONTH(payments.effectivity_date) AS monthly_schedule"),
                     \DB::raw("SUM(payments.amount) AS monthly_payable"),
-                    \DB::raw("(SELECT SUM(amount) FROM payments where status ='clear' AND bill_id = contract_bills.id) AS total_payable"))
+                    \DB::raw("(SELECT SUM(amount) FROM payments where bill_id = contract_bills.id AND payments.payment_mode = 'payment' AND status ='clear') AS total_payable"))
                 ->groupBy(
                     "villas.villa_no",
                     \DB::raw("MONTH(payments.effectivity_date)"),
                     \DB::raw("YEAR(payments.effectivity_date)"),
                     "payment_status")
                 ->whereNull("contracts.deleted_at")
+                ->where("payments.payment_mode","payment")
                 ->where(\DB::raw("YEAR(payments.effectivity_date)"),$year)
                 ->orderBy("villas.villa_no");
 

@@ -135,6 +135,11 @@ class BillRepository extends AbstractRepository
         return $this;
     }
 
+    public function getBill($billNo) {
+
+        return $this->model->with(['payments','contract'])->where('bill_no',$billNo);
+    }
+
 
     public function findByBillNo($billNo)
     {
@@ -264,18 +269,8 @@ class BillRepository extends AbstractRepository
                 'contract_bills.id AS bill_id',
                 'contracts.status',
                 'contracts.amount as contract_amount',
-                \DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.bill_id = contract_bills.id AND payments.payment_mode = 'payment' AND status IN ('received','pending_case')) AS payment_with_balance"))
-            ->groupBy(
-                'contract_bills.bill_no',
-                'villas.location',
-                'villas.villa_no',
-                'tenants.full_name',
-                'contracts.contract_no',
-                'contracts.period_start',
-                'contracts.period_end_extended',
-                'contract_bills.id',
-                'contracts.status',
-                'contracts.amount');
+                \DB::raw("(SELECT SUM(amount) FROM payments WHERE payments.bill_id = contract_bills.id AND payments.payment_mode = 'payment' AND status IN ('received','pending_case')) AS payment_with_balance"));
+
 
         if (isset($filters['filter_field'])) {
 
@@ -305,9 +300,16 @@ class BillRepository extends AbstractRepository
 
             $totalBalance = $row->payment_with_balance;
 
+            $total_payment_due = $payments->filter(function($item) {
+
+                return ($item->status ==  "received" || $item->status == "pending_case") &&  Carbon::now()->gt(Carbon::parse($item->effectivity_date));
+
+            })->sum("amount");
+
             $last_payment = $payments->where("status","clear")->sortBy("effectivity_date")->reverse()->first();
 
             $item = [
+
                 'bill_no' => $row->bill_no,
                 'villa_no' => $row->villa_no,
                 'contract_no' => $row->contract_no,
@@ -318,7 +320,9 @@ class BillRepository extends AbstractRepository
                 'total_balance' => number_format($totalBalance,2),
                 'last_payment'  => !is_null($last_payment) ?  Carbon::parse($last_payment->effectivity_date)->format('d M Y') : 'No Payment',
                 'full_location'     => Selection::getValue('villa_location', $row->location),
-                'contract_status' => ucfirst($row->status)
+                'contract_status' => ucfirst($row->status),
+                'total_payment_due' => number_format($total_payment_due,2),
+                'link' => '/bill/show/'.$row->bill_no,
             ];
             
             return $item;

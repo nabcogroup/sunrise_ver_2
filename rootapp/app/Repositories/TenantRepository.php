@@ -44,16 +44,30 @@ class TenantRepository extends AbstractRepository {
     public function getTenants($inputs = array()) {
 
         $params = [];
-        $tenants = $this->model->customFilter($params);
+
+        $tenants = $this->model->with(['contracts' => function($query) {
+            $query->where("status","active");
+        }])->filterModel($params);
+
+
         return $this->createPagination($tenants,function($row) {
+
+            $contractCount = $row->contracts->count();
+
             $item = [
                 'id'            =>  $row->id,
                 'full_name'     =>  $row->full_name,
                 'reg_id'        =>  $row->reg_id,
                 'email_address' =>  $row->email_address,
                 'mobile_no'     =>  $row->mobile_no,
+                'contracts'     =>  $contractCount,
+                'status'        =>  $contractCount > 0 ? 'Active' : 'In-Active',
+                'tag_color'     =>  $contractCount > 0 ? 'text-center' : 'text-center text-danger',
+                'link'          =>  "/reports/tenant_history?tenant_id=".$row->getId()
             ];
+
             return $item;
+
         },$params);
     }
 
@@ -64,7 +78,15 @@ class TenantRepository extends AbstractRepository {
     public function withChildren() {
 
         $this->model = $this->model->with('TenantAddress');
+    }
 
+    public function getTenantBill($tenantId) {
+
+        $contracts = $this->model->with(['contracts' => function($query) {
+            $query->with(['contract_bills'])->where('status','active');
+        }]);
+
+        return $contracts;
 
     }
 

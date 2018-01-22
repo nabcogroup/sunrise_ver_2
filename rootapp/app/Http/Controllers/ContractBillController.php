@@ -204,20 +204,15 @@ class ContractBillController extends Controller
         //show
         try {
 
-            $bill = $this->billRepository->includePayments()->findByBillNo($billNo)->first();
-            
+            //$bill = $this->billRepository->includePayments()->findByBillNo($billNo)->first();
+
+            $bill = $this->billRepository->getBill($billNo)->first();
+
             if(!$bill) {
                 throw new Exception("Internal Exception");
             }
-            $bundle = new Bundle();
-            $contractId = $bill->contract_id;
-            $bundle->add("contractId", $contractId);
 
-            event(new OnGetContract($bundle, new EventListenerRegister(["GetContractPayments"])));
-
-            $contract = $bundle->getOutput("contract");
-
-            $dompdf = PDF::loadView('bill.display', compact('bill', 'contract'));
+            $dompdf = PDF::loadView('bill.display', compact('bill', 'bill'));
 
             return $dompdf->stream(); //view('bill.display',compact('bill', 'contract'));
         }
@@ -271,8 +266,6 @@ class ContractBillController extends Controller
         $lookups = $this->selection->getSelections(array("payment_mode","payment_term","payment_status","bank"));
 
         $lookups['bank_accounts'] = $this->bankAccountRepository->getAll();
-
-
 
         $paymentSummary = [
             "total_payment" => $bill->settled_amount,

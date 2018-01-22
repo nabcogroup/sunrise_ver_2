@@ -2,7 +2,7 @@
 
 @section("header")
     <div class="page-header">
-        <h3>Contract Termination Reverse</h3>
+        <h3>Contract Termination Revert</h3>
     </div>
 @endsection
 

@@ -11,10 +11,13 @@ namespace App\Traits;
 
 trait QueryTemplateTrait
 {
-    public function sqlPaymentDue($bill_id) {
+    public function sqlClearedPayment($bill_id,$alias = "") {
+
         return \DB::raw("(SELECT SUM(payments.amount) FROM payments 
                             WHERE status='clear' 
                             AND payment_mode='payment' 
-                            AND bill_id = ".$bill_id.") AS gross_sale");
+                            AND bill_id = ".$bill_id.") AS ". $alias);
+
+
     }
 }

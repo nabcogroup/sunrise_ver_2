@@ -19,6 +19,10 @@ Route::group(["prefix" => "villa"],function() use($namespace) {
 
     Route::get("/commencement", $namespace."\VillaController@commencement");
 
+    Route::get("/resolved",$namespace."\VillaController@resolve");
+
+    Route::post("/update",$namespace."\VillaController@update")->name("admin.villa.update");
+
 });
 
 

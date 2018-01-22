@@ -29,8 +29,42 @@ class VillaController extends LaralibController
             }
         }
 
-
         return $transactions;
+
+    }
+
+    public function resolve(Request $request) {
+
+
+        $villas = Villa::with(["contracts" => function($query) {
+
+            $query->where("status","active")->orderBY("period_start");
+
+        }])->where("status","occupied")
+            ->get()
+            ->filter(function($row) {
+
+                return $row->contracts->count() == 0 ? true : false;
+
+            });
+
+        return view("admin::villa.villa_status",compact("villas"));
+    }
+
+    public function update(Request $request) {
+
+        $inputs = $request->all();
+
+        $villa_keys = array_keys($inputs["villas"]);
+
+        foreach ($villa_keys as $key) {
+
+            $villa = Villa::find($key);
+            $villa->setToVacant();
+            $villa->save();
+        }
+
+        return redirect()->to("admin/villa/resolved");
 
     }
 }

@@ -28,8 +28,11 @@ class Tenant extends BaseModel
 
 
     public static function createInstance() {
+
         $tenant = new Tenant();
+
         $tenant->tenant_address = TenantAddress::createInstance();
+
         return $tenant;
 
     }
@@ -38,11 +41,17 @@ class Tenant extends BaseModel
      *  Navigation
      ***************************/
     public function TenantAddress() {
+
         return $this->hasOne(TenantAddress::class);
+
     }
 
-    public function Villas() {
+    public function villas() {
 
+    }
+
+    public function contracts() {
+        return $this->hasMany("App\Contract","tenant_id","id");
     }
 
 
@@ -56,15 +65,20 @@ class Tenant extends BaseModel
     public function saveTenant($entity) {
         
         $addressInstance = isset($entity['tenant_address']) ? $entity['tenant_address'] : false;
+
         unset($entity['tenant_address']);
+
         $tenant = $this->toMap($entity)->save();
+
         $address = new TenantAddress($addressInstance);
+
         $this->TenantAddress()->save($address);
 
         return $this;
     }
 
     public function fullAddress() {
+
         $address = $this->TenantAddress()->first()->getFullAddress();
 
         return $address;

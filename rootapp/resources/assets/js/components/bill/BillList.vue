@@ -30,11 +30,13 @@
                         {name: 'period', column: 'Period', class: 'text-center'},
                         {name: 'contract_status', column: 'Status', class: 'text-center'},
                         {name: 'total_balance', column: 'Total Balance', class: 'text-right'},
+                        {name: 'total_payment_due', column: 'Due Balance', class: 'text-right'},
                         {name: 'last_payment', column: 'Last Payment', class: 'text-center'},
                         {name: '$action', column: '', static: true, class: 'text-center'}
                     ],
                     actions: [
-                        {key: 'update', name: 'Update'}
+                        {key: 'update', name: 'Update'},
+                        {key: 'view', name: 'View Bill'}
                     ],
                     source: {
                         url: 'api/bill/list'
@@ -48,8 +50,13 @@
                 axiosRequest.redirect("bill","edit",billNo);
             },
             doAction(a,item,index) {
+                if(a.key == 'update') {
+                    this.redirectToUpdatePayment(item.bill_no);
+                }
+                else {
+                    window.open(item.link);
+                }
 
-                this.redirectToUpdatePayment(item.bill_no);
             },
             onFetch(value) {
                 console.log(value.filter);

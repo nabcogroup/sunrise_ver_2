@@ -52,7 +52,29 @@ class BaseModel extends Model {
         return $this->where($fieldKey,$fieldValue);
     }
 
+    public function scopeFilterModel($query,$callback = null) {
+
+        if(request('filter_field',false)) {
+
+            $filter_field = request('filter_field');
+            $filter_value = request('filter_value');
+
+            if(is_callable($callback)) {
+
+                $query = $callback($query,$filter_field,$filter_value);
+
+                return $query;
+
+            }
+            else {
+                return $query->where($filter_field, 'LIKE' , '%'.$filter_value.'%');
+            }
+        }
+    }
+
     public function customFilter(&$params,$callback = null) {
+
+
 
         if(request('filter_field',false)) {
             

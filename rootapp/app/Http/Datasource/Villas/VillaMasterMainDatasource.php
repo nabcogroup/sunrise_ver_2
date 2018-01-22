@@ -15,6 +15,7 @@ use App\Services\ReportService\ReportMapper;
 
 use App\Traits\ArrayGroupTrait;
 use App\Villa;
+use Carbon\Carbon;
 use Dompdf\Exception;
 use Illuminate\Support\Facades\App;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
@@ -26,6 +27,7 @@ class VillaMasterMainDatasource implements IDataSource
 
 
     protected $params;
+
     public function __construct($params)
     {
 
@@ -36,53 +38,67 @@ class VillaMasterMainDatasource implements IDataSource
     public function execute()
     {
         try {
-            $status = $this->params->field("status", "vacant");
 
+            $status = $this->params->field("status", "");
             $location = $this->params->field("location", "");
 
 
-            if (!empty($location)) {
-                $villas = Villa::where('status', $status)->where("location", $location)->get();
+            $villas = Villa::with(["contracts"])->where('location',$location)->orderBy('villa_no');
+
+            if (!empty($status) && !is_null($status)) {
+                $villas = $villas->where('status', $status);
             }
-            else {
-                $villas = Villa::where('status', $status)->get();
-            }
 
+            $villas = $villas->get()->map(function ($item)  {
 
-            $rows = [];
+                if ($item->contracts->count() > 0) {
+                    $contract = $item->contracts->sortBy("period_start")->reverse()->first();
 
-            foreach ($villas as $villa) {
-                $row = [
-                    'villa_no' => $villa->villa_no,
-                    'electricity_no' => $villa->electricity_no,
-                    'water_no' => $villa->water_no,
-                    'qtel_no' => $villa->qtel_no,
-                    'villa_class' => $villa->full_villa_class,
-                    'location' => $villa->location,
-                    'full_location' => Selection::getValue("villa_location", $villa->location),
-                    'rate_per_month' => $villa->rate_per_month
-                ];
+                    $latest_tenant = $contract->tenant()->first()->full_name;
 
-                if ($villa->isOccupied()) {
-                    $engageContracts = $villa->engageContracts()->first();
-                    if ($engageContracts) {
-                        $row['tenant'] = $engageContracts->tenant()->first();
+                    if($contract->isTerminated()) {
+                        $latest_occupied = Carbon::parse($contract->contractTerminations()->first()->date_termination)->format('d M Y');
                     }
-
+                    else if($contract->isCompleted()) {
+                        $latest_occupied = Carbon::parse($contract->period_end)->format('d M Y');
+                    }
+                    else {
+                        $latest_occupied = "";
+                    }
+                }
+                else {
+                    $latest_tenant = "";
+                    $latest_occupied = "";
                 }
 
+                $newItem = [
+                    'villa_no'          => $item->villa_no,
+                    'electricity_no'    => $item->electricity_no,
+                    'water_no'          => $item->water_no,
+                    'qtel_no'           => $item->qtel_no,
+                    'villa_class'       => $item->full_villa_class,
+                    'latest_tenant'     => $latest_tenant,
+                    'latest_occupied'   => $latest_occupied,
+                    'status'            =>  Selection::getValue('villa_status',$item->status),
+                    'contract'          =>  $contract,
+                    'location'          =>  $item->location,
+                    'full_location'     =>  Selection::getValue('villa_location',$item->location),
+                    'contracts'         =>  $item->contracts->sortBy("period_start"),
+                    'rate_per_month'    =>  $item->rate_per_month
+                ];
 
-                array_push($rows, $row);
+                return $newItem;
 
-            }
-
-            $data = $this->arrayGroupBy($rows, null, ["location"]);
+            });
 
 
-            return new ReportMapper("Property Villa Vacant Report", [], $data);
+            $data = $this->arrayGroupBy($villas, null, ["location"]);
+
+            return new ReportMapper("Property Villa " . ucfirst($status), [], $data);
+
         }
-        catch(Exception $e) {
-            dd($engageContracts);
+        catch (Exception $e) {
+
         }
 
     }

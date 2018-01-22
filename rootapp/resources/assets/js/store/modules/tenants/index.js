@@ -20,8 +20,11 @@ const mutations = {
     toEdit({state,commit}, id) {
         axiosRequest.redirect('tenant', 'register', id)
     },
-    toCreate({state,commit}) {
+    toCreate({state}) {
         axiosRequest.redirect('tenant', 'register')
+    },
+    redirectToLedger(state,payload) {
+        window.open(payload.url,'_blank');
     }
 }
 

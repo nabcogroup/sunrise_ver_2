@@ -13,8 +13,8 @@
             <div class="col-md-3">
                 <div class="list-group">
                     <a href="#" class="list-group-item" v-for="count in cache.status">
-                        <i class="fa fa-home fa-fw fa-lg"></i> {{count.status}}
-                        <span class="badge">{{count.count}}</span>
+                        <i class="fa fa-home fa-fw fa-lg"></i> {{count.full_status}}
+                        <span class="badge" :class="count.tag_color">{{count.count}}</span>
                     </a>
                 </div>
             </div>
@@ -80,3 +80,13 @@
         }
     }
 </script>
+
+<style>
+    .badge-info {
+        background-color: #3a87ad;
+    }
+
+    .badge-error {
+        background-color: #b94a48;
+    }
+</style>

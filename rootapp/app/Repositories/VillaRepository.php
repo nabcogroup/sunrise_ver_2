@@ -84,7 +84,20 @@ class VillaRepository extends AbstractRepository
     public function getStatusCount()
     {
         
-        return $this->model->statusCount();
+        $statuses = $this->model->statusCount();
+
+        foreach ($statuses as &$status) {
+            $status->full_status = Selection::getValue("villa_status",$status->status);
+
+            if($status->isOccupied()) {
+                $status->tag_color = "badge-info";
+            }
+            else {
+                $status->tag_color = "badge-error";
+            }
+        }
+
+        return $statuses;
     }
 
     public function setOccupied()

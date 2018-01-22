@@ -87,9 +87,11 @@ class ReportManager
                 'report_id' => 1,
                 'inputs' => [
                     self::createDropdowns("Status","status","villa_status","code","name"),
+                    self::createDropdowns("Property","location","villa_location","code","name"),
                 ],
                 'models' => [
-                    'status' => ''
+                    'status' => '',
+                    'location' => ''
                 ],
                 'lookups' => []
             ],
@@ -303,8 +305,8 @@ class ReportManager
                 ],
                 "models" => [
                     "year" => "",
-                    "month_from" => self::createMonthModel(Carbon::now())->month,
-                    "month_to" => self::createMonthModel(Carbon::now(),true)->month,
+                    "month_from" => "",
+                    "month_to" => "",
                     "location" => "",
                     "report_type" => ""
                 ],
@@ -321,8 +323,8 @@ class ReportManager
                 ],
                 "models" => [
                     "year" => "",
-                    "month_from" => self::createMonthModel(Carbon::now())->month,
-                    "month_to" => self::createMonthModel(Carbon::now(),true)->month,
+                    "month_from" => "",
+                    "month_to" => "",
                     "location" => "",
                     "report_type" => ""
                 ],

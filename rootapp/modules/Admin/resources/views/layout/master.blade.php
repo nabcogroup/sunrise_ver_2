@@ -31,8 +31,9 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{!! url("/admin/payment/reverse") !!}"><i class="fa fa-credit-card"></i> Reverse Payment</a></li>
-                    <li><a href="{!! url("/admin/contract/terminate") !!}"><i class="fa fa-certificate"></i> Reverse Contract Termination</a></li>
+                    <li><a href="{!! url("/admin/payment/reverse") !!}"><i class="fa fa-credit-card"></i> Revert Payment</a></li>
+                    <li><a href="{!! url("/admin/contract/terminate") !!}"><i class="fa fa-certificate"></i> Revert Contract Termination</a></li>
+                    <li><a href="{!! url("/admin/villa/resolved") !!}"><i class="fa fa-home"></i> Villa with no Active Contract </a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">

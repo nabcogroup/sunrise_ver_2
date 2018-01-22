@@ -107,6 +107,10 @@ class Villa extends BaseModel
         return $this->status == "occupied";
     }
 
+    public function isVacant() {
+        return $this->status == "vacant";
+    }
+
     public function vacantOnly() {
         return $this->where('status','vacant');
 

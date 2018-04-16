@@ -89,7 +89,6 @@
                             <error-span :value="errors" name="amount"></error-span>
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Mode of Payment:</label>
                         <div class="col-md-4">

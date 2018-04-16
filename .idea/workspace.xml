@@ -17,8 +17,8 @@
       <file leaf-file-name="Register.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="179" column="36" selection-start-line="179" selection-start-column="36" selection-end-line="179" selection-end-column="36" />
+            <state relative-caret-position="374">
+              <caret line="91" selection-start-line="91" selection-end-line="91" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#form#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#0;n#form#0;n#template#0;n#!!top" expanded="true" />
@@ -32,7 +32,7 @@
         <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="408">
-              <caret line="54" column="40" lean-forward="true" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
+              <caret line="54" column="40" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -928,12 +928,12 @@
       <workItem from="1521099221984" duration="116000" />
       <workItem from="1523550266223" duration="1218000" />
       <workItem from="1523688953966" duration="9000" />
-      <workItem from="1523809504717" duration="15236000" />
+      <workItem from="1523809504717" duration="15527000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1492260000" />
+    <option name="totallyTimeSpent" value="1492551000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -957,7 +957,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" visible="true" weight="0.2437432" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" visible="true" weight="0.27094668" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1354,14 +1354,14 @@
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
-          <caret line="54" column="40" lean-forward="true" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
+          <caret line="54" column="40" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="179" column="36" selection-start-line="179" selection-start-column="36" selection-end-line="179" selection-end-column="36" />
+        <state relative-caret-position="374">
+          <caret line="91" selection-start-line="91" selection-end-line="91" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#form#0;n#template#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#div#0;n#form#0;n#template#0;n#!!top" expanded="true" />

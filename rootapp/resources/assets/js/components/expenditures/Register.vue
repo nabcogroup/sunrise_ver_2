@@ -13,11 +13,12 @@
                                     :value="expense.doc_date"
                                     @pick="expense.doc_date =$event"></dt-picker>
                         </div>
-                        <label class="col-md-2 col-form-label">Doc. Ref:</label>
+                        <label class="col-md-2 col-form-label">Doc No:</label>
                         <div class="col-md-4">
-                            <input class="form-control" v-model="expense.doc_ref">
-                            <error-span :value="errors" name="doc_ref"></error-span>
+                            <input class="form-control" v-model="expense.doc_no">
+                            <error-span :value="errors" name="doc_no"></error-span>
                         </div>
+
                     </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Account:</label>
@@ -75,10 +76,10 @@
                             @pick="expense.payment_date =$event"
                             ></dt-picker>
                         </div>
-                        <label class="col-md-2 col-form-label">Doc No:</label>
+                        <label class="col-md-2 col-form-label">Doc. Ref:</label>
                         <div class="col-md-4">
-                            <input class="form-control" v-model="expense.doc_no">
-                            <error-span :value="errors" name="doc_no"></error-span>
+                            <input class="form-control" v-model="expense.doc_ref">
+                            <error-span :value="errors" name="doc_ref"></error-span>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -176,6 +177,7 @@
     export default {
 
         mounted() {
+            console.log(this.index);
             if (this.index!=='') {
               this.$store.dispatch('expenditures/edit', {id:this.index})
             } else {

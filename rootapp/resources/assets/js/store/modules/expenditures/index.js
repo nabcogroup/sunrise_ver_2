@@ -4,7 +4,9 @@ const state = {
     expenses: {
         data: []
     },
-    expense: {},
+    expense: {
+
+    },
     payee: {
         data: [],
         single: {},
@@ -55,6 +57,7 @@ const actions = {
         })
     },
     createPayee({state,commit}) {
+
         if(_.isEmpty(state.payee.single)) {
             axiosRequest.get('payee','create').then(r => {
                 state.payee.single = r.data.data;
@@ -62,6 +65,7 @@ const actions = {
             });
             state.options.isPayeeCreated = true;
         }
+
     },
     save({ commit,state }) {
         axiosRequest.post('expenses','store',state.expense)

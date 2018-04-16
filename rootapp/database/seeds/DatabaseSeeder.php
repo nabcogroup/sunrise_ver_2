@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
 //        $this->call('VillaSeeder');
         //$this->call('UserSeeder');
         $this->call('ContractSeeder');
+
         $this->command->info('Seed Successfully completed');
     }
 }

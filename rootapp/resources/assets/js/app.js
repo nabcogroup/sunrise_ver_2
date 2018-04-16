@@ -78,6 +78,8 @@ Vue.filter('toCurrencyFormat', (value) => {
     return accounting.formatNumber(value)
 });
 
+
+
 new Vue({
     el: "#mainApp",
     store,
@@ -88,9 +90,9 @@ new Vue({
         'contractRegister': ContractRegister,
         'billRegister': BillRegister,
         'billUpdateForm': BillUpdateForm,
-        'contractCalendarEntry': ContractCalendarEntry,
-        'sidebar' : Sidebar,
-        'reportList': ReportList,
+        ContractCalendarEntry,
+        Sidebar,
+        ReportList,
         ExpenditureRegister,
         ExpenseList,
         PayeeRegister,

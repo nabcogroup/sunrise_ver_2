@@ -1,11 +1,36 @@
 <template>
     <form @submit.prevent="save()" @keydown="errors.clear($event.target.name)">
-        <div class="col-md-10 col-md-offset-1">
+        <div class="col-md-12">
             <div class="panel panel-default wrap">
                 <div class="panel-heading" style="background-color:#3f51b5!important;"><h3 style="color:white;">
                     Expenses</h3></div>
                 <div class="panel-body" style="background-color:#f6f6f6;">
-
+                    <!--  documents -->
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Doc. Date:</label>
+                        <div class="col-md-4">
+                            <dt-picker
+                                    :value="expense.doc_date"
+                                    @pick="expense.doc_date =$event"></dt-picker>
+                        </div>
+                        <label class="col-md-2 col-form-label">Doc. Ref:</label>
+                        <div class="col-md-4">
+                            <input class="form-control" v-model="expense.doc_ref">
+                            <error-span :value="errors" name="doc_ref"></error-span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Account:</label>
+                        <div class="col-md-10">
+                            <select class="form-control" v-model='expense.acct_code'>
+                                <option value="">SELECT CATEGORY</option>
+                                <option v-for="look in lookups.accounts" :value="look.code">{{ look.code
+                                    }}-{{ look.description }}
+                                </option>
+                            </select>
+                            <error-span :value="errors" name="acct_code"></error-span>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Property:</label>
                         <div class="col-md-4">
@@ -26,18 +51,6 @@
                             <error-span :value="errors" name="villa_id"></error-span>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Account:</label>
-                        <div class="col-md-10">
-                            <select class="form-control" v-model='expense.acct_code'>
-                                <option value="">SELECT CATEGORY</option>
-                                <option v-for="look in lookups.accounts" :value="look.code">{{ look.code
-                                    }}-{{ look.description }}
-                                </option>
-                            </select>
-                            <error-span :value="errors" name="acct_code"></error-span>
-                        </div>
-                    </div>
 
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Paid to:</label>
@@ -50,7 +63,7 @@
                             ></v-input>
                         </div>
                         <div class="col-md-4">
-                          <button type="button" class="btn btn-info pull-right btn-block" @click="createpayee"><i class="fa fa-plus-circle fa-1x" aria-hidden="true"></i>Add</button>
+                          <button type="button" class="btn btn-info pull-right btn-block" @click="createPayee"><i class="fa fa-plus-circle fa-1x" aria-hidden="true"></i>Add</button>
                         </div>
                     </div>
 
@@ -112,24 +125,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Doc Ref:</label>
-                        <div class="col-md-10">
-                            <input class="form-control" v-model="expense.doc_ref">
-                            <error-span :value="errors" name="doc_ref"></error-span>
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Doc Ref Date:</label>
-                        <div class="col-md-10">
-                            <dt-picker
-                            :value="expense.doc_date"
-                            @pick="expense.doc_date =$event"
-                            ></dt-picker>
-                        </div>
-                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="row">
@@ -155,7 +150,6 @@
     import {mapGetters} from "vuex";
     import payeeRegister from "../payee/Register.vue"
     import {EventBus} from  "../../eventbus"
-
 
     const confirmation = {
         ExpensesSave: (cb) => {
@@ -209,7 +203,7 @@
                   }
               });
           },
-          createpayee () {
+          createPayee () {
             if (!this.options.isPayeeCreated) {
               //this.$store.dispatch('expenditure/createPayee')
             }

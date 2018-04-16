@@ -100,7 +100,13 @@ class ContractBill extends BaseModel
         return $this->contract()->first()->villa()->first();
     }
 
+    /******************
+     * end navigation
+     *******************/
 
+    /***********
+     * mutation
+    ************/
     public function getClearedPaymentAmountAttribute() {
 
         return $this->payments()->where("status", "clear")->sum("amount");
@@ -122,9 +128,7 @@ class ContractBill extends BaseModel
         return $this->payments()->where("effectivity_date","<=",Carbon::now())->whereIn("status",["received","pending_case"])->get()->sum("amount");
     }
 
-    /******************
-     * end navigation
-     *******************/
+
     public function activate()
     {
 

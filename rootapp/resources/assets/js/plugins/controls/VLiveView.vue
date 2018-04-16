@@ -70,8 +70,10 @@
                             <slot name="table-column" :props="{items: entry, index: index}">
                                 <td class="text-center">{{index + 1}}</td>
                                 <td v-for="key in grid.columns" :class="key.bindClass ? entry[key.bindClass] : key.class" :style="key.style">
+
                                     <strong v-if="key.isBold">{{tableRender(entry, key)}}</strong>
                                     <span v-else>{{tableRender(entry, key)}}</span>
+
                                     <div v-if="key.name ==='$action'" class="btn-group">
                                         <button type="button"
                                                 class="btn btn-primary dropdown-toggle btn-sm"
@@ -130,7 +132,6 @@
             }
         },
         beforeMount() {
-
             //listen to view fetch will call by the client
             EventBus.$on("onLiveViewFetch", response => {
                 this.$store.commit('liveviews/clearFilter');
@@ -164,16 +165,12 @@
         },
         methods: {
             fetchData(grid) {
-
                 this.$emit("beforeFetch",{filter: cloneObject(this.$store.state.liveviews.filter)})
                 this.$store.dispatch("liveviews/fetchData",grid);
-
             },
             ...mapMutations('liveviews', ['loadData', 'filterWrap']),
             sortBy: function (key) {
-
                 if (key.static) return false;
-
                 this.$store.state.liveviews.sortKey = key.name;
                 this.$store.state.liveviews.sortOrders[key.name] = this.$store.state.liveviews.sortOrders[key.name] * -1;
             },
@@ -195,12 +192,15 @@
                 return this.$store.state.liveviews.sortKey === name;
             },
             doFilter(field, label) {
+
                 this.filter.field = field;
                 this.filter.label = label + ' - ' + this.filter.value;
+                this.$emit("onFilter",cloneObject(this.filter));
                 this.fetchData({grid: this.grid});
             },
             clearFilter() {
                 this.$store.commit('liveviews/clearFilter');
+                this.$emit("onFilter",cloneObject(this.filter));
                 this.fetchData({grid:this.grid});
             }
         }

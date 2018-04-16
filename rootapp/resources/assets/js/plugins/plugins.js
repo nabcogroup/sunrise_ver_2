@@ -22,7 +22,7 @@ import VSearch from "./controls/VSearch.vue";
 
 import VLineChart from "./misc/VLineChart.vue";
 import VListValue from "./misc/VListValue.vue";
-
+import VTotalSummary from "./misc/VTotalSummary.vue";
 
 
 const MyPlugins = {
@@ -46,7 +46,7 @@ const MyPlugins = {
         Vue.component(VSearch.name,VSearch);
         Vue.component(VLineChart.name,VLineChart);
         Vue.component(VListValue.name,VListValue);
-
+        Vue.component(VTotalSummary.name,VTotalSummary);
 
     }
 }

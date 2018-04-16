@@ -167,6 +167,7 @@ class ContractController extends Controller
             $data->prep_ref_no = "";
 
             $lookups = $this->selections->getSelections(["contract_type","tenant_type","villa_location","bank"]);
+
             $lookups["due_date"] = [
                 [
                     "value" => "1",
@@ -183,6 +184,7 @@ class ContractController extends Controller
             ];
 
             return compact("data", "lookups");
+
         } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }

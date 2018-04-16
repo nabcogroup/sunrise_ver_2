@@ -10,22 +10,33 @@
         </div>
         <hr>
         <v-panel header="Pending Bill">
-            <v-live-view :grid="gridView" @action="doAction" @beforeFetch="onFetch"></v-live-view>
+            <div class="row">
+                <div class="col-md-12">
+                    <v-live-view :grid="gridView" @action="doAction" @onFilter="onFilter"></v-live-view>
+                </div>
+                <div class="col-md-4 col-md-offset-8">
+                    <v-total-summary :config="totalSummaryConfig"></v-total-summary>
+                </div>
+            </div>
+
+
         </v-panel>
     </div>
 </template>
 
 <script>
+    import {EventBus} from "../../eventbus";
+
     export default {
 
         data() {
             return {
                 gridView: {
                     columns: [
-                        {name: 'bill_no', column: 'Bill No', class: 'text-center',filter:true},
-                        {name: 'full_location', column: 'Property', class: 'text-center', filter:true},
-                        {name: 'villa_no', column: 'Villa No', class: 'text-center',style:"width:10%", filter:true},
-                        {name: 'contract_no', column: 'Contract No', class: 'text-center', filter:true},
+                        {name: 'bill_no', column: 'Bill No', class: 'text-center', filter: true},
+                        {name: 'full_location', column: 'Property', class: 'text-center', filter: true},
+                        {name: 'villa_no', column: 'Villa No', class: 'text-center', style: "width:10%", filter: true},
+                        {name: 'contract_no', column: 'Contract No', class: 'text-center', filter: true},
                         {name: 'full_name', column: 'Name'},
                         {name: 'period', column: 'Period', class: 'text-center'},
                         {name: 'contract_status', column: 'Status', class: 'text-center'},
@@ -41,16 +52,35 @@
                     source: {
                         url: 'api/bill/list'
                     }
+                },
+                totalSummaryConfig: {
+                    url: '/api/bill/get_balance_total',
+                    keyValue: {
+                        key1: {
+                            label: 'Total Bill Payment',
+                            key: 'total_payment'
+                        },
+                        key2: {
+                            label: 'Paid Bill Total',
+                            key: 'total_clear_payment'
+                        },
+                        totalLabel: 'Total Balance'
+                    },
+                    type: 'live'
                 }
-            }
-        },
 
+            }
+
+        },
+        mounted() {
+            EventBus.$emit("TotalSummary.init",null);
+        },
         methods: {
             redirectToUpdatePayment(billNo) {
-                axiosRequest.redirect("bill","edit",billNo);
+                axiosRequest.redirect("bill", "edit", billNo);
             },
-            doAction(a,item,index) {
-                if(a.key == 'update') {
+            doAction(a, item, index) {
+                if (a.key == 'update') {
                     this.redirectToUpdatePayment(item.bill_no);
                 }
                 else {
@@ -58,8 +88,9 @@
                 }
 
             },
-            onFetch(value) {
-                console.log(value.filter);
+            onFilter(value) {
+                console.log(value);
+                EventBus.$emit("TotalSummary.init", value);
             }
         }
     }

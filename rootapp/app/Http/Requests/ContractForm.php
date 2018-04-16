@@ -55,31 +55,18 @@ class ContractForm extends FormRequest
     {
         return [
             "period_start"          => "required|date",
-
             "period_end"            => "required|date",
-
             "amount"                => array("required","regex:/^\d+?|^\d+\.\d{2}?/"),
-
             "extra_days"            =>  array("required","integer"),
-
             "villa_id"              =>  "required|exists:villas,id",
-
             "register_tenant.type"          =>  "required",
-
             "register_tenant.full_name"     =>  "required",
-
             "register_tenant.reg_date"     =>  "required|date",
-
             "register_tenant.reg_id"     =>  "required",
-
             "register_tenant.email_address" =>  "required|email",
-
             "register_tenant.mobile_no" =>  "required_without_all:register_tenant.tel_no",
-
             "register_tenant.tenant_address.address_1"        =>  'required',
-
             "register_tenant.tenant_address.city"             =>  'required',
-
             "register_tenant.tenant_address.postal_code"      =>  'required'
         ];
     }

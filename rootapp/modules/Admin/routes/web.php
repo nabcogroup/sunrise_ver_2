@@ -8,19 +8,14 @@ Route::get("/",$namespace."\DefaultController@index")->name("admin.default");
 Route::group(["prefix" => "payment"],function() use($namespace) {
 
     Route::get('/reverse', $namespace.'\PaymentController@reverse')->name("admin.payment.reverse");
-
     Route::post('/reverse',$namespace.'\PaymentController@reverse')->name("admin.payment.reverse");
-
     Route::post('/update',$namespace.'\PaymentController@update')->name("admin.payment.update");
 
 });
 
 Route::group(["prefix" => "villa"],function() use($namespace) {
-
     Route::get("/commencement", $namespace."\VillaController@commencement");
-
     Route::get("/resolved",$namespace."\VillaController@resolve");
-
     Route::post("/update",$namespace."\VillaController@update")->name("admin.villa.update");
 
 });

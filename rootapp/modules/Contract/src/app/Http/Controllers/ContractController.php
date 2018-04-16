@@ -3,14 +3,21 @@
 namespace Contract\App\Http\Controllers;
 
 
+use Carbon\Carbon;
+use Contract\App\Http\Requests\ContractForm;
+use Contract\App\Models\Contract;
 use Contract\App\Repositories\ContractRepository;
+use Illuminate\Http\Request;
 use KielPack\LaraLibs\Base\Controller as BaseController;
 use KielPack\LaraLibs\Selections\SelectionModel as Selection;
 use KielPack\LaraLibs\Supports\Result;
-use Zend\Diactoros\Request;
+use KielPack\LaraLibs\Traits\PaginationTrait;
+
 
 class ContractController extends BaseController
 {
+
+    use PaginationTrait;
 
     private $contractRepo;
 
@@ -24,24 +31,40 @@ class ContractController extends BaseController
 
     public function index(Request $request) {
 
-        $contracts = $this->contractRepo->getContracts($request);
-
-        return Result::response($contracts);
-
+        return view('contract.index');
     }
 
 
-
-    public function apiGetList(Request $request, $status = 'pending')
+    public function apiGetList(Request $request)
     {
-
         try {
 
-            //get user contractsp
-            $contracts = $this->contractRepo->getContracts($status, $request->input('filter_field'), $request->input('filter_value'));
+            $search = [
+                "state" =>  $request->get('state','pending'),
+                "key"   =>  $request->get('key',null),
+                "value" =>  $request->get('value',null)
+            ];
 
-            //evaluate contract pending
-            return $contracts;
+            //get contracts
+            $contracts = Contract::getContracts($search);
+
+            $contractList = $this->createPagination($contracts, function ($row) {
+                    $item = [
+                        "id" => $row->id,
+                        "contract_no" => $row->contract_no,
+                        "villa_no" => $row->villa_no,
+                        "full_name" => $row->full_name,
+                        "created_at" => Carbon::parse($row->contract_created)->format('d, M, Y'),
+                        "period" => Carbon::parse($row->period_start)->format('d, M, Y') ." - ". Carbon::parse($row->period_end_extended)->format('d, M, Y'),
+                        "amount" => number_format($row->amount,2),
+                        "bill_no" => $row->bill_no,
+                        "status" => ucfirst($row->contracts_status)
+                    ];
+
+                    return $item;
+            },$search);
+
+            return Result::response($contractList);
 
         }
         catch (Exception $e) {
@@ -100,10 +123,16 @@ class ContractController extends BaseController
     public function apiStore(ContractForm $request) {
 
         $inputs = $request->filterInput();
+
         try {
+
+
+
             $bundle = new Bundle();
             $bundle->add('tenant', $inputs['register_tenant']);
             $bundle->add('villaId', $inputs['villa_id']);
+
+
 
             event(new OnCreating($bundle, new EventListenerRegister(["GetVilla", "CreateTenant"])));
 

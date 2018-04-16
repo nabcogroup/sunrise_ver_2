@@ -14,7 +14,6 @@
             </thead>
             <tbody>
                 <tr v-for="(entry,entryIndex) in filteredData" :key="entryIndex" :class="{'danger' : grid.selected === entryIndex }">
-
                     <!-- auto numeric by default -->
                     <td v-if="!grid.excludeIndex">{{entryIndex + 1}}</td>
 
@@ -88,12 +87,11 @@ export default {
     name: "gridView",
     props: ['data', 'grid', 'lookups'],
     data() {
-
         let sortOrders = {};
         let sortKey = "";
-        let that = this;
 
         this.grid.columns.forEach((key) => {
+
             sortOrders[key.name] = 1;
             if (key.default !== undefined && key.default == true) {
                 sortKey = key.name;
@@ -112,6 +110,7 @@ export default {
             let sortKey = this.sortKey;
             let data;
             data = this.data;
+
             let order = this.sortOrders[sortKey] || 1
             if (sortKey) {
                 data = data.slice().sort(function(a, b) {

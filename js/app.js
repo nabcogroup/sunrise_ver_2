@@ -33981,6 +33981,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -34009,7 +34023,6 @@ const confirmation = {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-
     mounted() {
         console.log(this.index);
         if (this.index !== '') {
@@ -34017,6 +34030,15 @@ const confirmation = {
         } else {
             this.$store.dispatch('expenditures/create');
         }
+    },
+    data() {
+        return {
+            unfold: false,
+            gridColumn: {
+                columns: [{ name: 'doc_date', column: 'Date', style: 'width:10%', class: 'text-center', default: true, format: 'date' }, { name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center' }, { name: 'account', column: 'Account', style: 'width:10%', class: 'text-center' }, { name: 'property', column: 'Property', style: "width:10%", class: 'text-right' }, { name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center' }, { name: 'payee', column: 'Payee', class: 'text-center' }, { name: 'amount', column: 'Amount', class: 'text-center' }, { name: '', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true }]
+            },
+            expenses: []
+        };
     },
     props: ['index'],
     computed: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapGetters */])('expenditures', {
@@ -34053,11 +34075,6 @@ const confirmation = {
             }
             this.unfold = false;
         }
-    },
-    data() {
-        return {
-            unfold: false
-        };
     }
 
 });
@@ -36367,19 +36384,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "gridView",
     props: ['data', 'grid', 'lookups'],
     data() {
-
         let sortOrders = {};
         let sortKey = "";
-        let that = this;
 
         this.grid.columns.forEach(key => {
+
             sortOrders[key.name] = 1;
             if (key.default !== undefined && key.default == true) {
                 sortKey = key.name;
@@ -36398,6 +36413,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             let sortKey = this.sortKey;
             let data;
             data = this.data;
+
             let order = this.sortOrders[sortKey] || 1;
             if (sortKey) {
                 data = data.slice().sort(function (a, b) {
@@ -51801,7 +51817,7 @@ exports.push([module.i, "\n.temp-modal {\n    display: none\n}\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(7)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 313 */
@@ -58722,15 +58738,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "col-md-12"
-  }, [_c('div', {
-    staticClass: "panel panel-default wrap"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "panel-body",
-    staticStyle: {
-      "background-color": "#f6f6f6"
+    staticClass: "col-md-10 col-md-offset-1"
+  }, [_c('v-panel', {
+    attrs: {
+      "header": "Expenses Entry"
     }
   }, [_c('div', {
+    staticClass: "column-group row"
+  }, [_c('label', {
+    attrs: {
+      "for": "billSearch"
+    }
+  }, [_vm._v("Transaction No:")]), _vm._v(" "), _c('input', {
+    staticClass: "input",
+    attrs: {
+      "disabled": "",
+      "type": "text",
+      "placeholder": "XXX",
+      "name": "expensesTransactionNo"
+    }
+  }), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-info "
+  }, [_c('i', {
+    staticClass: "fa fa-fw fa-search"
+  })]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-info"
+  }, [_c('i', {
+    staticClass: "fa fa-fw fa-plus"
+  })])]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
     staticClass: "col-md-2 col-form-label"
@@ -58805,7 +58840,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": look.code
       }
-    }, [_vm._v(_vm._s(look.code) + "-" + _vm._s(look.description) + "\n                            ")])
+    }, [_vm._v(_vm._s(look.code) + "-" + _vm._s(look.description) + "\n                        ")])
   })], 2), _vm._v(" "), _c('error-span', {
     attrs: {
       "value": _vm.errors,
@@ -58845,7 +58880,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": look.code
       }
-    }, [_vm._v(_vm._s(look.name) + "\n                            ")])
+    }, [_vm._v(_vm._s(look.name) + "\n                        ")])
   })], 2), _vm._v(" "), _c('error-span', {
     attrs: {
       "value": _vm.errors,
@@ -58879,7 +58914,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": look.id
       }
-    }, [_vm._v(_vm._s(look.villa_no) + "\n                            ")])
+    }, [_vm._v(_vm._s(look.villa_no) + "\n                        ")])
   })), _vm._v(" "), _c('error-span', {
     attrs: {
       "value": _vm.errors,
@@ -58918,7 +58953,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("Add")])])]), _vm._v(" "), _c('div', {
+  }), _vm._v("Add\n                    ")])])]), _vm._v(" "), _c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
     staticClass: "col-md-2 col-form-label"
@@ -59027,7 +59062,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": look.code
       }
-    }, [_vm._v(_vm._s(look.name) + "\n                            ")])
+    }, [_vm._v(_vm._s(look.name) + "\n                        ")])
   })], 2), _vm._v(" "), _c('error-span', {
     attrs: {
       "value": _vm.errors,
@@ -59137,8 +59172,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": look.id
       }
-    }, [_vm._v(_vm._s(look.name) + "\n                                ")])
-  }))])]) : _vm._e()])]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _c('v-dialog', {
+    }, [_vm._v(_vm._s(look.name) + "\n                            ")])
+  }))])]) : _vm._e()]), _vm._v(" "), _c('grid-view', {
+    attrs: {
+      "grid": _vm.gridColumn,
+      "data": _vm.expenses
+    }
+  }), _vm._v(" "), _c('template', {
+    slot: "panel-footer"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-2 col-md-offset-10"
+  }, [_c('button', {
+    staticClass: "btn btn-info btn-block",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Save")])])])])], 2), _vm._v(" "), _c('v-dialog', {
     attrs: {
       "modal-id": "payee",
       "dialog-title": "Payee Information"
@@ -59158,31 +59209,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "modal"
     }
   })], 1)], 1)])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "panel-heading",
-    staticStyle: {
-      "background-color": "#3f51b5!important"
-    }
-  }, [_c('h3', {
-    staticStyle: {
-      "color": "white"
-    }
-  }, [_vm._v("\n                Expenses")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "panel-footer"
-  }, [_c('div', {
-    staticClass: "row"
-  }, [_c('div', {
-    staticClass: "col-md-2 col-md-offset-10"
-  }, [_c('button', {
-    staticClass: "btn btn-info btn-block",
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v("Save")])])])])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

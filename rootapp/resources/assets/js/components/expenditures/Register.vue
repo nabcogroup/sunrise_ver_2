@@ -1,10 +1,10 @@
 <template>
     <form @submit.prevent="save()" @keydown="errors.clear($event.target.name)">
-        <div class="col-md-10 col-md-offset-1" >
+        <div class="col-md-10 col-md-offset-1">
             <v-panel header="Expenses Entry">
 
                 <div class="column-group row">
-                    <label for="billSearch">Transaction No:</label>
+                    <label for="transaction">Transaction No:</label>
                     <input disabled type="text" class="input" placeholder="XXX" name="expensesTransactionNo"/>
                     <button class="btn btn-info ">
                         <i class="fa fa-fw fa-search"></i>
@@ -18,23 +18,21 @@
                     <label class="col-md-2 col-form-label">Doc. Date:</label>
                     <div class="col-md-4">
                         <dt-picker
-                                :value="expense.doc_date"
-                                @pick="expense.doc_date =$event"></dt-picker>
+                                :value="expense.entry.doc_date"
+                                @pick="expense.entry.doc_date =$event"></dt-picker>
                     </div>
                     <label class="col-md-2 col-form-label">Doc No:</label>
                     <div class="col-md-4">
-                        <input class="form-control" v-model="expense.doc_no">
+                        <input class="form-control" v-model="expense.entry.doc_no">
                         <error-span :value="errors" name="doc_no"></error-span>
                     </div>
-
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Account:</label>
                     <div class="col-md-10">
-                        <select class="form-control" v-model='expense.acct_code'>
+                        <select class="form-control" v-model='expense.entry.acct_code'>
                             <option value="">SELECT CATEGORY</option>
-                            <option v-for="look in lookups.accounts" :value="look.code">{{ look.code
-                                }}-{{ look.description }}
+                            <option v-for="look in lookups.accounts" :value="look.code">{{ look.code }}-{{ look.description }}
                             </option>
                         </select>
                         <error-span :value="errors" name="acct_code"></error-span>
@@ -43,90 +41,84 @@
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Property:</label>
                     <div class="col-md-4">
-                        <select class="form-control" v-model='expense.location'>
+                        <select class="form-control" v-model='expense.entry.location'>
                             <option value="">--SELECT PROPERTY--</option>
-                            <option v-for="look in lookups.villa_location" v-bind:value="look.code">{{ look.name
-                                }}
-                            </option>
+                            <option v-for="look in lookups.villa_location" v-bind:value="look.code">{{ look.name }}</option>
                         </select>
                         <error-span :value="errors" name="location"></error-span>
                     </div>
                     <label class="col-md-2">Villa:</label>
                     <div class="col-md-4">
-                        <select class="form-control" v-model='expense.villa_id'>
-                            <option v-for="look in filtered_villas" v-bind:value="look.id">{{ look.villa_no }}
-                            </option>
+                        <select class="form-control" v-model='expense.entry.villa_id'>
+                            <option v-for="look in filtered_villas" v-bind:value="look.id">{{ look.villa_no }}</option>
                         </select>
                         <error-span :value="errors" name="villa_id"></error-span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Paid to:</label>
-                    <div class="col-md-6">
-                        <v-input :value="expense.payee"
-                                 @input="expense.payee=$event"
+                    <div class="col-md-3">
+                        <v-input :value="expense.entry.payee"
+                                 @input="expense.entry.payee=$event"
                                  :items="lookups.payees"
                                  item-text="name"
-                                 item-value="payee_code"
-                        ></v-input>
+                                 item-value="payee_code"></v-input>
                     </div>
+                    <div class="col-md-1">
+                        <button type="button" class="btn btn-info btn-block" @click="createPayee"><i
+                                class="fa fa-plus-circle fa-1x" aria-hidden="true"></i></button>
+                    </div>
+                    <label class="col-md-2 col-form-label">Doc. Ref:</label>
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-info pull-right btn-block" @click="createPayee"><i
-                                class="fa fa-plus-circle fa-1x" aria-hidden="true"></i>Add
-                        </button>
+                        <input class="form-control" v-model="expense.entry.doc_ref">
+                        <error-span :value="errors" name="doc_ref"></error-span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Paid Date:</label>
                     <div class="col-md-4">
                         <dt-picker
-                                :value="expense.payment_date"
-                                @pick="expense.payment_date =$event"
+                                :value="expense.entry.payment_date"
+                                @pick="expense.entry.payment_date =$event"
                         ></dt-picker>
                     </div>
-                    <label class="col-md-2 col-form-label">Doc. Ref:</label>
-                    <div class="col-md-4">
-                        <input class="form-control" v-model="expense.doc_ref">
-                        <error-span :value="errors" name="doc_ref"></error-span>
-                    </div>
+
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Paid Amount:</label>
                     <div class="col-md-10">
-                        <input class="form-control" type="number" v-model="expense.amount">
+                        <input class="form-control" type="number" v-model="expense.entry.amount">
                         <error-span :value="errors" name="amount"></error-span>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Mode of Payment:</label>
                     <div class="col-md-4">
-                        <select class="form-control" v-model='expense.mode_of_payment'>
+                        <select class="form-control" v-model='expense.entry.mode_of_payment'>
                             <option value="">SELECT PAYMENT MODE</option>
-                            <option v-for="look in lookups.payment_term" v-bind:value="look.code">{{ look.name
-                                }}
-                            </option>
+                            <option v-for="look in lookups.payment_term" v-bind:value="look.code">{{look.name}}</option>
                         </select>
                         <error-span :value="errors" name="mode_of_payment"></error-span>
                     </div>
                     <label class="col-md-1 col-form-label">Payment:</label>
-                    <div v-if="expense.mode_of_payment === 'cheque'">
+                    <div v-if="expense.entry.mode_of_payment === 'cheque'">
                         <div class="col-md-3">
-                            <select class="form-control" v-model='expense.bank_provider'>
+                            <select class="form-control" v-model='expense.entry.bank_provider'>
                                 <option v-for="look in lookups.bank" v-bind:value="look.code">{{ look.name }}</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <input class="form-control" placeholder="Check Number" v-model='expense.payment_ref'>
+                            <input class="form-control" placeholder="Check Number" v-model='expense.entry.payment_ref'>
                         </div>
                     </div>
-                    <div v-else-if="expense.mode_of_payment === 'credit_card'">
+                    <div v-else-if="expense.entry.mode_of_payment === 'credit_card'">
                         <div class="col-md-3">
-                            <select class="form-control" v-model='expense.bank_provider'>
+                            <select class="form-control" v-model='expense.entry.bank_provider'>
                                 <option v-for="look in lookups.bank" v-bind:value="look.id">{{ look.name }}</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select class="form-control" v-model='expense.payment_ref'>
+                            <select class="form-control" v-model='expense.entry.payment_ref'>
                                 <option v-for="look in lookups.bank_provider" v-bind:value="look.id">{{ look.name }}
                                 </option>
                             </select>
@@ -134,11 +126,15 @@
                     </div>
                 </div>
 
-                <!-- -->
-                <grid-view :grid="gridColumn" :data="expenses">
-
-                </grid-view>
-
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-9" style="padding-top: 10px;padding-bottom: 10px ">
+                        <button class="btn btn-primary btn-block" @click="insertItem" type="button">Insert</button>
+                    </div>
+                    <div class="col-md-12">
+                        <!-- -->
+                        <grid-view :grid="gridColumn" :data="expense.items"></grid-view>
+                    </div>
+                </div>
                 <template slot="panel-footer">
                     <div class="row">
                         <div class="col-md-2 col-md-offset-10">
@@ -156,8 +152,6 @@
 
         </div>
     </form>
-
-
 </template>
 
 
@@ -190,7 +184,6 @@
 
     export default {
         mounted() {
-            console.log(this.index);
             if (this.index !== '') {
                 this.$store.dispatch('expenditures/edit', {id: this.index})
             } else {
@@ -202,14 +195,25 @@
                 unfold: false,
                 gridColumn: {
                     columns: [
-                        {name: 'doc_date', column: 'Date',  style: 'width:10%', class: 'text-center', default: true, format: 'date'},
+                        {
+                            name: 'doc_date',
+                            column: 'Date',
+                            style: 'width:10%',
+                            class: 'text-center',
+                            default: true,
+                            format: 'date'
+                        },
                         {name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center'},
                         {name: 'account', column: 'Account', style: 'width:10%', class: 'text-center'},
                         {name: 'property', column: 'Property', style: "width:10%", class: 'text-right',},
                         {name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center'},
                         {name: 'payee', column: 'Payee', class: 'text-center',},
                         {name: 'amount', column: 'Amount', class: 'text-center',},
-                        {name: '', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true}
+                        {name: '$action', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true}
+                    ],
+                    actions: [
+                        { key: 'edit', name: 'Edit' },
+                        { key: 'remove', name: 'Remove' }
                     ]
                 },
                 expenses: []
@@ -235,6 +239,9 @@
                         this.$store.dispatch('expenditures/save')
                     }
                 });
+            },
+            insertItem() {
+                this.$store.commit('expenditures/insertTransactions')
             },
             createPayee() {
                 if (!this.options.isPayeeCreated) {

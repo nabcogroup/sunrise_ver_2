@@ -33989,12 +33989,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 
 
@@ -34024,7 +34018,6 @@ const confirmation = {
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted() {
-        console.log(this.index);
         if (this.index !== '') {
             this.$store.dispatch('expenditures/edit', { id: this.index });
         } else {
@@ -34035,7 +34028,15 @@ const confirmation = {
         return {
             unfold: false,
             gridColumn: {
-                columns: [{ name: 'doc_date', column: 'Date', style: 'width:10%', class: 'text-center', default: true, format: 'date' }, { name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center' }, { name: 'account', column: 'Account', style: 'width:10%', class: 'text-center' }, { name: 'property', column: 'Property', style: "width:10%", class: 'text-right' }, { name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center' }, { name: 'payee', column: 'Payee', class: 'text-center' }, { name: 'amount', column: 'Amount', class: 'text-center' }, { name: '', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true }]
+                columns: [{
+                    name: 'doc_date',
+                    column: 'Date',
+                    style: 'width:10%',
+                    class: 'text-center',
+                    default: true,
+                    format: 'date'
+                }, { name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center' }, { name: 'account', column: 'Account', style: 'width:10%', class: 'text-center' }, { name: 'property', column: 'Property', style: "width:10%", class: 'text-right' }, { name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center' }, { name: 'payee', column: 'Payee', class: 'text-center' }, { name: 'amount', column: 'Amount', class: 'text-center' }, { name: '$action', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true }],
+                actions: [{ key: 'edit', name: 'Edit' }, { key: 'remove', name: 'Remove' }]
             },
             expenses: []
         };
@@ -34060,6 +34061,9 @@ const confirmation = {
                     this.$store.dispatch('expenditures/save');
                 }
             });
+        },
+        insertItem() {
+            this.$store.commit('expenditures/insertTransactions');
         },
         createPayee() {
             if (!this.options.isPayeeCreated) {
@@ -36422,6 +36426,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     return (a === b ? 0 : a > b ? 1 : -1) * order;
                 });
             }
+
+            //Emit Event
             this.$emit('sorted', sortKey);
 
             return data;
@@ -36438,7 +36444,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
         },
         render: function (entry, key) {
-
             //check pipe period_start|period_end
             let keypos = key.name.indexOf("|"),
                 glue = key.glue || " - ",
@@ -38030,7 +38035,10 @@ const state = {
     expenses: {
         data: []
     },
-    expense: {},
+    expense: {
+        entry: {},
+        items: []
+    },
     payee: {
         data: [],
         single: {},
@@ -38052,6 +38060,7 @@ const state = {
 };
 
 const mutations = {
+
     redirectToList(state) {
         axiosRequest.redirect('expenses', '');
     },
@@ -38064,6 +38073,32 @@ const mutations = {
     },
     clearPayee(state) {
         state.payee.single = {};
+    },
+    insertTransactions(state) {
+        var newExpenseInstance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* cloneObject */])(state.expense.entry);
+
+        var account = _.find(state.lookups.accounts, item => {
+            return item.code == state.expense.entry.acct_code;
+        });
+
+        var property = _.find(state.lookups.villa_location, item => {
+            return item.code == state.expense.entry.location;
+        });
+
+        var villa = _.find(state.lookups.villas, item => {
+            return item.id == state.expense.entry.villa_id;
+        });
+
+        var payee = _.find(state.lookups.payees, item => {
+            return item.payee_code = state.expense.entry.payee;
+        });
+
+        newExpenseInstance.account = state.expense.entry.acct_code + " - " + account.description;
+        newExpenseInstance.property = property.name;
+        newExpenseInstance.villa = villa.villa_no;
+        newExpenseInstance.payee = payee.name;
+
+        state.expense.items.push(newExpenseInstance);
     }
 };
 
@@ -38075,7 +38110,7 @@ const actions = {
     },
     create({ state }) {
         axiosRequest.get('expenses', 'create').then(r => {
-            state.expense = r.data.data;
+            state.expense.entry = r.data.data;
             state.lookups = r.data.lookups;
         });
     },
@@ -38142,9 +38177,11 @@ const getters = {
         return state.payee.lookups.payee_type;
     },
     filtered_villas(state) {
+
         const filters = state.lookups.villas.filter(item => {
-            return item.location === state.expense.location;
+            return item.location === state.expense.entry.location;
         });
+
         return filters;
     },
     lookups(state) {
@@ -51817,7 +51854,7 @@ exports.push([module.i, "\n.temp-modal {\n    display: none\n}\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(7)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 313 */
@@ -58747,7 +58784,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "column-group row"
   }, [_c('label', {
     attrs: {
-      "for": "billSearch"
+      "for": "transaction"
     }
   }, [_vm._v("Transaction No:")]), _vm._v(" "), _c('input', {
     staticClass: "input",
@@ -58773,11 +58810,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-4"
   }, [_c('dt-picker', {
     attrs: {
-      "value": _vm.expense.doc_date
+      "value": _vm.expense.entry.doc_date
     },
     on: {
       "pick": function($event) {
-        _vm.expense.doc_date = $event
+        _vm.expense.entry.doc_date = $event
       }
     }
   })], 1), _vm._v(" "), _c('label', {
@@ -58788,17 +58825,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.doc_no),
-      expression: "expense.doc_no"
+      value: (_vm.expense.entry.doc_no),
+      expression: "expense.entry.doc_no"
     }],
     staticClass: "form-control",
     domProps: {
-      "value": (_vm.expense.doc_no)
+      "value": (_vm.expense.entry.doc_no)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.expense.doc_no = $event.target.value
+        _vm.expense.entry.doc_no = $event.target.value
       }
     }
   }), _vm._v(" "), _c('error-span', {
@@ -58816,8 +58853,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.acct_code),
-      expression: "expense.acct_code"
+      value: (_vm.expense.entry.acct_code),
+      expression: "expense.entry.acct_code"
     }],
     staticClass: "form-control",
     on: {
@@ -58828,7 +58865,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.expense.acct_code = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.expense.entry.acct_code = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, [_c('option', {
@@ -58856,8 +58893,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.location),
-      expression: "expense.location"
+      value: (_vm.expense.entry.location),
+      expression: "expense.entry.location"
     }],
     staticClass: "form-control",
     on: {
@@ -58868,7 +58905,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.expense.location = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.expense.entry.location = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, [_c('option', {
@@ -58880,7 +58917,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": look.code
       }
-    }, [_vm._v(_vm._s(look.name) + "\n                        ")])
+    }, [_vm._v(_vm._s(look.name))])
   })], 2), _vm._v(" "), _c('error-span', {
     attrs: {
       "value": _vm.errors,
@@ -58894,8 +58931,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.villa_id),
-      expression: "expense.villa_id"
+      value: (_vm.expense.entry.villa_id),
+      expression: "expense.entry.villa_id"
     }],
     staticClass: "form-control",
     on: {
@@ -58906,7 +58943,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.expense.villa_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.expense.entry.villa_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, _vm._l((_vm.filtered_villas), function(look) {
@@ -58914,7 +58951,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": look.id
       }
-    }, [_vm._v(_vm._s(look.villa_no) + "\n                        ")])
+    }, [_vm._v(_vm._s(look.villa_no))])
   })), _vm._v(" "), _c('error-span', {
     attrs: {
       "value": _vm.errors,
@@ -58925,23 +58962,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('label', {
     staticClass: "col-md-2 col-form-label"
   }, [_vm._v("Paid to:")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-6"
+    staticClass: "col-md-3"
   }, [_c('v-input', {
     attrs: {
-      "value": _vm.expense.payee,
+      "value": _vm.expense.entry.payee,
       "items": _vm.lookups.payees,
       "item-text": "name",
       "item-value": "payee_code"
     },
     on: {
       "input": function($event) {
-        _vm.expense.payee = $event
+        _vm.expense.entry.payee = $event
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
+    staticClass: "col-md-1"
   }, [_c('button', {
-    staticClass: "btn btn-info pull-right btn-block",
+    staticClass: "btn btn-info btn-block",
     attrs: {
       "type": "button"
     },
@@ -58953,22 +58990,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "aria-hidden": "true"
     }
-  }), _vm._v("Add\n                    ")])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group row"
-  }, [_c('label', {
-    staticClass: "col-md-2 col-form-label"
-  }, [_vm._v("Paid Date:")]), _vm._v(" "), _c('div', {
-    staticClass: "col-md-4"
-  }, [_c('dt-picker', {
-    attrs: {
-      "value": _vm.expense.payment_date
-    },
-    on: {
-      "pick": function($event) {
-        _vm.expense.payment_date = $event
-      }
-    }
-  })], 1), _vm._v(" "), _c('label', {
+  })])]), _vm._v(" "), _c('label', {
     staticClass: "col-md-2 col-form-label"
   }, [_vm._v("Doc. Ref:")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-4"
@@ -58976,17 +58998,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.doc_ref),
-      expression: "expense.doc_ref"
+      value: (_vm.expense.entry.doc_ref),
+      expression: "expense.entry.doc_ref"
     }],
     staticClass: "form-control",
     domProps: {
-      "value": (_vm.expense.doc_ref)
+      "value": (_vm.expense.entry.doc_ref)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.expense.doc_ref = $event.target.value
+        _vm.expense.entry.doc_ref = $event.target.value
       }
     }
   }), _vm._v(" "), _c('error-span', {
@@ -58998,26 +59020,41 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-group row"
   }, [_c('label', {
     staticClass: "col-md-2 col-form-label"
+  }, [_vm._v("Paid Date:")]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  }, [_c('dt-picker', {
+    attrs: {
+      "value": _vm.expense.entry.payment_date
+    },
+    on: {
+      "pick": function($event) {
+        _vm.expense.entry.payment_date = $event
+      }
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row"
+  }, [_c('label', {
+    staticClass: "col-md-2 col-form-label"
   }, [_vm._v("Paid Amount:")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-10"
   }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.amount),
-      expression: "expense.amount"
+      value: (_vm.expense.entry.amount),
+      expression: "expense.entry.amount"
     }],
     staticClass: "form-control",
     attrs: {
       "type": "number"
     },
     domProps: {
-      "value": (_vm.expense.amount)
+      "value": (_vm.expense.entry.amount)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.expense.amount = $event.target.value
+        _vm.expense.entry.amount = $event.target.value
       },
       "blur": function($event) {
         _vm.$forceUpdate()
@@ -59038,8 +59075,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.mode_of_payment),
-      expression: "expense.mode_of_payment"
+      value: (_vm.expense.entry.mode_of_payment),
+      expression: "expense.entry.mode_of_payment"
     }],
     staticClass: "form-control",
     on: {
@@ -59050,7 +59087,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.expense.mode_of_payment = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.expense.entry.mode_of_payment = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, [_c('option', {
@@ -59062,7 +59099,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": look.code
       }
-    }, [_vm._v(_vm._s(look.name) + "\n                        ")])
+    }, [_vm._v(_vm._s(look.name))])
   })], 2), _vm._v(" "), _c('error-span', {
     attrs: {
       "value": _vm.errors,
@@ -59070,14 +59107,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })], 1), _vm._v(" "), _c('label', {
     staticClass: "col-md-1 col-form-label"
-  }, [_vm._v("Payment:")]), _vm._v(" "), (_vm.expense.mode_of_payment === 'cheque') ? _c('div', [_c('div', {
+  }, [_vm._v("Payment:")]), _vm._v(" "), (_vm.expense.entry.mode_of_payment === 'cheque') ? _c('div', [_c('div', {
     staticClass: "col-md-3"
   }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.bank_provider),
-      expression: "expense.bank_provider"
+      value: (_vm.expense.entry.bank_provider),
+      expression: "expense.entry.bank_provider"
     }],
     staticClass: "form-control",
     on: {
@@ -59088,7 +59125,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.expense.bank_provider = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.expense.entry.bank_provider = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, _vm._l((_vm.lookups.bank), function(look) {
@@ -59103,30 +59140,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.payment_ref),
-      expression: "expense.payment_ref"
+      value: (_vm.expense.entry.payment_ref),
+      expression: "expense.entry.payment_ref"
     }],
     staticClass: "form-control",
     attrs: {
       "placeholder": "Check Number"
     },
     domProps: {
-      "value": (_vm.expense.payment_ref)
+      "value": (_vm.expense.entry.payment_ref)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.expense.payment_ref = $event.target.value
+        _vm.expense.entry.payment_ref = $event.target.value
       }
     }
-  })])]) : (_vm.expense.mode_of_payment === 'credit_card') ? _c('div', [_c('div', {
+  })])]) : (_vm.expense.entry.mode_of_payment === 'credit_card') ? _c('div', [_c('div', {
     staticClass: "col-md-3"
   }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.bank_provider),
-      expression: "expense.bank_provider"
+      value: (_vm.expense.entry.bank_provider),
+      expression: "expense.entry.bank_provider"
     }],
     staticClass: "form-control",
     on: {
@@ -59137,7 +59174,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.expense.bank_provider = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.expense.entry.bank_provider = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, _vm._l((_vm.lookups.bank), function(look) {
@@ -59152,8 +59189,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.expense.payment_ref),
-      expression: "expense.payment_ref"
+      value: (_vm.expense.entry.payment_ref),
+      expression: "expense.entry.payment_ref"
     }],
     staticClass: "form-control",
     on: {
@@ -59164,7 +59201,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           var val = "_value" in o ? o._value : o.value;
           return val
         });
-        _vm.expense.payment_ref = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+        _vm.expense.entry.payment_ref = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
       }
     }
   }, _vm._l((_vm.lookups.bank_provider), function(look) {
@@ -59173,12 +59210,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": look.id
       }
     }, [_vm._v(_vm._s(look.name) + "\n                            ")])
-  }))])]) : _vm._e()]), _vm._v(" "), _c('grid-view', {
+  }))])]) : _vm._e()]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-3 col-md-offset-9",
+    staticStyle: {
+      "padding-top": "10px",
+      "padding-bottom": "10px"
+    }
+  }, [_c('button', {
+    staticClass: "btn btn-primary btn-block",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.insertItem
+    }
+  }, [_vm._v("Insert")])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-12"
+  }, [_c('grid-view', {
     attrs: {
       "grid": _vm.gridColumn,
-      "data": _vm.expenses
+      "data": _vm.expense.items
     }
-  }), _vm._v(" "), _c('template', {
+  })], 1)]), _vm._v(" "), _c('template', {
     slot: "panel-footer"
   }, [_c('div', {
     staticClass: "row"

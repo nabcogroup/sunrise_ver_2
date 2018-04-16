@@ -119,6 +119,8 @@ export default {
                     return (a === b ? 0 : a > b ? 1 : -1) * order
                 });
             }
+
+            //Emit Event
             this.$emit('sorted', sortKey);
 
             return data;
@@ -135,7 +137,6 @@ export default {
             this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
         },
         render: function(entry, key) {
-
             //check pipe period_start|period_end
             let keypos = key.name.indexOf("|"),
                 glue = key.glue || " - ",

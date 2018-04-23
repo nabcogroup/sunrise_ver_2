@@ -22,7 +22,9 @@
 </template>
 
 <script>
+
 export default {
+
     name: "vInput",
     props: ["value", "items", "itemText", "itemValue"],
     data() {
@@ -69,7 +71,7 @@ export default {
         options() {
 
             let options = [];
-            
+
             if (this.search.length > 0) {
                 this.items.forEach((item) => {
                     if (item[this.itemText].toLowerCase().indexOf(this.search.toLowerCase()) >= 0) {

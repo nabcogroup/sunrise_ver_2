@@ -13,55 +13,63 @@
     <pharConfigPath>$PROJECT_DIR$/rootapp/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="69" column="46" selection-start-line="69" selection-start-column="46" selection-end-line="69" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Register.vue" pinned="false" current-in-tab="false">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="Register.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="206" column="12" selection-start-line="206" selection-start-column="12" selection-end-line="206" selection-end-column="12" />
+            <state relative-caret-position="374">
+              <caret line="160" column="99" selection-start-line="160" selection-start-column="99" selection-end-line="160" selection-end-column="99" />
               <folding>
+                <element signature="n#style#0;n#input#0;n#div#0;n#v-panel#0;n#div#0;n#form#0;n#template#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#8;n#v-panel#0;n#div#0;n#form#0;n#template#0;n#!!top" expanded="true" />
-                <element signature="e#8012#8044#0" expanded="true" />
+                <element signature="e#9082#9114#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GridView.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue">
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1276">
-              <caret line="144" column="30" selection-start-line="144" selection-start-column="30" selection-end-line="144" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BillRegister.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillRegister.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="186" column="54" selection-start-line="185" selection-start-column="20" selection-end-line="186" selection-end-column="54" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BillUpdateForm.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2010">
-              <caret line="176" column="121" selection-start-line="174" selection-start-column="50" selection-end-line="176" selection-end-column="121" />
+            <state relative-caret-position="578">
+              <caret line="73" column="28" selection-start-line="73" selection-start-column="12" selection-end-line="73" selection-end-column="28" />
               <folding>
-                <element signature="n#div#0;n#template#0;n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
+                <element signature="e#658#697#0" expanded="true" />
+                <element signature="e#888#935#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransactionListDialog.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/TransactionListDialog.vue">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="60" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
+              <folding>
+                <element signature="e#519#559#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExpensesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="77" column="35" selection-start-line="77" selection-start-column="35" selection-end-line="77" selection-end-column="35" />
+              <folding>
+                <element signature="e#53#91#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1462">
+              <caret line="95" column="39" selection-start-line="95" selection-start-column="39" selection-end-line="95" selection-end-column="39" />
             </state>
           </provider>
         </entry>
@@ -71,6 +79,36 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="391">
               <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AccountingRoute.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="web.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="175" column="34" selection-start-line="175" selection-start-column="34" selection-end-line="175" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Expenditure.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="562">
+              <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
+              <folding>
+                <element signature="e#42#60#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -87,7 +125,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>rend</find>
       <find>console.lot</find>
       <find>in</find>
       <find>module</find>
@@ -117,6 +154,7 @@
       <find>calculate_head_month</find>
       <find>custo</find>
       <find>gulp</find>
+      <find>transact_no</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -125,19 +163,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/villa/VillaList.vue" />
-        <option value="$PROJECT_DIR$/rootapp/app/Traits/QueryTemplateTrait.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/ContractActive.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Contracts/ContractValue.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/contract_report/contract_value.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/config/appreport.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Villa.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaSalesReport.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaMasterListReport.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Admin/resources/views/villa/villa_status.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Admin/src/app/Http/Controllers/VillaController.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Admin/resources/views/layout/master.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Admin/resources/views/contract/fix_terminate.blade.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Admin/resources/views/payment/fix.blade.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/containers/VPanel.vue" />
         <option value="$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportManager.php" />
@@ -173,9 +198,22 @@
         <option value="$PROJECT_DIR$/rootapp/modules/Contract/src/app/Http/Requests/ContractForm.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Contract/src/app/Http/Controllers/ContractController.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Traits/UnsetterTrait.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/database/migrations/2017_08_10_105320_create_expenditures_table.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenses.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/AccountingModuleProvider.php" />
+        <option value="$PROJECT_DIR$/rootapp/config/app.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VInput.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractEntry.vue" />
+        <option value="$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php" />
+        <option value="$PROJECT_DIR$/rootapp/routes/web.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/TransactionListDialog.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue" />
       </list>
     </option>
   </component>
@@ -437,7 +475,7 @@
       <path value="$PROJECT_DIR$/rootapp/vendor/ramsey/uuid" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="width" value="960" />
     <option name="height" value="1040" />
   </component>
@@ -480,6 +518,72 @@
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
               <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -505,26 +609,6 @@
               <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="bill" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="components" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="contract" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
@@ -555,6 +639,36 @@
               <item name="plugins" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="controls" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="store" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="store" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="store" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="expenditures" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -579,11 +693,11 @@
       <recent name="C:\xampp\htdocs\experiment\rootapp\resources\views\reports\modules\sales_report" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Accounting\src\database\migrations" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Contract\src\app\Http\Requests" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views\layouts" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\src\app\Http" />
-      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\src\app\Datasources" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -966,12 +1080,14 @@
       <workItem from="1521099221984" duration="116000" />
       <workItem from="1523550266223" duration="1218000" />
       <workItem from="1523688953966" duration="9000" />
-      <workItem from="1523809504717" duration="26785000" />
+      <workItem from="1523809504717" duration="53041000" />
+      <workItem from="1523971269515" duration="40966000" />
+      <workItem from="1524297135292" duration="16578000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1503809000" />
+    <option name="totallyTimeSpent" value="1587609000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -983,19 +1099,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="960" height="1040" extended-state="0" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.25692964" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23134328" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32928476" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38539445" side_tool="true" weight="0.25950053" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Database Changes" order="11" />
+      <window_info anchor="bottom" id="Database Changes" order="11" weight="0.14798695" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" weight="0.1882481" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" visible="true" weight="0.1882481" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1004,25 +1120,25 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32928476" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32861805" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25692964" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26066098" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32928476" />
-      <window_info anchor="bottom" id="Database Changes" order="11" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32928476" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Database" order="3" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" visible="true" weight="0.1882481" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32861805" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" visible="true" weight="0.1882481" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Database Changes" order="11" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38539445" side_tool="true" weight="0.25950053" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -1042,149 +1158,10 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="89" />
+      <option name="time" value="93" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rootapp/bootstrap/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Services/Result.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="18" column="36" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Services/CalendarService.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Scopes/CustomFilterScope.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/ContractBill.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="73">
-          <caret line="134" column="31" lean-forward="true" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Contract.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="635">
-          <caret line="270" column="38" selection-start-line="270" selection-start-column="37" selection-end-line="270" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Tenant.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-300">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="65" selection-start-line="16" selection-start-column="4" selection-end-line="18" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/vendor/laravel/framework/src/Illuminate/Session/SessionManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="25" column="42" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/database/migrations/2017_11_08_074139_create_selections_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="28" column="29" selection-start-line="28" selection-start-column="29" selection-end-line="28" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/database/seeds/DatabaseSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="22" lean-forward="true" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/database/seeds/SelectionSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="42" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/database/seeds/VillaSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/expenditures/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="10" lean-forward="true" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/App.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="29" lean-forward="true" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-64">
-          <caret line="31" column="24" lean-forward="true" selection-start-line="31" selection-start-column="24" selection-end-line="31" selection-end-column="24" />
-          <folding>
-            <element signature="e#888#935#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2435">
-          <caret line="198" column="50" lean-forward="true" selection-start-line="198" selection-start-column="16" selection-end-line="198" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/views/expenditures/register.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -1220,13 +1197,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="233" column="27" selection-start-line="233" selection-start-column="14" selection-end-line="233" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/modules/Contract/src/app/Criterias/ContractRenewalCriteria.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -1234,37 +1204,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/Traits/BaseModelSaveTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/Traits/StatusTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/BaseModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1241">
-          <caret line="75" column="33" lean-forward="true" selection-start-line="75" selection-start-column="33" selection-end-line="75" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Helpers/EDB.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/modules/Contract/src/app/Models/Contract.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-6">
           <caret line="104" column="5" lean-forward="true" selection-start-line="104" selection-start-column="5" selection-end-line="104" selection-end-column="5" />
-          <folding>
-            <element signature="e#40#58#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1274,9 +1217,6 @@
           <caret line="50" column="38" lean-forward="true" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="38" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Contract/src/app/Http/Controllers/ContractCalendarController.php">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Supports/Result.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -1289,9 +1229,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="548">
           <caret line="105" column="31" lean-forward="true" selection-start-line="105" selection-start-column="31" selection-end-line="105" selection-end-column="31" />
-          <folding>
-            <element signature="e#38#56#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1309,13 +1246,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Requests/ContractForm.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="65" column="12" selection-start-line="65" selection-start-column="12" selection-end-line="65" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Traits/UnsetterTrait.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -1327,9 +1257,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="425">
           <caret line="122" column="41" selection-start-line="122" selection-start-column="29" selection-end-line="122" selection-end-column="41" />
-          <folding>
-            <element signature="e#50#68#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1354,30 +1281,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/accountchart/Register.vue">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/ExpenseList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractList.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2010">
-          <caret line="176" column="121" selection-start-line="174" selection-start-column="50" selection-end-line="176" selection-end-column="121" />
-          <folding>
-            <element signature="n#div#0;n#template#0;n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1388,28 +1295,254 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue">
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/database/migrations/2017_08_10_105320_create_expenditures_table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1276">
-          <caret line="144" column="30" selection-start-line="144" selection-start-column="30" selection-end-line="144" selection-end-column="30" />
+        <state relative-caret-position="153">
+          <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue">
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/FixedAssetController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="206" column="12" selection-start-line="206" selection-start-column="12" selection-end-line="206" selection-end-column="12" />
+        <state relative-caret-position="252">
+          <caret line="15" column="40" lean-forward="true" selection-start-line="15" selection-start-column="40" selection-end-line="15" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Selections/SelectionModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Expenditure.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="46" column="5" lean-forward="true" selection-start-line="44" selection-start-column="4" selection-end-line="46" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3927">
+          <caret line="231" column="8" selection-start-line="231" selection-start-column="8" selection-end-line="231" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/request/lib/helpers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="10" column="40" lean-forward="true" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Requests/ExpenditureForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="35" column="47" lean-forward="true" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Requests/ContractForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="58" column="85" selection-start-line="58" selection-start-column="39" selection-end-line="58" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/Traits/StatusTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/Traits/BaseModelSaveTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="8" selection-start-line="15" selection-start-column="8" selection-end-line="15" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/BaseModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-455">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="477">
+          <caret line="60" column="24" lean-forward="true" selection-start-line="60" selection-start-column="24" selection-end-line="60" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VComboBox.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="13" lean-forward="true" selection-start-line="4" selection-start-column="13" selection-end-line="5" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VInput.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="42" column="37" lean-forward="true" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractEntry.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-204">
+          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/ReplaceModal.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="55" column="12" lean-forward="true" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#8;n#v-panel#0;n#div#0;n#form#0;n#template#0;n#!!top" expanded="true" />
-            <element signature="e#8012#8044#0" expanded="true" />
+            <element signature="e#3232#3283#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="344" column="6" selection-start-line="344" selection-start-column="6" selection-end-line="344" selection-end-column="6" />
+          <folding>
+            <element signature="n#div#0;n#template#0;n#data-view#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#div#1;n#div#0;n#template#0;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/PaymentInfoModal.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1309">
+          <caret line="77" column="30" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
+          <folding>
+            <element signature="e#3189#3231#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/AccountingModuleProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="175" column="34" selection-start-line="175" selection-start-column="34" selection-end-line="175" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="562">
+          <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
+          <folding>
+            <element signature="e#42#60#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="77" column="35" selection-start-line="77" selection-start-column="35" selection-end-line="77" selection-end-column="35" />
+          <folding>
+            <element signature="e#53#91#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/ExpenseList.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="69" column="46" selection-start-line="69" selection-start-column="46" selection-end-line="69" selection-end-column="46" />
+        <state relative-caret-position="1462">
+          <caret line="95" column="39" selection-start-line="95" selection-start-column="39" selection-end-line="95" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2125">
+          <caret line="198" column="50" lean-forward="true" selection-start-line="198" selection-start-column="16" selection-end-line="198" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="73" column="28" selection-start-line="73" selection-start-column="12" selection-end-line="73" selection-end-column="28" />
+          <folding>
+            <element signature="e#658#697#0" expanded="true" />
+            <element signature="e#888#935#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="68" column="105" selection-start-line="68" selection-start-column="100" selection-end-line="68" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/TransactionListDialog.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="60" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
+          <folding>
+            <element signature="e#519#559#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="160" column="99" selection-start-line="160" selection-start-column="99" selection-end-line="160" selection-end-column="99" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#div#0;n#v-panel#0;n#div#0;n#form#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#8;n#v-panel#0;n#div#0;n#form#0;n#template#0;n#!!top" expanded="true" />
+            <element signature="e#9082#9114#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

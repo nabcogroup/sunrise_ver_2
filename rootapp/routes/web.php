@@ -6,6 +6,9 @@
 |--------------------------------------------------------------------------
 */
 
+
+use Accounting\App\Http\Routes\Facades\AccountingRoute;
+
 Route::group(['prefix' => "admin"], function () {
 
     AdminRoute::routes();
@@ -164,21 +167,25 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['account', 'admin']
 | Expenses Web Routes
 |--------------------------------------------------------------------------
 */
+
+
 Route::group(["middleware" => ["auth", "roles"], "roles" => ["account"]],
     function () {
 
-        Route::get("expenses/", "ExpenditureController@index");
+        Route::get("expenses/", "ExpenditureController@register");
+        AccountingRoute::routes();
 
-        Route::get("expenses/create", "ExpenditureController@register");
+//
 
-        Route::get("expenses/{id}", "ExpenditureController@edit");
-
-        Route::get("api/expenses/create", "ExpenditureController@apiCreate");
-
-        Route::post("api/expenses/store", "ExpenditureController@apiStore");
-        Route::post("api/expenses/update", "ExpenditureController@apiStore");
-        Route::get("api/expenses/edit/{id}", "ExpenditureController@apiEdit");
-        Route::get("api/expenses/{property?}", "ExpenditureController@apiGetAll");
+//
+//        Route::get("expenses/{id}", "ExpenditureController@edit");
+//
+//        Route::get("api/expenses/create", "ExpenditureController@apiCreate");
+//
+//        Route::post("api/expenses/store", "ExpenditureController@apiStore");
+//        Route::post("api/expenses/update", "ExpenditureController@apiStore");
+//        Route::get("api/expenses/edit/{id}", "ExpenditureController@apiEdit");
+//        Route::get("api/expenses/{property?}", "ExpenditureController@apiGetAll");
     }
 );
 

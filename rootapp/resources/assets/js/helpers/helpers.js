@@ -28,6 +28,10 @@ export class ErrorValidations {
         return "";
     }
 
+    hasError() {
+        return !(_.isEmpty(this.errors));
+    }
+
     register(errors) {
         this.errors = errors;
     }

@@ -66,12 +66,11 @@
             </tbody>
             <tfoot v-if="grid.footers">
                 <tr class="active">
-                    <th v-for="(footer,index) in grid.footers" :colspan="footer.span" :key="index">
+                    <th v-for="(footer,index) in grid.footers" :colspan="footer.span" :key="index" :class="footer.class">
                         <strong v-if="footer.label">{{footer.label}} :</strong>
-                        <span v-if="footer.text">{{footer.text}}</span>
-                        <span v-if="footer.slot">
+                        <div v-if="footer.slot">
                             <slot></slot>
-                        </span>
+                        </div>
                     </th>
                 </tr>
             </tfoot>

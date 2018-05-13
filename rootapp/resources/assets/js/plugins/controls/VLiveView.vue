@@ -18,7 +18,7 @@
                         Loading...
                     </div>
                 </div>
-                <div v-else="" class="col-md-12" key="fetched">
+                <div v-else class="col-md-12" key="fetched">
 
                     <table id="grid" class="table table-condensed table-hover table-live-views">
                         <thead>

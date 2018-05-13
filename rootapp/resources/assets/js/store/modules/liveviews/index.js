@@ -17,13 +17,16 @@ const state = {
 
 const mutations = {
     loadData(state, payload) {
+
         state.fetchLoading = true;
+        
         if(payload.pointer){
             state.items = payload.data[payload.pointer];
         }
         else {
             state.items = payload.data;
         }
+        
         state.cache = payload.data;
         state.fetchLoading = false;
     },
@@ -81,7 +84,6 @@ const actions = {
             }
 
             url = source.url + params + query;
-            console.log(url);
             state.selectedFilter = -1;
             state.filter.value = '';
         }
@@ -91,7 +93,10 @@ const actions = {
 
         state.fetchLoading = true;
         axiosRequest.dispatchGet(url)
-            .then(response => commit('loadData',{data:response.data,pointer: payload.grid.source.pointer || false}))
+            .then(response => commit('loadData',{
+                data:response.data,
+                pointer: payload.grid.source.pointer || false
+            }))
             .catch(errors => {
                 toastr.error("Loading error")
                 state.fetchLoading = false;

@@ -58,6 +58,10 @@ export class AxiosRequest {
         return axios.post('/api/'+controller+'/'+action,data);
     }
 
+    patch(controller,action,data) {
+        return axios.patch('/api/'+controller+'/'+action,data);
+    }
+
     get(controller,action) {
         var qs = "";
         if(arguments.length >= 3) {

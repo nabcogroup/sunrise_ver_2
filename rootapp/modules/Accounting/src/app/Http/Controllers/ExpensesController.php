@@ -3,12 +3,10 @@
 
 namespace Accounting\App\Http\Controllers;
 
-
+use Accounting\App\Models\AccountChart;
+use Accounting\App\Models\AccountsPayee;
+use Accounting\App\Models\AccountsVilla;
 use Accounting\App\Models\Expenditure;
-
-use App\AccountChart;
-use App\Payee;
-use App\Villa;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -20,10 +18,11 @@ class ExpensesController extends Controller
 {
     public function __construct()
     {
+        
     }
 
 
-    public function index() {
+    public function index(Request $request) {
 
         $transactions = Expenditure::transactionList()->get();
 
@@ -34,15 +33,15 @@ class ExpensesController extends Controller
     public function create() {
 
         $expenditure = Expenditure::createInstance();
-
         $lookups = Selection::getSelections(["account_type","payment_term","bank","villa_location","bank_provider"]);
+        
         $lookups["accounts"] = AccountChart::all();
-        $lookups["villas"] = Villa::orderBy("villa_no")->get();
-        $lookups["payees"] = Payee::orderBy("payee_code")->get();
+        $lookups["villas"] =  AccountsVilla::orderBy('villa_no')->get();
+        $lookups["payees"] = AccountsPayee::orderBy("payee_code")->get();
 
         $rules = [
             'location'          =>  'required',
-            'villa_id'          =>  'required|integer',
+            'villa_id'          =>  'required|integer|0',
             'expense_type'      =>  'required',
             'acct_code'         =>  'required',
             'payee_id'          =>  'required|integer',
@@ -57,18 +56,26 @@ class ExpensesController extends Controller
 
     }
 
+    public function edit(Request $request,$transaction_no) {
+
+        $transactions = Expenditure::transactionList($transaction_no)->get();
+        
+        return Result::response(["data" => $transactions]);
+    }
+
 
 
     public function store(Request $request) {
-
+        
         $transactions = $request->input('transactions');
-
+        
         $this->validateRequest($transactions);
-
         $newTransactionNo = Expenditure::generateNewTransactionNo();
-
+        
         foreach ($transactions as $transaction) {
+            
             $transaction['transaction_no'] = $newTransactionNo;
+            
             Expenditure::create($transaction);
         }
 

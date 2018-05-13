@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PayeeForm;
-use App\Repositories\PayeeRepository;
 use App\Selection;
-use App\Services\Result;
-use App\Traits\PaginationTrait;
 use Dompdf\Exception;
 use Illuminate\Http\Request;
+use App\Traits\PaginationTrait;
+use App\Http\Requests\PayeeForm;
+use App\Repositories\PayeeRepository;
+
+use KielPack\LaraLibs\Supports\Result;
+
+
 
 class PayeeController extends Controller
 {
@@ -29,6 +32,10 @@ class PayeeController extends Controller
 
     public function register() {
         return view('payee.register');
+    }
+
+    public function edit($id) {
+        return view('payee.register',compact('id'));
     }
 
     public function apiCreate() {
@@ -63,25 +70,25 @@ class PayeeController extends Controller
         try {
 
             $payees = $this->rep->paginate(20);
-            $selection = new Selection();
+            
+            // $selection = new Selection();
+            // $items = [];
+            // foreach($payees as $payee) {
+            //     $item = [
+            //         'payee_code' => $payee->payee_code,
+            //         'name' => $payee->name,
+            //         'full_address' => $payee->full_address,
+            //         'contact_person'    => $payee->contract_person
+            //     ];
+            //     array_push($items,$item);
+            // }
 
-            $items = [];
-            foreach($payees as $payee) {
-                $item = [
-                    'payee_code' => $payee->payee_code,
-                    'name' => $payee->name,
-                    'full_address' => $payee->full_address,
-                    'contact_no'    => $payee->contract_no
-                ];
-                array_push($items,$item);
-            }
+            return Result::response($payees);
 
-            return $this->createOutput($payees,$items);
         }
-        catch(Exception $e) {
+        catch(Exception $e) 
+        {
             Result::badRequest(["message" => $e->getMessage()]);
         }
     }
-
-
 }

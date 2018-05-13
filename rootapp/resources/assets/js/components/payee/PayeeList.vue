@@ -9,7 +9,7 @@
         <hr/>
         <div class="row">
             <div class="col-md-12">
-                <v-live-view :grid="gridView"></v-live-view>
+                <v-live-view :grid="gridView" @action="doAction"></v-live-view>
             </div>
         </div>
     </v-panel>
@@ -25,6 +25,10 @@
                         {name: 'full_address', column: 'Address'},
                         {name: 'contact_no', column: 'Contact No',filter:true},
                         {name: 'fax_no', column: 'Fax No'},
+                        {name: '$action', column: ' ', static: true, class: 'text-center', style: 'width:5%'}
+                    ],
+                    actions: [
+                        {key: 'edit', name: 'Edit'}
                     ],
                     source: {
                         url: 'api/payee/list'
@@ -35,6 +39,11 @@
         methods: {
             onAddPayee() {
                 axiosRequest.redirect('payee','create');
+            },
+            doAction(a, item, index) {
+              if(a.key === 'edit') {
+                this.$store.dispatch('payees/redirectToRegister', {id: item.id});
+              }
             }
         }
 

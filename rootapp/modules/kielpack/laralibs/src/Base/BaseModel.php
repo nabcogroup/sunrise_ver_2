@@ -19,6 +19,7 @@ class BaseModel extends Model {
     protected function afterSave() {return false;}
 
     public function toMap($fields = array()) {
+
         if(sizeof($fields) > 0) {
             foreach ($fields as $key => $value) {
                 if($this->isFillable($key) && !in_array($key,$this->appends)) {
@@ -26,6 +27,7 @@ class BaseModel extends Model {
                 }
             }
         }
+
         return $this;
     }
 
@@ -35,9 +37,12 @@ class BaseModel extends Model {
         return $this->where($fieldKey,$fieldValue);
     }
 
-    public function scopeFilterSearch($query,$key,$value,$operator = '=') {
+    public function scopeFilterSearch($query,$key = null,$value = null,$operator = '=',$orderBy = '',$orderType = 'asc') {
 
-        return $query->where($key,$operator ,$value);
+        if($key != null) {
+            $query = $query->where($key,$operator ,$value);
+        }
+        return $query->orderBy($orderBy,$orderType);
     }
 
 

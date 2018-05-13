@@ -101,7 +101,9 @@ class ContractRepository extends AbstractRepository
 
     public function getExistingBill($contractNo)
     {
+
         return $this->model->where('contract_no', $contractNo)->with('bill')->firstOrFail();
+
     }
 
     public function saveContract($entity) {

@@ -55,7 +55,13 @@ class Expenditure extends BaseModel
 
     public function scopeTransactionList($query,$value = null) {
 
-        return $query->select('transaction_no')->distinct()->orderBy('transaction_no');
+        if(!is_null($value)) {
+            return $query->select('*')->where('transaction_no',$value)->orderBy(self::CREATED_AT);
+        }
+        else {
+            return $query->select('transaction_no')->distinct()->orderBy('transaction_no');
+        }
+        
     }
 
 

@@ -4,7 +4,7 @@
             <v-panel header="Expenses Entry">
                 <div class="column-group row">
                     <label for="expensesTransactionNo">Transaction No:</label>
-                    <input disabled type="text" class="input" placeholder="(New)" name="expensesTransactionNo" style="text-align:right"/>
+                    <input disabled type="text" class="input" placeholder="(New)" id="expensesTransactionNo" name="expensesTransactionNo" style="text-align:right"/>
                     <button class="btn btn-info " type="button" @click="searchTransaction">
                         <i class="fa fa-fw fa-search"></i>
                     </button>
@@ -32,11 +32,8 @@
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Account:</label>
                     <div class="col-md-10">
-                        <select class="form-control" v-model='expense.entry.acct_code'>
-                            <option value="">--SELECT CATEGORY--</option>
-                            <option v-for="look in lookups.accounts" :value="look.code">{{ look.code }}-{{ look.description }}</option>
-                        </select>
-                        <error-span :value="errors" name="acct_code"></error-span>
+                        <v-combo-box :options="lookups.accounts" v-model="expense.entry.acct_code" dvalue="code" dtext="description" :include-default=true></v-combo-box>
+                         <error-span :value="errors" name="acct_code"></error-span>
                     </div>
                 </div>
 
@@ -50,14 +47,16 @@
 
                 <!-- Property / Villa -->
                 <div class="form-group row">
+
                     <label class="col-md-2 col-form-label">Property:</label>
                     <div class="col-md-4">
                         <select class="form-control" v-model='expense.entry.location'>
                             <option value="">--SELECT PROPERTY--</option>
-                            <option v-for="look in lookups.villa_location" v-bind:value="look.code">{{ look.name }}</option>
+                            <option v-for="look in lookups.villa_location" v-bind:value="look.code" :key="look.code">{{ look.name }}</option>
                         </select>
                         <error-span :value="errors" name="location"></error-span>
                     </div>
+
                     <label class="col-md-2">Villa:</label>
                     <div class="col-md-4">
                         <select class="form-control" v-model='expense.entry.villa_id'>
@@ -109,7 +108,7 @@
                     <div class="col-md-4">
                         <select class="form-control" v-model='expense.entry.mode_of_payment'>
                             <option value="">SELECT PAYMENT MODE</option>
-                            <option v-for="look in lookups.payment_term" v-bind:value="look.code">{{look.name}}</option>
+                            <option v-for="look in lookups.payment_term" v-bind:value="look.code" :key="look.code">{{look.name}}</option>
                         </select>
                         <error-span :value="errors" name="mode_of_payment"></error-span>
                     </div>
@@ -118,7 +117,7 @@
                     <div v-if="expense.entry.mode_of_payment === 'cheque'">
                         <div class="col-md-3">
                             <select class="form-control" v-model='expense.entry.bank_provider'>
-                                <option v-for="look in lookups.bank" v-bind:value="look.code">{{ look.name }}</option>
+                                <option v-for="look in lookups.bank" v-bind:value="look.code" :key="look.code">{{ look.name }}</option>
                             </select>
                         </div>
                         <div class="col-md-2">
@@ -169,7 +168,8 @@
         <v-dialog modal-id="payee" dialog-title="Payee Information" v-model="unfold" @dismiss="dismiss">
             <payee-register type="modal"></payee-register>
         </v-dialog>
-        <transaction-list-dialog></transaction-list-dialog>
+
+        <transaction-list-dialog @selected="onSelected"></transaction-list-dialog>
     </div>
 
 </template>
@@ -224,7 +224,6 @@
 
     export default {
         mounted() {
-
             this.$store.dispatch('expenditures/create');
 
             // if (this.index !== '') {
@@ -264,8 +263,6 @@
                         {label: "",slot: true, class:'text-right'},
                         {label: ""}
                     ]
-
-
                 }
             }
         },
@@ -289,7 +286,7 @@
                 });
             },
             newEntry() {
-              this.$store.commit('expenditures/create');
+                this.$store.commit('expenditures/create');
             },
             insertItem() {
                 this.$store.commit('expenditures/insertTransaction')
@@ -310,15 +307,22 @@
                 this.unfold = true
             },
             dismiss(result) {
+                
                 if (result) {
                     EventBus.$emit("onSavePayee", r => {
                         this.lookups.payees = r
-                    });
+                    })
                 }
+
                 this.unfold = false
+
             },
             searchTransaction() {
-                EventBus.$emit("list.open");
+                EventBus.$emit("list.open")
+            },
+            onSelected(transactionNo) {
+                this.$store.dispatch('expenditures/edit',{transactionNo: transactionNo});
+                console.log(transactionNo);
             }
         },
     }

@@ -19,6 +19,7 @@ trait PaginationTrait
         return [
             'current_page' => $model->currentPage(),
             'data' => $data,
+            'total' =>  $model->total(),
             'last_page'     =>  $model->url($model->lastPage()),
             'first_page'    =>  $model->url(1),
             'has_pages'     =>  $model->hasMorePages(),
@@ -34,6 +35,7 @@ trait PaginationTrait
         $data = $model->paginate(20);
         $items = [];
         foreach ($data as $key => $row) {
+
             if(!is_callable($callback)) {
                 $item = $row;
             }

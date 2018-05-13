@@ -1,115 +1,280 @@
-import {cloneObject, ErrorValidations} from "../../../helpers/helpers";
+import {
+    cloneObject,
+    ErrorValidations
+} from "../../../helpers/helpers";
 
-const InstanceStorage = {
-    _instance: null,
-    set: (entry) => {
+//class helper
+class InstanceStorage {
+
+    constructor(instance = null) {
+        this._instance = instance;
+    }
+
+    set(entry) {
         this._instance = entry;
-    },
-    get: () => {
+    }
+
+    get() {
         return cloneObject(this._instance);
     }
 }
 
-const Validation = {
-    _rules: [],
-    validate: (inputs) => {
-        var messageErrors = {};
+class Validator {
 
-        _.each(this._rules, (value, key) => {
+    constructor() {
+        this._rules = [];
+    }
+
+    validate(inputs) {
+
+        let messageErrors = {}
+    _.each(this._rules, (value, key) => {
+            if (typeof (inputs[key]) === undefined) {
+                return;
+            }
+
             //break sem
-            var attributes = value.split('|');
-
-            if (attributes.length === 1) {
-                if (inputs[key] !== undefined) {
-                    if (inputs[key].trim().length === 0) {
+            let attributes = value.split('|')
+            let option = {
+                type: 'string',
+                condition: ''
+            }
+            
+            if (attributes.length > 1) {
+                option.type = attributes[1]
+                option.condition = typeof (attributes[2]) == 'undefined' ? '' : attributes[2]
+            }
+            
+            let inputVal = typeof(inputs[key]) !== "undefined" ? inputs[key] : '';
+            switch (option.type) {
+                case 'string':
+                    if (inputVal.length === 0 || inputVal === null) {
                         messageErrors[key] = "This field " + key.toUpperCase() + " is required";
                     }
-                }
-            }
-            else {
-                if (inputs[key] !== undefined) {
-                    if (attributes[1] == 'integer') {
-                        if (inputs[key] === null || isNaN(inputs[key])) {
-                            messageErrors[key] = "This field" + key.toUpperCase() + "is required";
-                        }
-                        else if (inputs[key] === 0) {
-                            if (key === 'villa_id') {
-                                messageErrors[key] = "This field Villa No is required";
-                            }
+                    break;
+                case 'integer':
+                    
+                    let intRegex = /^\d+$/;
+                    if (inputVal === null || isNaN(inputVal) ) {
+                        messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                    }
+                    else if(!intRegex.test(inputVal)) {
+                      messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                    }
+                    else {
+                        if(option.condition !== '') {
+                            //check additional condition met
+                            if (inputVal === option.condition) {
+                                messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                            }        
                         }
                     }
-                }
+                    break;
+
+                default:
+
+                    break;
             }
-
-        });
-
+        })
         return messageErrors;
+    }
 
-    },
-    setRules: (rules) => {
+    setRules(rules) {
         this._rules = rules;
     }
-}
 
+}
 
 //validation
 class ItemHandler {
-
+    
     constructor() {
-        this.items = [];
+        /**
+         * @TODO: adding tag
+         */
+
+        this.items = {
+            data: [],
+            deletedItems: []
+        };
+        
         this.autoKeyId = 0;
+        this.isEditMode = false;
     }
+    
 
     add(item) {
-        let newKeyId = this.items.length;
+        
+        let newKeyId = this.items.data.length;
+        
+        //********************
+        //  @TODO tagging item expense entry
+        // 1 check if item has transaction and id
+        // 2 if true make the tag to edit
+        // 3 otherwise tag new
+        if(item.id && item.transaction_no) {
+            item.tag = 'edit';
+        }
+
+
         if (newKeyId === 0) {
             newKeyId = 1;
-        }
+        } 
         else {
-
-            newKeyId = this.items[newKeyId - 1].key + 1;
+            newKeyId = this.items.data[newKeyId - 1].key + 1;
         }
-
         item.key = newKeyId;
-        this.items.push(item);
+        this.items.data.push(item);
     }
 
     remove(id) {
-        if (this.items.length > 0) {
-            this.items = _.filter(this.items, (item) => {
+
+        /***************
+            @TODO: seperate stack for deletion of stored when removed
+            to notify server the removal of deleted item
+        */
+        if (this.items.data.length > 0) {
+            this.items.data = _.filter(this.items.data, (item) => {
+                if(item.key === id && item.id && item.transaction_no) {
+                    this.items.deletedItems.push(item.id);
+                }
                 return item.key !== id;
             });
-        }
+        } 
         else {
             //do nothing
+            
         }
+        
+    }
+
+    find() {
+
+    }
+
+    clear() {
+        this.items.data = [];
     }
 
     all() {
-        return this.items;
+        return this.items.data;
+    }
+
+    visible() {
+
     }
 
     sum(column) {
-        let sum = 0;
-        _.forEach(this.items,(value) => {
-            console.log(value);
-            console.log(value[column]);
-             sum += parseFloat(value[column])
+        return _.sumBy(this.items.data, (item) => {
+            return item[column]
         });
-        console.log(sum);
-        return sum;
     }
 }
 
+class ExpenseHandler {
+
+    constructor() {
+
+        this.state = {
+            entry: {},
+            items: new ItemHandler()
+        };
+
+        this.instanceStorage = null;
+    }
+
+    register(items, lookups) {
+        this.state.items.clear();
+        _.each(items, (entry) => {
+
+            var account = _.find(lookups.accounts, (item) => {
+                return item.code == entry.acct_code;
+            });
+
+            var property = _.find(lookups.villa_location, (item) => {
+                return item.code == entry.location;
+            });
+
+            var villa = _.find(lookups.villas, (item) => {
+                return item.id == entry.villa_id;
+            });
+
+            var payee = _.find(lookups.payees, (item) => {
+                return item.id == entry.payee_id;
+            });
+
+
+
+            entry.account = this.state.entry.acct_code + " - " + account.description;
+            entry.property = property.name;
+            entry.villa = villa.villa_no;
+            entry.payee = payee.name;
+
+            this.state.items.add(entry);
+
+        });
+    }
+
+    create(data) {
+        this.instanceStorage = new InstanceStorage(data);
+        this.state.entry = this.instanceStorage.get();
+    }
+
+    addItem(entry, lookups) {
+
+        var account = _.find(lookups.accounts, (item) => {
+            return item.code == this.state.entry.acct_code;
+        });
+
+        var property = _.find(lookups.villa_location, (item) => {
+            return item.code == this.state.entry.location;
+        });
+
+        var villa = _.find(lookups.villas, (item) => {
+            return item.id == this.state.entry.villa_id;
+        });
+
+        var payee = _.find(lookups.payees, (item) => {
+            return item.id == this.state.entry.payee_id;
+        });
+
+        entry.account = this.state.entry.acct_code + " - " + account.description;
+        entry.property = property.name;
+        entry.villa = villa.villa_no;
+        entry.payee = payee.name;
+
+        this.state.items.add(entry);
+    }
+
+    getItem(key) {
+        let item = this.items.find(key);
+
+        if(typeof(item) !== "undefined") {
+            this.state.entry = cloneObject(item);
+        }
+    }
+
+    removeItem(key) {
+        this.state.items.remove(key);
+    }
+
+    get() {
+        return this.state;
+    }
+
+    getItems() {
+        return this.state.items.all();
+    }
+
+}
+
+const validator = new Validator()
 
 const state = {
     expenses: {
         data: []
     },
-    expense: {
-        entry: {},
-        items: new ItemHandler()
-    },
+    expense: new ExpenseHandler(),
     payee: {
         data: [],
         single: {},
@@ -132,53 +297,20 @@ const state = {
 
 
 const mutations = {
-    redirectToList(state) {
-        axiosRequest.redirect('expenses', '');
-    },
-    redirectToRegister(state, payload) {
-        if (payload) axiosRequest.redirect('expenses', '', payload.id);
-        else axiosRequest.redirect('expenses', 'create');
-    },
     clearPayee(state) {
         state.payee.single = {};
     },
-    create(state) {
-        state.expense.entry = InstanceStorage.get();
-    },
     removeTransaction(state, payload) {
-        state.expense.items.remove(payload.key);
+        state.expense.removeItem(payload.key);
     },
     insertTransaction(state) {
-
-        state.errors.expense.register(Validation.validate(state.expense.entry));
+        state.errors.expense.register(validator.validate(state.expense.get().entry));
         if (state.errors.expense.hasError())
             return false;
-
-        var newExpenseInstance = cloneObject(state.expense.entry);
-
-        var account = _.find(state.lookups.accounts, (item) => {
-            return item.code == state.expense.entry.acct_code;
-        });
-
-        var property = _.find(state.lookups.villa_location, (item) => {
-            return item.code == state.expense.entry.location;
-        });
-
-        var villa = _.find(state.lookups.villas, (item) => {
-            return item.id == state.expense.entry.villa_id;
-        });
-
-        var payee = _.find(state.lookups.payees, (item) => {
-            return item.id == state.expense.entry.payee_id;
-        });
-
-        newExpenseInstance.account = state.expense.entry.acct_code + " - " + account.description;
-        newExpenseInstance.property = property.name;
-        newExpenseInstance.villa = villa.villa_no;
-        newExpenseInstance.payee = payee.name;
-
-        state.expense.items.add(newExpenseInstance);
-
+        
+        let newExpenseInstance = cloneObject(state.expense.get());
+        
+        state.expense.addItem(newExpenseInstance, state.lookups);
     }
 }
 
@@ -188,35 +320,27 @@ const actions = {
             state.expenses = r.data;
         });
     },
-    create({state, commit}) {
-
+    create({ state, commit }) {
         axiosRequest.get('expenses', 'create').then(r => {
-
-            InstanceStorage.set(r.data.data);
-            Validation.setRules(r.data.rules);
-
+            state.expense.create(r.data.data);
+            validator.setRules(r.data.rules);
             state.lookups = r.data.lookups;
-
-            commit('create', r.data);
         })
     },
-    createPayee({state, commit}) {
+    createPayee({ state, commit }) {
         if (_.isEmpty(state.payee.single)) {
-
             axiosRequest.get('payee', 'create').then(r => {
                 state.payee.single = r.data.data;
                 state.payee.lookups = r.data.lookups;
             });
-
             state.options.isPayeeCreated = true;
         }
     },
-    save({commit, state}) {
-
-        axiosRequest.post('expenses', 'store', {transactions: state.expense.items.all()})
+    save({ commit, state }) {
+        let transactions = state.expense.getItems()
+        axiosRequest.post('expenses', 'store', { transactions: transactions })
             .then(r => {
                 toastr.success('Save successfully!!!');
-                //commit("redirectToList");
             })
             .catch(e => {
                 if (e.response.status === 422) {
@@ -224,19 +348,16 @@ const actions = {
                 }
             });
     },
-    edit({commit, state}) {
-        axiosRequest.post('expenses', 'update', state.expense)
-            .then(r => {
-                toastr.success('Save successfully!!!');
-                commit("redirectToList");
-            })
+    edit({ commit, state }, payload) {
+        axiosRequest.get('expenses', 'edit/' + payload.transactionNo)
+            .then(r => state.expense.register(r.data.data, state.lookups))
             .catch(e => {
                 if (e.response.status === 422) {
                     state.errors.expense.register(e.response.data);
                 }
             });
     },
-    fetchPayees({commit, state}) {
+    fetchPayees({ commit, state }) {
         axiosRequest.post('payee', 'store', state.payee.single)
             .then(r => {
                 state.lookups.payees = r.data;
@@ -252,7 +373,7 @@ const actions = {
 
 const getters = {
     expense(state) {
-        return state.expense;
+        return state.expense.get();
     },
     expenses(state) {
         return state.expenses.data;
@@ -275,7 +396,7 @@ const getters = {
 
     filtered_villas(state) {
         const filters = state.lookups.villas.filter((item) => {
-            return item.location === state.expense.entry.location
+            return item.location === state.expense.get().entry.location
         });
         return filters;
     }
@@ -290,7 +411,3 @@ const expenditureModule = {
 }
 
 export default expenditureModule;
-
-
-
-

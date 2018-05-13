@@ -14,6 +14,9 @@
                     <div v-if="buttonType == 'okOnly' ">
                         <button type="button" class="btn btn-info" @click="dismiss(false)">Ok</button>
                     </div>
+                    <div v-else-if="buttonType === 'cancelOnly' ">
+                        <button type="button" class="btn btn-default" @click="dismiss(false)">Cancel</button>
+                    </div>
                     <div v-else>
                         <button type="button" class="btn btn-default" @click="dismiss(false)">Close</button>
                         <button type="button" class="btn btn-primary" @click="dismiss(true)" v-if="ftype!='search'">

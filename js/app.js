@@ -31206,6 +31206,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -31215,11 +31219,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
   name: "AccountRegisterDialog",
   mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins__["a" /* toggleModal */]],
   computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["a" /* mapGetters */])("accountCharts", {
-    lookups: "lookups"
-  }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapState */])("accountCharts", {
-    account: state => state.account
+    lookups: "lookups",
+    account: "account"
   })),
-  beforeMount() {
+  mounted() {
     this.open();
   },
   data() {
@@ -31234,7 +31237,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     open() {
       __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("accountChart.entry.open", value => {
         if (value) {
-          this.$store.dispatch("accountCharts/edit", value.id);
+          this.$store.dispatch("accountCharts/edit", value.item);
         } else {
           this.$store.dispatch("accountCharts/create");
         }
@@ -31283,13 +31286,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    AccountRegisterDialog: __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue___default.a
-  },
+  components: { AccountRegisterDialog: __WEBPACK_IMPORTED_MODULE_1__AccountRegisterDialog_vue___default.a },
   data() {
     return {
       gridView: {
-        columns: [{ name: 'code', column: 'Code', style: 'width:20%', class: 'text-center' }, { name: 'description', column: 'Description', class: 'text-left', filter: true }, { name: 'account_type', column: 'Account Type', class: 'text-center', style: 'width:10%', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: 'width:5%' }],
+        columns: [{ name: 'code', column: 'Code', style: 'width:20%', class: 'text-center' }, { name: 'description', column: 'Description', class: 'text-left', filter: true }, { name: 'account_full_type', column: 'Account Type', class: 'text-center', style: 'width:10%', filter: true }, { name: '$action', column: ' ', static: true, class: 'text-center', style: 'width:5%' }],
         actions: [{ key: 'edit', name: 'Edit' }],
         source: {
           url: '/api/chart'
@@ -31306,7 +31307,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     doAction(a, item, index) {
       if (a.key === 'edit') {
-        __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('accountChart.entry.open', { id: item.id });
+        __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('accountChart.entry.open', { item: item });
       }
     }
   }
@@ -35123,8 +35124,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -36715,6 +36714,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -37676,43 +37678,75 @@ const MyPlugins = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-const state = {
-    accounts: [],
-    account: {},
-    lookups: []
 
-};
 
-const mutations = {
-    fetchAll(state, data) {
-        state.accounts = data;
-    },
-    create(state, data) {
-        state.lookups = data.lookups;
-        state.account = data.account;
+class AccountChart {
+
+    constructor() {
+
+        this.accounts;
+        this.account = {};
+        this.lookups = [];
     }
 
+    create() {
+
+        axiosRequest.dispatchGet("/api/chart/create").then(response => {
+            this.lookups = response.data.lookups;
+            this.account = response.data.account;
+        }).catch(error => toastr.error(e.response.message));
+    }
+
+    edit(item) {
+        axiosRequest.dispatchGet('/api/chart/' + item.id + '/edit/').then(response => {
+            this.account = response.data.data;
+            this.lookups = response.data.lookups;
+        });
+    }
+
+    save(cb) {
+        let repeatMe = null;
+        if (this.account.id) {
+            repeatMe = axiosRequest.patch('chart', 'update', this.account);
+        } else {
+            repeatMe = axiosRequest.post('chart', 'store', this.account);
+        }
+
+        repeatMe.then(response => cb()).catch(error => toastr.error(e.response.message));
+    }
+
+    update(cb) {
+        axiosRequest.patch('chart', 'update', this.account).then(response => cb()).catch(error => toastr.error(e.response.message));
+    }
+
+    redirect() {
+        axiosRequest.redirect('chart', '');
+    }
+}
+
+const state = {
+    acctChart: new AccountChart()
 };
 
+const mutations = {};
+
 const actions = {
-    fetchAll({ state, commit }) {
-        axiosRequest.dispatchGet("/api/chart").then(response => commit("fetchAll", response.data)).catch(error => toastr.error(e.response.message));
-    },
-    create({ state, commit }) {
-        axiosRequest.dispatchGet("/api/chart/create").then(response => commit("create", response.data)).catch(error => toastr.error(e.response.message));
-    },
-    redirect({ state, commit }) {
-        axiosRequest.redirect('chart', '');
-    },
-    save({ state, commit }, cb) {
-        axiosRequest.post('chart', 'store', state.account).then(response => cb()).catch(error => toastr.error(e.response.message));
-    },
-    edit({ state, commit }) {}
+    create: ({ state }) => state.acctChart.create(),
+    redirect: ({ state }) => state.acctChart.redirect(),
+    save: ({ state }, cb) => state.acctChart.save(cb),
+    update: ({ state }, cb) => state.acctChart.update(cb),
+    edit: ({ state }, payload) => state.acctChart.edit(payload)
 };
 
 const getters = {
-    lookups(state) {
-        return state.lookups || [];
+    accounts: state => {
+        return state.acctChart.accounts;
+    },
+    account: state => {
+        return state.acctChart.account;
+    },
+    lookups: state => {
+        return state.acctChart.lookups;
     }
 };
 
@@ -61609,37 +61643,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "label": "Account Type",
       "label-class": "col-md-3 text-right"
     }
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.account.account_type),
-      expression: "account.account_type"
-    }],
-    staticClass: "form-control",
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.account.account_type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
+  }, [_c('v-combo-box', {
     attrs: {
-      "value": ""
+      "options": _vm.lookups.account_type,
+      "dtext": "name",
+      "dvalue": "code",
+      "include-default": true
+    },
+    model: {
+      value: (_vm.account.account_type),
+      callback: function($$v) {
+        _vm.account.account_type = $$v
+      },
+      expression: "account.account_type"
     }
-  }, [_vm._v("--ACCOUNT TYPE--")]), _vm._v(" "), _vm._l((_vm.lookups.account_type), function(look) {
-    return _c('option', {
-      key: look.code,
-      domProps: {
-        "value": look.code
-      }
-    }, [_vm._v(_vm._s(look.name))])
-  })], 2)]), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label": "Description",
       "label-class": "col-md-3 text-right"

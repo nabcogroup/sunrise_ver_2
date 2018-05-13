@@ -13,5 +13,24 @@ use KielPack\LaraLibs\Base\BaseModel;
 
 class AccountChart extends BaseModel
 {
+
     protected $table = "account_charts";
+
+    public static function createInstance() {
+        return new AccountChart();
+    }
+
+
+
+    public function __construct(array $attributes = [])
+    {
+
+        if(count($attributes) == 0) {
+            $this->code = "";
+            $this->account_type = "";
+            $this->description = "";
+        }
+
+        parent::__construct($attributes);
+    }
 }

@@ -21,16 +21,14 @@ import {mapGetters} from "vuex";
 import AccountRegisterDialog from "./AccountRegisterDialog.vue";
 import {EventBus} from "../../eventbus";
 export default {
-  components: {
-    AccountRegisterDialog
-  },
+  components: { AccountRegisterDialog },
   data() {
     return {
       gridView: {
         columns:[
           {name:'code', column: 'Code', style: 'width:20%', class: 'text-center'},
           {name:'description', column: 'Description', class: 'text-left', filter: true},
-          {name:'account_type', column: 'Account Type', class:'text-center', style:'width:10%', filter: true},
+          {name:'account_full_type', column: 'Account Type', class:'text-center', style:'width:10%', filter: true},
           {name: '$action', column: ' ', static: true, class: 'text-center', style: 'width:5%'}
         ],
         actions: [
@@ -45,13 +43,13 @@ export default {
   methods: {
       create() {
           EventBus.$emit('accountChart.entry.open');
-          EventBus.$on('accountChart.entry.close',() =>{
+          EventBus.$on('accountChart.entry.close',() => {
               EventBus.$emit('onLiveViewFetch');
           })
       },
       doAction(a, item, index) {
           if(a.key === 'edit') {
-              EventBus.$emit('accountChart.entry.open',{id: item.id});
+              EventBus.$emit('accountChart.entry.open',{item: item});
           }
       }
     }

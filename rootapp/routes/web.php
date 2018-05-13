@@ -115,8 +115,7 @@ Route::group(["middleware" => ["auth", "roles"], "roles" => ["account"]], functi
 */
 Route::group(["middleware" => ["auth", "roles"], "roles" => ["account", "admin"]], function () {
 
-    Route::get("/chart/register/{id?}", "AccountChartController@register");
-    Route::get("/chart/", "AccountChartController@index");
+
 
     Route::post("api/chart/store", "AccountChartController@store");
     Route::post("api/chart/update", "AccountChartController@store");
@@ -164,16 +163,24 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['account', 'admin']
 
 /*
 |--------------------------------------------------------------------------
-| Expenses Web Routes
+| Accounts Web Routes
 |--------------------------------------------------------------------------
 */
 Route::group(["middleware" => ["auth", "roles"], "roles" => ["account"]],
     function () {
-        
+
+
+
         Route::get("payee/create","PayeeController@register");
         Route::get("payee/edit/{id}", "PayeeController@edit");
         Route::get("payee", "PayeeController@index");
+
+        Route::get("/chart/register/{id?}", "AccountChartController@register");
+        Route::get("/chart/", "AccountChartController@index");
+
         Route::get("expenses/", "ExpenditureController@register");
+
+
         
         AccountingRoute::routes();
 

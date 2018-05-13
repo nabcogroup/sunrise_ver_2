@@ -17,7 +17,6 @@
                 <label class="col-md-3 col-form-label">Contact No</label>
                 <div class="col-md-9">
                     <input class="form-control" v-model="payee.contact_no">
-
                 </div>
             </div>
             <div class="form-group row">

@@ -42,6 +42,17 @@ class AccountingRoute
 
         });
 
+        //accounts
+        Route::group(['prefix' => 'api/chart'],function() use ($namespace) {
+
+            Route::get("/", $namespace . "\AccountChartController@index");
+            Route::get("/create", $namespace . "\AccountChartController@create");
+            Route::post("/store", $namespace . "\AccountChartController@store");
+            Route::get("/{id}/edit", $namespace . "\AccountChartController@edit");
+            Route::patch("/update", $namespace . "\AccountChartController@update");
+
+        });
+
     }
 
 

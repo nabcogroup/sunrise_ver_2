@@ -24,6 +24,7 @@ class AccountsPayee extends BaseModel
         ]);
     }
 
+
     protected function beforeSave()
     {
         if($this->payee_code == '') {

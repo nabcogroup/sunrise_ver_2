@@ -155,7 +155,7 @@ export default {
     });
 	},
   mounted() {
-		if(this.payeeId === '') {
+		if(!this.payeeId || this.payeeId === '') {
 			this.$store.dispatch("payees/create");
 		}
 		else {

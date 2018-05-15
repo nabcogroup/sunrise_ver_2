@@ -26,7 +26,6 @@ class AccountChartController extends Controller
      * HTTP-GET
      * @TODO: display all charts
      ******************************/
-
     public function index() {
 
         $coa = AccountChart::orderBy('code');
@@ -34,11 +33,17 @@ class AccountChartController extends Controller
         return $this->createPagination($coa, function($row) {
 
             $item = [
+
                 'id'            =>  $row->id,
+
                 'code'          =>  $row->code,
+
                 'description'   =>  $row->description,
+
                 'account_type'  =>  $row->account_type,
+
                 'account_full_type'  =>  Selection::getValue('account_type', $row->account_type)
+
             ];
 
             return $item;
@@ -54,6 +59,7 @@ class AccountChartController extends Controller
     public function create() {
 
         $accountChart = AccountChart::createInstance();
+
         $lookups = Selection::getSelections(["account_type"]);
 
         return Result::response(["lookups" => $lookups, "account" => $accountChart]);
@@ -82,6 +88,7 @@ class AccountChartController extends Controller
     public function edit($id) {
 
         $coa = AccountChart::find($id);
+
         $lookups = Selection::getSelections(["account_type"]);
 
         return Result::response(["data" => $coa,"lookups" => $lookups]);
@@ -99,21 +106,23 @@ class AccountChartController extends Controller
         try {
 
             $coa = AccountChart::find($request->input("id"));
+
             if (is_null($coa)) {
+
                 throw new \Exception("Unable to update invalid accounts");
+
             }
 
             $coa->toMap($request->all());
+
             $coa->save();
 
             return Result::ok("Account successfully update");
+
         }
         catch(\Exception $e) {
             return Result::badRequest(["errors" => $e->getMessage()]);
         }
-
-
-
     }
 
     protected function requestValidate(Request $request, $isNew = true)

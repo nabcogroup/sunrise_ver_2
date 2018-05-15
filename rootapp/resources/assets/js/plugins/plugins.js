@@ -2,7 +2,7 @@
 import Accordion from "./controls/Accordion.vue";
 
 import vSelect from "vue-select"
-import DateTimePicker from "./controls/DateTimePicker.vue";
+import VDateTimePicker from "./controls/VDateTimePicker.vue";
 import ErrorSpan from "./controls/ErrorSpan.vue";
 
 import DataView from "./controls/DataView.vue";
@@ -31,7 +31,7 @@ const MyPlugins = {
         Vue.component(Accordion.name, Accordion);
         Vue.component('dataView',DataView);
         Vue.component('vSelect',vSelect);
-        Vue.component(DateTimePicker.name,DateTimePicker);
+        Vue.component(VDateTimePicker.name,VDateTimePicker);
         Vue.component(ErrorSpan.name,ErrorSpan);
         Vue.component(GridView.name,GridView);
         Vue.component(VDialog.name,VDialog);
@@ -47,6 +47,7 @@ const MyPlugins = {
         Vue.component(VLineChart.name,VLineChart);
         Vue.component(VListValue.name,VListValue);
         Vue.component(VTotalSummary.name,VTotalSummary);
+        
 
     }
 }

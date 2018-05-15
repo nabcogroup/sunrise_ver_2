@@ -1,4 +1,5 @@
 <template>
+    
     <div class="col-md-10 col-md-offset-1">
         <form @submit.prevent="save()" @keydown="errors.clear($event.target.name)">
             <v-panel header="Expenses Entry">
@@ -19,7 +20,7 @@
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Doc. Date:</label>
                     <div class="col-md-4">
-                        <dt-picker :value="expense.entry.doc_date" @pick="expense.entry.doc_date =$event"></dt-picker>
+                        <v-dt-picker v-model="expense.entry.doc_date" ></v-dt-picker>
                     </div>
                     <label class="col-md-2 col-form-label">Doc No:</label>
                     <div class="col-md-4">
@@ -93,7 +94,7 @@
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Paid Date:</label>
                     <div class="col-md-4">
-                        <dt-picker :value="expense.entry.payment_date"  @pick="expense.entry.payment_date =$event"></dt-picker>
+                        <v-dt-picker v-model="expense.entry.payment_date"></v-dt-picker>
                     </div>
                     <label class="col-md-2 col-form-label">Paid Amount:</label>
                     <div class="col-md-4">
@@ -148,7 +149,7 @@
                     </div>
                     <div class="col-md-12">
                         <!-- -->
-                        <grid-view :grid="gridColumn" :data="expense.items.all()" @action="removeItem">
+                        <grid-view :grid="gridColumn" :data="expense.items.all()" @action="doAction">
                             <span class="text-right">{{expense.items.sum('amount') | toCurrencyFormat }}</span>
                         </grid-view>
                     </div>
@@ -177,7 +178,7 @@
 
 <script>
     import {mapGetters} from "vuex";
-    import payeeRegister from "../payee/Register.vue"
+    import PayeeRegister from "../payee/Register.vue"
     import {EventBus} from "../../eventbus"
     import TransactionListDialog from "./TransactionListDialog";
 
@@ -225,20 +226,13 @@
     export default {
         mounted() {
             this.$store.dispatch('expenditures/create');
-
-            // if (this.index !== '') {
-            //     this.$store.dispatch('expenditures/edit', {id: this.index})
-            // } else {
-            //
-            // }
         },
         data() {
             return {
                 unfold: false,
                 gridColumn: {
                     excludeIndex: true,
-                    columns: [
-                        {
+                    columns: [ {
                             name: 'doc_date',
                             column: 'Date',
                             style: 'width:10%',
@@ -276,7 +270,7 @@
             payeeTypes: 'payeeTypes',
             options: 'options'
         }),
-        components: {TransactionListDialog, payeeRegister},
+        components: {TransactionListDialog, PayeeRegister},
         methods: {
             save() {
                 confirmation.ExpensesSave((result) => {
@@ -286,24 +280,25 @@
                 });
             },
             newEntry() {
-                this.$store.commit('expenditures/create');
+                this.$store.commit('expenditures/clear');
             },
             insertItem() {
-                this.$store.commit('expenditures/insertTransaction')
+                this.$store.commit('expenditures/insertItem')
             },
-            removeItem(action,value,index) {
-                confirmation.RemoveItem((result) => {
-                    if(result) {
-                        this.$store.commit('expenditures/removeTransaction',{key:value.key});
-                    }
-                });
+            doAction(action,value,index) {
+                console.log(action);
+                if(action === 'remove') {
+                    confirmation.RemoveItem((result) => {
+                        if(result) {
+                            this.$store.commit('expenditures/removeItem',{key:value.key});
+                        }
+                    });
+                }
+                else {
+                    this.$store.commit('expenditures/editItem',{key:value.key});
+                }
             },
             createPayee() {
-
-                if (!this.options.isPayeeCreated) {
-                    //this.$store.dispatch('expenditure/createPayee')
-                }
-
                 this.unfold = true
             },
             dismiss(result) {
@@ -315,16 +310,15 @@
                 }
 
                 this.unfold = false
-
             },
             searchTransaction() {
+
                 EventBus.$emit("list.open")
+                
             },
             onSelected(transactionNo) {
                 this.$store.dispatch('expenditures/edit',{transactionNo: transactionNo});
-                console.log(transactionNo);
             }
         },
     }
-
 </script>

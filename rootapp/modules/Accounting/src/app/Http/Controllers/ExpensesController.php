@@ -8,6 +8,7 @@ use Accounting\App\Models\AccountsPayee;
 use Accounting\App\Models\AccountsVilla;
 use Accounting\App\Models\Expenditure;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use KielPack\LaraLibs\Base\Controller;
@@ -27,7 +28,6 @@ class ExpensesController extends Controller
         $transactions = Expenditure::transactionList()->get();
 
         return Result::response(["data" => $transactions]);
-
     }
 
     public function create() {
@@ -42,7 +42,6 @@ class ExpensesController extends Controller
         $rules = [
             'location'          =>  'required',
             'villa_id'          =>  'required|integer|0',
-            'expense_type'      =>  'required',
             'acct_code'         =>  'required',
             'payee_id'          =>  'required|integer',
             'payment_date'      =>  'required|date',
@@ -58,29 +57,55 @@ class ExpensesController extends Controller
 
     public function edit(Request $request,$transaction_no) {
 
-        $transactions = Expenditure::transactionList($transaction_no)->get();
-        
+        $transactions = Expenditure::getTransaction($transaction_no)->get();
+
+        $plucked = $transactions->pluck('transaction_no');
+
+        $request->session()->put('transaction_no', $plucked->first());
+
         return Result::response(["data" => $transactions]);
+
     }
 
 
 
     public function store(Request $request) {
-        
+
         $transactions = $request->input('transactions');
-        
+
         $this->validateRequest($transactions);
-        $newTransactionNo = Expenditure::generateNewTransactionNo();
-        
+
+        //get session
+        $transactionNo = $request->session()->get('transaction_no',null);
+
+        if(is_null($transactionNo)) {
+            $transactionNo = Expenditure::generateNewTransactionNo();
+        }
+        else {
+            $request->session()->forget('transaction_no');
+        }
+
+
+
         foreach ($transactions as $transaction) {
-            
-            $transaction['transaction_no'] = $newTransactionNo;
-            
-            Expenditure::create($transaction);
+            if(!isset($transaction['id'])) {
+                $transaction['transaction_no'] = $transactionNo;
+                Expenditure::create($transaction);
+            }
+            else {
+                $expenditure = Expenditure::find($transaction['id']);
+                $expenditure->toMap($transaction);
+                $expenditure->save();
+            }
         }
 
         return Result::response(["message" => "Successfully Save"]);
+
     }
+
+
+
+
 
     protected function validateRequest($transactions) {
 
@@ -91,7 +116,6 @@ class ExpensesController extends Controller
             $rules = [
                 'location'          =>  'required',
                 'villa_id'          =>  'required|exists:villas,id',
-                'expense_type'      =>  'required',
                 'acct_code'         =>  'required',
                 'payee_id'          =>  'required|integer',
                 'payment_date'      =>  'required|date',

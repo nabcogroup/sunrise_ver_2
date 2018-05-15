@@ -14,11 +14,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AccountsPayee.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsPayee.php">
+      <file leaf-file-name="ExpensesController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="26" selection-start-line="26" selection-end-line="26" />
+            <state relative-caret-position="459">
+              <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+              <folding>
+                <element signature="e#52#91#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -26,38 +29,20 @@
       <file leaf-file-name="AccountingRoute.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="50" column="28" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
+            <state relative-caret-position="425">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AccountChartController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountChartController.php">
+      <file leaf-file-name="Expenditure.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
+            <state relative-caret-position="344">
+              <caret line="46" column="31" lean-forward="true" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
               <folding>
-                <element signature="e#144#183#0#PHP" expanded="true" />
+                <element signature="e#42#60#0#PHP" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="web.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="118" selection-start-line="118" selection-end-line="118" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccountChart.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountChart.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -139,14 +124,12 @@
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VInput.vue" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractEntry.vue" />
         <option value="$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/TransactionListDialog.vue" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue" />
         <option value="$PROJECT_DIR$/rootapp/modules/Properties/src/database/migrations/2017_11_09_072100_create_properties_table.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/VillaProperty.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsVilla.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/bills/index.js" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js" />
         <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/BaseModel.php" />
@@ -157,12 +140,14 @@
         <option value="$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php" />
         <option value="$PROJECT_DIR$/rootapp/app/AccountChart.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/AccountChartController.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsPayee.php" />
         <option value="$PROJECT_DIR$/rootapp/routes/web.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountsPayeeController.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountChart.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountChartController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsPayee.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php" />
       </list>
     </option>
   </component>
@@ -424,7 +409,7 @@
       <path value="$PROJECT_DIR$/rootapp/vendor/ramsey/uuid" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="width" value="960" />
     <option name="height" value="920" />
   </component>
@@ -450,6 +435,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -467,21 +453,6 @@
               <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
@@ -623,7 +594,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1038,12 +1008,26 @@
       <workItem from="1524753003744" duration="6429000" />
       <workItem from="1525963563282" duration="75000" />
       <workItem from="1525963639819" duration="15944000" />
-      <workItem from="1526107562038" duration="20432000" />
+      <workItem from="1526107562038" duration="31902000" />
+      <workItem from="1526277675853" duration="675000" />
+      <workItem from="1526282300759" duration="1120000" />
+      <workItem from="1526285848971" duration="1786000" />
+      <workItem from="1526287657344" duration="1789000" />
+      <workItem from="1526289498340" duration="2026000" />
+      <workItem from="1526365393870" duration="1610000" />
+      <workItem from="1526368684518" duration="1573000" />
+      <workItem from="1526370612212" duration="1310000" />
+      <workItem from="1526389624180" duration="1587000" />
+      <workItem from="1526391653288" duration="986000" />
+      <workItem from="1526393464356" duration="1264000" />
+      <workItem from="1526395292794" duration="851000" />
+      <workItem from="1526397316588" duration="1414000" />
+      <workItem from="1526400321332" duration="1273000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1639875000" />
+    <option name="totallyTimeSpent" value="1670609000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1055,19 +1039,19 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.45777777" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.20415778" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32928476" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38539445" side_tool="true" visible="true" weight="0.2078346" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38539445" side_tool="true" weight="0.24809575" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="11" weight="0.14798695" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" weight="0.17185386" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" weight="0.17083786" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1082,20 +1066,20 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21979435" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20415778" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32928476" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32861805" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" visible="true" weight="0.17185386" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" visible="true" weight="0.17083786" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="11" weight="0.14798695" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38539445" side_tool="true" weight="0.25950053" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38539445" side_tool="true" weight="0.24809575" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
@@ -1286,16 +1270,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
-          <folding>
-            <element signature="e#52#91#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/vendor/laravel/framework/src/Illuminate/Foundation/Validation/ValidatesRequests.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="246">
@@ -1345,13 +1319,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="553">
-          <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/BaseModel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -1373,13 +1340,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/PayeeController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="38" lean-forward="true" selection-start-line="3" selection-end-line="10" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/PayeeController.php" />
     <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1440,16 +1401,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="45" column="30" lean-forward="true" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
-          <folding>
-            <element signature="e#145#185#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsPayee.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
         </state>
       </provider>
     </entry>
@@ -1460,26 +1411,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountChartController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="50" column="28" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
+        <state relative-caret-position="595">
+          <caret line="46" column="14" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
+        <state relative-caret-position="1938">
           <caret line="118" selection-start-line="118" selection-end-line="118" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountChartController.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsPayee.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
+        <state relative-caret-position="408">
+          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="46" column="31" lean-forward="true" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
           <folding>
-            <element signature="e#144#183#0#PHP" expanded="true" />
+            <element signature="e#42#60#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+          <folding>
+            <element signature="e#52#91#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

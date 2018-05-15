@@ -42,28 +42,40 @@ export default {
   },
   data() {
     return {
+      
       validations: new ErrorValidations()
+
     };
   },
   methods: {
     close() {
+
       EventBus.$emit("accountChart.entry.close", true);
+
     },
     open() {
+      
       EventBus.$on("accountChart.entry.open", value => {
+        
         if (value) {
           this.$store.dispatch("accountCharts/edit", value.item);
         } 
         else {
           this.$store.dispatch("accountCharts/create");
         }
+
         this.openDialog();
+
       });
+
     },
     save() {
       this.$store.dispatch("accountCharts/save", () => {
+
         this.closeDialog();
+
         this.close();
+        
       });
     }
   }

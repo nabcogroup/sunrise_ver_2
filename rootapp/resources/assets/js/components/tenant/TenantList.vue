@@ -23,13 +23,16 @@
                 gridView: {
                     columns: [
                         {name: 'full_name', column: 'Name', filter: true},
-                        {name: 'reg_id', column: 'Qatar / CR ID', filter: true},
-                        {name: 'email_address', column: 'Email Address'},
-                        {name: 'mobile_no', column: 'Mobile No'},
-                        {name: '$action', column: '', static: true, class: 'text-center'}
+                        {name: 'reg_id', column: 'Qatar / CR ID', filter: true,class:'text-center'},
+                        {name: 'email_address', column: 'Email Address',class:'text-center'},
+                        {name: 'mobile_no', column: 'Mobile No', filter: true,class:'text-center'},
+                        {name: 'status', column: 'Status', bindClass:'tag_color'},
+                        {name: '$action', column: '', static: true, class: 'text-center'},
+
                     ],
                     actions: [
-                        {key: 'edit', name: 'Edit'}
+                        {key: 'edit', name: 'Edit'},
+                        {key: 'link', name: 'History'}
                     ],
                     source: {
                         url: 'api/tenant/list'
@@ -39,8 +42,13 @@
         },
         methods: {
             doAction(a, item, index) {
-                console.log(item);
-               this.$store.commit('tenants/toEdit',item.id);
+                if(a.key == 'edit') {
+                    this.$store.commit('tenants/toEdit',item.id);
+                }
+                else {
+                    this.$store.commit('tenants/redirectToLedger',{url: item.link});
+                }
+
             },
             create() {
                  this.$store.commit('tenants/toCreate');

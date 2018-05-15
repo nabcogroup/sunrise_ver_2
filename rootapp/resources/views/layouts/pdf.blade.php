@@ -7,7 +7,11 @@
 
     <meta name="description" content="">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{asset('lib/bootstrap/dist/css/bootstrap.min.css')}}" />
+    @if(config('app.env') == 'dev')
+        <link rel="stylesheet" href="{{asset('lib/bootstrap/dist/css/bootstrap.min.css')}}" />
+    @else
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    @endif
     <title>{{ config("app.name")}}</title>
 
     <style>
@@ -49,7 +53,15 @@
         {{$slot}}
     </main>
     <footer>
-        {{$report_footer or ""}}
+        <div class="row" style="position:absolute; bottom:50;">
+            <div class="col-md-12">
+                <div class="row"  style="border-bottom: 1px solid lightgray;margin-top: 20px; margin-bottom:20px;"> </div>
+                <p style="position:absolute; top:20px; font-size:12px;">Doha, Qatar</p>
+                <p style="position:absolute;  top:35px; font-size:12px;">Tel No: +974 4466 6646</p>
+                <p style="position:absolute;  top:50px; font-size:12px;font-style:italic;">  Email: info@sunriseresidence.co</p>
+                <p style="position:absolute; top:65px; font-size:12px;">Website: <a href="#">http://www.sunriseresidence.co</a></p>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

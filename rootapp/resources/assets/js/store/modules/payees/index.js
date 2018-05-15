@@ -1,13 +1,61 @@
-import {ErrorValidations} from "../../../helpers/helpers";
+import { ErrorValidations } from "../../../helpers/helpers";
+
+class Payee {
+    
+    constructor(errorValidations) {
+        this.data = [];
+        this.payee = {};
+        this.lookups = { payee_type: []}
+        this.errorValidations = errorValidations;
+    }
+
+    fetch(id) {
+        axiosRequest.dispatchGet("/api/payee/edit/" + id).then(r => {
+            this.payee = r.data.data;
+            this.lookups = r.data.lookups;
+        });
+    }
+
+    create() {
+        if(_.isEmpty(this.payee)) {
+            axiosRequest.get('payee','create').then(r => {
+                this.payee = r.data.data;
+                this.lookups = r.data.lookups;
+            });
+        }
+    }
+
+    clear() {
+        this.payee = {};
+    }
+
+    save(callback) {
+        let repeatMe;
+        if(this.payee.id) {
+            repeatMe = axiosRequest.patch('payee','update',this.payee);
+        }
+        else {
+            repeatMe = axiosRequest.post('payee','store',this.payee);
+        }
+        
+        repeatMe.then(r => {
+                this.clear();
+                callback();
+        })
+        .catch(e => {
+            if(e.response.status === 422) {
+                this.errorValidations.register(e.response.data)
+            }
+        })
+    }
+
+   
+   
+
+}
 
 const state = {
-    payee: {
-        data: [],
-        single: {},
-        lookups: {
-            payee_type: []
-        }
-    },
+    payee: new Payee(new ErrorValidations()),
     errors: new ErrorValidations()
 }
 
@@ -18,43 +66,27 @@ const mutations = {
 }
 
 const actions = {
-    create({state,commit}) {
-        if(_.isEmpty(state.payee.single)) {
-            axiosRequest.get('payee','create').then(r => {
-                state.payee.single = r.data.data;
-                state.payee.lookups = r.data.lookups;
-            });
-        }
+    redirectToRegister: (state,payload) => axiosRequest.redirect("payee","edit",payload.id),
+    create: ({state,commit}) => state.payee.create(),
+    save: ({commit,state},payload) =>  {
+        state.payee.save(() => toastr.success("Payee successfully added"));
     },
-    save({commit,state},payload) {
-
-        axiosRequest.post('payee','store',state.payee.single)
-            .then(r => {
-                commit('clearPayee');
-                toastr.success("Payee successfully added");
-                if(payload) payload.cb(r.data);
-            })
-            .catch(e => {
-                if(e.response.status === 422) {
-                    state.errors.register(e.response.data)
-                }
-            })
-    },
+    edit: ({state},payload) => state.payee.fetch(payload.id)
 }
 
-const getters ={
+const getters = {
     payee(state) {
-        return state.payee.single;
+        return state.payee.payee;
     },
     payeeTypes(state) {
         return state.payee.lookups.payee_type;
     },
     errors(state) {
-        return state.errors;
+        return state.payee.errorValidations;
     }
 }
 
-const payeeModule = {
+export default {
     namespaced:true,
     actions,
     state,
@@ -62,4 +94,4 @@ const payeeModule = {
     mutations
 }
 
-export default payeeModule;
+ 

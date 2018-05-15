@@ -229,7 +229,7 @@ return [
 
         // KielPack\LaraLibs\LaraLibProvider::class,
 
-        // Accounting\AccountingModuleProvider::class
+        Accounting\AccountingModuleProvider::class,
 
         Admin\AdminProvider::class,
 

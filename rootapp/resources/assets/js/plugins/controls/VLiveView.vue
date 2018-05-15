@@ -18,7 +18,8 @@
                         Loading...
                     </div>
                 </div>
-                <div v-else="" class="col-md-12" key="fetched">
+                <div v-else class="col-md-12" key="fetched">
+
                     <table id="grid" class="table table-condensed table-hover table-live-views">
                         <thead>
                             <tr>
@@ -68,8 +69,11 @@
                         <tr v-for="(entry , index) in filteredData" :key="index">
                             <slot name="table-column" :props="{items: entry, index: index}">
                                 <td class="text-center">{{index + 1}}</td>
-                                <td v-for="key in grid.columns" :class="key.class" :style="key.style">
-                                    <span>{{render(entry, key)}}</span>
+                                <td v-for="key in grid.columns" :class="key.bindClass ? entry[key.bindClass] : key.class" :style="key.style">
+
+                                    <strong v-if="key.isBold">{{tableRender(entry, key)}}</strong>
+                                    <span v-else>{{tableRender(entry, key)}}</span>
+
                                     <div v-if="key.name ==='$action'" class="btn-group">
                                         <button type="button"
                                                 class="btn btn-primary dropdown-toggle btn-sm"
@@ -101,9 +105,9 @@
                             </tr>
                         </tfoot>
                     </table>
-                    <div>
-                        <pagination :param="$store.state.liveviews.items" @click="fetchData({paramUrl:$event,grid:grid})"></pagination>
-                    </div>
+
+                    <pagination :param="$store.state.liveviews.items" @click="fetchData({paramUrl:$event,grid:grid})"></pagination>
+
                 </div>
             </transition>
         </div>
@@ -114,6 +118,7 @@
 
     import {EventBus} from "../../eventbus";
     import Pagination from "../controls/Pagination.vue";
+    import {cloneObject} from "../../helpers/helpers";
 
     import {mapGetters, mapActions, mapMutations, mapState} from "vuex";
     
@@ -127,7 +132,6 @@
             }
         },
         beforeMount() {
-
             //listen to view fetch will call by the client
             EventBus.$on("onLiveViewFetch", response => {
                 this.$store.commit('liveviews/clearFilter');
@@ -160,16 +164,17 @@
             }
         },
         methods: {
-            ...mapActions('liveviews', ['fetchData']),
+            fetchData(grid) {
+                this.$emit("beforeFetch",{filter: cloneObject(this.$store.state.liveviews.filter)})
+                this.$store.dispatch("liveviews/fetchData",grid);
+            },
             ...mapMutations('liveviews', ['loadData', 'filterWrap']),
             sortBy: function (key) {
-
                 if (key.static) return false;
-
                 this.$store.state.liveviews.sortKey = key.name;
                 this.$store.state.liveviews.sortOrders[key.name] = this.$store.state.liveviews.sortOrders[key.name] * -1;
             },
-            render: function (entry, key) {
+            tableRender: function (entry, key) {
                 let value = entry[key.name];
                 if (key.dtype === 'date') {
                     value = moment(value).format('L');
@@ -187,12 +192,15 @@
                 return this.$store.state.liveviews.sortKey === name;
             },
             doFilter(field, label) {
+
                 this.filter.field = field;
                 this.filter.label = label + ' - ' + this.filter.value;
+                this.$emit("onFilter",cloneObject(this.filter));
                 this.fetchData({grid: this.grid});
             },
             clearFilter() {
                 this.$store.commit('liveviews/clearFilter');
+                this.$emit("onFilter",cloneObject(this.filter));
                 this.fetchData({grid:this.grid});
             }
         }

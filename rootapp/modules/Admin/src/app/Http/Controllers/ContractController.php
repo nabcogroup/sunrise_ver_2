@@ -18,7 +18,6 @@ class ContractController extends LaraLibController
     public function terminate(Request $request)
     {
 
-
         $parameter = (object)["contract_no" => $request->get('contract_no')];
 
         $data = [
@@ -32,7 +31,9 @@ class ContractController extends LaraLibController
 
         if ($parameter->contract_no) {
 
-            $data['data'] = Contract::with(['bill', 'tenant', 'villa','contractTerminations'])->where("status", "!=","active")->where('contract_no', $parameter->contract_no)->first();
+            $data['data'] = Contract::with(['bill', 'tenant', 'villa','contractTerminations'])
+                    ->where("status", "!=","active")
+                    ->where('contract_no', $parameter->contract_no)->first();
 
             $data['has_data'] = $data['data'] ? true : false;
 
@@ -56,8 +57,6 @@ class ContractController extends LaraLibController
         $contract->active();
 
         $contract->contractTerminations()->delete();
-
-        $bill = $contract->bill()->first();
 
         $contract->save();
 

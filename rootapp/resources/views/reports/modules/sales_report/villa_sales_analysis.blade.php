@@ -7,7 +7,7 @@
             <strong>Range Date: {{date('M',mktime(0,0,0,$datasource->getParamInt('month_from'),10))}}-{{$datasource->getParam('year')}} -  {{date('M',mktime(0,0,0,$datasource->getParamInt('month_to'),10))}}-{{$datasource->getParam('year')}}</strong>
         </div>
     @endslot
-    <p><strong>Property: </strong> {{$datasource->getParam("location")}}</p>
+    @if($datasource->hasData())
     <table class="table table-condensed table-bordered">
         <thead>
             <tr>
@@ -89,5 +89,7 @@
             <td class="text-right text-danger"><strong>{{number_format($grand_total_payable,2)}}</strong></td>
         </tfoot>
     </table>
-
+    @else
+        <h1>Sorry no payment records found</h1>
+    @endif
 @endcomponent

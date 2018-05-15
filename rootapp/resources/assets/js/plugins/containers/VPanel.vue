@@ -4,7 +4,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-md-12">
-                        <p><i v-if="headIcon" :class="headIcon"></i> {{header}}</p>
+                        <h3><i v-if="headIcon" :class="headIcon"></i> {{header}}</h3>
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <slot name="header">
-                            <p><i v-if="headIcon" :class="headIcon"></i> {{header}}</p>
+                            <h4><i v-if="headIcon" :class="headIcon"></i> {{header}}</h4>
                         </slot>
                     </div>
                 </div>

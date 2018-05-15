@@ -4,6 +4,7 @@ namespace App\Http\Datasource\Villas;
 
 
 use App\Http\Datasource\IDataSource;
+use App\Selection;
 use App\Services\EDB;
 use App\Services\ReportService\ReportMapper;
 use App\Villa;
@@ -23,26 +24,45 @@ class VillaSalesProjection implements IDataSource
     {
 
         $year = $this->params->fieldInt("year", Carbon::now()->year);
+
         $report_type = $this->params->field("report_type", "");
+
         $location = $this->params->field("location", "sv1");
+
         $status = $this->params->field("status","");
+
         $month_from = 1;
+
         $month_to = 12;
 
         if ($report_type == "property") {
-            $villas = Villa::where(\DB::raw('YEAR(rent_commencement)'), "<=", $year)->orderBy("location")->get();
+
+            $villas = Villa::where(\DB::raw('YEAR(rent_commencement)'), "<=", $year)->orderBy("location");
+
             $key = "location";
         }
         else {
-            $villas = Villa::where("location",$location)->where(\DB::raw('YEAR(rent_commencement)'), "<=", $year)->orderBy("villa_no")->get();
+
+            $villas = Villa::where(\DB::raw('YEAR(rent_commencement)'), "<=", $year)->orderBy("villa_no");
+
             $key = "villa_no";
         }
 
+        $property_name = "All";
+        if(!is_null($location) && $location !== "") {
 
-        $villas = $villas->pipe(
+            $villas = $villas->where("location",$location);
+            $property_name = Selection::getValue("villa_location",$location);
+
+        }
+
+        $villas = $villas->get()->pipe(
             function ($collection) use ($key,$year, $month_from, $month_to,$status) {
+
                 $data = [];
+
                 foreach ($collection as $item) {
+
                     //get contracts
                     $query = EDB::createQuery("contracts")
                         ->joins(["contract_bills" => "contracts.id=contract_bills.contract_id"])
@@ -68,16 +88,11 @@ class VillaSalesProjection implements IDataSource
                         if (Carbon::parse($item->rent_commencement)->year == $year) {
 
                             if ($i >= Carbon::parse($item->rent_commencement)->month) {
-
                                 array_value_handling($data[$item->{$key}][$i], $payment_amount, true);
-
                             }
                             else {
-
                                 array_value_handling($data[$item->{$key}][$i], 0, true);
-
                             }
-
                         }
                         else if (Carbon::parse($item->rent_commencement)->year < $year) {
 
@@ -95,7 +110,13 @@ class VillaSalesProjection implements IDataSource
                 return $data;
             });
 
-        $title = "Property Sales Report";
+        if($report_type == "property") {
+            $title = "Property Sales Report";
+        }
+        else {
+            $title = "Property Sales Report - ".$property_name;
+        }
+
 
         $this->params->add("month_from", $month_from);
         $this->params->add("month_to", $month_to);

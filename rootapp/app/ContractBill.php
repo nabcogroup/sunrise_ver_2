@@ -43,7 +43,9 @@ class ContractBill extends BaseModel
     public static function createInstanceOfPayment()
     {
         $instance = Payment::createInstance();
+
         $instance->initPeriod(self::DEFAULT_PERIOD);
+
         return $instance;
     }
 
@@ -61,7 +63,9 @@ class ContractBill extends BaseModel
     {
 
         $settled_total = $this->settled_amount;
+
         $contract_amount = $this->contract()->first()->amount;
+
         return $this->appends['balance'] = ($contract_amount - $settled_total);
 
     }
@@ -99,6 +103,32 @@ class ContractBill extends BaseModel
     /******************
      * end navigation
      *******************/
+
+    /***********
+     * mutation
+    ************/
+    public function getClearedPaymentAmountAttribute() {
+
+        return $this->payments()->where("status", "clear")->sum("amount");
+
+    }
+
+    public function getPayableAmountAttribute() {
+        return $this->payments()->sum("amount");
+    }
+
+    public function getBalanceDueAmountAttribute() {
+
+        $payment_amount = $this->cleared_payment_amount;
+        $total_payable = $this->payable_amount;
+        return $total_payable - $payment_amount;
+    }
+
+    public function getCurrentMonthlyChargeAttribute() {
+        return $this->payments()->where("effectivity_date","<=",Carbon::now())->whereIn("status",["received","pending_case"])->get()->sum("amount");
+    }
+
+
     public function activate()
     {
 
@@ -121,6 +151,8 @@ class ContractBill extends BaseModel
     {
         return $this->payments()->where('payment_mode', 'payment')->whereIn('status',['received']);
     }
+
+
 
     public function withPaymentStatusOf($status)
     {
@@ -185,6 +217,7 @@ class ContractBill extends BaseModel
                 }
             }
         }
-
     }
+
+
 }

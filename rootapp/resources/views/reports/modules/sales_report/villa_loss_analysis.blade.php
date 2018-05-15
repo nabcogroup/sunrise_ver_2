@@ -6,7 +6,7 @@
         </div>
     @endslot
 
-
+    @if($datasource->hasData())
     <div class="row">
         @if($datasource->getParam("report_type","") != "per_property")
             <p><strong>Property:</strong> {{App\Selection::getValue('villa_location',$datasource->getParam("location"))}}</p>
@@ -64,4 +64,7 @@
             </tbody>
         </table>
     </div>
+    @else
+        <h1>Sorry no payment records found</h1>
+    @endif
 @endcomponent

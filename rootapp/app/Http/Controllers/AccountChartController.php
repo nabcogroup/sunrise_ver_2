@@ -37,7 +37,6 @@ class AccountChartController extends Controller
     //API
     public function create()
     {
-
         $accountChart = AccountChart::createInstance();
         $lookups = Selection::getSelections(["account_type"]);
         

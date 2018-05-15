@@ -36,10 +36,12 @@ class VillaSalesReport extends BaseReport
 
     public function getLookups()
     {
-        // TODO: Implement getLookups() method.
+
         $lookups = Selection::getSelections(["villa_location"]);
         $lookups["months"] = $this->getMonthLookups();
+
         $lookups["report_type"] = [ ["code" => "per_property", "name" => "Per Property"],["code" => "per_villa", "name" => "Per Villa"]];
+
         return $lookups;
     }
 

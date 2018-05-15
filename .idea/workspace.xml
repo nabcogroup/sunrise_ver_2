@@ -14,12 +14,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name=".env" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rootapp/.env">
+      <file leaf-file-name="ExpensesController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="238">
-              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="459">
+              <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+              <folding>
+                <element signature="e#52#91#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AccountingRoute.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Expenditure.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="344">
+              <caret line="46" column="31" lean-forward="true" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+              <folding>
+                <element signature="e#42#60#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -36,9 +59,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>inputs</find>
-      <find>ispa</find>
-      <find>rend</find>
       <find>console.lot</find>
       <find>in</find>
       <find>module</find>
@@ -66,6 +86,9 @@
       <find>calculate_tail_month</find>
       <find>orderby</find>
       <find>calculate_head_month</find>
+      <find>custo</find>
+      <find>gulp</find>
+      <find>transact_no</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -74,57 +97,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Datasource/Villas/VillaHistory.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Datasource/Villas/VillaMasterlist.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Datasource/Villas/VillaMasterMain.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Datasource/Villas/VillaPaymentCollection.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Datasource/Villas/VillaSales.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/app/Http/ReportController.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/layouts/report.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/bank_report/bank_account_detail.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/bank_report/bank_account_per_villa.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/contract_report/contract_active.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/contract_report/contract_expiry.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/contract_report/contract_pending.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/contract_report/contract_summary.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/contract_report/contract_value.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/expense_report/expense_per_prop.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/receivable_report/payment_schedule.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/receivable_report/property_schedule.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/loss_of_rent.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/property_sales_analysis.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/sales_projection.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/villa_loss_analysis.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/villa_payment_collection.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/villa_sales.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/villa_sales_analysis.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/tenant_report/tenant_history.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/villa_report/property_summary.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/villa_report/villa_history.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/resources/views/villa_report/villa_summary.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/Facades/ReportRoute.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/routes/web.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/ReportRoute.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Reports/src/ReportProvider.php" />
-        <option value="$PROJECT_DIR$/rootapp/composer.json" />
-        <option value="$PROJECT_DIR$/rootapp/config/app.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaMasterListReport.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/ProfitLossReport.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ReportController.php" />
-        <option value="$PROJECT_DIR$/rootapp/routes/web.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportManager.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Reports/VillaFormReport.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/management/ManagementDashboard.vue" />
-        <option value="$PROJECT_DIR$/rootapp/routes/api.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/payments/index.js" />
-        <option value="$PROJECT_DIR$/rootapp/config/appreport.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/reports/ReportList.vue" />
-        <option value="$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/Sidebar.vue" />
-        <option value="$PROJECT_DIR$/README.md" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/misc/VTotalSummary.vue" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaMasterMainDatasource.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa_report/villa_summary.blade.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/BaseModel.php" />
         <option value="$PROJECT_DIR$/rootapp/.env" />
+        <option value="$PROJECT_DIR$/rootapp/app/Services/CalendarService.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/ContractBill.php" />
+        <option value="$PROJECT_DIR$/rootapp/composer.json" />
+        <option value="$PROJECT_DIR$/rootapp/database/seeds/DatabaseSeeder.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/app.js" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Admin/routes/web.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Admin/src/app/Http/Controllers/ContractController.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Contract/src/app/Models/Contract.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Requests/ContractForm.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Contract/src/app/Http/Requests/ContractForm.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Contract/src/app/Http/Controllers/ContractController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Traits/UnsetterTrait.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/database/migrations/2017_08_10_105320_create_expenditures_table.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenses.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/AccountingModuleProvider.php" />
+        <option value="$PROJECT_DIR$/rootapp/config/app.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VInput.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractEntry.vue" />
+        <option value="$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/TransactionListDialog.vue" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Properties/src/database/migrations/2017_11_09_072100_create_properties_table.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/VillaProperty.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsVilla.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/bills/index.js" />
+        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js" />
+        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/BaseModel.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/PayeeController.php" />
+        <option value="$PROJECT_DIR$/rootapp/resources/views/payee/register.blade.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/PayeeController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Traits/PaginationTrait.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/AccountChart.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/AccountChartController.php" />
+        <option value="$PROJECT_DIR$/rootapp/routes/web.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountsPayeeController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountChart.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountChartController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsPayee.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php" />
       </list>
     </option>
   </component>
@@ -150,10 +173,162 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
     <handled-path value="$PROJECT_DIR$/rootapp/node_modules" />
   </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/lib/bootstrap/package.json" />
+      <path value="$PROJECT_DIR$/lib/eonasdan-bootstrap-datetimepicker/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/har-validator/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/has-ansi/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/has-unicode/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/hawk/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/hoek/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/hosted-git-info/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/http-signature/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/in-publish/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/in-publish/test/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/indent-string/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/inflight/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/inherits/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/invert-kv/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-arrayish/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-buffer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-builtin-module/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-extendable/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-finite/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-fullwidth-code-point/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-plain-object/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-typedarray/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/is-utf8/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/isarray/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/isexe/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/isobject/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/isstream/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/jquery/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/js-base64/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/jsbn/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/json-schema/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/json-stable-stringify/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/json-stringify-safe/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/json5/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/jsonify/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/jsprim/node_modules/assert-plus/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/jsprim/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/kind-of/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lazy-cache/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lcid/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/load-json-file/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/loader-utils/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash.assign/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash.clonedeep/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash.mergewith/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash.tail/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lodash/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/loud-rejection/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/lru-cache/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/map-obj/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/meow/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mime-db/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mime-types/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/minimatch/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/minimist/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mixin-object/node_modules/for-in/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mixin-object/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mkdirp/node_modules/minimist/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/mkdirp/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/moment-timezone/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/moment/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/nan/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/nan/tools/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/node-gyp/node_modules/semver/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/node-gyp/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/node-sass/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/nopt/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/normalize-package-data/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/npmlog/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/number-is-nan/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/oauth-sign/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/object-assign/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/once/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/os-homedir/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/os-locale/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/os-tmpdir/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/osenv/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/parse-json/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/path-exists/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/path-is-absolute/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/path-type/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/performance-now/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/pify/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/pinkie-promise/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/pinkie/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/process-nextick-args/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/pseudomap/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/punycode/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/qs/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/read-pkg-up/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/read-pkg/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/readable-stream/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/redent/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/repeating/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/request/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/require-directory/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/require-main-filename/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/rimraf/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/safe-buffer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/sass-graph/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/sass-loader/node_modules/pify/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/sass-loader/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/scss-tokenizer/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/semver/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/set-blocking/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/shallow-clone/node_modules/kind-of/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/shallow-clone/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/signal-exit/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/sntp/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/source-map/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/spdx-correct/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/spdx-expression-parse/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/spdx-license-ids/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/sshpk/node_modules/assert-plus/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/sshpk/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/stdout-stream/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/string-width/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/string_decoder/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/stringstream/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/strip-ansi/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/strip-bom/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/strip-indent/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/supports-color/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/tar/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/tough-cookie/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/trim-newlines/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/tunnel-agent/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/tweetnacl/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/util-deprecate/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/uuid/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/validate-npm-package-license/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/verror/node_modules/assert-plus/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/verror/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/vue-router/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/which-module/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/which/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/wide-align/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/wrap-ansi/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/wrappy/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/y18n/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/yallist/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/yargs-parser/node_modules/camelcase/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/yargs-parser/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/yargs/node_modules/camelcase/package.json" />
+      <path value="$PROJECT_DIR$/node_modules/yargs/package.json" />
+      <path value="$PROJECT_DIR$/rootapp/package.json" />
+      <path value="$PROJECT_DIR$/rootapp/resources/assets/sass/font-awesome/package.json" />
+    </packageJsonPaths>
+  </component>
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true">
+  <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
       <path value="$PROJECT_DIR$/rootapp/vendor/nexmo/client" />
       <path value="$PROJECT_DIR$/rootapp/vendor/psy/psysh" />
@@ -236,7 +411,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
     <option name="width" value="960" />
-    <option name="height" value="1040" />
+    <option name="height" value="920" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -256,17 +431,7 @@
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -287,6 +452,97 @@
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
               <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Http" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Accounting" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Models" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="kielpack" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="kielpack" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="laralibs" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="kielpack" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="laralibs" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
+              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -303,15 +559,6 @@
               <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="resources" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="assets" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="plugins" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
@@ -341,38 +588,37 @@
               <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="store" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="liveviews" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="expenditures" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="C:/xampp7/htdocs/property-site" />
-    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
-    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/xampp/htdocs/experiment/rootapp/app/Http/Middleware/RoleAuth.php&#10;datet&#9;FILE&#9;file://C:/xampp/htdocs/experiment/rootapp/resources/assets/js/components/DateTimePicker.vue&#10;contractvil&#9;FILE&#9;file://C:/xampp/htdocs/experiment/rootapp/resources/assets/js/components/contract/ContractVilla.vue&#10;contractRe&#9;FILE&#9;file://C:/xampp/htdocs/experiment/rootapp/resources/assets/js/components/contract/ContractRegister.vue&#10;contractre&#9;FILE&#9;file://C:/xampp/htdocs/experiment/rootapp/resources/assets/js/components/contract/ContractRegisterModel.js" />
-    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
+    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views" />
-      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views\layouts" />
-      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\src\app\Http" />
-      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\src\app\Datasources" />
-      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\src\app\Services" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views\reports" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Admin\resources\views" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Admin\src" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\resources\views\reports\modules\sales_report" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Accounting\src\database\migrations" />
+      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Contract\src\app\Http\Requests" />
+      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views" />
+      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views\layouts" />
+      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\src\app\Http" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -454,9 +700,6 @@
       <arguments />
       <envs />
     </configuration>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -745,12 +988,46 @@
       <workItem from="1515564293449" duration="21449000" />
       <workItem from="1515652253080" duration="15400000" />
       <workItem from="1515825753710" duration="49044000" />
-      <workItem from="1515996434209" duration="97855000" />
+      <workItem from="1515996434209" duration="107694000" />
+      <workItem from="1516428617732" duration="131634000" />
+      <workItem from="1519652889921" duration="1150000" />
+      <workItem from="1519656733138" duration="606000" />
+      <workItem from="1519821340363" duration="1504000" />
+      <workItem from="1519823133040" duration="1514000" />
+      <workItem from="1521041918448" duration="81000" />
+      <workItem from="1521043447286" duration="13000" />
+      <workItem from="1521044618321" duration="1020000" />
+      <workItem from="1521097055547" duration="1197000" />
+      <workItem from="1521099221984" duration="116000" />
+      <workItem from="1523550266223" duration="1218000" />
+      <workItem from="1523688953966" duration="9000" />
+      <workItem from="1523809504717" duration="53041000" />
+      <workItem from="1523971269515" duration="40966000" />
+      <workItem from="1524297135292" duration="20984000" />
+      <workItem from="1524671875027" duration="4980000" />
+      <workItem from="1524753003744" duration="6429000" />
+      <workItem from="1525963563282" duration="75000" />
+      <workItem from="1525963639819" duration="15944000" />
+      <workItem from="1526107562038" duration="31902000" />
+      <workItem from="1526277675853" duration="675000" />
+      <workItem from="1526282300759" duration="1120000" />
+      <workItem from="1526285848971" duration="1786000" />
+      <workItem from="1526287657344" duration="1789000" />
+      <workItem from="1526289498340" duration="2026000" />
+      <workItem from="1526365393870" duration="1610000" />
+      <workItem from="1526368684518" duration="1573000" />
+      <workItem from="1526370612212" duration="1310000" />
+      <workItem from="1526389624180" duration="1587000" />
+      <workItem from="1526391653288" duration="986000" />
+      <workItem from="1526393464356" duration="1264000" />
+      <workItem from="1526395292794" duration="851000" />
+      <workItem from="1526397316588" duration="1414000" />
+      <workItem from="1526400321332" duration="1273000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1327123000" />
+    <option name="totallyTimeSpent" value="1670609000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -765,44 +1042,46 @@
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23400854" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25950053" sideWeight="0.38539445" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21932682" sideWeight="0.61460555" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.20415778" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32928476" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38539445" side_tool="true" weight="0.24809575" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="11" weight="0.14798695" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" weight="0.17083786" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32861805" />
     </layout>
     <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25950053" sideWeight="0.38539445" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32899022" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12595005" sideWeight="0.61460555" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20788912" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32928476" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20415778" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32928476" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32861805" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" visible="true" weight="0.17083786" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Database Changes" order="11" weight="0.14798695" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38539445" side_tool="true" weight="0.24809575" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -819,614 +1098,364 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="85" />
+      <option name="time" value="93" />
     </breakpoint-manager>
-    <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/villa-sales-analysis1.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/villa_loss_analysis.blade.php">
+    <entry file="file://$PROJECT_DIR$/node_modules/request/lib/helpers.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
-          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <marker date="1516264219218" expanded="true" signature="11:36" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="49:63" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="116:139" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="211:268" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="314:389" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="595:686" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="734:768" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="951:1014" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="1064:1111" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="1211:1268" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="1304:1326" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="1398:1462" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="1532:1623" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="2269:2297" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="2394:2421" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="2629:2720" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="2779:2819" ph="..." />
-            <marker date="1516264219218" expanded="true" signature="2917:2946" ph="..." />
-          </folding>
+          <caret line="10" column="40" lean-forward="true" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/villa_sales_analysis.blade.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="32" lean-forward="true" selection-start-line="3" selection-start-column="32" selection-end-line="3" selection-end-column="32" />
-          <folding>
-            <marker date="1516264256130" expanded="true" signature="11:36" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="49:63" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="116:139" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="199:228" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="279:344" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="349:378" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="386:449" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="454:483" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="560:593" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="765:856" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="904:938" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="1105:1170" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="1226:1272" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="1324:1343" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="1469:1479" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="1501:1511" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="1552:1643" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="1677:1694" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="2512:2545" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="2628:3323" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="2890:3037" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="3085:3233" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="3408:3435" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="3648:3687" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="3779:3856" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="4063:4081" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="4423:4454" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="4652:4743" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="4810:4957" ph="..." />
-            <marker date="1516264256130" expanded="true" signature="5049:5086" ph="..." />
-          </folding>
+        <state relative-caret-position="544">
+          <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/villa_sales.blade.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Requests/ContractForm.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="28" lean-forward="false" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
-          <folding>
-            <marker date="1516264250675" expanded="true" signature="11:36" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="49:63" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="224:253" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="260:287" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="344:373" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="439:470" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="485:508" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="811:840" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="892:909" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="1069:1639" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="1225:1638" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="1296:1438" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="1474:1612" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="1698:1725" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="1755:1784" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="1851:1880" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="2026:2042" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="2126:2165" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="2214:2253" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="2377:2466" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="2772:2801" ph="..." />
-            <marker date="1516264250675" expanded="true" signature="2921:2951" ph="..." />
-          </folding>
+        <state relative-caret-position="238">
+          <caret line="58" column="85" selection-start-line="58" selection-start-column="39" selection-end-line="58" selection-end-column="85" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/sales_report/villa_payment_collection.blade.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/Traits/StatusTrait.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
-          <caret line="10" column="25" lean-forward="false" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
-          <folding>
-            <marker date="1516264242009" expanded="true" signature="11:36" ph="..." />
-            <marker date="1516264242009" expanded="true" signature="50:64" ph="..." />
-            <marker date="1516264242009" expanded="true" signature="117:140" ph="..." />
-            <marker date="1516264242009" expanded="true" signature="192:221" ph="..." />
-            <marker date="1516264242009" expanded="true" signature="277:370" ph="..." />
-            <marker date="1516264242009" expanded="true" signature="430:463" ph="..." />
-          </folding>
+          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/tenant_report/tenant_history.blade.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VComboBox.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="37" lean-forward="true" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="37" />
-          <folding>
-            <marker date="1516264267098" expanded="true" signature="11:36" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="49:63" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="180:204" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="513:535" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="748:773" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="990:1019" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="1242:1264" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="1271:1296" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="2036:2054" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="2109:2126" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="2163:2183" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="2220:2251" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="2308:2324" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="2330:2346" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="2387:2402" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="2439:2471" ph="..." />
-            <marker date="1516264267098" expanded="true" signature="2508:2523" ph="..." />
-          </folding>
+        <state relative-caret-position="68">
+          <caret line="4" column="13" lean-forward="true" selection-start-line="4" selection-start-column="13" selection-end-line="5" selection-end-column="11" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/villa_report/villa-main-masterfile.blade.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VInput.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="11" />
-          <folding />
+        <state relative-caret-position="255">
+          <caret line="42" column="37" lean-forward="true" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/villa_report/villa_form.blade.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractEntry.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="-204">
+          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/villa_report/villa_masterlist.blade.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/ReplaceModal.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/villa_report/villa_history.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="37" lean-forward="false" selection-start-line="1" selection-start-column="37" selection-end-line="1" selection-end-column="37" />
-          <folding>
-            <marker date="1516264345815" expanded="true" signature="12:37" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="50:64" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="217:253" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="316:347" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="367:403" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="423:427" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="1352:1363" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="1421:1434" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="1519:1527" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="1612:1629" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="1635:1666" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="1732:1751" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="1854:1869" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="1875:1890" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="1956:1976" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="2038:2056" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="2117:2131" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="2192:2214" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="2275:2290" ph="..." />
-            <marker date="1516264345815" expanded="true" signature="2352:2366" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/villa_report/property_summary.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="22" lean-forward="false" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
-          <folding>
-            <marker date="1516264310273" expanded="true" signature="11:36" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="44:58" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="103:126" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="166:195" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="395:484" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="524:558" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="761:815" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="842:857" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="905:960" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="985:1076" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="1098:1120" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="1151:1179" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="1238:1719" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="1434:1571" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="1607:1718" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="1802:1824" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="2294:2304" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="2453:2544" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="2592:2615" ph="..." />
-            <marker date="1516264310273" expanded="true" signature="2690:2702" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/vendor/composer/autoload_psr4.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/vendor/composer/autoload_classmap.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-48907">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/villa_report/villa_summary.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="37" lean-forward="false" selection-start-line="0" selection-start-column="37" selection-end-line="0" selection-end-column="37" />
-          <folding>
-            <marker date="1516264364537" expanded="true" signature="11:36" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="44:58" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="93:116" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="568:584" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="612:658" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="679:694" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="731:748" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="776:798" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="846:869" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="917:934" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="982:998" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="1046:1066" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="1113:1154" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="1191:1230" ph="..." />
-            <marker date="1516264364537" expanded="true" signature="1481:1510" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/resources/views/index.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding>
-            <marker date="1502691614773" expanded="true" signature="9:25" ph="..." />
-            <marker date="1502691614773" expanded="true" signature="37:46" ph="..." />
-            <marker date="1502691614773" expanded="true" signature="86:110" ph="..." />
-            <marker date="1502691614773" expanded="true" signature="137:171" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Supports/Facades/Bundle.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="5" lean-forward="true" selection-start-line="10" selection-start-column="4" selection-end-line="13" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Admin/src/AdminRoute.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/src/ReportRoute.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/src/app/Http/ReportController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Admin/src/Facades/AdminRoute.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="17" column="26" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Admin/src/AdminProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="23" column="36" lean-forward="true" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
-          <folding>
-            <element signature="e#26#64#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/LaraLibProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="38" column="45" lean-forward="true" selection-start-line="38" selection-start-column="45" selection-end-line="38" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/src/Facades/ReportRoute.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="27" lean-forward="false" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Reports/src/ReportProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="22" column="32" lean-forward="true" selection-start-line="22" selection-start-column="32" selection-end-line="22" selection-end-column="32" />
-          <folding>
-            <element signature="e#28#66#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Providers/AppServiceProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="10" column="6" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/bootstrap/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="295">
-          <caret line="235" column="39" lean-forward="false" selection-start-line="235" selection-start-column="39" selection-end-line="235" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ReportController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/ProfitLossReport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="15" column="48" lean-forward="false" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="34" column="46" lean-forward="false" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaFormReport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="32" column="32" lean-forward="false" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaForm.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="27" column="56" lean-forward="false" selection-start-line="27" selection-start-column="56" selection-end-line="27" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Services/ReportSevice/ReportManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="652">
-          <caret line="339" column="14" lean-forward="false" selection-start-line="330" selection-start-column="8" selection-end-line="339" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/management/ManagementDashboard.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="652">
-          <caret line="40" column="43" lean-forward="false" selection-start-line="40" selection-start-column="43" selection-end-line="40" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/routes/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-334">
-          <caret line="13" column="2" lean-forward="false" selection-start-line="13" selection-start-column="2" selection-end-line="13" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="226" column="3" lean-forward="false" selection-start-line="226" selection-start-column="3" selection-end-line="226" selection-end-column="3" />
-          <folding />
+        <state relative-caret-position="340">
+          <caret line="55" column="12" lean-forward="true" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="440" column="12" lean-forward="false" selection-start-line="440" selection-start-column="12" selection-end-line="440" selection-end-column="12" />
-          <folding />
+        <state relative-caret-position="44">
+          <caret line="344" column="6" selection-start-line="344" selection-start-column="6" selection-end-line="344" selection-end-column="6" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/payments/index.js">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/PaymentInfoModal.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="77" column="14" lean-forward="false" selection-start-line="77" selection-start-column="14" selection-end-line="77" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Reports/VillaMasterListReport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="18" column="51" lean-forward="false" selection-start-line="16" selection-start-column="7" selection-end-line="18" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/reports/ReportList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="30" lean-forward="false" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="0">
-            <caret line="0" column="17" lean-forward="true" selection-start-line="0" selection-start-column="17" selection-end-line="0" selection-end-column="17" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="0">
-            <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/Sidebar.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="146" lean-forward="false" selection-start-line="20" selection-start-column="146" selection-end-line="20" selection-end-column="146" />
-          <folding />
+        <state relative-caret-position="1309">
+          <caret line="77" column="30" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="46" column="20" lean-forward="false" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
-          <folding />
+        <state relative-caret-position="408">
+          <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/layouts/master.blade.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/ExpenseList.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="41" column="49" lean-forward="true" selection-start-line="41" selection-start-column="49" selection-end-line="41" selection-end-column="49" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <marker date="1503158615686" expanded="true" signature="30:52" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="349:363" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="382:401" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="448:537" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="578:630" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="672:730" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="786:811" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="853:877" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="919:940" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="989:1196" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="1002:1194" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="1003:1193" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="1671:1689" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="1702:1732" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="1747:1764" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="2942:3011" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="3286:3308" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="3887:3904" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="3996:4010" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="4376:4385" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="4483:4504" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="4537:4624" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="4657:4707" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="4740:4758" ph="..." />
-            <marker date="1503158615686" expanded="true" signature="4783:4792" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/config/appreport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="93" column="17" lean-forward="false" selection-start-line="93" selection-start-column="17" selection-end-line="93" selection-end-column="17" />
-          <folding />
+        <state relative-caret-position="697">
+          <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-272">
-          <caret line="146" column="10" lean-forward="true" selection-start-line="146" selection-start-column="10" selection-end-line="146" selection-end-column="10" />
-          <folding />
+        <state relative-caret-position="2125">
+          <caret line="198" column="50" lean-forward="true" selection-start-line="198" selection-start-column="16" selection-end-line="198" selection-end-column="50" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/liveviews/index.js">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="91" column="34" lean-forward="true" selection-start-line="91" selection-start-column="34" selection-end-line="91" selection-end-column="34" />
-          <folding />
+        <state relative-caret-position="833">
+          <caret line="73" column="28" selection-start-line="73" selection-start-column="12" selection-end-line="73" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/.env">
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="68" column="105" selection-start-line="68" selection-start-column="100" selection-end-line="68" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/TransactionListDialog.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="60" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Properties/src/database/migrations/2017_11_09_072100_create_properties_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="12" lean-forward="true" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Admin/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsVilla.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="309" selection-start-line="309" selection-end-line="309" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/bills/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/AccountingModuleProvider.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
+          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/Traits/BaseModelSaveTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/vendor/laravel/framework/src/Illuminate/Foundation/Validation/ValidatesRequests.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="49" column="20" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Requests/PayeeForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="26" column="6" lean-forward="true" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/BaseModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-269">
+          <caret line="60" column="52" lean-forward="true" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Repositories/BaseRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="530">
+          <caret line="55" column="5" lean-forward="true" selection-start-line="55" selection-start-column="5" selection-end-line="55" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Payee.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="46" lean-forward="true" selection-start-line="12" selection-start-column="12" selection-end-line="19" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/PayeeRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="17" column="27" lean-forward="true" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/PayeeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/BaseModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/resources/views/payee/register.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Requests/ExpenditureForm.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="636">
+          <caret line="40" column="20" selection-start-line="40" selection-start-column="20" selection-end-line="40" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/PayeeController.php" />
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="145" column="12" selection-start-line="145" selection-start-column="12" selection-end-line="145" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/PaginationTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="18" column="40" lean-forward="true" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Traits/PaginationTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="18" column="16" lean-forward="true" selection-start-line="18" selection-start-column="16" selection-end-line="18" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="452">
+          <caret line="98" column="12" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/AccountChart.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/AccountChartRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="32" column="11" lean-forward="true" selection-start-line="22" selection-start-column="8" selection-end-line="32" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/AccountChartController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="84" column="70" selection-start-line="84" selection-start-column="12" selection-end-line="84" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountsPayeeController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="45" column="30" lean-forward="true" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountChart.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountChartController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="46" column="14" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1938">
+          <caret line="118" selection-start-line="118" selection-end-line="118" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsPayee.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="46" column="31" lean-forward="true" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+          <folding>
+            <element signature="e#42#60#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+          <folding>
+            <element signature="e#52#91#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

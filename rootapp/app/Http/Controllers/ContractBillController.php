@@ -61,11 +61,20 @@ class ContractBillController extends Controller
     public function apiGetList(Request $request) {
 
         $inputs = $request->all();
+
         unset($inputs['page']);
+
         $bills = $this->billRepository->getPendingBills($inputs);
 
         return $bills;
     }
+
+    public function apiGetTotalBalance(Request $request) {
+
+        return $this->billRepository->getPendingTotalBills($request->all());
+
+    }
+
 
     public function create($contractNo) {
         
@@ -195,20 +204,15 @@ class ContractBillController extends Controller
         //show
         try {
 
-            $bill = $this->billRepository->includePayments()->findByBillNo($billNo)->first();
-            
+            //$bill = $this->billRepository->includePayments()->findByBillNo($billNo)->first();
+
+            $bill = $this->billRepository->getBill($billNo)->first();
+
             if(!$bill) {
                 throw new Exception("Internal Exception");
             }
-            $bundle = new Bundle();
-            $contractId = $bill->contract_id;
-            $bundle->add("contractId", $contractId);
 
-            event(new OnGetContract($bundle, new EventListenerRegister(["GetContractPayments"])));
-
-            $contract = $bundle->getOutput("contract");
-
-            $dompdf = PDF::loadView('bill.display', compact('bill', 'contract'));
+            $dompdf = PDF::loadView('bill.display', compact('bill', 'bill'));
 
             return $dompdf->stream(); //view('bill.display',compact('bill', 'contract'));
         }
@@ -263,8 +267,6 @@ class ContractBillController extends Controller
 
         $lookups['bank_accounts'] = $this->bankAccountRepository->getAll();
 
-
-
         $paymentSummary = [
             "total_payment" => $bill->settled_amount,
             "total_cost" => $contract->amount
@@ -299,6 +301,7 @@ class ContractBillController extends Controller
 
         }
     }
+
 
     public function apiSearch($filter='bill',$value='') {
 

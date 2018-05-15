@@ -1,55 +1,80 @@
-const state = {
-    accounts: [],
-    account: {
-    },
-    lookups: []
 
+
+
+class AccountChart {
+
+    constructor() {
+
+        this.accounts;
+        this.account = {};
+        this.lookups = [];
+    }
+
+    create() {
+        
+        axiosRequest.dispatchGet("/api/chart/create")
+            .then((response) => {
+                this.lookups = response.data.lookups;
+                this.account = response.data.account;
+            })
+            .catch((error) => toastr.error(e.response.message));
+        
+    }
+
+    edit(item) {
+        axiosRequest.dispatchGet('/api/chart/' + item.id + '/edit/')
+            .then((response) => {
+                this.account = response.data.data;
+                this.lookups = response.data.lookups;
+            });
+    }
+
+    save(cb) {
+        let repeatMe = null;
+        if(this.account.id) {
+            repeatMe = axiosRequest.patch('chart','update',this.account);
+        }
+        else {
+            repeatMe = axiosRequest.post('chart','store',this.account)
+        }
+        
+        repeatMe.then((response) => cb())
+            .catch((error) => toastr.error(e.response.message));
+    }
+
+    update(cb) {
+        axiosRequest.patch('chart','update',this.account)
+            .then((response) => cb())
+            .catch((error) => toastr.error(e.response.message));
+    }
+
+
+    redirect() {
+        axiosRequest.redirect('chart','');
+    }
+}
+
+const state = {
+    acctChart: new AccountChart(),
 };
 
-
-
 const mutations = {
-    fetchAll(state,data) {
-        state.accounts = data;
-    },
-    create(state,data) {
-        state.lookups = data.lookups;
-        state.account = data.account;
-    },
     
 };
 
-
 const actions = {
-    fetchAll({state, commit}) {
-        axiosRequest.dispatchGet("/api/chart")
-            .then((response) => commit("fetchAll",response.data))
-            .catch((error) => toastr.error(e.response.message));
-    },
-    create({state,commit}) {
-        axiosRequest.dispatchGet("/api/chart/create")
-            .then((response) => commit("create",response.data))
-            .catch((error) => toastr.error(e.response.message));
-    },
-    redirect({state,commit}) {
-        axiosRequest.redirect('chart','');
-    },
-    save({state,commit},cb) {
-        axiosRequest.post('chart','store',state.account)
-            .then((response) => cb())
-            .catch((error) => toastr.error(e.response.message));
-    },
-    edit({state,commit}) {
-
-    }
+    create: ({state}) => state.acctChart.create(),
+    redirect: ({state}) => state.acctChart.redirect(),
+    save: ({state},cb) => state.acctChart.save(cb),
+    update: ({state},cb) => state.acctChart.update(cb),
+    edit: ({state},payload) => state.acctChart.edit(payload)
 };
 
 const getters = {
-    lookups(state) {
-        return state.lookups || [];
-    }
+    accounts: (state) => {return state.acctChart.accounts},
+    account: (state) => {return state.acctChart.account},
+    lookups: (state) => {return state.acctChart.lookups}
 };
-
 
 const accountChartsModule = {
     namespaced: true,

@@ -32,7 +32,8 @@ class VillaMasterListReport extends BaseReport {
     public function getLookups()
     {
         // TODO: Implement getLookups() method.
-        $lookups = Selection::getSelections(["villa_status"]);
+        $lookups = Selection::getSelections(["villa_status","villa_location"]);
+
         return $lookups;
     }
 

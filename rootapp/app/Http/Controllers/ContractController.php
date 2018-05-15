@@ -89,6 +89,7 @@ class ContractController extends Controller
     {
 
         return view("contract.calendar");
+
     }
 
     public function apiUpdateExtended()
@@ -96,8 +97,11 @@ class ContractController extends Controller
         $contracts = \App\Contract::all();
 
         foreach ($contracts as $contract) {
+
             $contract->period_end_extended = Carbon::parse($contract->period_end)->addDays($contract->extra_days);
+
             $contract->save();
+
         }
 
         return Result::ok("Successful");
@@ -137,9 +141,10 @@ class ContractController extends Controller
     {
         try {
 
-            //get user contractsp
+            //get user contract
             $contracts = $this->contractRepo->getContracts($status, $request->input('filter_field'), $request->input('filter_value'));
             
+
             //evaluate contract pending
             return $contracts;
 
@@ -162,6 +167,7 @@ class ContractController extends Controller
             $data->prep_ref_no = "";
 
             $lookups = $this->selections->getSelections(["contract_type","tenant_type","villa_location","bank"]);
+
             $lookups["due_date"] = [
                 [
                     "value" => "1",
@@ -178,6 +184,7 @@ class ContractController extends Controller
             ];
 
             return compact("data", "lookups");
+
         } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
         }
@@ -189,46 +196,71 @@ class ContractController extends Controller
         $inputs = $request->filterInput();
 
         try {
+
             $ratePerMonth = floatval($inputs["custom_rate"]);
 
             //check if there is a custom calculation
+
             if ($ratePerMonth == 0) {
+
                 //fire event
                 $bundle = new Bundle();
+
                 $bundle->add("villaId", $inputs['villa_id']);
 
                 event(new OnCalculation($bundle, new EventListenerRegister(["GetVillaOnRecalculate"])));
 
                 $villaOutput = $bundle->getOutput('villa');
+
                 if ($villaOutput != null) {
+
                     $ratePerMonth = $villaOutput->rate_per_month;
+
                 }
             }
+
             //create contract with new rate
             $contract = $this->contractRepo->create(self::DEFAULT_PERIOD);
+
+            $contract->rate_per_month = $ratePerMonth;
+
+
             $contract->setPeriod($inputs['period_start'], $inputs['period_end']);
+
             $contract->toComputeAmount($ratePerMonth);
+
             return $contract;
-        } catch (Exception $e) {
+
+        }
+        catch (Exception $e) {
+
             return Result::badRequest(["message" => $e->getMessage()]);
+
         }
     }
 
     public function apiStore(ContractForm $request) {
 
         $inputs = $request->filterInput();
+
+
         try {
+
             $bundle = new Bundle();
+
             $bundle->add('tenant', $inputs['register_tenant']);
             $bundle->add('villaId', $inputs['villa_id']);
 
             event(new OnCreating($bundle, new EventListenerRegister(["GetVilla", "CreateTenant"])));
 
             if (!$bundle->hasOutput()) {
+
                 throw new Exception("Internal Error");
+
             }
 
             $tenantOutput = $bundle->getOutput('tenant');
+
             $villaOutput = $bundle->getOutput('villa');
 
             //remove tenant
@@ -236,7 +268,11 @@ class ContractController extends Controller
 
             $inputs['tenant_id'] = $tenantOutput->id;
             $inputs['villa_no']  = $villaOutput->villa_no;
-            
+
+            if($inputs["rate_per_month"]) {
+                unset($inputs["rate_per_month"]);
+            }
+
             $contract = $this->contractRepo->saveContract($inputs);
 
             $bundle->clearAll();

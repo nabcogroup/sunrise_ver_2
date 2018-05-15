@@ -5,14 +5,18 @@
                 <v-search :config="searchObj" @click="onSearch"></v-search>
             </div>
             <div class="col-md-2 ">
-                <button class="btn btn-info btn-block" @click="$store.commit('expenditures/redirectToRegister')"><i
-                        class="fa fa-plus" aria-hidden="true"></i> Add Expenses</button>
+                <button class="btn btn-info btn-block" @click="$store.commit('expenditures/redirectToRegister')">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add Expenses
+                </button>
             </div>
         </div>
         <hr/>
         <div class="row">
             <div class="col-md-12">
-                <v-live-view :grid="gridView" @action="doAction"></v-live-view>
+                <v-live-view 
+                    :grid="gridView" 
+                    @action="doAction">
+                </v-live-view>
             </div>
         </div>
     </v-panel>
@@ -58,7 +62,6 @@
                 EventBus.$emit("onLiveViewFetch");
             },
             doAction(a, item, index) {
-
               if(a.key === 'edit') {
                   this.$store.commit('expenditures/redirectToRegister', {id: item.id});
               }

@@ -28,6 +28,10 @@ export class ErrorValidations {
         return "";
     }
 
+    hasError() {
+        return !(_.isEmpty(this.errors));
+    }
+
     register(errors) {
         this.errors = errors;
     }
@@ -52,6 +56,10 @@ export class AxiosRequest {
 
     post(controller,action,data) {
         return axios.post('/api/'+controller+'/'+action,data);
+    }
+
+    patch(controller,action,data) {
+        return axios.patch('/api/'+controller+'/'+action,data);
     }
 
     get(controller,action) {
@@ -204,6 +212,8 @@ export const validation = () => {
         validate: validate
     }
 }
+
+
 
 export const reIndexing = (items,key = 'id') => {
     items.forEach(function (item, index) {

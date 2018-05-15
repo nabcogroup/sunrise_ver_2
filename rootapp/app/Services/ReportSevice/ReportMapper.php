@@ -65,7 +65,7 @@ class ReportMapper {
     }
 
     public function hasData() {
-        return sizeof($this->mappers) > 0 ? true: false;
+        return sizeof($this->mappers["data"]) > 0 ? true: false;
     }
 
     public function checkParamNull() {

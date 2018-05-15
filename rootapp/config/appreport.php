@@ -15,13 +15,6 @@ return [
                     'template'      =>  'contract_report.contract_value'
                 ],
                 [
-                    'id' => 7,
-                    'report_title'  =>  'Active Contract Status',
-                    'report_name'   =>  'contract_active',
-                    'datasource'    =>  'Contracts\ContractActive',
-                    'template'      =>  'contract_report.contract_active'
-                ],
-                [
                     'id' => 6,
                     'report_title'  =>  'Due Contract',
                     'report_name'   =>  'contract_expiry',

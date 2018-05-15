@@ -18,7 +18,9 @@ class CalendarService
     {
 
         $this->collections = $collections;
+
         $this->args = $args;
+
     }
 
 

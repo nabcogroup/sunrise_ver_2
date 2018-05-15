@@ -6,6 +6,9 @@
 |--------------------------------------------------------------------------
 */
 
+
+use Accounting\App\Http\Routes\Facades\AccountingRoute;
+
 Route::group(['prefix' => "admin"], function () {
 
     AdminRoute::routes();
@@ -100,6 +103,7 @@ Route::group(["middleware" => ["auth", "roles"], "roles" => ["account"]], functi
     Route::get('api/bill/edit/{billNo?}', ["uses" => "ContractBillController@apiEdit", "roles" => ["account"]]);
     Route::post('api/bill/update', ["uses" => "ContractBillController@apiUpdate", "roles" => ["account"]]);
     Route::get('api/bill/search/{filter?}/{value?}', ["uses" => "ContractBillController@apiSearch", "roles" => ["account"]]);
+    Route::get('api/bill/get_balance_total',["uses" => "ContractBillController@apiGetTotalBalance","roles" => ["account"]]);
 
 });
 
@@ -111,8 +115,7 @@ Route::group(["middleware" => ["auth", "roles"], "roles" => ["account"]], functi
 */
 Route::group(["middleware" => ["auth", "roles"], "roles" => ["account", "admin"]], function () {
 
-    Route::get("/chart/register/{id?}", "AccountChartController@register");
-    Route::get("/chart/", "AccountChartController@index");
+
 
     Route::post("api/chart/store", "AccountChartController@store");
     Route::post("api/chart/update", "AccountChartController@store");
@@ -160,26 +163,53 @@ Route::group(['middleware' => ['auth', 'roles'], 'roles' => ['account', 'admin']
 
 /*
 |--------------------------------------------------------------------------
-| Expenses Web Routes
+| Accounts Web Routes
 |--------------------------------------------------------------------------
 */
 Route::group(["middleware" => ["auth", "roles"], "roles" => ["account"]],
     function () {
 
-        Route::get("expenses/", "ExpenditureController@index");
 
-        Route::get("expenses/create", "ExpenditureController@register");
 
-        Route::get("expenses/{id}", "ExpenditureController@edit");
+        Route::get("payee/create","PayeeController@register");
+        Route::get("payee/edit/{id}", "PayeeController@edit");
+        Route::get("payee", "PayeeController@index");
 
-        Route::get("api/expenses/create", "ExpenditureController@apiCreate");
+        Route::get("/chart/register/{id?}", "AccountChartController@register");
+        Route::get("/chart/", "AccountChartController@index");
 
-        Route::post("api/expenses/store", "ExpenditureController@apiStore");
-        Route::post("api/expenses/update", "ExpenditureController@apiStore");
-        Route::get("api/expenses/edit/{id}", "ExpenditureController@apiEdit");
-        Route::get("api/expenses/{property?}", "ExpenditureController@apiGetAll");
+        Route::get("expenses/", "ExpenditureController@register");
+
+
+        
+        AccountingRoute::routes();
+
+//
+
+//
+//        Route::get("expenses/{id}", "ExpenditureController@edit");
+//
+//        Route::get("api/expenses/create", "ExpenditureController@apiCreate");
+//
+//        Route::post("api/expenses/store", "ExpenditureController@apiStore");
+//        Route::post("api/expenses/update", "ExpenditureController@apiStore");
+//        Route::get("api/expenses/edit/{id}", "ExpenditureController@apiEdit");
+//        Route::get("api/expenses/{property?}", "ExpenditureController@apiGetAll");
     }
 );
+
+//
+///********************************************************
+// * Payee
+// ***********************************************************/
+//Route::group(['prefix' => 'api/payee', 'middleware' => ['auth', 'roles']], function () {
+//
+//    Route::post("/store", ["uses" => "PayeeController@apiStore", "roles" => ["account"]]);
+//
+//    Route::get("/create", ["uses" => "PayeeController@apiCreate", "roles" => ["account"]]);
+//
+//    Route::get("/list", ["uses" => "PayeeController@apiList", "roles" => ["account"]]);
+//});
 
 
 /********************************************************
@@ -196,24 +226,6 @@ Route::group(['prefix' => 'reports','middleware' => ['auth', 'roles']], function
 
 Route::group(['prefix' => 'api/reports', 'middleware' => ['auth', 'roles']], function () {
     Route::get("/lookups/{reportId}", ["uses" => "ReportController@apiLookups", "roles" => ["contract", "account", "admin"]]);
-});
-
-
-/********************************************************
- * Payee
- ***********************************************************/
-Route::group(['prefix' => 'payee', 'middleware' => ['auth', 'roles']], function () {
-    Route::get("/create", ["uses" => "PayeeController@register", "roles" => ["account"]]);
-    Route::get("/", ["uses" => "PayeeController@index", "roles" => ["account"]]);
-});
-
-Route::group(['prefix' => 'api/payee', 'middleware' => ['auth', 'roles']], function () {
-
-    Route::post("/store", ["uses" => "PayeeController@apiStore", "roles" => ["account"]]);
-
-    Route::get("/create", ["uses" => "PayeeController@apiCreate", "roles" => ["account"]]);
-
-    Route::get("/list", ["uses" => "PayeeController@apiList", "roles" => ["account"]]);
 });
 
 /********************************************************

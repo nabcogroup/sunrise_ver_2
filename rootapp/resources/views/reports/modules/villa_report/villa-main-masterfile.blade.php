@@ -1,5 +1,5 @@
 @extends('layouts.pdf')
-{{dd($datasource)}}
+
 
 @section('content')
     <div class="row">
@@ -31,7 +31,8 @@
                     <td class="text-center">
                         {{$villa['period_start']}} - {{$villa['period_end']}}
                     </td>
-                    <td style="width: 10% " class="text-center">{{ ($villa['payment_amount'] ? number_format($villa['payment_amount'],2) : 0)}}</td>
+                    <td style="width: 10% "
+                        class="text-center">{{ ($villa['payment_amount'] ? number_format($villa['payment_amount'],2) : 0)}}</td>
                     <td style="width: 5% " class="text-center">{{ucfirst($villa['contract_status'])}}</td>
                 </tr>
             @endforeach

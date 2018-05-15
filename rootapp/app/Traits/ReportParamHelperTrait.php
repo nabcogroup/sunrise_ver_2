@@ -60,7 +60,7 @@ trait ReportParamHelperTrait
             "selection" => "months",
             "value" => "code",
             "text" => "name",
-            "default_text" => "",
+            "default_text" => "--SELECT MONTH--",
             "default" => ""
         ];
 

@@ -9,7 +9,7 @@
 @endphp
 @section("header")
     <div class="page-header">
-        <h3>Payment Reverse</h3>
+        <h3>Payment Revert</h3>
     </div>
 @endsection
 @section("content")

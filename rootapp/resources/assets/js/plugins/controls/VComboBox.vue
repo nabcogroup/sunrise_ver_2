@@ -1,7 +1,10 @@
 <template>
     <select class="form-control" @change="onChange($event.target.value)" :disabled="disabled" :value="value">
         <option v-if="includeDefault" value="">--Select--</option>
-        <option v-for="(option,index) in options" :value="option[keyValue]" :key="index">{{option[keyText]}}</option>
+        <option 
+            v-for="(option,index) in options" 
+            :value="option[keyValue]" 
+            :key="index" >{{option[keyText]}}</option>
     </select>
 </template>
 

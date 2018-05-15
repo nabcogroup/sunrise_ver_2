@@ -10,15 +10,16 @@ use KielPack\LaraLibs\Base\Traits\BaseModelSaveTrait;
 
 class BaseModel extends Model {
 
-    use BaseModelSaveTrait, StatusTrait;
+    use BaseModelSaveTrait,
+        StatusTrait;
 
     protected $guarded = ['id','created_at','updated_at','deleted_at'];
 
     protected function beforeSave() {return false;}
     protected function afterSave() {return false;}
-   
 
     public function toMap($fields = array()) {
+
         if(sizeof($fields) > 0) {
             foreach ($fields as $key => $value) {
                 if($this->isFillable($key) && !in_array($key,$this->appends)) {
@@ -26,6 +27,7 @@ class BaseModel extends Model {
                 }
             }
         }
+
         return $this;
     }
 
@@ -34,6 +36,16 @@ class BaseModel extends Model {
     public function explicitSearch($fieldKey,$fieldValue) {
         return $this->where($fieldKey,$fieldValue);
     }
+
+    public function scopeFilterSearch($query,$key = null,$value = null,$operator = '=',$orderBy = '',$orderType = 'asc') {
+
+        if($key != null) {
+            $query = $query->where($key,$operator ,$value);
+        }
+        return $query->orderBy($orderBy,$orderType);
+    }
+
+
 
     public function customFilter(&$params,$callback = null) {
 
@@ -46,10 +58,14 @@ class BaseModel extends Model {
             $params['filter_value'] = $filter_value;
 
             if(is_callable($callback)) {
+
                 $filters = $callback($this,$filter_field,$filter_value);
+
             }
             else {
+
                 return $this->where($filter_field,'LIKE','%'.$filter_value.'%');
+                
             }
         }
 

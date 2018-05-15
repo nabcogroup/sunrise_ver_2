@@ -49,11 +49,17 @@ class VillaSales implements IDataSource
                     \DB::raw("YEAR(payments.effectivity_date)"))
                 ->whereNull("contracts.deleted_at")
                 ->where("payments.status","clear")
+                ->where("payments.payment_mode","payment")
                 ->where(\DB::raw("YEAR(payments.effectivity_date)"),$year)
-                ->orderBy("villas.location")
-                ->get();
+                ->orderBy("villas.location");
 
-            $groupSummary = $this->arrayGroupBy($recordset,null,["location","monthly_schedule"]);
+
+            if(!is_null($location) && $location !== "" ) {
+
+                $recordset = $recordset->where("location",$location);
+            }
+
+            $groupSummary = $this->arrayGroupBy($recordset->get(),null,["location","monthly_schedule"]);
 
             $title= "Summary of Property: Payment Collection Report";
 
@@ -70,21 +76,29 @@ class VillaSales implements IDataSource
                     \DB::raw("YEAR(payments.effectivity_date) AS year_schedule"),
                     \DB::raw("MONTH(payments.effectivity_date) AS monthly_schedule"),
                     \DB::raw("SUM(payments.amount) AS monthly_payable"),
-                    \DB::raw("(SELECT SUM(amount) FROM payments where status ='clear' AND bill_id = contract_bills.id) AS total_payable"))
+                    \DB::raw("(SELECT SUM(amount) FROM payments where bill_id = contract_bills.id AND payments.payment_mode = 'payment' AND status ='clear') AS total_payable"))
                 ->groupBy(
                     "villas.villa_no",
                     \DB::raw("MONTH(payments.effectivity_date)"),
                     \DB::raw("YEAR(payments.effectivity_date)"),
                     "payment_status")
                 ->whereNull("contracts.deleted_at")
-                ->where("villas.location",$location)
+                ->where("payments.payment_mode","payment")
                 ->where(\DB::raw("YEAR(payments.effectivity_date)"),$year)
-                ->orderBy("villas.villa_no")
-                ->get();
+                ->orderBy("villas.villa_no");
 
-            $groupSummary = $this->arrayGroupBy($recordset,null,["villa_no","monthly_schedule"]);
 
-            $title = "Villa Payment Collection Report - ".Selection::getValue("villa_location",$location);
+            $property_name = "All";
+            if(!is_null($location) && $location !== "" ) {
+
+                $recordset = $recordset->where("location",$location);
+
+                $property_name = Selection::getValue("villa_location",$location);
+            }
+
+            $groupSummary = $this->arrayGroupBy($recordset->get(),null,["villa_no","monthly_schedule"]);
+
+            $title = "Villa Payment Collection Report - ".$property_name;
 
         }
 

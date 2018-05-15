@@ -14,7 +14,6 @@
             </thead>
             <tbody>
                 <tr v-for="(entry,entryIndex) in filteredData" :key="entryIndex" :class="{'danger' : grid.selected === entryIndex }">
-
                     <!-- auto numeric by default -->
                     <td v-if="!grid.excludeIndex">{{entryIndex + 1}}</td>
 
@@ -67,12 +66,11 @@
             </tbody>
             <tfoot v-if="grid.footers">
                 <tr class="active">
-                    <th v-for="(footer,index) in grid.footers" :colspan="footer.span" :key="index">
+                    <th v-for="(footer,index) in grid.footers" :colspan="footer.span" :key="index" :class="footer.class">
                         <strong v-if="footer.label">{{footer.label}} :</strong>
-                        <span v-if="footer.text">{{footer.text}}</span>
-                        <span v-if="footer.slot">
+                        <div v-if="footer.slot">
                             <slot></slot>
-                        </span>
+                        </div>
                     </th>
                 </tr>
             </tfoot>
@@ -88,12 +86,11 @@ export default {
     name: "gridView",
     props: ['data', 'grid', 'lookups'],
     data() {
-
         let sortOrders = {};
         let sortKey = "";
-        let that = this;
 
         this.grid.columns.forEach((key) => {
+
             sortOrders[key.name] = 1;
             if (key.default !== undefined && key.default == true) {
                 sortKey = key.name;
@@ -112,6 +109,7 @@ export default {
             let sortKey = this.sortKey;
             let data;
             data = this.data;
+
             let order = this.sortOrders[sortKey] || 1
             if (sortKey) {
                 data = data.slice().sort(function(a, b) {
@@ -120,6 +118,8 @@ export default {
                     return (a === b ? 0 : a > b ? 1 : -1) * order
                 });
             }
+
+            //Emit Event
             this.$emit('sorted', sortKey);
 
             return data;
@@ -136,7 +136,6 @@ export default {
             this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
         },
         render: function(entry, key) {
-
             //check pipe period_start|period_end
             let keypos = key.name.indexOf("|"),
                 glue = key.glue || " - ",

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Selection;
 use App\Traits\PaginationTrait;
 use App\VillaGallery;
 use Carbon\Carbon;
@@ -56,9 +57,11 @@ class VillaRepository extends AbstractRepository
                 "qtel_no"           =>  $row->qtel_no,
                 "rate_per_month"    =>  $row->rate_per_month,
                 "full_location"     =>  $row->full_location,
+                "full_villa_class"  =>  Selection::getValue('villa_type', $row->villa_class),
                 "full_status"       =>  $row->full_status,
                 "is_active"         =>  true,
-                "is_disabled"       =>  $row->status == "vacant" ? false : true
+                "is_disabled"       =>  $row->status == "vacant" ? false : true,
+                "tag_color"         =>  $row->status == "vacant" ? "text-warning text-center" : "text-center",
             ];
 
             return $item;
@@ -81,7 +84,20 @@ class VillaRepository extends AbstractRepository
     public function getStatusCount()
     {
         
-        return $this->model->statusCount();
+        $statuses = $this->model->statusCount();
+
+        foreach ($statuses as &$status) {
+            $status->full_status = Selection::getValue("villa_status",$status->status);
+
+            if($status->isOccupied()) {
+                $status->tag_color = "badge-info";
+            }
+            else {
+                $status->tag_color = "badge-error";
+            }
+        }
+
+        return $statuses;
     }
 
     public function setOccupied()

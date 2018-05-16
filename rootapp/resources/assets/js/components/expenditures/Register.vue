@@ -1,17 +1,26 @@
 <template>
     
     <div class="col-md-10 col-md-offset-1">
-        <form @submit.prevent="save()" @keydown="errors.clear($event.target.name)">
+        <form>
             <v-panel header="Expenses Entry">
                 <div class="column-group row">
-                    <label for="expensesTransactionNo">Transaction No:</label>
-                    <input disabled type="text" class="input" placeholder="(New)" id="expensesTransactionNo" name="expensesTransactionNo" style="text-align:right"/>
-                    <button class="btn btn-info " type="button" @click="searchTransaction">
-                        <i class="fa fa-fw fa-search"></i>
-                    </button>
-                    <button class="btn btn-info" type="button" @click="newEntry">
-                        <i class="fa fa-fw fa-plus"></i>
-                    </button>
+                    
+                    <div class="col-md-6">
+                        <label for="expensesTransactionNo">Transaction No:</label>
+                        <input disabled type="text" class="input" :placeholder="expense.transaction == null ? '(New)' : expense.transaction.transaction_no" id="expensesTransactionNo" name="expensesTransactionNo" style="text-align:right"/>
+                        <button class="btn btn-default " type="button" @click="searchTransaction">
+                            <i class="fa fa-fw fa-search"></i>
+                        </button>
+                        <button class="btn btn-success" type="button" @click="newEntry">
+                            <i class="fa fa-fw fa-plus"></i>
+                        </button>
+                    </div>
+
+                    <div class="col-md-3 col-md-offset-3" style="text-align:right">
+                        <label class="text-muted">
+                            {{(expense.transaction !== null) ? expense.transaction.transaction_status : '' }}
+                        </label>
+                    </div>
                 </div>
 
                 <hr/>
@@ -33,8 +42,13 @@
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Account:</label>
                     <div class="col-md-10">
-                        <v-combo-box :options="lookups.accounts" v-model="expense.entry.acct_code" dvalue="code" dtext="description" :include-default=true></v-combo-box>
-                         <error-span :value="errors" name="acct_code"></error-span>
+                        <v-combo-box 
+                            :options="lookups.accounts" 
+                            v-model="expense.entry.acct_code" 
+                            dvalue="code" dtext="description" 
+                            :include-default=true>
+                        </v-combo-box>
+                        <error-span :value="errors" name="acct_code"></error-span>
                     </div>
                 </div>
 
@@ -144,9 +158,15 @@
                 <hr/>
 
                 <div class="row">
-                    <div class="col-md-3 col-md-offset-9" style="padding-top: 10px;padding-bottom: 10px ">
-                        <button class="btn btn-primary btn-block" @click="insertItem" type="button">Insert</button>
+                    <div class="col-md-3 col-md-offset-9">
+                        <div class="col-md-6" style="padding-top: 10px;padding-bottom: 10px ">
+                            <button class="btn btn-danger btn-block" @click="insertItem" type="button"><i class="fa fa-eraser"></i> Reset</button>
+                        </div>
+                        <div class="col-md-6" style="padding-top: 10px;padding-bottom: 10px ">
+                            <button class="btn btn-primary btn-block" @click="insertItem" type="button"> <i class="fa fa-arrow-down"></i> Insert</button>
+                        </div>
                     </div>
+                    
                     <div class="col-md-12">
                         <!-- -->
                         <grid-view :grid="gridColumn" :data="expense.items.all()" @action="doAction">
@@ -158,7 +178,8 @@
                 <template slot="panel-footer">
                     <div class="row">
                         <div class="col-md-2 col-md-offset-10">
-                            <button type="submit" class="btn btn-info btn-block" :disabled="expense.items.all().length == 0">Save</button>
+                            <button type="button" class="btn btn-info btn" :disabled="expense.items.all().length == 0" @click="save">Save</button>
+                            <button type="button" class="btn btn-primary btn" :disabled="expense.items.all().length == 0">Save and Post</button>
                         </div>
                     </div>
                 </template>
@@ -206,6 +227,25 @@
             bbox.confirm({
                 title: "Remove Item",
                 message: "Do you want to remove this item?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: (result) => {
+                    cb(result)
+                }
+            })
+        },
+        NewTransaction: (cb) => {
+            bbox.confirm({
+                title: "New Transaction",
+                message: "Do you want to make new transaction??",
                 buttons: {
                     confirm: {
                         label: 'Yes',
@@ -279,14 +319,28 @@
                     }
                 });
             },
+            savePost() {
+                confirmation.ExpensesSave((result) => {
+                    if (result) {
+                        this.$store.dispatch('expenditures/saveAndPost')
+                    }
+                });
+            },
             newEntry() {
-                this.$store.commit('expenditures/clear');
+                confirmation.NewTransaction((result) => {
+                    if (result) {
+                        this.$store.commit('expenditures/new');
+                    }
+                });
+            },
+            reset() {
+                this.$store.commit('expenditures/reset');
             },
             insertItem() {
                 this.$store.commit('expenditures/insertItem')
             },
             doAction(action,value,index) {
-                console.log(action);
+                
                 if(action === 'remove') {
                     confirmation.RemoveItem((result) => {
                         if(result) {

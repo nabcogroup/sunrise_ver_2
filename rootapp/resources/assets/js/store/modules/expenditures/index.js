@@ -1,9 +1,4 @@
-import {
-    cloneObject,
-    copiedValue,
-    ErrorValidations
-} from "../../../helpers/helpers";
-
+import { cloneObject, copiedValue, ErrorValidations} from "../../../helpers/helpers";
 
 var moment = moment || require('moment');
 
@@ -34,7 +29,6 @@ class Validator {
     }
 
     validate(inputs) {
-
         let messageErrors = {}
         _.each(this._rules, (value, key) => {
             if (typeof (inputs[key]) === undefined) {
@@ -49,20 +43,24 @@ class Validator {
             }
             
             if (attributes.length > 1) {
-                option.type = attributes[1]
+
+                option.type = attributes[1] ? attributes[1] : 'string';
+
                 option.condition = typeof (attributes[2]) == 'undefined' ? '' : attributes[2]
             }
             
             let inputVal = typeof(inputs[key]) !== "undefined" ? inputs[key] : '';
+            
             switch (option.type) {
                 case 'string':
+
                     if (inputVal.length === 0 || inputVal === null) {
                         messageErrors[key] = "This field " + key.toUpperCase() + " is required";
                     }
                     break;
                 case 'integer':
                     
-                    let intRegex = /^\d+$/;
+                    let intRegex = /^\d+?|^\d+\.\d{2}?/;
                     if (inputVal === null || isNaN(inputVal) ) {
                         messageErrors[key] = "This field " + key.toUpperCase() + " is required";
                     }
@@ -79,19 +77,21 @@ class Validator {
                     }
                     break;
                 case 'date': 
-                    
-
-
+                    var formatDate = moment(inputVal);
+                    if(!formatDate.isValid()) {
+                        messageErrors[key] = "This field " + key.toUpperCase() + " must be validate date";
+                    }
                     break;
                 default:
-
                     break;
             }
         })
+
         return messageErrors;
     }
 
     setRules(rules) {
+
         this._rules = rules;
     }
 
@@ -106,48 +106,42 @@ class ItemHandler {
          * @TODO: adding tag
          */
         this.items = {
+            latestKey: 0,
             data: [],
             deletedItems: []
         };
-
         this.autoKeyId = 0;
-
         this.isEditMode = false;
-
     }
-    
 
     add(item) {
-        
-        let newKeyId = this.items.data.length;
-        newKeyId = (newKeyId === 0) ? 1 : this.items.data[newKeyId - 1].key + 1;
-        item.key = newKeyId;
-        
+        this.items.latestKey = this.items.latestKey + 1;
+        item.key = this.items.latestKey;
         this.items.data.push(item);
-
     }
 
     update(item,key) {
         const temp = _.find(this.items.data,(i) => i.key === key)
         copiedValue(item,temp);
-
     }
 
     remove(id) {
-
-        /***************
+        /******************************************************
             @TODO: seperate stack for deletion of stored when removed
             to notify server the removal of deleted item
-        */
+        ***************************************************/
         if (this.items.data.length > 0) {
             this.items.data = _.filter(this.items.data, (item) => {
+                
                 if(item.key === id && item.id && item.transaction_no) {
                     this.items.deletedItems.push(item.id);
                 }
+                
                 return item.key !== id;
             });
         } 
         else {
+            
             //do nothing
 
         }
@@ -160,6 +154,7 @@ class ItemHandler {
 
     clear() {
         this.items.data = [];
+        this.items.latestKey = 0;
     }
 
     all() {
@@ -176,6 +171,7 @@ class Expense {
     constructor() {
         
         this.state = {
+            transaction: null,
             current: null,
             entry: {},
             items: new ItemHandler(),
@@ -183,15 +179,9 @@ class Expense {
         };
 
         this.instanceStorage = {};
-
-        this.lookups = {
-            villas: []
-        };
-
+        this.lookups = { villas: [] };
         this.validator = new Validator();
-
         this.errors = new ErrorValidations();
-
     }
 
     //end point
@@ -202,22 +192,16 @@ class Expense {
     }
 
     create(data) {
-        
         axiosRequest.get('expenses', 'create').then(r => {
-            
             this.instanceStorage = new InstanceStorage(r.data.data);
-            
             this.state.entry = this.instanceStorage.getClone();
-            
             this.validator.setRules(r.data.rules);
-            
             this.lookups = r.data.lookups;
         })
 
     }
 
     save() {
-        
         axiosRequest.post('expenses', 'store', { transactions: this.state.items.all() })
             .then(r => {
                 toastr.success('Save successfully!!!');
@@ -229,14 +213,16 @@ class Expense {
             });
     }
 
+    saveAndPost() {
+
+    }
+
     edit(transactionNo) {
         axiosRequest.dispatchGet(`/api/expenses/${transactionNo}/edit/`)
         .then(r => {
             this.state.items.clear();
-            _.each(r.data.data, (entry) => {
-                this.state.state = 'edit';
-                this.registerItem(entry);
-            })
+            this.state.transaction = r.data.transaction_no;
+            r.data.data.forEach((entry) => this.registerItem(entry));
         })
         .catch(e => {
             if (e.response.status === 422) {
@@ -245,10 +231,16 @@ class Expense {
         });
     }
 
-    clearEntry() {
+    resetEntry() {
         this.errors.clearAll();
         this.state.current = null;
         copiedValue(this.instanceStorage.get(),this.state.entry);
+    }
+
+    newTransaction() {
+        this.resetEntry();
+        this.state.transaction = null;
+        this.state.items.clear();
     }
 
     registerItem(entry,isEdit = false) {
@@ -288,7 +280,7 @@ class Expense {
             this.registerItem(cloneObject(this.state.entry))
 
 
-        this.clearEntry();
+        this.resetEntry();
     }
 
     editItem(key) {
@@ -316,12 +308,14 @@ const mutations = {
     removeItem: (state, payload) => state.expense.removeItem(payload.key),
     insertItem: (state) => state.expense.insertItem(),
     editItem: (state,payload) => state.expense.editItem(payload.key),
-    clear: (state) => state.expense.clearEntry(),
+    reset: (state) => state.expense.resetEntry(),
+    new: (state) => state.expense.newTransaction()
 }
 
 const actions = {
     create: ({ state, commit }) => state.expense.create(),
     save: ({ commit, state }) => state.expense.save(),
+    saveAndPost: ({state}) => state.expense.saveAndPost(),
     edit: ({ commit, state }, payload) => state.expense.edit(payload.transactionNo),
     fetch: ({state}) => state.expense.fetch()
 }

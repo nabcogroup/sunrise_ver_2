@@ -34,14 +34,14 @@ class ExpensesController extends Controller
 
         $expenditure = Expenditure::createInstance();
         $lookups = Selection::getSelections(["account_type","payment_term","bank","villa_location","bank_provider"]);
-        
+
         $lookups["accounts"] = AccountChart::all();
         $lookups["villas"] =  AccountsVilla::orderBy('villa_no')->get();
         $lookups["payees"] = AccountsPayee::orderBy("payee_code")->get();
 
         $rules = [
             'location'          =>  'required',
-            'villa_id'          =>  'required|integer|0',
+            'villa_id'          =>  'nonzero|integer',
             'acct_code'         =>  'required',
             'payee_id'          =>  'required|integer',
             'payment_date'      =>  'required|date',
@@ -59,11 +59,19 @@ class ExpensesController extends Controller
 
         $transactions = Expenditure::getTransaction($transaction_no)->get();
 
-        $plucked = $transactions->pluck('transaction_no');
+        $transaction_detail = [
 
-        $request->session()->put('transaction_no', $plucked->first());
+            'transaction_no'        => $transactions->pluck('transaction_no')->first(),
 
-        return Result::response(["data" => $transactions]);
+            'transaction_status'    => $transactions->pluck('transaction_status')->first(),
+
+            'posted'                =>  $transactions->pluck('posted')->first()
+
+        ];
+
+        $request->session()->put('transaction_no', $transaction_detail);
+
+        return Result::response(["data" => $transactions,"transaction_no" => $transaction_detail]);
 
     }
 
@@ -76,7 +84,9 @@ class ExpensesController extends Controller
         $this->validateRequest($transactions);
 
         //get session
-        $transactionNo = $request->session()->get('transaction_no',null);
+        $sessionTransaction = $request->session()->get('transaction_no',null);
+
+        $transactionNo = $sessionTransaction['transaction_no'];
 
         if(is_null($transactionNo)) {
             $transactionNo = Expenditure::generateNewTransactionNo();
@@ -85,17 +95,21 @@ class ExpensesController extends Controller
             $request->session()->forget('transaction_no');
         }
 
-
-
         foreach ($transactions as $transaction) {
+
             if(!isset($transaction['id'])) {
+
                 $transaction['transaction_no'] = $transactionNo;
-                Expenditure::create($transaction);
+
+                Expenditure::createWithUser($transaction);
             }
             else {
+
                 $expenditure = Expenditure::find($transaction['id']);
+
                 $expenditure->toMap($transaction);
-                $expenditure->save();
+
+                $expenditure->saveWithUser();
             }
         }
 

@@ -23,4 +23,6 @@ trait BaseModelSaveTrait
         $this->setUser();
         $this->save();
     }
+
+    
 }

@@ -1,4 +1,8 @@
-import { cloneObject, copiedValue, ErrorValidations} from "../../../helpers/helpers";
+import {
+    cloneObject,
+    copiedValue,
+    ErrorValidations
+} from "../../../helpers/helpers";
 
 var moment = moment || require('moment');
 
@@ -31,7 +35,7 @@ class Validator {
     validate(inputs) {
         let messageErrors = {}
         _.each(this._rules, (value, key) => {
-            if (typeof (inputs[key]) === undefined) {
+            if (typeof (inputs[key]) === 'undefined') {
                 return;
             }
 
@@ -41,44 +45,63 @@ class Validator {
                 type: 'string',
                 condition: ''
             }
-            
+
+            option.condition = typeof (attributes[0]) === 'undefined' ? 'required' : attributes[0]
             if (attributes.length > 1) {
-
                 option.type = attributes[1] ? attributes[1] : 'string';
-
-                option.condition = typeof (attributes[2]) == 'undefined' ? '' : attributes[2]
             }
-            
-            let inputVal = typeof(inputs[key]) !== "undefined" ? inputs[key] : '';
-            
+
+            let inputVal = typeof (inputs[key]) !== "undefined" ? inputs[key] : '';
+
             switch (option.type) {
                 case 'string':
-
-                    if (inputVal.length === 0 || inputVal === null) {
-                        messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                    }
-                    break;
-                case 'integer':
-                    
-                    let intRegex = /^\d+?|^\d+\.\d{2}?/;
-                    if (inputVal === null || isNaN(inputVal) ) {
-                        messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                    }
-                    else if(!intRegex.test(inputVal)) {
-                      messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                    }
-                    else {
-                        if(option.condition !== '') {
-                            //check additional condition met
-                            if (inputVal === option.condition) {
-                                messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                            }        
+                    if (options.condition === 'required') {
+                        if (inputVal.length === 0 || inputVal === null) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
                         }
                     }
                     break;
-                case 'date': 
+                case 'integer':
+                    let intRegex = /^\d+?/;
+                    if (options.condition === 'required' || options.condition === 'nonzero') {
+                        if (inputVal === null || isNaN(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        } 
+                        else if (!intRegex.test(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    if (options.condition === 'nonzero') {
+                        //check additional condition met
+                        if (inputVal === 0) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    break;
+                case 'currency':
+
+                    let numerRegex = /^\d+?|^\d+\.\d{2}?/;
+                    if (options.condition === 'required' || options.condition === 'nonzero') {
+                        if (inputVal === null || isNaN(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        } 
+                        else if (!intRegex.test(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    if (options.condition === 'nonzero') {
+                        //check additional condition met
+                        if (inputVal === 0) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+                    break;
+                case 'date':
                     var formatDate = moment(inputVal);
-                    if(!formatDate.isValid()) {
+                    if (!formatDate.isValid()) {
                         messageErrors[key] = "This field " + key.toUpperCase() + " must be validate date";
                     }
                     break;
@@ -99,9 +122,9 @@ class Validator {
 
 //validation
 class ItemHandler {
-    
+
     constructor() {
-        
+
         /**
          * @TODO: adding tag
          */
@@ -120,9 +143,9 @@ class ItemHandler {
         this.items.data.push(item);
     }
 
-    update(item,key) {
-        const temp = _.find(this.items.data,(i) => i.key === key)
-        copiedValue(item,temp);
+    update(item, key) {
+        const temp = _.find(this.items.data, (i) => i.key === key)
+        copiedValue(item, temp);
     }
 
     remove(id) {
@@ -132,24 +155,23 @@ class ItemHandler {
         ***************************************************/
         if (this.items.data.length > 0) {
             this.items.data = _.filter(this.items.data, (item) => {
-                
-                if(item.key === id && item.id && item.transaction_no) {
+
+                if (item.key === id && item.id && item.transaction_no) {
                     this.items.deletedItems.push(item.id);
                 }
-                
+
                 return item.key !== id;
             });
-        } 
-        else {
-            
+        } else {
+
             //do nothing
 
         }
-        
+
     }
 
     find(key) {
-        return _.find(this.items.data,(item) => item.key === key);
+        return _.find(this.items.data, (item) => item.key === key);
     }
 
     clear() {
@@ -169,7 +191,7 @@ class ItemHandler {
 class Expense {
 
     constructor() {
-        
+
         this.state = {
             transaction: null,
             current: null,
@@ -179,7 +201,9 @@ class Expense {
         };
 
         this.instanceStorage = {};
-        this.lookups = { villas: [] };
+        this.lookups = {
+            villas: []
+        };
         this.validator = new Validator();
         this.errors = new ErrorValidations();
     }
@@ -198,11 +222,12 @@ class Expense {
             this.validator.setRules(r.data.rules);
             this.lookups = r.data.lookups;
         })
-
     }
 
     save() {
-        axiosRequest.post('expenses', 'store', { transactions: this.state.items.all() })
+        axiosRequest.post('expenses', 'store', {
+                transactions: this.state.items.all()
+            })
             .then(r => {
                 toastr.success('Save successfully!!!');
             })
@@ -214,27 +239,33 @@ class Expense {
     }
 
     saveAndPost() {
-
+        axiosRequest.post('expenses', 'post', { transactions: this.state.items.all()})
+            .then(r => { toastr.success('Save successfully!!!'); })
+            .catch(e => {
+                if (e.response.status === 422) {
+                    this.errors.register(e.response.data);
+                }
+            });
     }
 
     edit(transactionNo) {
         axiosRequest.dispatchGet(`/api/expenses/${transactionNo}/edit/`)
-        .then(r => {
-            this.state.items.clear();
-            this.state.transaction = r.data.transaction_no;
-            r.data.data.forEach((entry) => this.registerItem(entry));
-        })
-        .catch(e => {
-            if (e.response.status === 422) {
-                this.errors.register(e.response.data);
-            }
-        });
+            .then(r => {
+                this.state.items.clear();
+                this.state.transaction = r.data.transaction_no;
+                r.data.data.forEach((entry) => this.registerItem(entry));
+            })
+            .catch(e => {
+                if (e.response.status === 422) {
+                    this.errors.register(e.response.data);
+                }
+            });
     }
 
     resetEntry() {
         this.errors.clearAll();
         this.state.current = null;
-        copiedValue(this.instanceStorage.get(),this.state.entry);
+        copiedValue(this.instanceStorage.get(), this.state.entry);
     }
 
     newTransaction() {
@@ -243,40 +274,37 @@ class Expense {
         this.state.items.clear();
     }
 
-    registerItem(entry,isEdit = false) {
-        
+    registerItem(entry, isEdit = false) {
+
         var account = _.find(this.lookups.accounts, (item) => item.code == entry.acct_code);
         var property = _.find(this.lookups.villa_location, (item) => item.code == entry.location);
         var villa = _.find(this.lookups.villas, (item) => item.id == entry.villa_id);
         var payee = _.find(this.lookups.payees, (item) => item.id == entry.payee_id);
-        
+
         entry.account = entry.acct_code + " - " + account.description;
         entry.property = property.name;
         entry.villa = villa.villa_no;
         entry.payee = payee.name;
         entry.payment_date = moment(entry.payment_date).format("L")
         entry.doc_date = moment(entry.doc_date).format("L")
-        
-        if(isEdit) {
-            this.state.items.update(entry,this.state.current)
-        }
-        else {
+
+        if (isEdit) {
+            this.state.items.update(entry, this.state.current)
+        } else {
             this.state.items.add(entry)
         }
-            
-
     }
 
     insertItem() {
-        
+
         this.errors.register(this.validator.validate(this.state.entry));
         if (this.errors.hasError())
             return false;
-        
+
         //if key exist it is meant for editing
-        if(this.state.current !== null) 
-            this.registerItem(this.state.entry,true)
-        else 
+        if (this.state.current !== null)
+            this.registerItem(this.state.entry, true)
+        else
             this.registerItem(cloneObject(this.state.entry))
 
 
@@ -284,15 +312,14 @@ class Expense {
     }
 
     editItem(key) {
-        const editExpense = this.state.items.find(key) 
-        copiedValue(editExpense, this.state.entry,['account','id','key','payee','property','villa']);
+        const editExpense = this.state.items.find(key)
+        copiedValue(editExpense, this.state.entry, ['account', 'id', 'key', 'payee', 'property', 'villa']);
         this.state.current = editExpense.key;
     }
 
     removeItem(key) {
         this.state.items.remove(key);
     }
-    
 }
 
 const state = {
@@ -307,21 +334,34 @@ const state = {
 const mutations = {
     removeItem: (state, payload) => state.expense.removeItem(payload.key),
     insertItem: (state) => state.expense.insertItem(),
-    editItem: (state,payload) => state.expense.editItem(payload.key),
+    editItem: (state, payload) => state.expense.editItem(payload.key),
     reset: (state) => state.expense.resetEntry(),
     new: (state) => state.expense.newTransaction()
 }
 
 const actions = {
-    create: ({ state, commit }) => state.expense.create(),
-    save: ({ commit, state }) => state.expense.save(),
-    saveAndPost: ({state}) => state.expense.saveAndPost(),
-    edit: ({ commit, state }, payload) => state.expense.edit(payload.transactionNo),
-    fetch: ({state}) => state.expense.fetch()
+    create: ({
+        state,
+        commit
+    }) => state.expense.create(),
+    save: ({
+        commit,
+        state
+    }) => state.expense.save(),
+    saveAndPost: ({
+        state
+    }) => state.expense.saveAndPost(),
+    edit: ({
+        commit,
+        state
+    }, payload) => state.expense.edit(payload.transactionNo),
+    fetch: ({
+        state
+    }) => state.expense.fetch()
 }
 
 const getters = {
-    expense: (state) => state.expense.state, 
+    expense: (state) => state.expense.state,
     expenses: (state) => state.expense.state.expenses,
     lookups: (state) => state.expense.lookups,
     errors: (state) => state.expense.errors,

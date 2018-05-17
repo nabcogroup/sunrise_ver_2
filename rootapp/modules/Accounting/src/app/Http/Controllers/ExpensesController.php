@@ -75,8 +75,6 @@ class ExpensesController extends Controller
 
     }
 
-
-
     public function store(Request $request) {
 
         $transactions = $request->input('transactions');
@@ -117,16 +115,51 @@ class ExpensesController extends Controller
 
     }
 
+    public function storeAndPost(Request $request) {
+
+        $transactions = $request->input('transactions');
+
+        $this->validateRequest($transactions);
+
+        //get session
+        $sessionTransaction = $request->session()->get('transaction_no',null);
+
+        $transactionNo = $sessionTransaction['transaction_no'];
+
+        if(is_null($transactionNo)) {
+            $transactionNo = Expenditure::generateNewTransactionNo();
+        }
+        else {
+            $request->session()->forget('transaction_no');
+        }
+
+        foreach ($transactions as $transaction) {
+            if(!isset($transaction['id'])) {
+                $transaction['transaction_no'] = $transactionNo;
+                $transaction['posted'] = 1;
+                Expenditure::createWithUser($transaction);
+            }
+            else {
+                $expenditure = Expenditure::find($transaction['id']);
+                $expenditure->toMap($transaction);
+                $expenditure->posted = 1;
+                $expenditure->saveWithUser();
+            }
+        }
+
+        return Result::response(["message" => "Successfully Save"]);
+
+    }
+
 
 
 
 
     protected function validateRequest($transactions) {
-
-        if(count($transactions) == 0) return Result::badRequest(["errors" => "No Entry Found"]);
+        if(count($transactions) == 0)
+            return Result::badRequest(["errors" => "No Entry Found"]);
 
         foreach ($transactions as $transaction) {
-
             $rules = [
                 'location'          =>  'required',
                 'villa_id'          =>  'required|exists:villas,id',
@@ -141,7 +174,6 @@ class ExpensesController extends Controller
             ];
 
             $validator = Validator::make($transactions,$rules);
-
             if($validator->fails()) {
                 return Result::badRequest(["errors" => $validator->errors()]);
             }

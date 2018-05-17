@@ -44340,6 +44340,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -48700,7 +48705,7 @@ class Validator {
     validate(inputs) {
         let messageErrors = {};
         _.each(this._rules, (value, key) => {
-            if (typeof inputs[key] === undefined) {
+            if (typeof inputs[key] === 'undefined') {
                 return;
             }
 
@@ -48711,35 +48716,54 @@ class Validator {
                 condition: ''
             };
 
+            option.condition = typeof attributes[0] === 'undefined' ? 'required' : attributes[0];
             if (attributes.length > 1) {
-
                 option.type = attributes[1] ? attributes[1] : 'string';
-
-                option.condition = typeof attributes[2] == 'undefined' ? '' : attributes[2];
             }
 
             let inputVal = typeof inputs[key] !== "undefined" ? inputs[key] : '';
 
             switch (option.type) {
                 case 'string':
-
-                    if (inputVal.length === 0 || inputVal === null) {
-                        messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                    if (options.condition === 'required') {
+                        if (inputVal.length === 0 || inputVal === null) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
                     }
                     break;
                 case 'integer':
+                    let intRegex = /^\d+?/;
+                    if (options.condition === 'required' || options.condition === 'nonzero') {
+                        if (inputVal === null || isNaN(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        } else if (!intRegex.test(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
 
-                    let intRegex = /^\d+?|^\d+\.\d{2}?/;
-                    if (inputVal === null || isNaN(inputVal)) {
-                        messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                    } else if (!intRegex.test(inputVal)) {
-                        messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                    } else {
-                        if (option.condition !== '') {
-                            //check additional condition met
-                            if (inputVal === option.condition) {
-                                messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                            }
+                    if (options.condition === 'nonzero') {
+                        //check additional condition met
+                        if (inputVal === 0) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    break;
+                case 'currency':
+
+                    let numerRegex = /^\d+?|^\d+\.\d{2}?/;
+                    if (options.condition === 'required' || options.condition === 'nonzero') {
+                        if (inputVal === null || isNaN(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        } else if (!intRegex.test(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    if (options.condition === 'nonzero') {
+                        //check additional condition met
+                        if (inputVal === 0) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
                         }
                     }
                     break;
@@ -48844,7 +48868,9 @@ class Expense {
         };
 
         this.instanceStorage = {};
-        this.lookups = { villas: [] };
+        this.lookups = {
+            villas: []
+        };
         this.validator = new Validator();
         this.errors = new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]();
     }
@@ -48866,7 +48892,9 @@ class Expense {
     }
 
     save() {
-        axiosRequest.post('expenses', 'store', { transactions: this.state.items.all() }).then(r => {
+        axiosRequest.post('expenses', 'store', {
+            transactions: this.state.items.all()
+        }).then(r => {
             toastr.success('Save successfully!!!');
         }).catch(e => {
             if (e.response.status === 422) {
@@ -48875,7 +48903,15 @@ class Expense {
         });
     }
 
-    saveAndPost() {}
+    saveAndPost() {
+        axiosRequest.post('expenses', 'post', { transactions: this.state.items.all() }).then(r => {
+            toastr.success('Save successfully!!!');
+        }).catch(e => {
+            if (e.response.status === 422) {
+                this.errors.register(e.response.data);
+            }
+        });
+    }
 
     edit(transactionNo) {
         axiosRequest.dispatchGet(`/api/expenses/${transactionNo}/edit/`).then(r => {
@@ -48942,7 +48978,6 @@ class Expense {
     removeItem(key) {
         this.state.items.remove(key);
     }
-
 }
 
 const state = {
@@ -48962,11 +48997,24 @@ const mutations = {
 };
 
 const actions = {
-    create: ({ state, commit }) => state.expense.create(),
-    save: ({ commit, state }) => state.expense.save(),
-    saveAndPost: ({ state }) => state.expense.saveAndPost(),
-    edit: ({ commit, state }, payload) => state.expense.edit(payload.transactionNo),
-    fetch: ({ state }) => state.expense.fetch()
+    create: ({
+        state,
+        commit
+    }) => state.expense.create(),
+    save: ({
+        commit,
+        state
+    }) => state.expense.save(),
+    saveAndPost: ({
+        state
+    }) => state.expense.saveAndPost(),
+    edit: ({
+        commit,
+        state
+    }, payload) => state.expense.edit(payload.transactionNo),
+    fetch: ({
+        state
+    }) => state.expense.fetch()
 };
 
 const getters = {
@@ -70128,7 +70176,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "button"
     },
     on: {
-      "click": _vm.insertItem
+      "click": _vm.reset
     }
   }, [_c('i', {
     staticClass: "fa fa-eraser"

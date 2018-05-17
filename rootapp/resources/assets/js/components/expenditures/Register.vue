@@ -4,10 +4,14 @@
         <form>
             <v-panel header="Expenses Entry">
                 <div class="column-group row">
-                    
                     <div class="col-md-6">
                         <label for="expensesTransactionNo">Transaction No:</label>
-                        <input disabled type="text" class="input" :placeholder="expense.transaction == null ? '(New)' : expense.transaction.transaction_no" id="expensesTransactionNo" name="expensesTransactionNo" style="text-align:right"/>
+                        <input disabled type="text" class="input" 
+                                :placeholder="expense.transaction == null ? '(New)' : expense.transaction.transaction_no" 
+                                id="expensesTransactionNo" 
+                                name="expensesTransactionNo" 
+                                style="text-align:right"/>
+
                         <button class="btn btn-default " type="button" @click="searchTransaction">
                             <i class="fa fa-fw fa-search"></i>
                         </button>
@@ -160,7 +164,7 @@
                 <div class="row">
                     <div class="col-md-3 col-md-offset-9">
                         <div class="col-md-6" style="padding-top: 10px;padding-bottom: 10px ">
-                            <button class="btn btn-danger btn-block" @click="insertItem" type="button"><i class="fa fa-eraser"></i> Reset</button>
+                            <button class="btn btn-danger btn-block" @click="reset" type="button"><i class="fa fa-eraser"></i> Reset</button>
                         </div>
                         <div class="col-md-6" style="padding-top: 10px;padding-bottom: 10px ">
                             <button class="btn btn-primary btn-block" @click="insertItem" type="button"> <i class="fa fa-arrow-down"></i> Insert</button>
@@ -176,6 +180,7 @@
                 </div>
 
                 <template slot="panel-footer">
+                    <!-- Save and Post -->
                     <div class="row">
                         <div class="col-md-2 col-md-offset-10">
                             <button type="button" class="btn btn-info btn" :disabled="expense.items.all().length == 0" @click="save">Save</button>

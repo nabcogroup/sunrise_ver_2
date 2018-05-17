@@ -10,8 +10,10 @@ class Expenditure extends BaseModel
 {
     protected $table  = "expenditures";
 
-    protected $fillable = ["transaction_no","description", "location","villa_id","acct_code","payee_id","payment_date",
-        "amount","mode_of_payment","bank_provider","payment_ref","doc_ref","doc_date","doc_no"];
+    protected $fillable = ["transaction_no","description", "location",
+                            "villa_id","acct_code","payee_id","payment_date",
+                            "amount","mode_of_payment","bank_provider","payment_ref",
+                            "doc_ref","doc_date","doc_no","posted"];
 
     protected $appends = ["transaction_status"];
 

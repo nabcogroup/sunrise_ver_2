@@ -85,5 +85,12 @@ class BaseModel extends Model {
         return $this->id;
     }
 
+    public static function createWithUser(array $attributes = []) {
+        $model = new static($attributes);
+        $model->setUser();
+        $model->save();
+
+    }
+
 
 }

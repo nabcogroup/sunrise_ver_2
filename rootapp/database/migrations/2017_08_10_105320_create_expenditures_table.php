@@ -17,15 +17,19 @@ class CreateExpendituresTable extends Migration
 
             $table->increments('id');
 
+            $table->string('transaction_no');
+
+            $table->string('description');  
+
             $table->string('location');
 
             $table->integer('villa_id')->unsigned();
 
             $table->string('expense_type',50);
 
-            $table->integer('acct_id')->unsigned()->index();
+            $table->integer('acct_code')->index();
 
-            $table->string('payee')->index();
+            $table->integer('payee_id')->index();
 
             $table->date('payment_date');
 

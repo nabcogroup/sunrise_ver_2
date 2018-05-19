@@ -24,24 +24,23 @@ class ExpensesController extends Controller
 
 
     public function index(Request $request) {
-
-        $transactions = Expenditure::transactionList()->get();
-
+        $transactions = Expenditure::transactionList()->orderBy('transaction_no')->get();
         return Result::response(["data" => $transactions]);
+
     }
 
     public function create() {
 
         $expenditure = Expenditure::createInstance();
         $lookups = Selection::getSelections(["account_type","payment_term","bank","villa_location","bank_provider"]);
-        
+
         $lookups["accounts"] = AccountChart::all();
         $lookups["villas"] =  AccountsVilla::orderBy('villa_no')->get();
         $lookups["payees"] = AccountsPayee::orderBy("payee_code")->get();
 
         $rules = [
             'location'          =>  'required',
-            'villa_id'          =>  'required|integer|0',
+            'villa_id'          =>  'nonzero|integer',
             'acct_code'         =>  'required',
             'payee_id'          =>  'required|integer',
             'payment_date'      =>  'required|date',
@@ -59,15 +58,21 @@ class ExpensesController extends Controller
 
         $transactions = Expenditure::getTransaction($transaction_no)->get();
 
-        $plucked = $transactions->pluck('transaction_no');
+        $transaction_detail = [
 
-        $request->session()->put('transaction_no', $plucked->first());
+            'transaction_no'        => $transactions->pluck('transaction_no')->first(),
 
-        return Result::response(["data" => $transactions]);
+            'transaction_status'    => $transactions->pluck('transaction_status')->first(),
+
+            'posted'                =>  $transactions->pluck('posted')->first()
+
+        ];
+
+        $request->session()->put('transaction_no', $transaction_detail);
+
+        return Result::response(["data" => $transactions,"transaction_no" => $transaction_detail]);
 
     }
-
-
 
     public function store(Request $request) {
 
@@ -76,7 +81,9 @@ class ExpensesController extends Controller
         $this->validateRequest($transactions);
 
         //get session
-        $transactionNo = $request->session()->get('transaction_no',null);
+        $sessionTransaction = $request->session()->get('transaction_no',null);
+
+        $transactionNo = $sessionTransaction['transaction_no'];
 
         if(is_null($transactionNo)) {
             $transactionNo = Expenditure::generateNewTransactionNo();
@@ -85,17 +92,53 @@ class ExpensesController extends Controller
             $request->session()->forget('transaction_no');
         }
 
+        foreach ($transactions as $transaction) {
 
+            if(!isset($transaction['id'])) {
+                $transaction['transaction_no'] = $transactionNo;
+                Expenditure::createWithUser($transaction);
+            }
+            else {
+
+                $expenditure = Expenditure::find($transaction['id']);
+                $expenditure->toMap($transaction);
+                $expenditure->saveWithUser();
+            }
+        }
+
+        return Result::response(["message" => "Successfully Save"]);
+
+    }
+
+    public function storeAndPost(Request $request) {
+
+        $transactions = $request->input('transactions');
+
+        $this->validateRequest($transactions);
+
+        //get session
+        $sessionTransaction = $request->session()->get('transaction_no',null);
+
+        $transactionNo = $sessionTransaction['transaction_no'];
+
+        if(is_null($transactionNo)) {
+            $transactionNo = Expenditure::generateNewTransactionNo();
+        }
+        else {
+            $request->session()->forget('transaction_no');
+        }
 
         foreach ($transactions as $transaction) {
             if(!isset($transaction['id'])) {
                 $transaction['transaction_no'] = $transactionNo;
-                Expenditure::create($transaction);
+                $transaction['posted'] = 1;
+                Expenditure::createWithUser($transaction);
             }
             else {
                 $expenditure = Expenditure::find($transaction['id']);
                 $expenditure->toMap($transaction);
-                $expenditure->save();
+                $expenditure->posted = 1;
+                $expenditure->saveWithUser();
             }
         }
 
@@ -108,11 +151,10 @@ class ExpensesController extends Controller
 
 
     protected function validateRequest($transactions) {
-
-        if(count($transactions) == 0) return Result::badRequest(["errors" => "No Entry Found"]);
+        if(count($transactions) == 0)
+            return Result::badRequest(["errors" => "No Entry Found"]);
 
         foreach ($transactions as $transaction) {
-
             $rules = [
                 'location'          =>  'required',
                 'villa_id'          =>  'required|exists:villas,id',
@@ -127,7 +169,6 @@ class ExpensesController extends Controller
             ];
 
             $validator = Validator::make($transactions,$rules);
-
             if($validator->fails()) {
                 return Result::badRequest(["errors" => $validator->errors()]);
             }

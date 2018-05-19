@@ -27,6 +27,7 @@ class AccountingRoute
             Route::get("/", $namespace . "\ExpensesController@index");
             Route::get("create",  $namespace ."\ExpensesController@create");
             Route::post("store", $namespace . "\ExpensesController@store");
+            Route::post("post", $namespace . "\ExpensesController@storeAndPost");
             Route::get("{transaction_no}/edit", $namespace . "\ExpensesController@edit");
 
         });

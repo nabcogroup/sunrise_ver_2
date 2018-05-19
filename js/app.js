@@ -5508,6 +5508,187 @@ class ErrorValidations {
 /* harmony export (immutable) */ __webpack_exports__["b"] = ErrorValidations;
 
 
+//validation
+class Validator {
+
+    constructor() {
+        this._rules = [];
+    }
+
+    validate(inputs) {
+        let messageErrors = {};
+        _.each(this._rules, (value, key) => {
+            if (typeof inputs[key] === 'undefined') {
+                return;
+            }
+
+            //break sem
+            let attributes = value.split('|');
+            let option = {
+                type: 'string',
+                condition: ''
+            };
+
+            option.condition = typeof attributes[0] === 'undefined' ? 'required' : attributes[0];
+            if (attributes.length > 1) {
+                option.type = attributes[1] ? attributes[1] : 'string';
+            }
+
+            let inputVal = typeof inputs[key] !== "undefined" ? inputs[key] : '';
+
+            switch (option.type) {
+                case 'string':
+                    if (option.condition === 'required') {
+                        if (inputVal.length === 0 || inputVal === null) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+                    break;
+                case 'integer':
+                    let intRegex = /^\d+?/;
+                    if (option.condition === 'required' || option.condition === 'nonzero') {
+                        if (inputVal === null || isNaN(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        } else if (!intRegex.test(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    if (option.condition === 'nonzero') {
+                        //check additional condition met
+                        if (inputVal === 0) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    break;
+                case 'currency':
+
+                    let numerRegex = /^\d+?|^\d+\.\d{2}?/;
+                    if (option.condition === 'required' || option.condition === 'nonzero') {
+                        if (inputVal === null || isNaN(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        } else if (!intRegex.test(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    if (option.condition === 'nonzero') {
+                        //check additional condition met
+                        if (inputVal === 0) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+                    break;
+                case 'date':
+                    var formatDate = moment(inputVal);
+                    if (!formatDate.isValid()) {
+                        messageErrors[key] = "This field " + key.toUpperCase() + " must be validate date";
+                    }
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        return messageErrors;
+    }
+
+    setRules(rules) {
+
+        this._rules = rules;
+    }
+
+}
+/* harmony export (immutable) */ __webpack_exports__["e"] = Validator;
+
+
+//class helper
+class InstanceStorage {
+
+    constructor(instance = null) {
+        this._instance = instance;
+    }
+
+    set(entry) {
+        this._instance = entry;
+    }
+
+    get() {
+        return this._instance;
+    }
+
+    getClone() {
+        return cloneObject(this._instance);
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["f"] = InstanceStorage;
+
+
+class ItemHandler {
+
+    constructor() {
+
+        /**
+         * @TODO: adding tag
+         */
+        this.items = {
+            latestKey: 0,
+            data: [],
+            deletedItems: []
+        };
+        this.autoKeyId = 0;
+        this.isEditMode = false;
+    }
+
+    add(item) {
+        this.items.latestKey = this.items.latestKey + 1;
+        item.key = this.items.latestKey;
+        this.items.data.push(item);
+    }
+
+    update(editValue, key) {
+        const temp = _.find(this.items.data, i => i.key === key);
+        copiedValue(editValue, temp);
+    }
+
+    remove(key) {
+        /******************************************************
+            @TODO: seperate stack for deletion of stored when removed
+            to notify server the removal of deleted item
+        ***************************************************/
+        if (this.items.data.length > 0) {
+            this.items.data = _.filter(this.items.data, item => {
+                if (item.key === key && item.id) {
+                    this.items.deletedItems.push(item.id);
+                }
+                return item.key !== id;
+            });
+        } else {
+            //do nothing
+        }
+    }
+
+    find(key) {
+        return _.find(this.items.data, item => item.key === key);
+    }
+
+    clear() {
+        this.items.data = [];
+        this.items.latestKey = 0;
+    }
+
+    all() {
+        return this.items.data;
+    }
+
+    sum(column) {
+        return _.sumBy(this.items.data, item => parseFloat(item[column]));
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["d"] = ItemHandler;
+
+
 class AxiosRequest {
 
     post(controller, action, data) {
@@ -5576,7 +5757,7 @@ class AxiosRequest {
 const cloneObject = function (objInstance) {
     if (typeof objInstance === "object") return JSON.parse(JSON.stringify(objInstance));else return false;
 };
-/* harmony export (immutable) */ __webpack_exports__["d"] = cloneObject;
+/* harmony export (immutable) */ __webpack_exports__["g"] = cloneObject;
 
 
 const copiedValue = (source, target, exclude = new Array()) => {
@@ -5665,7 +5846,7 @@ const validation = () => {
         validate: validate
     };
 };
-/* harmony export (immutable) */ __webpack_exports__["e"] = validation;
+/* harmony export (immutable) */ __webpack_exports__["h"] = validation;
 
 
 const reIndexing = (items, key = 'id') => {
@@ -5674,7 +5855,7 @@ const reIndexing = (items, key = 'id') => {
         item[key] = index;
     });
 };
-/* harmony export (immutable) */ __webpack_exports__["f"] = reIndexing;
+/* harmony export (immutable) */ __webpack_exports__["i"] = reIndexing;
 
 
 /***/ }),
@@ -44345,6 +44526,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -44427,9 +44613,9 @@ const confirmation = {
                     class: 'text-center',
                     default: true,
                     format: 'date'
-                }, { name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center' }, { name: 'account', column: 'Account', style: 'width:10%', class: 'text-center' }, { name: 'property', column: 'Property', style: "width:10%", class: 'text-right' }, { name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center' }, { name: 'payee', column: 'Payee', class: 'text-center' }, { name: 'amount', column: 'Amount', class: 'text-center', dtype: 'currency' }, { name: '$action', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true }],
+                }, { name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center' }, { name: 'doc_ref', column: 'Doc. Ref#', style: 'width:10%', class: 'text-center' }, { name: 'account', column: 'Account', style: 'width:10%', class: 'text-center' }, { name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center' }, { name: 'description', column: 'Description' }, { name: 'payee', column: 'Payee', class: 'text' }, { name: 'amount', column: 'Amount', class: 'text-center', dtype: 'currency' }, { name: '$action', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true }],
                 actions: [{ key: 'edit', name: 'Edit' }, { key: 'remove', name: 'Remove' }],
-                footers: [{ label: "Grand Total", span: "6" }, { label: "", slot: true, class: 'text-right' }, { label: "" }]
+                footers: [{ label: "Grand Total", span: "7" }, { label: "", slot: true, class: 'text-right' }, { label: "" }]
             }
         };
     },
@@ -44441,7 +44627,8 @@ const confirmation = {
         errors: 'errors',
         payee: 'payee',
         payeeTypes: 'payeeTypes',
-        options: 'options'
+        options: 'options',
+        smartState: 'smartState'
     }),
     components: { TransactionListDialog: __WEBPACK_IMPORTED_MODULE_3__TransactionListDialog___default.a, PayeeRegister: __WEBPACK_IMPORTED_MODULE_1__payee_Register_vue___default.a },
     methods: {
@@ -44452,10 +44639,10 @@ const confirmation = {
                 }
             });
         },
-        savePost() {
+        post() {
             confirmation.ExpensesSave(result => {
                 if (result) {
-                    this.$store.dispatch('expenditures/saveAndPost');
+                    this.$store.dispatch('expenditures/post');
                 }
             });
         },
@@ -44503,6 +44690,9 @@ const confirmation = {
         },
         onSelected(transactionNo) {
             this.$store.dispatch('expenditures/edit', { transactionNo: transactionNo });
+        },
+        suggest(value) {
+            this.$store.commit('expenditures/suggest', { prop: value });
         }
     }
 });
@@ -47482,7 +47672,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     }),
     methods: _extends({
         fetchData(grid) {
-            this.$emit("beforeFetch", { filter: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["d" /* cloneObject */])(this.$store.state.liveviews.filter) });
+            this.$emit("beforeFetch", { filter: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["g" /* cloneObject */])(this.$store.state.liveviews.filter) });
             this.$store.dispatch("liveviews/fetchData", grid);
         }
     }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["d" /* mapMutations */])('liveviews', ['loadData', 'filterWrap']), {
@@ -47511,12 +47701,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
             this.filter.field = field;
             this.filter.label = label + ' - ' + this.filter.value;
-            this.$emit("onFilter", __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["d" /* cloneObject */])(this.filter));
+            this.$emit("onFilter", __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["g" /* cloneObject */])(this.filter));
             this.fetchData({ grid: this.grid });
         },
         clearFilter() {
             this.$store.commit('liveviews/clearFilter');
-            this.$emit("onFilter", __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["d" /* cloneObject */])(this.filter));
+            this.$emit("onFilter", __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["g" /* cloneObject */])(this.filter));
             this.fetchData({ grid: this.grid });
         }
     })
@@ -48248,24 +48438,24 @@ const mutations = {
     validate(state, payload) {
 
         //validate on client side
-        const result = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["e" /* validation */])().validate(state.cloneOfInstance, state.bill.payments);
+        const result = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["h" /* validation */])().validate(state.cloneOfInstance, state.bill.payments);
         payload.cb(result);
     },
     createInstance(state) {
-        state.cloneOfInstance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* cloneObject */])(state.bill.instance);
+        state.cloneOfInstance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["g" /* cloneObject */])(state.bill.instance);
     },
     edit(state, payload) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(payload.payment, state.cloneOfInstance);
     },
     store(state, payload) {
         const trigger = payload.trigger;
-        const result = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["e" /* validation */])().validate(state.cloneOfInstance, state.bill.payments);
+        const result = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["h" /* validation */])().validate(state.cloneOfInstance, state.bill.payments);
         if (result.isValid) {
             if (trigger === 'createInstance') {
 
                 state.bill.payments.push(state.cloneOfInstance);
 
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["f" /* reIndexing */])(state.bill.payments);
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["i" /* reIndexing */])(state.bill.payments);
 
                 payload.cb(true);
             } else {
@@ -48296,7 +48486,7 @@ const mutations = {
             return payment.id !== id;
         });
 
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["f" /* reIndexing */])(state.bill.payments);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["i" /* reIndexing */])(state.bill.payments);
     },
     redirectToPrint(state) {
 
@@ -48313,7 +48503,7 @@ const actions = {
 
         state.lookups = payload.lookups;
 
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["f" /* reIndexing */])(state.bill.payments);
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["i" /* reIndexing */])(state.bill.payments);
 
         commit('createInstance');
     },
@@ -48332,7 +48522,7 @@ const actions = {
         const cloneOfInstance = state.cloneOfInstance;
         axiosRequest.dispatchGet('/api/bill/prepare', cloneOfInstance).then(r => {
             state.bill.payments = r.data;
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["f" /* reIndexing */])(state.bill.payments);
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["i" /* reIndexing */])(state.bill.payments);
         }).catch(e => {
             toastr.error("Internal errors occured");
         });
@@ -48676,185 +48866,6 @@ const contractModule = {
 
 var moment = moment || __webpack_require__(0);
 
-//class helper
-class InstanceStorage {
-
-    constructor(instance = null) {
-        this._instance = instance;
-    }
-
-    set(entry) {
-        this._instance = entry;
-    }
-
-    get() {
-        return this._instance;
-    }
-
-    getClone() {
-        return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* cloneObject */])(this._instance);
-    }
-}
-
-class Validator {
-
-    constructor() {
-        this._rules = [];
-    }
-
-    validate(inputs) {
-        let messageErrors = {};
-        _.each(this._rules, (value, key) => {
-            if (typeof inputs[key] === 'undefined') {
-                return;
-            }
-
-            //break sem
-            let attributes = value.split('|');
-            let option = {
-                type: 'string',
-                condition: ''
-            };
-
-            option.condition = typeof attributes[0] === 'undefined' ? 'required' : attributes[0];
-            if (attributes.length > 1) {
-                option.type = attributes[1] ? attributes[1] : 'string';
-            }
-
-            let inputVal = typeof inputs[key] !== "undefined" ? inputs[key] : '';
-
-            switch (option.type) {
-                case 'string':
-                    if (options.condition === 'required') {
-                        if (inputVal.length === 0 || inputVal === null) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-                    break;
-                case 'integer':
-                    let intRegex = /^\d+?/;
-                    if (options.condition === 'required' || options.condition === 'nonzero') {
-                        if (inputVal === null || isNaN(inputVal)) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        } else if (!intRegex.test(inputVal)) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-
-                    if (options.condition === 'nonzero') {
-                        //check additional condition met
-                        if (inputVal === 0) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-
-                    break;
-                case 'currency':
-
-                    let numerRegex = /^\d+?|^\d+\.\d{2}?/;
-                    if (options.condition === 'required' || options.condition === 'nonzero') {
-                        if (inputVal === null || isNaN(inputVal)) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        } else if (!intRegex.test(inputVal)) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-
-                    if (options.condition === 'nonzero') {
-                        //check additional condition met
-                        if (inputVal === 0) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-                    break;
-                case 'date':
-                    var formatDate = moment(inputVal);
-                    if (!formatDate.isValid()) {
-                        messageErrors[key] = "This field " + key.toUpperCase() + " must be validate date";
-                    }
-                    break;
-                default:
-                    break;
-            }
-        });
-
-        return messageErrors;
-    }
-
-    setRules(rules) {
-
-        this._rules = rules;
-    }
-
-}
-
-//validation
-class ItemHandler {
-
-    constructor() {
-
-        /**
-         * @TODO: adding tag
-         */
-        this.items = {
-            latestKey: 0,
-            data: [],
-            deletedItems: []
-        };
-        this.autoKeyId = 0;
-        this.isEditMode = false;
-    }
-
-    add(item) {
-        this.items.latestKey = this.items.latestKey + 1;
-        item.key = this.items.latestKey;
-        this.items.data.push(item);
-    }
-
-    update(item, key) {
-        const temp = _.find(this.items.data, i => i.key === key);
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(item, temp);
-    }
-
-    remove(id) {
-        /******************************************************
-            @TODO: seperate stack for deletion of stored when removed
-            to notify server the removal of deleted item
-        ***************************************************/
-        if (this.items.data.length > 0) {
-            this.items.data = _.filter(this.items.data, item => {
-
-                if (item.key === id && item.id && item.transaction_no) {
-                    this.items.deletedItems.push(item.id);
-                }
-
-                return item.key !== id;
-            });
-        } else {
-
-            //do nothing
-
-        }
-    }
-
-    find(key) {
-        return _.find(this.items.data, item => item.key === key);
-    }
-
-    clear() {
-        this.items.data = [];
-        this.items.latestKey = 0;
-    }
-
-    all() {
-        return this.items.data;
-    }
-
-    sum(column) {
-        return _.sumBy(this.items.data, item => parseFloat(item[column]));
-    }
-}
-
 class Expense {
 
     constructor() {
@@ -48863,7 +48874,7 @@ class Expense {
             transaction: null,
             current: null,
             entry: {},
-            items: new ItemHandler(),
+            items: new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* ItemHandler */](),
             expenses: []
         };
 
@@ -48871,7 +48882,27 @@ class Expense {
         this.lookups = {
             villas: []
         };
-        this.validator = new Validator();
+
+        this.smart = {
+            snap: "",
+            count: 0,
+            capture: function (element) {
+                if (this.snap !== element) {
+                    this.snap = element;
+                    if (this.count > 0) this.reset();
+                } else {
+                    this.count++;
+                }
+            },
+            reset: function () {
+                this.count = 0;
+            },
+            stopCount: function (count) {
+                this.count = count;
+            }
+        };
+
+        this.validator = new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["e" /* Validator */]();
         this.errors = new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]();
     }
 
@@ -48884,7 +48915,7 @@ class Expense {
 
     create(data) {
         axiosRequest.get('expenses', 'create').then(r => {
-            this.instanceStorage = new InstanceStorage(r.data.data);
+            this.instanceStorage = new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["f" /* InstanceStorage */](r.data.data);
             this.state.entry = this.instanceStorage.getClone();
             this.validator.setRules(r.data.rules);
             this.lookups = r.data.lookups;
@@ -48892,9 +48923,7 @@ class Expense {
     }
 
     save() {
-        axiosRequest.post('expenses', 'store', {
-            transactions: this.state.items.all()
-        }).then(r => {
+        axiosRequest.post('expenses', 'store', { transactions: this.state.items.all() }).then(r => {
             toastr.success('Save successfully!!!');
         }).catch(e => {
             if (e.response.status === 422) {
@@ -48919,9 +48948,7 @@ class Expense {
             this.state.transaction = r.data.transaction_no;
             r.data.data.forEach(entry => this.registerItem(entry));
         }).catch(e => {
-            if (e.response.status === 422) {
-                this.errors.register(e.response.data);
-            }
+            if (e.response.status === 422) this.errors.register(e.response.data);
         });
     }
 
@@ -48944,7 +48971,7 @@ class Expense {
         var villa = _.find(this.lookups.villas, item => item.id == entry.villa_id);
         var payee = _.find(this.lookups.payees, item => item.id == entry.payee_id);
 
-        entry.account = entry.acct_code + " - " + account.description;
+        entry.account = entry.acct_code;
         entry.property = property.name;
         entry.villa = villa.villa_no;
         entry.payee = payee.name;
@@ -48964,7 +48991,12 @@ class Expense {
         if (this.errors.hasError()) return false;
 
         //if key exist it is meant for editing
-        if (this.state.current !== null) this.registerItem(this.state.entry, true);else this.registerItem(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* cloneObject */])(this.state.entry));
+        if (this.state.current !== null) {
+            this.registerItem(this.state.entry, true);
+        } else {
+            this.registerItem(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["g" /* cloneObject */])(this.state.entry));
+            this.smart.capture(this.state.entry.doc_no);
+        }
 
         this.resetEntry();
     }
@@ -48977,6 +49009,13 @@ class Expense {
 
     removeItem(key) {
         this.state.items.remove(key);
+    }
+
+    suggest(prop) {
+        if (this.smart.count >= 3) {
+            this.state.entry[prop] = this.smart.snap;
+            this.smart.stopCount(3);
+        }
     }
 }
 
@@ -48993,28 +49032,16 @@ const mutations = {
     insertItem: state => state.expense.insertItem(),
     editItem: (state, payload) => state.expense.editItem(payload.key),
     reset: state => state.expense.resetEntry(),
-    new: state => state.expense.newTransaction()
+    new: state => state.expense.newTransaction(),
+    suggest: (state, payload) => state.expense.suggest(payload.prop)
 };
 
 const actions = {
-    create: ({
-        state,
-        commit
-    }) => state.expense.create(),
-    save: ({
-        commit,
-        state
-    }) => state.expense.save(),
-    saveAndPost: ({
-        state
-    }) => state.expense.saveAndPost(),
-    edit: ({
-        commit,
-        state
-    }, payload) => state.expense.edit(payload.transactionNo),
-    fetch: ({
-        state
-    }) => state.expense.fetch()
+    create: ({ state }) => state.expense.create(),
+    save: ({ state }) => state.expense.save(),
+    post: ({ state }) => state.expense.saveAndPost(),
+    edit: ({ state }, payload) => state.expense.edit(payload.transactionNo),
+    fetch: ({ state }) => state.expense.fetch()
 };
 
 const getters = {
@@ -49477,7 +49504,7 @@ const mutations = {
         state.search.value = "";
     },
     createInstance(state) {
-        state.cloneOfInstance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* cloneObject */])(state.bill.instance);
+        state.cloneOfInstance = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["g" /* cloneObject */])(state.bill.instance);
     },
     edit(state, payload) {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(payload.payment, state.cloneOfInstance);
@@ -49486,7 +49513,7 @@ const mutations = {
 
         let p = state.bill.payments.find(item => item.id === payload.item.id);
 
-        p.replace_ref = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* cloneObject */])(p);
+        p.replace_ref = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["g" /* cloneObject */])(p);
 
         p.date_deposited = "";
 
@@ -49498,7 +49525,7 @@ const mutations = {
     },
     store(state, payload) {
         const trigger = payload.trigger;
-        const result = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["e" /* validation */])().validate(state.cloneOfInstance, state.bill.payments);
+        const result = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["h" /* validation */])().validate(state.cloneOfInstance, state.bill.payments);
 
         if (result.isValid) {
             if (trigger === 'createInstance') {
@@ -69678,7 +69705,7 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "col-md-10 col-md-offset-1"
+    staticClass: "col-md-12"
   }, [_c('form', [_c('v-panel', {
     attrs: {
       "header": "Expenses Entry"
@@ -69728,9 +69755,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "text-align": "right"
     }
-  }, [_c('label', {
+  }, [((_vm.expense.transaction !== null)) ? [(_vm.expense.transaction.posted == 0) ? _c('button', {
+    staticClass: "btn btn-primary btn",
+    attrs: {
+      "type": "button",
+      "disabled": _vm.expense.items.all().length == 0
+    },
+    on: {
+      "click": _vm.post
+    }
+  }, [_vm._v("Save and Post\n                        ")]) : _c('label', {
     staticClass: "text-muted"
-  }, [_vm._v("\n                        " + _vm._s((_vm.expense.transaction !== null) ? _vm.expense.transaction.transaction_status : '') + "\n                    ")])])]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                            " + _vm._s(_vm.expense.transaction.transaction_status) + "\n                        ")])] : _vm._e()], 2)]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
     staticClass: "col-md-2 col-form-label"
@@ -69756,10 +69792,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "expense.entry.doc_no"
     }],
     staticClass: "form-control",
+    attrs: {
+      "name": "doc_no"
+    },
     domProps: {
       "value": (_vm.expense.entry.doc_no)
     },
     on: {
+      "focus": function($event) {
+        _vm.suggest($event.target.name)
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.expense.entry.doc_no = $event.target.value
@@ -70215,7 +70257,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('div', {
     staticClass: "col-md-2 col-md-offset-10"
   }, [_c('button', {
-    staticClass: "btn btn-info btn",
+    staticClass: "btn btn-info btn btn-block",
     attrs: {
       "type": "button",
       "disabled": _vm.expense.items.all().length == 0
@@ -70223,13 +70265,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.save
     }
-  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-primary btn",
-    attrs: {
-      "type": "button",
-      "disabled": _vm.expense.items.all().length == 0
-    }
-  }, [_vm._v("Save and Post")])])])])], 2)], 1), _vm._v(" "), _c('v-dialog', {
+  }, [_vm._v("Save")])])])])], 2)], 1), _vm._v(" "), _c('v-dialog', {
     attrs: {
       "modal-id": "payee",
       "dialog-title": "Payee Information"

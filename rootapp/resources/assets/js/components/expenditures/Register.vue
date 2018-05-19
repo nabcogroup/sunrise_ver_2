@@ -1,6 +1,6 @@
 <template>
     
-    <div class="col-md-10 col-md-offset-1">
+    <div class="col-md-12">
         <form>
             <v-panel header="Expenses Entry">
                 <div class="column-group row">
@@ -21,9 +21,15 @@
                     </div>
 
                     <div class="col-md-3 col-md-offset-3" style="text-align:right">
-                        <label class="text-muted">
-                            {{(expense.transaction !== null) ? expense.transaction.transaction_status : '' }}
-                        </label>
+                        <template v-if="(expense.transaction !== null)">
+                            <button v-if="expense.transaction.posted == 0" type="button" class="btn btn-primary btn" 
+                                    :disabled="expense.items.all().length == 0" 
+                                    @click="post">Save and Post
+                            </button>
+                            <label v-else class="text-muted">
+                                {{expense.transaction.transaction_status}}
+                            </label>
+                        </template>
                     </div>
                 </div>
 
@@ -37,7 +43,7 @@
                     </div>
                     <label class="col-md-2 col-form-label">Doc No:</label>
                     <div class="col-md-4">
-                        <input class="form-control" v-model="expense.entry.doc_no">
+                        <input class="form-control" name="doc_no" v-model="expense.entry.doc_no" @focus="suggest($event.target.name)">
                         <error-span :value="errors" name="doc_no"></error-span>
                     </div>
                 </div>
@@ -183,8 +189,7 @@
                     <!-- Save and Post -->
                     <div class="row">
                         <div class="col-md-2 col-md-offset-10">
-                            <button type="button" class="btn btn-info btn" :disabled="expense.items.all().length == 0" @click="save">Save</button>
-                            <button type="button" class="btn btn-primary btn" :disabled="expense.items.all().length == 0">Save and Post</button>
+                            <button type="button" class="btn btn-info btn btn-block" :disabled="expense.items.all().length == 0" @click="save">Save</button>
                         </div>
                     </div>
                 </template>
@@ -286,10 +291,11 @@
                             format: 'date'
                         },
                         {name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center'},
+                        {name: 'doc_ref', column: 'Doc. Ref#', style: 'width:10%', class: 'text-center'},
                         {name: 'account', column: 'Account', style: 'width:10%', class: 'text-center'},
-                        {name: 'property', column: 'Property', style: "width:10%", class: 'text-right'},
                         {name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center'},
-                        {name: 'payee', column: 'Payee', class: 'text-center'},
+                        {name: 'description', column: 'Description',},
+                        {name: 'payee', column: 'Payee', class: 'text'},
                         {name: 'amount', column: 'Amount', class: 'text-center',dtype: 'currency'},
                         {name: '$action', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true}
                     ],
@@ -298,7 +304,7 @@
                         {key: 'remove', name: 'Remove'}
                     ],
                     footers: [
-                        {label: "Grand Total",span:"6"},
+                        {label: "Grand Total",span:"7"},
                         {label: "",slot: true, class:'text-right'},
                         {label: ""}
                     ]
@@ -313,7 +319,8 @@
             errors: 'errors',
             payee: 'payee',
             payeeTypes: 'payeeTypes',
-            options: 'options'
+            options: 'options',
+            smartState: 'smartState'
         }),
         components: {TransactionListDialog, PayeeRegister},
         methods: {
@@ -324,10 +331,10 @@
                     }
                 });
             },
-            savePost() {
+            post() {
                 confirmation.ExpensesSave((result) => {
                     if (result) {
-                        this.$store.dispatch('expenditures/saveAndPost')
+                        this.$store.dispatch('expenditures/post')
                     }
                 });
             },
@@ -377,6 +384,9 @@
             },
             onSelected(transactionNo) {
                 this.$store.dispatch('expenditures/edit',{transactionNo: transactionNo});
+            },
+            suggest(value) {
+               this.$store.commit('expenditures/suggest',{prop: value});
             }
         },
     }

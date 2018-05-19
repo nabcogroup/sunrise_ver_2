@@ -52,6 +52,187 @@ export class ErrorValidations {
 
 }
 
+//validation
+export class Validator {
+
+    constructor() {
+        this._rules = [];
+    }
+
+    validate(inputs) {
+        let messageErrors = {}
+        _.each(this._rules, (value, key) => {
+            if (typeof (inputs[key]) === 'undefined') {
+                return;
+            }
+
+            //break sem
+            let attributes = value.split('|')
+            let option = {
+                type: 'string',
+                condition: ''
+            }
+
+            option.condition = typeof (attributes[0]) === 'undefined' ? 'required' : attributes[0]
+            if (attributes.length > 1) {
+                option.type = attributes[1] ? attributes[1] : 'string';
+            }
+
+            let inputVal = typeof (inputs[key]) !== "undefined" ? inputs[key] : '';
+
+            switch (option.type) {
+                case 'string':
+                    if (option.condition === 'required') {
+                        if (inputVal.length === 0 || inputVal === null) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+                    break;
+                case 'integer':
+                    let intRegex = /^\d+?/;
+                    if (option.condition === 'required' || option.condition === 'nonzero') {
+                        if (inputVal === null || isNaN(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        } 
+                        else if (!intRegex.test(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    if (option.condition === 'nonzero') {
+                        //check additional condition met
+                        if (inputVal === 0) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    break;
+                case 'currency':
+
+                    let numerRegex = /^\d+?|^\d+\.\d{2}?/;
+                    if (option.condition === 'required' || option.condition === 'nonzero') {
+                        if (inputVal === null || isNaN(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        } 
+                        else if (!intRegex.test(inputVal)) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+
+                    if (option.condition === 'nonzero') {
+                        //check additional condition met
+                        if (inputVal === 0) {
+                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
+                        }
+                    }
+                    break;
+                case 'date':
+                    var formatDate = moment(inputVal);
+                    if (!formatDate.isValid()) {
+                        messageErrors[key] = "This field " + key.toUpperCase() + " must be validate date";
+                    }
+                    break;
+                default:
+                    break;
+            }
+        })
+
+        return messageErrors;
+    }
+
+    setRules(rules) {
+
+        this._rules = rules;
+    }
+
+}
+
+//class helper
+export class InstanceStorage {
+
+    constructor(instance = null) {
+        this._instance = instance;
+    }
+
+    set(entry) {
+        this._instance = entry;
+    }
+
+    get() {
+        return this._instance;
+    }
+
+    getClone() {
+        return cloneObject(this._instance)
+    }
+}
+
+
+export class ItemHandler {
+
+    constructor() {
+
+        /**
+         * @TODO: adding tag
+         */
+        this.items = {
+            latestKey: 0,
+            data: [],
+            deletedItems: []
+        };
+        this.autoKeyId = 0;
+        this.isEditMode = false;
+    }
+
+    add(item) {
+        this.items.latestKey = this.items.latestKey + 1;
+        item.key = this.items.latestKey;
+        this.items.data.push(item);
+    }
+
+    update(editValue, key) {
+        const temp = _.find(this.items.data, (i) => i.key === key)
+        copiedValue(editValue, temp);
+    }
+
+    remove(key) 
+    {
+        /******************************************************
+            @TODO: seperate stack for deletion of stored when removed
+            to notify server the removal of deleted item
+        ***************************************************/
+        if (this.items.data.length > 0) {
+            this.items.data = _.filter(this.items.data, (item) => {
+                if (item.key === key && item.id) {
+                    this.items.deletedItems.push(item.id);
+                }
+                return item.key !== id;
+            });
+        } 
+        else {
+            //do nothing
+        }
+    }
+
+    find(key) {
+        return _.find(this.items.data, (item) => item.key === key);
+    }
+
+    clear() {
+        this.items.data = [];
+        this.items.latestKey = 0;
+    }
+
+    all() {
+        return this.items.data;
+    }
+
+    sum(column) {
+        return _.sumBy(this.items.data, (item) => parseFloat(item[column]));
+    }
+}
+
+
 export class AxiosRequest {
 
     post(controller,action,data) {
@@ -221,3 +402,4 @@ export const reIndexing = (items,key = 'id') => {
         item[key] = index
     });
 }
+

@@ -1,192 +1,7 @@
-import {
-    cloneObject,
-    copiedValue,
-    ErrorValidations
-} from "../../../helpers/helpers";
+import { cloneObject, copiedValue, ErrorValidations, Validator,ItemHandler,InstanceStorage } from "../../../helpers/helpers";
 
 var moment = moment || require('moment');
 
-//class helper
-class InstanceStorage {
-
-    constructor(instance = null) {
-        this._instance = instance;
-    }
-
-    set(entry) {
-        this._instance = entry;
-    }
-
-    get() {
-        return this._instance;
-    }
-
-    getClone() {
-        return cloneObject(this._instance)
-    }
-}
-
-class Validator {
-
-    constructor() {
-        this._rules = [];
-    }
-
-    validate(inputs) {
-        let messageErrors = {}
-        _.each(this._rules, (value, key) => {
-            if (typeof (inputs[key]) === 'undefined') {
-                return;
-            }
-
-            //break sem
-            let attributes = value.split('|')
-            let option = {
-                type: 'string',
-                condition: ''
-            }
-
-            option.condition = typeof (attributes[0]) === 'undefined' ? 'required' : attributes[0]
-            if (attributes.length > 1) {
-                option.type = attributes[1] ? attributes[1] : 'string';
-            }
-
-            let inputVal = typeof (inputs[key]) !== "undefined" ? inputs[key] : '';
-
-            switch (option.type) {
-                case 'string':
-                    if (options.condition === 'required') {
-                        if (inputVal.length === 0 || inputVal === null) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-                    break;
-                case 'integer':
-                    let intRegex = /^\d+?/;
-                    if (options.condition === 'required' || options.condition === 'nonzero') {
-                        if (inputVal === null || isNaN(inputVal)) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        } 
-                        else if (!intRegex.test(inputVal)) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-
-                    if (options.condition === 'nonzero') {
-                        //check additional condition met
-                        if (inputVal === 0) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-
-                    break;
-                case 'currency':
-
-                    let numerRegex = /^\d+?|^\d+\.\d{2}?/;
-                    if (options.condition === 'required' || options.condition === 'nonzero') {
-                        if (inputVal === null || isNaN(inputVal)) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        } 
-                        else if (!intRegex.test(inputVal)) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-
-                    if (options.condition === 'nonzero') {
-                        //check additional condition met
-                        if (inputVal === 0) {
-                            messageErrors[key] = "This field " + key.toUpperCase() + " is required";
-                        }
-                    }
-                    break;
-                case 'date':
-                    var formatDate = moment(inputVal);
-                    if (!formatDate.isValid()) {
-                        messageErrors[key] = "This field " + key.toUpperCase() + " must be validate date";
-                    }
-                    break;
-                default:
-                    break;
-            }
-        })
-
-        return messageErrors;
-    }
-
-    setRules(rules) {
-
-        this._rules = rules;
-    }
-
-}
-
-//validation
-class ItemHandler {
-
-    constructor() {
-
-        /**
-         * @TODO: adding tag
-         */
-        this.items = {
-            latestKey: 0,
-            data: [],
-            deletedItems: []
-        };
-        this.autoKeyId = 0;
-        this.isEditMode = false;
-    }
-
-    add(item) {
-        this.items.latestKey = this.items.latestKey + 1;
-        item.key = this.items.latestKey;
-        this.items.data.push(item);
-    }
-
-    update(item, key) {
-        const temp = _.find(this.items.data, (i) => i.key === key)
-        copiedValue(item, temp);
-    }
-
-    remove(id) {
-        /******************************************************
-            @TODO: seperate stack for deletion of stored when removed
-            to notify server the removal of deleted item
-        ***************************************************/
-        if (this.items.data.length > 0) {
-            this.items.data = _.filter(this.items.data, (item) => {
-
-                if (item.key === id && item.id && item.transaction_no) {
-                    this.items.deletedItems.push(item.id);
-                }
-
-                return item.key !== id;
-            });
-        } else {
-
-            //do nothing
-
-        }
-
-    }
-
-    find(key) {
-        return _.find(this.items.data, (item) => item.key === key);
-    }
-
-    clear() {
-        this.items.data = [];
-        this.items.latestKey = 0;
-    }
-
-    all() {
-        return this.items.data;
-    }
-
-    sum(column) {
-        return _.sumBy(this.items.data, (item) => parseFloat(item[column]));
-    }
-}
 
 class Expense {
 
@@ -204,6 +19,27 @@ class Expense {
         this.lookups = {
             villas: []
         };
+
+        this.smart = {
+            snap: "",
+            count: 0,
+            capture: function(element) {
+                if(this.snap !== element) {
+                    this.snap = element;
+                    if(this.count > 0) this.reset();
+                }
+                else {
+                    this.count++;
+                }
+            },
+            reset: function() {
+                this.count = 0;
+            },
+            stopCount: function(count) {
+                this.count = count;
+            }
+        }
+
         this.validator = new Validator();
         this.errors = new ErrorValidations();
     }
@@ -225,11 +61,9 @@ class Expense {
     }
 
     save() {
-        axiosRequest.post('expenses', 'store', {
-                transactions: this.state.items.all()
-            })
+        axiosRequest.post('expenses', 'store', { transactions: this.state.items.all()})
             .then(r => {
-                toastr.success('Save successfully!!!');
+                toastr.success('Save successfully!!!')
             })
             .catch(e => {
                 if (e.response.status === 422) {
@@ -240,14 +74,16 @@ class Expense {
 
     saveAndPost() {
         axiosRequest.post('expenses', 'post', { transactions: this.state.items.all()})
-            .then(r => { toastr.success('Save successfully!!!'); })
+            .then(r => { 
+                toastr.success('Save successfully!!!'); 
+            })
             .catch(e => {
                 if (e.response.status === 422) {
                     this.errors.register(e.response.data);
                 }
             });
     }
-
+    
     edit(transactionNo) {
         axiosRequest.dispatchGet(`/api/expenses/${transactionNo}/edit/`)
             .then(r => {
@@ -256,9 +92,8 @@ class Expense {
                 r.data.data.forEach((entry) => this.registerItem(entry));
             })
             .catch(e => {
-                if (e.response.status === 422) {
+                if (e.response.status === 422) 
                     this.errors.register(e.response.data);
-                }
             });
     }
 
@@ -281,7 +116,7 @@ class Expense {
         var villa = _.find(this.lookups.villas, (item) => item.id == entry.villa_id);
         var payee = _.find(this.lookups.payees, (item) => item.id == entry.payee_id);
 
-        entry.account = entry.acct_code + " - " + account.description;
+        entry.account = entry.acct_code;
         entry.property = property.name;
         entry.villa = villa.villa_no;
         entry.payee = payee.name;
@@ -290,7 +125,8 @@ class Expense {
 
         if (isEdit) {
             this.state.items.update(entry, this.state.current)
-        } else {
+        } 
+        else {
             this.state.items.add(entry)
         }
     }
@@ -302,10 +138,15 @@ class Expense {
             return false;
 
         //if key exist it is meant for editing
-        if (this.state.current !== null)
+        if (this.state.current !== null) {
             this.registerItem(this.state.entry, true)
-        else
+        }
+            
+        else {
             this.registerItem(cloneObject(this.state.entry))
+            this.smart.capture(this.state.entry.doc_no);
+        }
+            
 
 
         this.resetEntry();
@@ -320,6 +161,13 @@ class Expense {
     removeItem(key) {
         this.state.items.remove(key);
     }
+
+    suggest(prop) {
+        if(this.smart.count >= 3) {
+            this.state.entry[prop] = this.smart.snap;
+            this.smart.stopCount(3);
+        }
+    }   
 }
 
 const state = {
@@ -336,28 +184,16 @@ const mutations = {
     insertItem: (state) => state.expense.insertItem(),
     editItem: (state, payload) => state.expense.editItem(payload.key),
     reset: (state) => state.expense.resetEntry(),
-    new: (state) => state.expense.newTransaction()
+    new: (state) => state.expense.newTransaction(),
+    suggest: (state,payload) => state.expense.suggest(payload.prop)
 }
 
 const actions = {
-    create: ({
-        state,
-        commit
-    }) => state.expense.create(),
-    save: ({
-        commit,
-        state
-    }) => state.expense.save(),
-    saveAndPost: ({
-        state
-    }) => state.expense.saveAndPost(),
-    edit: ({
-        commit,
-        state
-    }, payload) => state.expense.edit(payload.transactionNo),
-    fetch: ({
-        state
-    }) => state.expense.fetch()
+    create: ({state}) => state.expense.create(),
+    save: ({state}) => state.expense.save(),
+    post: ({state}) => state.expense.saveAndPost(),
+    edit: ({state}, payload) => state.expense.edit(payload.transactionNo),
+    fetch: ({state}) => state.expense.fetch()
 }
 
 const getters = {

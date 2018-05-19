@@ -24,10 +24,9 @@ class ExpensesController extends Controller
 
 
     public function index(Request $request) {
-
-        $transactions = Expenditure::transactionList()->get();
-
+        $transactions = Expenditure::transactionList()->orderBy('transaction_no')->get();
         return Result::response(["data" => $transactions]);
+
     }
 
     public function create() {
@@ -96,17 +95,13 @@ class ExpensesController extends Controller
         foreach ($transactions as $transaction) {
 
             if(!isset($transaction['id'])) {
-
                 $transaction['transaction_no'] = $transactionNo;
-
                 Expenditure::createWithUser($transaction);
             }
             else {
 
                 $expenditure = Expenditure::find($transaction['id']);
-
                 $expenditure->toMap($transaction);
-
                 $expenditure->saveWithUser();
             }
         }

@@ -103,13 +103,13 @@ class Expenditure extends BaseModel
         if(!is_null($value)) {
             return $query->select('transaction_no','doc_no','posted',\DB::raw('SUM(amount) as total_amount'))
                     ->where('transaction_no',$value)
-                    ->groupBy('transaction_no')
-                    ->orderBy('doc_no');
+                    ->groupBy('transaction_no');
+
         }
         else {
             return $query->select('transaction_no','doc_no','posted', \DB::raw('SUM(amount) as total_amount'))
-                    ->groupBy('transaction_no')
-                    ->orderBy('doc_no');
+                    ->groupBy('transaction_no');
+
         }
     }
 

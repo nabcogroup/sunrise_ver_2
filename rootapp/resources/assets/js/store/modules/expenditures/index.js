@@ -12,8 +12,14 @@ class Expense {
             current: null,
             entry: {},
             items: new ItemHandler(),
-            expenses: []
+            expenses: [],
+            progress: {
+                saving: false,
+                editing: false
+            }
         };
+        
+        
 
         this.instanceStorage = {};
         this.lookups = {
@@ -60,28 +66,32 @@ class Expense {
         })
     }
 
-    save() {
-        axiosRequest.post('expenses', 'store', { transactions: this.state.items.all()})
-            .then(r => {
-                toastr.success('Save successfully!!!')
-            })
-            .catch(e => {
-                if (e.response.status === 422) {
-                    this.errors.register(e.response.data);
-                }
-            });
-    }
+    save(isPosted = false) {
 
-    saveAndPost() {
-        axiosRequest.post('expenses', 'post', { transactions: this.state.items.all()})
-            .then(r => { 
-                toastr.success('Save successfully!!!'); 
+        let arx = null;
+        this.state.progress.saving = true;
+        
+        let transactions = {
+            transaction_no: this.state.transaction !== null ? this.state.transaction.transaction_no : null,
+            items: this.state.items.items
+        };
+        
+        if(this.state.progress.saving) {
+
+            arx = (isPosted) ? axiosRequest.post('expenses', 'post', { transaction_set: transactions}) : 
+                                axiosRequest.post('expenses', 'store', { transaction_set: transactions});
+            arx.then(r => {
+                toastr.success(r.data.message)
+                this.state.progress.saving = false;
+                this.edit(r.data.data);
             })
             .catch(e => {
                 if (e.response.status === 422) {
                     this.errors.register(e.response.data);
                 }
+                this.state.progress.saving = false;
             });
+        }
     }
     
     edit(transactionNo) {
@@ -98,6 +108,7 @@ class Expense {
     }
 
     resetEntry() {
+
         this.errors.clearAll();
         this.state.current = null;
         copiedValue(this.instanceStorage.get(), this.state.entry);
@@ -105,7 +116,7 @@ class Expense {
 
     newTransaction() {
         this.resetEntry();
-        this.state.transaction = null;
+        this.state.transaction = null;  //destroy transaction
         this.state.items.clear();
     }
 
@@ -159,10 +170,19 @@ class Expense {
     }
 
     removeItem(key) {
+
         this.state.items.remove(key);
     }
 
+    fork(key) {
+        this.resetEntry();
+        let forked = this.state.items.find(key); 
+        //clone
+        copiedValue(forked,this.state.entry,['account', 'id', 'key', 'payee', 'property', 'villa'])
+    }
+
     suggest(prop) {
+        
         if(this.smart.count >= 3) {
             this.state.entry[prop] = this.smart.snap;
             this.smart.stopCount(3);
@@ -185,13 +205,14 @@ const mutations = {
     editItem: (state, payload) => state.expense.editItem(payload.key),
     reset: (state) => state.expense.resetEntry(),
     new: (state) => state.expense.newTransaction(),
-    suggest: (state,payload) => state.expense.suggest(payload.prop)
+    suggest: (state,payload) => state.expense.suggest(payload.prop),
+    fork: (state,payload) => state.expense.fork(payload.key)
 }
 
 const actions = {
     create: ({state}) => state.expense.create(),
     save: ({state}) => state.expense.save(),
-    post: ({state}) => state.expense.saveAndPost(),
+    post: ({state}) => state.expense.save(true),
     edit: ({state}, payload) => state.expense.edit(payload.transactionNo),
     fetch: ({state}) => state.expense.fetch()
 }

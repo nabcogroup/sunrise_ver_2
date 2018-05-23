@@ -19,163 +19,162 @@ class ExpensesController extends Controller
 {
     public function __construct()
     {
-        
+
     }
 
 
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $transactions = Expenditure::transactionList()->orderBy('transaction_no')->get();
         return Result::response(["data" => $transactions]);
 
     }
 
-    public function create() {
+    public function create()
+    {
 
         $expenditure = Expenditure::createInstance();
-        $lookups = Selection::getSelections(["account_type","payment_term","bank","villa_location","bank_provider"]);
+        $lookups = Selection::getSelections(["account_type", "payment_term", "bank", "villa_location", "bank_provider"]);
 
-        $lookups["accounts"] = AccountChart::all();
-        $lookups["villas"] =  AccountsVilla::orderBy('villa_no')->get();
+        $lookups["accounts"] = AccountChart::orderBy('description')->get();
+        $lookups["villas"] = AccountsVilla::orderBy('villa_no')->get();
         $lookups["payees"] = AccountsPayee::orderBy("payee_code")->get();
 
         $rules = [
-            'location'          =>  'required',
-            'villa_id'          =>  'nonzero|integer',
-            'acct_code'         =>  'required',
-            'payee_id'          =>  'required|integer',
-            'payment_date'      =>  'required|date',
-            'mode_of_payment'   =>  'required',
-            'doc_ref'           =>  'required',
-            'doc_no'            =>  'required',
-            'doc_date'          =>  'required|date'
-        ];
+            'location' => 'required',
+            'villa_id' => 'nonzero|integer',
+            'acct_code' => 'required',
+            'payee_id' => 'required|integer',
+            'payment_date' => 'required|date',
+            'mode_of_payment' => 'required',
+            'doc_ref' => 'required',
+            'doc_no' => 'required',
+            'doc_date' => 'required|date'];
 
-        return Result::response(["data" => $expenditure,"lookups" => $lookups, "rules" => $rules ]);
-
+        return Result::response(["data" => $expenditure, "lookups" => $lookups, "rules" => $rules]);
     }
 
-    public function edit(Request $request,$transaction_no) {
+    public function edit(Request $request, $transaction_no)
+    {
 
         $transactions = Expenditure::getTransaction($transaction_no)->get();
 
         $transaction_detail = [
-
-            'transaction_no'        => $transactions->pluck('transaction_no')->first(),
-
-            'transaction_status'    => $transactions->pluck('transaction_status')->first(),
-
-            'posted'                =>  $transactions->pluck('posted')->first()
-
+            'transaction_no' => $transactions->pluck('transaction_no')->first(),
+            'transaction_status' => $transactions->pluck('transaction_status')->first(),
+            'posted' => $transactions->pluck('posted')->first()
         ];
 
         $request->session()->put('transaction_no', $transaction_detail);
 
-        return Result::response(["data" => $transactions,"transaction_no" => $transaction_detail]);
+        return Result::response(["data" => $transactions, "transaction_no" => $transaction_detail]);
 
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
-        $transactions = $request->input('transactions');
+        return $this->batchSave($request, false);
+    }
 
-        $this->validateRequest($transactions);
+    public function storeAndPost(Request $request)
+    {
+        return $this->batchSave($request, true);
+    }
 
-        //get session
-        $sessionTransaction = $request->session()->get('transaction_no',null);
+    protected function batchSave(Request $request, $isPosting = false)
+    {
+        $transactionSet = $request->input('transaction_set');
+        $items = isset($transactionSet['items']) ? $transactionSet['items'] : [];
+        $this->validateRequest($items);
 
-        $transactionNo = $sessionTransaction['transaction_no'];
+        $transactionNo = null;
+        if(isset($transactionSet['transaction_no']) && $transactionSet['transaction_no'] != null) {
 
-        if(is_null($transactionNo)) {
+            //get session
+            $sessionTransaction = $request->session()->get('transaction_no', null);
+            $transactionNo = $sessionTransaction['transaction_no'];
+
+            if($transactionNo != $transactionSet['transaction_no']) {
+                throw new \Exception('Invalid transacation no');
+            }
+        }
+
+        $request->session()->forget('transaction_no');
+
+        if (is_null($transactionNo)) {
             $transactionNo = Expenditure::generateNewTransactionNo();
         }
-        else {
-            $request->session()->forget('transaction_no');
-        }
 
-        foreach ($transactions as $transaction) {
 
-            if(!isset($transaction['id'])) {
+        foreach ($items['data'] as $transaction) {
+
+            if (!isset($transaction['id'])) {
                 $transaction['transaction_no'] = $transactionNo;
+                if ($isPosting) {
+                    $transaction['posted'] = 1;
+                }
+
                 Expenditure::createWithUser($transaction);
-            }
-            else {
+
+            } else {
 
                 $expenditure = Expenditure::find($transaction['id']);
                 $expenditure->toMap($transaction);
+
+                if ($isPosting) {
+                    $expenditure->posted = 1;
+                }
+
                 $expenditure->saveWithUser();
+
             }
         }
 
-        return Result::response(["message" => "Successfully Save"]);
-
-    }
-
-    public function storeAndPost(Request $request) {
-
-        $transactions = $request->input('transactions');
-
-        $this->validateRequest($transactions);
-
-        //get session
-        $sessionTransaction = $request->session()->get('transaction_no',null);
-
-        $transactionNo = $sessionTransaction['transaction_no'];
-
-        if(is_null($transactionNo)) {
-            $transactionNo = Expenditure::generateNewTransactionNo();
-        }
-        else {
-            $request->session()->forget('transaction_no');
-        }
-
-        foreach ($transactions as $transaction) {
-            if(!isset($transaction['id'])) {
-                $transaction['transaction_no'] = $transactionNo;
-                $transaction['posted'] = 1;
-                Expenditure::createWithUser($transaction);
-            }
-            else {
-                $expenditure = Expenditure::find($transaction['id']);
-                $expenditure->toMap($transaction);
-                $expenditure->posted = 1;
-                $expenditure->saveWithUser();
+        if (isset($items['deletedItems'])) {
+            $deletedItems = $items['deletedItems'];
+            foreach ($deletedItems as $deletedItem) {
+                $expenditure = Expenditure::find($deletedItem);
+                $expenditure->delete();
             }
         }
 
-        return Result::response(["message" => "Successfully Save"]);
-
+        return Result::response(["message" => "Successfully Save","data" => $transactionNo]);
     }
 
 
+    protected function validateRequest($transactions)
+    {
 
-
-
-    protected function validateRequest($transactions) {
-        if(count($transactions) == 0)
+        if (count($transactions) == 0)
             return Result::badRequest(["errors" => "No Entry Found"]);
 
-        foreach ($transactions as $transaction) {
+        if (!isset($transactions['data']))
+            return Result::badRequest(["errors" => "cannot find dataset"]);
+
+        $data = $transactions['data'];
+
+        foreach ($data as $transaction) {
+
             $rules = [
-                'location'          =>  'required',
-                'villa_id'          =>  'required|exists:villas,id',
-                'acct_code'         =>  'required',
-                'payee_id'          =>  'required|integer',
-                'payment_date'      =>  'required|date',
-                'mode_of_payment'   =>  'required',
-                'doc_ref'           =>  'required',
-                'doc_no'            =>  'required',
-                'doc_date'          =>  'required|date',
-                'amount'            =>  array("required","regex:/^\d+?|^\d+\.\d{2}?/")
+                'location' => 'required',
+                'villa_id' => 'required|exists:villas,id',
+                'acct_code' => 'required',
+                'payee_id' => 'required|integer',
+                'payment_date' => 'required|date',
+                'mode_of_payment' => 'required',
+                'doc_ref' => 'required',
+                'doc_no' => 'required',
+                'doc_date' => 'required|date',
+                'amount' => array("required", "regex:/^\d+?|^\d+\.\d{2}?/")
             ];
 
-            $validator = Validator::make($transactions,$rules);
-            if($validator->fails()) {
+            $validator = Validator::make($transaction, $rules);
+
+            if ($validator->fails()) {
                 return Result::badRequest(["errors" => $validator->errors()]);
             }
         }
     }
-
-
-
 
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Services\CalendarService;
+use App\Tenant;
 use App\User;
+use App\Villa;
 use Carbon\Carbon;
 use App\Selection;
 
@@ -11,23 +13,24 @@ use App\Selection;
 use App\Events\Verify;
 use App\Events\OnCreating;
 use App\Events\NotifyUpdate;
+use App\Events\OnCalculation;
 
 use Illuminate\Http\Request;
 
-use App\Events\OnCalculation;
 use App\Http\Requests\RenewalForm;
 use App\Http\Requests\ContractForm;
 
 use App\Services\Bundle;
 use App\Services\EventListenerRegister;
-use App\Services\Result;
 
 use App\Http\Requests\TerminateForm;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContractCalcForm;
 use App\Repositories\ContractRepository;
-use Mockery\Exception;
 
+use KielPack\LaraLibs\Supports\Result;
+
+use Exception;
 
 class ContractController extends Controller
 {
@@ -143,7 +146,6 @@ class ContractController extends Controller
 
             //get user contract
             $contracts = $this->contractRepo->getContracts($status, $request->input('filter_field'), $request->input('filter_value'));
-            
 
             //evaluate contract pending
             return $contracts;
@@ -159,7 +161,11 @@ class ContractController extends Controller
 
             $outputs = array();
             $data = $this->contractRepo->create(self::DEFAULT_PERIOD);
-
+            $data->register_tenant = Tenant::createInstance();
+            $data->villa_list = Villa::with('villaGalleries')
+                                ->getVacant()
+                                ->orderBy('villa_no')
+                                ->get();
             //extra
             $data->prep_series = 1;
             $data->prep_bank = "";
@@ -183,7 +189,7 @@ class ContractController extends Controller
                 ],
             ];
 
-            return compact("data", "lookups");
+            return Result::response(['data' => $data,'lookups' => $lookups]);
 
         } catch (Exception $e) {
             return Result::badRequest(["message" => $e->getMessage()]);
@@ -192,9 +198,7 @@ class ContractController extends Controller
 
     public function apiRecalc(ContractCalcForm $request)
     {
-
         $inputs = $request->filterInput();
-
         try {
 
             $ratePerMonth = floatval($inputs["custom_rate"]);
@@ -213,9 +217,7 @@ class ContractController extends Controller
                 $villaOutput = $bundle->getOutput('villa');
 
                 if ($villaOutput != null) {
-
                     $ratePerMonth = $villaOutput->rate_per_month;
-
                 }
             }
 
@@ -233,9 +235,7 @@ class ContractController extends Controller
 
         }
         catch (Exception $e) {
-
             return Result::badRequest(["message" => $e->getMessage()]);
-
         }
     }
 

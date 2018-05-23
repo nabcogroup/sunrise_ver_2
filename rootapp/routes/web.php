@@ -1,5 +1,7 @@
 <?php
 
+use Accounting\AccountingRoute;
+
 /*
 |--------------------------------------------------------------------------
 | Admin Utility
@@ -7,7 +9,7 @@
 */
 
 
-use Accounting\App\Http\Routes\Facades\AccountingRoute;
+
 
 Route::group(['prefix' => "admin"], function () {
 

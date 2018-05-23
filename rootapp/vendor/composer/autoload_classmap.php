@@ -220,6 +220,7 @@ return array(
     'CorsServiceTest' => $vendorDir . '/barryvdh/laravel-cors/tests/CorsServiceTest.php',
     'Cpdf' => $vendorDir . '/dompdf/dompdf/lib/Cpdf.php',
     'CreateAccountChartsTable' => $baseDir . '/database/migrations/2017_08_10_113825_create_account_charts_table.php',
+    'CreateAutoTransactionTable' => $baseDir . '/database/migrations/2018_05_19_203009_create_auto_transaction_table.php',
     'CreateBankAccountsTable' => $baseDir . '/database/migrations/2017_08_09_131119_create_bank_accounts_table.php',
     'CreateContractBillsTable' => $baseDir . '/database/migrations/2017_05_21_173438_create_contract_bills_table.php',
     'CreateContractTerminationsTable' => $baseDir . '/database/migrations/2017_05_21_173357_create_contract_terminations_table.php',

@@ -30,24 +30,18 @@ trait HelperTrait
     public function calculateTotalYearMonth($period_start,$period_end) {
 
         $totalDays = (Carbon::parse($period_end)->diffInDays(Carbon::parse($period_start)));
-
         $totalMonths = floor($totalDays / 30);
-
         $totalRemaining = $totalMonths % 12;
-
         $totalYear = ($totalMonths - $totalRemaining) / 12;
 
         if ($totalRemaining > 0) {
-
             if ($totalYear > 0)
                 return $totalYear . "." . $totalRemaining . " / " . $totalMonths;
             else
                 return $totalYear . "." . $totalRemaining . " / " . $totalMonths;
         }
         else {
-
             return $totalYear . " / " . $totalMonths;
-
         }
     }
 

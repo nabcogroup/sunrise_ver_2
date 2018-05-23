@@ -15,6 +15,7 @@ class Contract extends BaseModel
 
     protected $fillable = ["contract_no", "contract_type", "period_start", "period_end", "extra_days", "period_end_extended", "amount", "villa_id", "tenant_id"];
 
+
     public static function generateNewContract($prevContractNo,$newId, $args = array())
     {
         preg_match('/^([^-]+?)-([0-9]+?)-([0-9]+?)$/', $prevContractNo, $splits);
@@ -130,20 +131,14 @@ class Contract extends BaseModel
         $query = $query->join('tenants', 'contracts.tenant_id', '=', 'tenants.id');
         $query = $query->where('contracts.status', $args['state']);
 
-        return $query->select("contracts.id",
-            "contracts.contract_no",
-            "villas.villa_no",
-            "tenants.full_name",
-            "contracts.created_at AS contract_created",
+        return $query->select("contracts.id", "contracts.contract_no", "villas.villa_no", "tenants.full_name", "contracts.created_at AS contract_created",
             "contracts.period_start",
             "contract_bills.bill_no",
             "contracts.period_end_extended", "contracts.amount", "contracts.status AS contracts_status");
-
     }
 
     public function scopeFindByNo($query, $contractNo)
     {
-
         return $query->model->where('contract_no', $contractNo);
     }
 

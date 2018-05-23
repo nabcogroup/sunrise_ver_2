@@ -5662,7 +5662,8 @@ class ItemHandler {
                 if (item.key === key && item.id) {
                     this.items.deletedItems.push(item.id);
                 }
-                return item.key !== id;
+
+                return item.key !== key;
             });
         } else {
             //do nothing
@@ -43266,10 +43267,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Calendar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Calendar_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Renewal_vue__ = __webpack_require__(357);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Renewal_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Renewal_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContractListModel__ = __webpack_require__(241);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ContractTerminate_vue__ = __webpack_require__(149);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ContractTerminate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__ContractTerminate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__eventbus__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContractTerminate_vue__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ContractTerminate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__ContractTerminate_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__eventbus__ = __webpack_require__(3);
 //
 //
 //
@@ -43321,7 +43321,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
+//import { ContractRenewModel } from "./ContractListModel";
 
 
 
@@ -43371,11 +43371,10 @@ const confirmation = {
     components: {
         "calendar": __WEBPACK_IMPORTED_MODULE_0__Calendar_vue___default.a,
         "renewal": __WEBPACK_IMPORTED_MODULE_1__Renewal_vue___default.a,
-        "terminateDialog": __WEBPACK_IMPORTED_MODULE_3__ContractTerminate_vue___default.a
+        "terminateDialog": __WEBPACK_IMPORTED_MODULE_2__ContractTerminate_vue___default.a
     },
     data() {
         return {
-            viewModel: new __WEBPACK_IMPORTED_MODULE_2__ContractListModel__["a" /* ContractRenewModel */](),
             isOpenModal: false,
             dueRoot: {
                 selected: "",
@@ -43401,7 +43400,7 @@ const confirmation = {
             confirmation.renew(result => {
                 if (result) {
                     setTimeout(function () {
-                        __WEBPACK_IMPORTED_MODULE_4__eventbus__["a" /* EventBus */].$emit("contracts.renewal.open", id);
+                        __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit("contracts.renewal.open", id);
                     }, 500);
                 }
             });
@@ -43410,24 +43409,14 @@ const confirmation = {
             confirmation.terminated(value.contract_no, isOpenDialog => {
                 if (isOpenDialog) {
                     setTimeout(function () {
-                        __WEBPACK_IMPORTED_MODULE_4__eventbus__["a" /* EventBus */].$emit("contracts.terminate.open", value);
+                        __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$emit("contracts.terminate.open", value);
 
-                        __WEBPACK_IMPORTED_MODULE_4__eventbus__["a" /* EventBus */].$on("contracts.terminate.close", isClose => {
+                        __WEBPACK_IMPORTED_MODULE_3__eventbus__["a" /* EventBus */].$on("contracts.terminate.close", isClose => {
                             if (isClose) axiosRequest.redirect('contract', 'calendar');
                         });
                     }, 500);
                 }
             });
-        },
-        onDismiss(result) {
-            if (result) {
-                this.viewModel.save(id => {
-                    this.isOpenModal = true;
-                    this.viewModel.redirectToBill(id);
-                });
-            } else {
-                this.isOpenModal = false;
-            }
         }
     }
 });
@@ -43513,6 +43502,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
 
 
 
@@ -43521,7 +43512,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     name: "ContractEntry",
     data() {
         return {
-            rate_per_month: 0
+            rate_per_month: 0,
+            configs: {
+                locale: 'ru'
+            }
         };
     },
     methods: {
@@ -44211,14 +44205,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 //import widget
@@ -44322,6 +44308,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__eventbus__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TransactionListDialog__ = __webpack_require__(361);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__TransactionListDialog___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__TransactionListDialog__);
+var _this = this;
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -44614,7 +44616,7 @@ const confirmation = {
                     default: true,
                     format: 'date'
                 }, { name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center' }, { name: 'doc_ref', column: 'Doc. Ref#', style: 'width:10%', class: 'text-center' }, { name: 'account', column: 'Account', style: 'width:10%', class: 'text-center' }, { name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center' }, { name: 'description', column: 'Description' }, { name: 'payee', column: 'Payee', class: 'text' }, { name: 'amount', column: 'Amount', class: 'text-center', dtype: 'currency' }, { name: '$action', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true }],
-                actions: [{ key: 'edit', name: 'Edit' }, { key: 'remove', name: 'Remove' }],
+                actions: [{ key: 'edit', name: 'Edit' }, { key: 'fork', name: 'Copy' }, { key: 'remove', name: 'Remove' }],
                 footers: [{ label: "Grand Total", span: "7" }, { label: "", slot: true, class: 'text-right' }, { label: "" }]
             }
         };
@@ -44667,6 +44669,8 @@ const confirmation = {
                         this.$store.commit('expenditures/removeItem', { key: value.key });
                     }
                 });
+            } else if (action === 'fork') {
+                this.$store.commit('expenditures/fork', { key: value.key });
             } else {
                 this.$store.commit('expenditures/editItem', { key: value.key });
             }
@@ -44675,7 +44679,6 @@ const confirmation = {
             this.unfold = true;
         },
         dismiss(result) {
-
             if (result) {
                 __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit("onSavePayee", r => {
                     this.lookups.payees = r;
@@ -44685,7 +44688,6 @@ const confirmation = {
             this.unfold = false;
         },
         searchTransaction() {
-
             __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit("list.open");
         },
         onSelected(transactionNo) {
@@ -44693,6 +44695,19 @@ const confirmation = {
         },
         suggest(value) {
             this.$store.commit('expenditures/suggest', { prop: value });
+        },
+        togglePredictive() {
+            __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('predictive.toggle');
+        }
+    },
+    watch: {
+        'expense.entry.description': (newValue, oldValue) => {
+            if (newValue.length > 0) {
+                __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('predictive.open');
+            } else {
+                _this.showPredictive = false;
+                __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('predictive.close');
+            }
         }
     }
 });
@@ -47246,7 +47261,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 const jQuery = window.$ || __webpack_require__(15);
-const Moment = window.moment || __webpack_require__(0);
+const moment = window.moment || __webpack_require__(0);
 
 //import "eonasdan-bootstrap-datetimepicker";
 
@@ -47264,12 +47279,12 @@ const events = ["hide", "show", "change", "error", "update"];
       }
     },
     // http://eonasdan.github.io/bootstrap-datetimepicker/Options/
-    config: {
+    configs: {
       type: Object,
       default: () => ({})
     },
     dtFormat: {
-      default: 'MM/DD/YYYY',
+      default: 'L',
       type: String
     },
     disabled: {
@@ -47304,19 +47319,17 @@ const events = ["hide", "show", "change", "error", "update"];
     /* istanbul ignore if */
     if (this.dp) return;
     // Handle wrapped input
-    let node = this.$refs.$dtPicker;
 
     // Cache DOM
-    this.elem = jQuery(node);
+    this.elem = jQuery(this.$refs.$dtPicker);
 
     // Init date-picker
-    this.elem.datetimepicker(this.config);
+    this.elem.datetimepicker(this.configs);
     // Watch for changes
     this.elem.on("dp.change", this.onChange);
 
     // Store data control
     this.dp = this.elem.data("DateTimePicker");
-    this.dp.format(this.dtFormat);
 
     //check if date is a string
     this.initValue = this.value;
@@ -47328,6 +47341,7 @@ const events = ["hide", "show", "change", "error", "update"];
 
     // Set initial value
     this.dp.date(this.initValue);
+    this.dp.format(this.dtFormat);
 
     // Register remaining events
     this.registerEvents();
@@ -47356,7 +47370,7 @@ const events = ["hide", "show", "change", "error", "update"];
        *
        * @param newConfig Object
        */
-    config(newConfig) {
+    configs(newConfig) {
       this.dp && this.dp.options(Object.assign({}, this.dp.options(), newConfig));
     }
   },
@@ -48021,201 +48035,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // });
 
 /***/ }),
-/* 241 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(6);
-
-
-
-class ContractListModel {
-
-    constructor() {
-        this.data = [];
-        this.filterData = [];
-        this.errors = new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]();
-    }
-
-    reload(status) {
-        //reset filter
-        this.filterData = [];
-        this.filterData = this.filter(status);
-        if (this.filterData.length === 0) {
-            axiosRequest.get("contract", "list", status).then(res => {
-
-                if (this.data.length > 0) {
-                    res.data.forEach(item => {
-                        this.data.push(item);
-                    });
-                } else {
-                    this.data = res.data;
-                }
-
-                this.filterData = this.filter(status);
-            }).catch(err => {
-                toastr.errors(err.response.message);
-            });
-        }
-    }
-
-    filter(status = "pending") {
-        return this.data.filter(item => {
-            return item.status.toLowerCase() == status;
-        });
-    }
-
-    find(id) {
-        return _.find(this.data, item => {
-            return item.id == id;
-        });
-    }
-
-    remove(id, status) {
-
-        let contract = _.find(this.data, item => {
-            return item.id == id;
-        });
-        let index = this.data.indexOf(contract);
-
-        this.data.splice(index, 1);
-        this.filterData = this.filter(status);
-    }
-
-    redirectToRegister() {
-        axiosRequest.redirect("contract", "register");
-    }
-
-    redirectToRead(id) {
-
-        axiosRequest.redirect('contract', 'show', id, '_blank');
-    }
-
-    cancel(contractId, status) {
-        bbox.confirm({
-            title: "Contract cancel confirmation",
-            message: "Do you want to cancel the contract?",
-            callback: result => {
-                if (result) {
-                    axiosRequest.post("contract", "cancel", { id: contractId }).then(r => {
-                        if (r.data.isOk) {
-                            this.remove(contractId, status);
-                        }
-                    }).catch(e => {
-                        toastr.errors(e.response.message);
-                    });
-                }
-            }
-        });
-    }
-
-    createBill(contractId) {
-
-        var item = _.find(this.data, function (item) {
-            return item.id == contractId;
-        });
-
-        axiosRequest.redirect("bill", "create", item.contract_no);
-    }
-
-}
-/* unused harmony export ContractListModel */
-
-
-class ContractRenewModel {
-
-    constructor() {
-
-        this.data = {
-            period_start: moment().format('L'),
-            period_end: moment().format('L')
-        };
-        this.errors = new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]();
-    }
-
-    clear() {
-        this.data = {
-            period_start: moment().format('L'),
-            period_end: moment().format('L')
-        };
-    }
-
-    create(id = 0, callback) {
-        axiosRequest.get('contract', 'renew', id).then(r => {
-            this.data = r.data;
-            callback();
-        }).catch(e => {
-            toastr.error(e.response.data.message);
-        });
-    }
-    redirectToBill(id) {
-        axiosRequest.redirect('bill', 'create', id);
-    }
-
-    save(cbSuccess) {
-        var data = {
-            id: this.data.id,
-            period_start: this.data.period_start,
-            period_end: this.data.period_end,
-            amount: this.data.amount
-        };
-
-        axiosRequest.post('contract', 'renew', data).then(r => {
-            cbSuccess(r.data.data.id);
-        }).catch(e => {
-            if (e.response.status = 422) {
-                this.errors.register(e.response.data);
-            }
-        });
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = ContractRenewModel;
-
-
-class ContractTerminationModel {
-
-    constructor() {
-
-        this.data = {
-            id: 0,
-            contract_no: 0,
-            name: '',
-            description: '',
-            ref_no: '',
-            password: ''
-        };
-
-        this.errors = new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["b" /* ErrorValidations */]();
-    }
-
-    clear(id, contract_no, tenant_name) {
-        this.data.id = id;
-        this.data.contract_no = contract_no;
-        this.data.name = tenant_name;
-        this.data.description = '';
-        this.data.ref_no = '';
-        this.data.password = '';
-    }
-    save(cb) {
-
-        axiosRequest.post("contract", "terminate", this.data).then(r => {
-            if (r.data.isOk) {
-                toastr.success("Contract Terminated");
-                cb(this.data.id);
-            }
-        }).catch(e => {
-            if (e.response.status === 422) {
-                this.errors.register(e.response.data);
-            } else {
-                toastr.error(e.response.data.message);
-            }
-        });
-    }
-}
-/* unused harmony export ContractTerminationModel */
-
-
-/***/ }),
+/* 241 */,
 /* 242 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -48226,38 +48046,44 @@ class ContractTerminationModel {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_select___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_select__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controls_VDateTimePicker_vue__ = __webpack_require__(387);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controls_VDateTimePicker_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__controls_VDateTimePicker_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controls_ErrorSpan_vue__ = __webpack_require__(383);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controls_ErrorSpan_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__controls_ErrorSpan_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__controls_DataView_vue__ = __webpack_require__(382);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__controls_DataView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__controls_DataView_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__controls_GridView_vue__ = __webpack_require__(384);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__controls_GridView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__controls_GridView_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__controls_VLiveView_vue__ = __webpack_require__(389);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__controls_VLiveView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__controls_VLiveView_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__controls_VComboBox_vue__ = __webpack_require__(386);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__controls_VComboBox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__controls_VComboBox_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__controls_VInput_vue__ = __webpack_require__(388);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__controls_VInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__controls_VInput_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__containers_VDialog_vue__ = __webpack_require__(376);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__containers_VDialog_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__containers_VDialog_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__containers_VPanel_vue__ = __webpack_require__(378);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__containers_VPanel_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__containers_VPanel_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__containers_VTab_vue__ = __webpack_require__(379);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__containers_VTab_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__containers_VTab_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__containers_VTabGroup_vue__ = __webpack_require__(380);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__containers_VTabGroup_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__containers_VTabGroup_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__containers_VInputWrapper_vue__ = __webpack_require__(377);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__containers_VInputWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__containers_VInputWrapper_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue__ = __webpack_require__(391);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue__ = __webpack_require__(390);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__misc_VLineChart_vue__ = __webpack_require__(392);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__misc_VLineChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__misc_VLineChart_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__misc_VListValue_vue__ = __webpack_require__(393);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__misc_VListValue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__misc_VListValue_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__misc_VTotalSummary_vue__ = __webpack_require__(394);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__misc_VTotalSummary_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__misc_VTotalSummary_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controls_DateTimePicker_vue__ = __webpack_require__(494);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controls_DateTimePicker_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__controls_DateTimePicker_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__controls_ErrorSpan_vue__ = __webpack_require__(383);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__controls_ErrorSpan_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__controls_ErrorSpan_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__controls_DataView_vue__ = __webpack_require__(382);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__controls_DataView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__controls_DataView_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__controls_GridView_vue__ = __webpack_require__(384);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__controls_GridView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__controls_GridView_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__controls_VLiveView_vue__ = __webpack_require__(389);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__controls_VLiveView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__controls_VLiveView_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__controls_VComboBox_vue__ = __webpack_require__(386);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__controls_VComboBox_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__controls_VComboBox_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__controls_VInput_vue__ = __webpack_require__(388);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__controls_VInput_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__controls_VInput_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__containers_VDialog_vue__ = __webpack_require__(376);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__containers_VDialog_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__containers_VDialog_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__containers_VPanel_vue__ = __webpack_require__(378);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__containers_VPanel_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__containers_VPanel_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__containers_VTab_vue__ = __webpack_require__(379);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__containers_VTab_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__containers_VTab_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__containers_VTabGroup_vue__ = __webpack_require__(380);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__containers_VTabGroup_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__containers_VTabGroup_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__containers_VInputWrapper_vue__ = __webpack_require__(377);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__containers_VInputWrapper_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__containers_VInputWrapper_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__controls_VSwitch_vue__ = __webpack_require__(391);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__controls_VSwitch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__controls_VSwitch_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__controls_VSearch_vue__ = __webpack_require__(390);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__controls_VSearch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__controls_VSearch_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__misc_VLineChart_vue__ = __webpack_require__(392);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__misc_VLineChart_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__misc_VLineChart_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__misc_VListValue_vue__ = __webpack_require__(393);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__misc_VListValue_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__misc_VListValue_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__misc_VTotalSummary_vue__ = __webpack_require__(394);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__misc_VTotalSummary_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__misc_VTotalSummary_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__controls_VPredictive_vue__ = __webpack_require__(503);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__controls_VPredictive_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__controls_VPredictive_vue__);
+
+
 
 
 
@@ -48285,27 +48111,30 @@ class ContractTerminationModel {
 
 
 const MyPlugins = {
+
     install(Vue, options) {
 
         Vue.component(__WEBPACK_IMPORTED_MODULE_0__controls_Accordion_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_0__controls_Accordion_vue___default.a);
-        Vue.component('dataView', __WEBPACK_IMPORTED_MODULE_4__controls_DataView_vue___default.a);
+        Vue.component('dataView', __WEBPACK_IMPORTED_MODULE_5__controls_DataView_vue___default.a);
         Vue.component('vSelect', __WEBPACK_IMPORTED_MODULE_1_vue_select___default.a);
         Vue.component(__WEBPACK_IMPORTED_MODULE_2__controls_VDateTimePicker_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_2__controls_VDateTimePicker_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_3__controls_ErrorSpan_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_3__controls_ErrorSpan_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_5__controls_GridView_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_5__controls_GridView_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_9__containers_VDialog_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_9__containers_VDialog_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_8__controls_VInput_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_8__controls_VInput_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_10__containers_VPanel_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_10__containers_VPanel_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_6__controls_VLiveView_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_6__controls_VLiveView_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_11__containers_VTab_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_11__containers_VTab_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_12__containers_VTabGroup_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_12__containers_VTabGroup_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_13__containers_VInputWrapper_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_13__containers_VInputWrapper_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_7__controls_VComboBox_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_7__controls_VComboBox_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_14__controls_VSwitch_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_15__controls_VSearch_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_16__misc_VLineChart_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_16__misc_VLineChart_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_17__misc_VListValue_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_17__misc_VListValue_vue___default.a);
-        Vue.component(__WEBPACK_IMPORTED_MODULE_18__misc_VTotalSummary_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_18__misc_VTotalSummary_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_3__controls_DateTimePicker_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_3__controls_DateTimePicker_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_4__controls_ErrorSpan_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_4__controls_ErrorSpan_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_6__controls_GridView_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_6__controls_GridView_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_10__containers_VDialog_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_10__containers_VDialog_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_9__controls_VInput_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_9__controls_VInput_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_11__containers_VPanel_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_11__containers_VPanel_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_7__controls_VLiveView_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_7__controls_VLiveView_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_12__containers_VTab_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_12__containers_VTab_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_13__containers_VTabGroup_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_13__containers_VTabGroup_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_14__containers_VInputWrapper_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_14__containers_VInputWrapper_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_8__controls_VComboBox_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_8__controls_VComboBox_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_15__controls_VSwitch_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_15__controls_VSwitch_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_16__controls_VSearch_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_16__controls_VSearch_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_17__misc_VLineChart_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_17__misc_VLineChart_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_18__misc_VListValue_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_18__misc_VListValue_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_19__misc_VTotalSummary_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_19__misc_VTotalSummary_vue___default.a);
+        Vue.component(__WEBPACK_IMPORTED_MODULE_20__controls_VPredictive_vue___default.a.name, __WEBPACK_IMPORTED_MODULE_20__controls_VPredictive_vue___default.a);
     }
 };
 
@@ -48578,6 +48407,27 @@ const billModule = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__ = __webpack_require__(6);
 
 
+class Contract {
+
+    constructor() {
+        this.state = {
+            contract: {},
+            tenant: {}
+        };
+    }
+
+    create() {
+
+        axiosRequest.get('contract', 'create').then(r => {
+            this.state.contract = r.data.data;
+            this.state.tenant = r.data;
+            state.contract.rate_per_month = 0;
+            state.lookups = r.data.lookups;
+            state.tenant_default = state.contract.register_tenant;
+        });
+    }
+}
+
 const state = {
     contracts: {
         data: []
@@ -48664,7 +48514,6 @@ const actions = {
     },
     create({ state }) {
         axiosRequest.get('contract', 'create').then(r => {
-            state.contract = {};
             state.contract = r.data.data;
             state.contract.rate_per_month = 0;
             state.lookups = r.data.lookups;
@@ -48875,7 +48724,11 @@ class Expense {
             current: null,
             entry: {},
             items: new __WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["d" /* ItemHandler */](),
-            expenses: []
+            expenses: [],
+            progress: {
+                saving: false,
+                editing: false
+            }
         };
 
         this.instanceStorage = {};
@@ -48922,24 +48775,30 @@ class Expense {
         });
     }
 
-    save() {
-        axiosRequest.post('expenses', 'store', { transactions: this.state.items.all() }).then(r => {
-            toastr.success('Save successfully!!!');
-        }).catch(e => {
-            if (e.response.status === 422) {
-                this.errors.register(e.response.data);
-            }
-        });
-    }
+    save(isPosted = false) {
 
-    saveAndPost() {
-        axiosRequest.post('expenses', 'post', { transactions: this.state.items.all() }).then(r => {
-            toastr.success('Save successfully!!!');
-        }).catch(e => {
-            if (e.response.status === 422) {
-                this.errors.register(e.response.data);
-            }
-        });
+        let arx = null;
+        this.state.progress.saving = true;
+
+        let transactions = {
+            transaction_no: this.state.transaction !== null ? this.state.transaction.transaction_no : null,
+            items: this.state.items.items
+        };
+
+        if (this.state.progress.saving) {
+
+            arx = isPosted ? axiosRequest.post('expenses', 'post', { transaction_set: transactions }) : axiosRequest.post('expenses', 'store', { transaction_set: transactions });
+            arx.then(r => {
+                toastr.success(r.data.message);
+                this.state.progress.saving = false;
+                this.edit(r.data.data);
+            }).catch(e => {
+                if (e.response.status === 422) {
+                    this.errors.register(e.response.data);
+                }
+                this.state.progress.saving = false;
+            });
+        }
     }
 
     edit(transactionNo) {
@@ -48953,6 +48812,7 @@ class Expense {
     }
 
     resetEntry() {
+
         this.errors.clearAll();
         this.state.current = null;
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(this.instanceStorage.get(), this.state.entry);
@@ -48960,7 +48820,7 @@ class Expense {
 
     newTransaction() {
         this.resetEntry();
-        this.state.transaction = null;
+        this.state.transaction = null; //destroy transaction
         this.state.items.clear();
     }
 
@@ -49008,10 +48868,19 @@ class Expense {
     }
 
     removeItem(key) {
+
         this.state.items.remove(key);
     }
 
+    fork(key) {
+        this.resetEntry();
+        let forked = this.state.items.find(key);
+        //clone
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["c" /* copiedValue */])(forked, this.state.entry, ['account', 'id', 'key', 'payee', 'property', 'villa']);
+    }
+
     suggest(prop) {
+
         if (this.smart.count >= 3) {
             this.state.entry[prop] = this.smart.snap;
             this.smart.stopCount(3);
@@ -49033,13 +48902,14 @@ const mutations = {
     editItem: (state, payload) => state.expense.editItem(payload.key),
     reset: state => state.expense.resetEntry(),
     new: state => state.expense.newTransaction(),
-    suggest: (state, payload) => state.expense.suggest(payload.prop)
+    suggest: (state, payload) => state.expense.suggest(payload.prop),
+    fork: (state, payload) => state.expense.fork(payload.key)
 };
 
 const actions = {
     create: ({ state }) => state.expense.create(),
     save: ({ state }) => state.expense.save(),
-    post: ({ state }) => state.expense.saveAndPost(),
+    post: ({ state }) => state.expense.save(true),
     edit: ({ state }, payload) => state.expense.edit(payload.transactionNo),
     fetch: ({ state }) => state.expense.fetch()
 };
@@ -69736,7 +69606,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "button"
     },
     on: {
-      "click": _vm.searchTransaction
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.searchTransaction($event)
+      }
     }
   }, [_c('i', {
     staticClass: "fa fa-fw fa-search"
@@ -69746,7 +69619,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "button"
     },
     on: {
-      "click": _vm.newEntry
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.newEntry($event)
+      }
     }
   }, [_c('i', {
     staticClass: "fa fa-fw fa-plus"
@@ -69759,7 +69635,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn btn-primary btn",
     attrs: {
       "type": "button",
-      "disabled": _vm.expense.items.all().length == 0
+      "disabled": _vm.expense.items.all().length == 0 || _vm.expense.progress.saving
     },
     on: {
       "click": _vm.post
@@ -69822,7 +69698,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "options": _vm.lookups.accounts,
       "dvalue": "code",
-      "dtext": "description",
+      "dtext": "full_account_description",
       "include-default": true
     },
     model: {
@@ -69843,7 +69719,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-2 col-form-label"
   }, [_vm._v("Description:")]), _vm._v(" "), _c('div', {
     staticClass: "col-md-10"
-  }, [_c('textarea', {
+  }, [_c('div', {
+    staticClass: "input-group"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -69852,8 +69730,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "name": "description",
-      "rows": "5"
+      "name": "description"
     },
     domProps: {
       "value": (_vm.expense.entry.description)
@@ -69864,7 +69741,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.expense.entry.description = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('div', {
+  }), _vm._v(" "), _c('span', {
+    staticClass: "input-group-btn"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        _vm.togglePredictive()
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-angle-down"
+  })])])]), _vm._v(" "), _c('div', {
+    staticStyle: {
+      "position": "relative",
+      "width": "100%"
+    }
+  }, [_c('v-predictive')], 1)])]), _vm._v(" "), _c('div', {
     staticClass: "form-group row"
   }, [_c('label', {
     staticClass: "col-md-2 col-form-label"
@@ -70260,12 +70156,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn btn-info btn btn-block",
     attrs: {
       "type": "button",
-      "disabled": _vm.expense.items.all().length == 0
+      "disabled": _vm.expense.items.all().length == 0 || _vm.expense.progress.saving
     },
     on: {
-      "click": _vm.save
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.save($event)
+      }
     }
-  }, [_vm._v("Save")])])])])], 2)], 1), _vm._v(" "), _c('v-dialog', {
+  }, [_vm._v("Save "), _c('i', {
+    staticClass: "fa ",
+    class: [{
+      'fa-spinner fa-spin': _vm.expense.progress.saving
+    }]
+  })])])])])], 2)], 1), _vm._v(" "), _c('v-dialog', {
     attrs: {
       "modal-id": "payee",
       "dialog-title": "Payee Information"
@@ -72365,11 +72269,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.tenant.full_name = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('error', {
+  }), _vm._v(" "), _c('error-span', {
     attrs: {
-      "errorDisplay": _vm.stateContractError.get('register_tenant.full_name')
+      "name": "register_tenant.full_name"
+    },
+    model: {
+      value: (_vm.stateContractError),
+      callback: function($$v) {
+        _vm.stateContractError = $$v
+      },
+      expression: "stateContractError"
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.stateContractError.get('register_tenant.full_name')) + "\n        ")])], 1), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label-class": "col-md-3 text-right",
       "label": _vm.labels.regName,
@@ -72442,32 +72353,44 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-search"
-  })])])]), _vm._v(" "), _c('error', {
+  })])])]), _vm._v(" "), _c('error-span', {
     attrs: {
-      "errorDisplay": _vm.stateContractError.get('register_tenant.reg_id')
+      "name": "register_tenant.reg_id"
+    },
+    model: {
+      value: (_vm.stateContractError),
+      callback: function($$v) {
+        _vm.stateContractError = $$v
+      },
+      expression: "stateContractError"
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.stateContractError.get('register_tenant.reg_id')) + "\n        ")])], 1), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label": _vm.labels.regDate,
       "label-class": "col-md-3 text-right",
       "required": true,
       "model-name": "register_tenant.reg_date"
     }
-  }, [_c('dt-picker', {
+  }, [_c('v-dt-picker', {
+    model: {
+      value: (_vm.tenant.reg_date),
+      callback: function($$v) {
+        _vm.tenant.reg_date = $$v
+      },
+      expression: "tenant.reg_date"
+    }
+  }), _vm._v(" "), _c('error-span', {
     attrs: {
-      "dp-name": "register_tenant.reg_date",
-      "value": _vm.tenant.reg_date
+      "name": "register_tenant.reg_date"
     },
-    on: {
-      "pick": function($event) {
-        _vm.tenant.reg_date = $event
-      }
+    model: {
+      value: (_vm.stateContractError),
+      callback: function($$v) {
+        _vm.stateContractError = $$v
+      },
+      expression: "stateContractError"
     }
-  }), _vm._v(" "), _c('error', {
-    attrs: {
-      "errorDisplay": _vm.stateContractError.get('register_tenant.reg_date')
-    }
-  }, [_vm._v("\n            " + _vm._s(_vm.stateContractError.get('register_tenant.reg_date')) + "\n        ")])], 1), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -72538,11 +72461,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.tenant.email_address = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('error', {
+  }), _vm._v(" "), _c('error-span', {
     attrs: {
-      "errorDisplay": _vm.stateContractError.get('register_tenant.email_address')
+      "name": "register_tenant.email_address"
+    },
+    model: {
+      value: (_vm.stateContractError),
+      callback: function($$v) {
+        _vm.stateContractError = $$v
+      },
+      expression: "stateContractError"
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.stateContractError.get('register_tenant.email_address')) + "\n        ")])], 1), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label-class": "col-md-3 text-right",
       "label": "Tel No",
@@ -72598,11 +72528,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.tenant.mobile_no = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('error', {
+  }), _vm._v(" "), _c('error-span', {
     attrs: {
-      "errorDisplay": _vm.stateContractError.get('register_tenant.mobile_no')
+      "name": "register_tenant.mobile_no"
+    },
+    model: {
+      value: (_vm.stateContractError),
+      callback: function($$v) {
+        _vm.stateContractError = $$v
+      },
+      expression: "stateContractError"
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.stateContractError.get('register_tenant.mobile_no')) + "\n        ")])], 1), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label-class": "col-md-3 text-right",
       "label": "Fax No",
@@ -72657,11 +72594,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.tenant.tenant_address.address_1 = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('error', {
+  }), _vm._v(" "), _c('error-span', {
     attrs: {
-      "errorDisplay": _vm.stateContractError.get('register_tenant.tenant_address.address_1')
+      "name": "register_tenant.tenant_address.address_1"
+    },
+    model: {
+      value: (_vm.stateContractError),
+      callback: function($$v) {
+        _vm.stateContractError = $$v
+      },
+      expression: "stateContractError"
     }
-  }, [_vm._v("\n            " + _vm._s(_vm.stateContractError.get('register_tenant.tenant_address.address_1')) + "\n        ")])], 1), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "label-class": "col-md-3 text-right",
       "label": "Address 2",
@@ -72721,11 +72665,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.tenant.tenant_address.city = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('error', {
+  }), _vm._v(" "), _c('error-span', {
     attrs: {
-      "errorDisplay": _vm.stateContractError.get('register_tenant.tenant_address.city')
+      "name": "register_tenant.tenant_address.city"
+    },
+    model: {
+      value: (_vm.stateContractError),
+      callback: function($$v) {
+        _vm.stateContractError = $$v
+      },
+      expression: "stateContractError"
     }
-  }, [_vm._v("\n                " + _vm._s(_vm.stateContractError.get('register_tenant.tenant_address.city')) + "\n            ")])], 1), _vm._v(" "), _c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('v-input-wrapper', {
     attrs: {
       "exclude-row": true,
       "label-class": "col-md-3 text-right",
@@ -72756,11 +72707,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.tenant.tenant_address.postal_code = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('error', {
+  }), _vm._v(" "), _c('error-span', {
     attrs: {
-      "errorDisplay": _vm.stateContractError.get('register_tenant.tenant_address.postal_code')
+      "name": "register_tenant.tenant_address.postal_code"
+    },
+    model: {
+      value: (_vm.stateContractError),
+      callback: function($$v) {
+        _vm.stateContractError = $$v
+      },
+      expression: "stateContractError"
     }
-  }, [_vm._v("\n                " + _vm._s(_vm.stateContractError.get('register_tenant.tenant_address.postal_code')) + "\n            ")])], 1)], 1)], 1)
+  })], 1)], 1)], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -75739,15 +75697,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "model-name": "period_start",
       "required": true
     }
-  }, [_c('dt-picker', {
-    attrs: {
-      "dp-name": "period_start",
-      "value": _vm.contract.period_start
-    },
-    on: {
-      "pick": function($event) {
-        _vm.contract.period_start = $event
-      }
+  }, [_c('v-dt-picker', {
+    model: {
+      value: (_vm.contract.period_start),
+      callback: function($$v) {
+        _vm.contract.period_start = $$v
+      },
+      expression: "contract.period_start"
     }
   }), _vm._v(" "), _c('error-span', {
     attrs: {
@@ -75767,15 +75723,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "model-name": "period_end",
       "required": true
     }
-  }, [_c('dt-picker', {
-    attrs: {
-      "dp-name": "period_end",
-      "value": _vm.contract.period_end
-    },
-    on: {
-      "pick": function($event) {
-        _vm.contract.period_end = $event
-      }
+  }, [_c('v-dt-picker', {
+    model: {
+      value: (_vm.contract.period_end),
+      callback: function($$v) {
+        _vm.contract.period_end = $$v
+      },
+      expression: "contract.period_end"
     }
   }), _vm._v(" "), _c('error-span', {
     attrs: {
@@ -75824,7 +75778,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "errors"
     }
-  })], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.contract.contract_type === 'legalized') ? _c('div', [_c('v-input-wrapper', {
+  })], 1), _vm._v(" "), _c('hr'), _vm._v(" "), (_vm.contract.contract_type === 'legalized') ? [_c('v-input-wrapper', {
     attrs: {
       "label": "Cheque Series:",
       "label-class": "col-md-3 text-right"
@@ -75919,7 +75873,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.contract.prep_ref_no = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('hr')], 1) : _vm._e(), _vm._v(" "), _c('div', {
+  })])]), _vm._v(" "), _c('hr')] : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "form-group"
   }, [_c('label', {
     staticClass: "col-md-3 text-right",
@@ -75974,7 +75928,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "amount",
       "type": "text",
       "disabled": "true",
-      "placeholder": "AMOUNT"
+      "placeholder": "0.00"
     },
     domProps: {
       "value": (_vm.contract.amount)
@@ -76011,7 +75965,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "errors"
     }
-  })], 1)])], 1)
+  })], 1)])], 2)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -78774,6 +78728,362 @@ __webpack_require__(154);
 __webpack_require__(155);
 module.exports = __webpack_require__(153);
 
+
+/***/ }),
+/* 478 */,
+/* 479 */,
+/* 480 */,
+/* 481 */,
+/* 482 */,
+/* 483 */,
+/* 484 */,
+/* 485 */,
+/* 486 */,
+/* 487 */,
+/* 488 */,
+/* 489 */,
+/* 490 */,
+/* 491 */,
+/* 492 */,
+/* 493 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "dtPicker",
+    props: {
+        dpName: "",
+        value: "",
+        disabled: false,
+        dpformat: 'L'
+    },
+    data() {
+        let dateFormat = this.dpformat === undefined ? 'L' : this.dpformat;
+        return {
+            dateFormat: dateFormat
+        };
+    },
+    mounted() {
+        let dtPicker = this.$refs.$dtPicker;
+        $(dtPicker).datetimepicker({ format: this.dateFormat }).on('dp.change', e => {
+            if (e.date) {
+                this.onChange(e.date.format(this.dateFormat));
+            } else {
+                this.onChange(moment().format(this.dateFormat));
+            }
+        });
+    },
+
+    methods: {
+        onChange(dtValue) {
+            this.$emit('pick', dtValue);
+        }
+    },
+    computed: {
+        defaultValue() {
+            if (moment(this.value).isValid()) {
+                return moment(this.value).format(this.dateFormat);
+            }
+            return moment().format(this.dateFormat);
+        }
+    }
+});
+
+/***/ }),
+/* 494 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(493),
+  /* template */
+  __webpack_require__(495),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\DateTimePicker.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] DateTimePicker.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6f9dfd61", Component.options)
+  } else {
+    hotAPI.reload("data-v-6f9dfd61", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 495 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    ref: "$dtPicker",
+    staticClass: "input-group date"
+  }, [_c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "disabled": _vm.disabled,
+      "name": "dpName"
+    },
+    domProps: {
+      "value": _vm.defaultValue
+    }
+  }), _vm._v(" "), _vm._m(0)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', {
+    staticClass: "input-group-addon"
+  }, [_c('span', {
+    staticClass: "fa fa-calendar"
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-6f9dfd61", module.exports)
+  }
+}
+
+/***/ }),
+/* 496 */,
+/* 497 */,
+/* 498 */,
+/* 499 */,
+/* 500 */,
+/* 501 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__eventbus_js__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    name: "vPredictive",
+    data() {
+        return {
+            hide: true
+        };
+    },
+    mounted() {
+        __WEBPACK_IMPORTED_MODULE_0__eventbus_js__["a" /* EventBus */].$on('predictive.open', () => {
+            this.open();
+        });
+
+        __WEBPACK_IMPORTED_MODULE_0__eventbus_js__["a" /* EventBus */].$on('predictive.close', () => {
+            this.close();
+        });
+
+        __WEBPACK_IMPORTED_MODULE_0__eventbus_js__["a" /* EventBus */].$on('predictive.toggle', () => {
+            if (this.hide) {
+                this.open();
+            } else {
+                this.close();
+            }
+        });
+    },
+    methods: {
+        open() {
+            this.hide = false;
+        },
+        close() {
+            this.hide = true;
+        }
+    }
+
+});
+
+/***/ }),
+/* 502 */,
+/* 503 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(507)
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(501),
+  /* template */
+  __webpack_require__(504),
+  /* scopeId */
+  "data-v-5cf46166",
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\experiment\\rootapp\\resources\\assets\\js\\plugins\\controls\\VPredictive.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] VPredictive.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5cf46166", Component.options)
+  } else {
+    hotAPI.reload("data-v-5cf46166", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 504 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "v-predictive-position",
+    class: {
+      'v-hide': _vm.hide
+    }
+  }, [_vm._m(0)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('table', {
+    staticClass: "table table-bordered"
+  }, [_c('thead', [_c('tr', [_c('th'), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "80%"
+    }
+  }, [_vm._v("Description")]), _vm._v(" "), _c('th', {
+    staticStyle: {
+      "width": "20%"
+    }
+  }, [_vm._v("Amount")])])]), _vm._v(" "), _c('tbody', [_c('tr', [_c('td', [_c('i', {
+    staticClass: "fa fa-tags"
+  })]), _vm._v(" "), _c('td', {
+    staticStyle: {
+      "width": "80%"
+    }
+  }, [_vm._v("Repair Maintenance")]), _vm._v(" "), _c('td', {
+    staticStyle: {
+      "width": "20%"
+    }
+  }, [_vm._v("3500")])]), _vm._v(" "), _c('tr', [_c('td', [_c('i', {
+    staticClass: "fa fa-tags"
+  })]), _vm._v(" "), _c('td', {
+    staticStyle: {
+      "width": "80%"
+    }
+  }, [_vm._v("Water Pump")]), _vm._v(" "), _c('td', {
+    staticStyle: {
+      "width": "20%"
+    }
+  }, [_vm._v("3500")])]), _vm._v(" "), _c('tr', [_c('td', [_c('i', {
+    staticClass: "fa fa-tags"
+  })]), _vm._v(" "), _c('td', {
+    staticStyle: {
+      "width": "80%"
+    }
+  }, [_vm._v("Basin Mixer")]), _vm._v(" "), _c('td', {
+    staticStyle: {
+      "width": "20%"
+    }
+  }, [_vm._v("3500")])])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5cf46166", module.exports)
+  }
+}
+
+/***/ }),
+/* 505 */,
+/* 506 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(7)();
+exports.push([module.i, "\n.v-predictive-position[data-v-5cf46166] {\n    background: white;\n    position: absolute;\n    width: 100%;\n    height: 250px;\n    z-index: 3;\n    overflow: scroll;\n}\n.v-hide[data-v-5cf46166] {\n    display:none;\n}\n.table tbody tr[data-v-5cf46166]:hover {\n    cursor: pointer;\n    background: #dce782;\n}\n", ""]);
+
+/***/ }),
+/* 507 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(506);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(8)("4d106f56", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5cf46166\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VPredictive.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"id\":\"data-v-5cf46166\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./VPredictive.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
 
 /***/ })
 /******/ ]);

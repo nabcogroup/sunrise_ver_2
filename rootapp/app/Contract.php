@@ -6,10 +6,8 @@ use Carbon\Carbon;
 use App\Services\Result;
 
 use App\Traits\HelperTrait;
-
 use App\Traits\PeriodTrait;
 use App\Traits\DeserializeTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contract extends BaseModel
@@ -29,8 +27,6 @@ class Contract extends BaseModel
     protected $hidden = ['deleted_at'];
 
 
-
-
     //factory method
     public static function createInstance($defaultMonths)
     {
@@ -41,21 +37,10 @@ class Contract extends BaseModel
         $contract->villa_id = 0;
         $contract->setDefaultPeriod(Carbon::now(), $defaultMonths);
         $contract->amount = 0;
-        
-        $contract->register_tenant = \App\Tenant::createInstance();
-        
-        $contract->villa_list = \App\Villa::with('villaGalleries')
-            ->where('status', 'vacant')
-            ->orderBy('villa_no')
-            ->get();
-        
         $contract->extra_days = 0;
         
         return $contract;
     }
-
-
-
 
 
     /******** mutators ********/
@@ -77,6 +62,27 @@ class Contract extends BaseModel
         }
         
         return 0;
+    }
+
+    protected function getPeriodStartAttribute($value) {
+        if(is_string($value)) {
+            $value = Carbon::parse($value)->format(config('format.date_format'));
+        }
+        else {
+            $value->format(config('format.date_format'));
+        }
+        return $value;
+    }
+
+    protected function  getPeriodEndAttribute($value) {
+        if(is_string($value)) {
+            $value = Carbon::parse($value)->format(config('format.date_format'));
+        }
+        else {
+            $value->format(config('format.date_format'));
+        }
+
+        return $value;
     }
 
     protected function getFullPeriodStartAttribute()

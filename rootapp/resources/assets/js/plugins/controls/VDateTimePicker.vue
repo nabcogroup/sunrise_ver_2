@@ -12,7 +12,7 @@
 <script>
 
 const jQuery = window.$ || require("jquery");
-const Moment = window.moment || require("moment");
+const moment = window.moment || require("moment");
 
 //import "eonasdan-bootstrap-datetimepicker";
 
@@ -30,12 +30,12 @@ export default {
       }
     },
     // http://eonasdan.github.io/bootstrap-datetimepicker/Options/
-    config: {
+    configs: {
       type: Object,
       default: () => ({})
     },
     dtFormat: {
-        default: 'MM/DD/YYYY',
+        default: 'L',
         type: String
     },
     disabled:{
@@ -70,19 +70,18 @@ export default {
     /* istanbul ignore if */
     if (this.dp) return;
     // Handle wrapped input
-    let node = this.$refs.$dtPicker;
     
     // Cache DOM
-    this.elem = jQuery(node);
-
+    this.elem = jQuery(this.$refs.$dtPicker);
+    
     // Init date-picker
-    this.elem.datetimepicker(this.config);
+    this.elem.datetimepicker(this.configs);
     // Watch for changes
     this.elem.on("dp.change", this.onChange);
-
+    
     // Store data control
     this.dp = this.elem.data("DateTimePicker");
-    this.dp.format(this.dtFormat);
+    
     
     //check if date is a string
     this.initValue = this.value;
@@ -96,10 +95,9 @@ export default {
 
     }
     
-
-    
     // Set initial value
     this.dp.date(this.initValue);
+    this.dp.format(this.dtFormat);
     
     // Register remaining events
     this.registerEvents();
@@ -122,14 +120,13 @@ export default {
        */
     value(newValue) {
       this.dp && this.dp.date(newValue || null);
-      
     },
     /**
        * Watch for any change in options and set them
        *
        * @param newConfig Object
        */
-    config(newConfig) {
+    configs(newConfig) {
       this.dp &&
         this.dp.options(Object.assign({}, this.dp.options(), newConfig));
     }

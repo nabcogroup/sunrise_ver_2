@@ -613,6 +613,7 @@ class ComposerStaticInitf794d435006f58b16c96d105d4b76076
         'CorsServiceTest' => __DIR__ . '/..' . '/barryvdh/laravel-cors/tests/CorsServiceTest.php',
         'Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
         'CreateAccountChartsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_10_113825_create_account_charts_table.php',
+        'CreateAutoTransactionTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_19_203009_create_auto_transaction_table.php',
         'CreateBankAccountsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_09_131119_create_bank_accounts_table.php',
         'CreateContractBillsTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_21_173438_create_contract_bills_table.php',
         'CreateContractTerminationsTable' => __DIR__ . '/../..' . '/database/migrations/2017_05_21_173357_create_contract_terminations_table.php',

@@ -10,6 +10,7 @@ class AccountChart extends BaseModel
 
     protected $fillable = ["code","account_type","description"];
 
+    protected $appends = ["full_account_description"];
 
     /** mutator */
     public static function createInstance($values = array()) {
@@ -26,6 +27,10 @@ class AccountChart extends BaseModel
 
         $this->description = "";
 
+    }
+
+    public function getFullAccountDescriptionAttribute() {
+        return $this->attributes['code'] & " - " & $this->attributes['description'];
     }
 
 

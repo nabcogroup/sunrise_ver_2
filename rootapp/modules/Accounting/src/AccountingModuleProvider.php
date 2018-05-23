@@ -15,9 +15,12 @@ class AccountingModuleProvider extends ServiceProvider {
         ]);
     }
 
-    public function register() {
+    public function register()
+    {
         $this->app->bind('accountingRoute','\Accounting\App\Http\Routes\AccountingRoute');
+        
         $loader = AliasLoader::getInstance();
+        
         $loader->alias('AccountsRoutes',"\Accounting\App\Http\Routes\Facades\AccountingRoute");
     }
 

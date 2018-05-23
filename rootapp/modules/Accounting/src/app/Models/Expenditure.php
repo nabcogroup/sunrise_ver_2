@@ -5,6 +5,7 @@ namespace Accounting\App\Models;
 
 use Carbon\Carbon;
 use KielPack\LaraLibs\Base\BaseModel;
+use KielPack\LaraLibs\Helpers\GAT;
 
 class Expenditure extends BaseModel
 {
@@ -34,21 +35,20 @@ class Expenditure extends BaseModel
             'doc_no'             =>  '',
         ]);
 
-        $expenditure->payment_date = Carbon::now()->format('m/d/Y');
-        $expenditure->doc_date = Carbon::now()->format('m/d/Y');
+        $expenditure->payment_date = Carbon::now()->format(config('format.date_format'));
+
+        $expenditure->doc_date = Carbon::now()->format(config('format.date_format'));
 
         return $expenditure;
     }
 
     public static function generateNewTransactionNo() {
-        $lastRecord = Expenditure::orderBy('id','desc')->first();
-        if($lastRecord == null) {
-            $transaction = 1;
-        }
-        else {
-            $transaction = $lastRecord->transaction_no + 1;
-        }
-        return $transaction;
+
+        $newTransaction = GAT::create('expenses','inc',5,1);
+
+        $newTransaction->generate();
+
+        return $newTransaction->current;
     }
 
 

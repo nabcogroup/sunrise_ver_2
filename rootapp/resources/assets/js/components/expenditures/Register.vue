@@ -12,10 +12,10 @@
                                 name="expensesTransactionNo" 
                                 style="text-align:right"/>
 
-                        <button class="btn btn-default " type="button" @click="searchTransaction">
+                        <button class="btn btn-default " type="button" @click.prevent="searchTransaction">
                             <i class="fa fa-fw fa-search"></i>
                         </button>
-                        <button class="btn btn-success" type="button" @click="newEntry">
+                        <button class="btn btn-success" type="button" @click.prevent="newEntry">
                             <i class="fa fa-fw fa-plus"></i>
                         </button>
                     </div>
@@ -23,7 +23,7 @@
                     <div class="col-md-3 col-md-offset-3" style="text-align:right">
                         <template v-if="(expense.transaction !== null)">
                             <button v-if="expense.transaction.posted == 0" type="button" class="btn btn-primary btn" 
-                                    :disabled="expense.items.all().length == 0" 
+                                    :disabled="expense.items.all().length == 0 || expense.progress.saving" 
                                     @click="post">Save and Post
                             </button>
                             <label v-else class="text-muted">
@@ -55,7 +55,7 @@
                         <v-combo-box 
                             :options="lookups.accounts" 
                             v-model="expense.entry.acct_code" 
-                            dvalue="code" dtext="description" 
+                            dvalue="code" dtext="full_account_description" 
                             :include-default=true>
                         </v-combo-box>
                         <error-span :value="errors" name="acct_code"></error-span>
@@ -66,7 +66,17 @@
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Description:</label>
                     <div class="col-md-10">
-                        <textarea  class="form-control" name="description" v-model="expense.entry.description" rows="5"></textarea>
+                        <div class="input-group">
+                            <input class="form-control" name="description" 
+                                v-model="expense.entry.description"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" @click="togglePredictive()"><i class="fa fa-angle-down"></i></button>
+                            </span>
+                        </div>
+                        
+                        <div style="position:relative; width:100%">
+                            <v-predictive></v-predictive>
+                        </div>
                     </div>
                 </div>
 
@@ -170,7 +180,9 @@
                 <div class="row">
                     <div class="col-md-3 col-md-offset-9">
                         <div class="col-md-6" style="padding-top: 10px;padding-bottom: 10px ">
-                            <button class="btn btn-danger btn-block" @click="reset" type="button"><i class="fa fa-eraser"></i> Reset</button>
+                            <button class="btn btn-danger btn-block" 
+                                    @click="reset" 
+                                    type="button"><i class="fa fa-eraser"></i> Reset</button>
                         </div>
                         <div class="col-md-6" style="padding-top: 10px;padding-bottom: 10px ">
                             <button class="btn btn-primary btn-block" @click="insertItem" type="button"> <i class="fa fa-arrow-down"></i> Insert</button>
@@ -189,7 +201,9 @@
                     <!-- Save and Post -->
                     <div class="row">
                         <div class="col-md-2 col-md-offset-10">
-                            <button type="button" class="btn btn-info btn btn-block" :disabled="expense.items.all().length == 0" @click="save">Save</button>
+                            <button type="button" class="btn btn-info btn btn-block" 
+                                :disabled="expense.items.all().length == 0 || expense.progress.saving" 
+                                @click.prevent="save">Save <i class="fa " :class="[{'fa-spinner fa-spin': expense.progress.saving}]"></i></button>
                         </div>
                     </div>
                 </template>
@@ -301,7 +315,9 @@
                     ],
                     actions: [
                         {key: 'edit', name: 'Edit'},
-                        {key: 'remove', name: 'Remove'}
+                        {key: 'fork', name: 'Copy'},
+                        {key: 'remove', name: 'Remove'},
+                        
                     ],
                     footers: [
                         {label: "Grand Total",span:"7"},
@@ -360,6 +376,9 @@
                         }
                     });
                 }
+                else if(action === 'fork') {
+                    this.$store.commit('expenditures/fork',{key: value.key});
+                }
                 else {
                     this.$store.commit('expenditures/editItem',{key:value.key});
                 }
@@ -368,7 +387,6 @@
                 this.unfold = true
             },
             dismiss(result) {
-                
                 if (result) {
                     EventBus.$emit("onSavePayee", r => {
                         this.lookups.payees = r
@@ -378,16 +396,28 @@
                 this.unfold = false
             },
             searchTransaction() {
-
                 EventBus.$emit("list.open")
-                
             },
             onSelected(transactionNo) {
                 this.$store.dispatch('expenditures/edit',{transactionNo: transactionNo});
             },
             suggest(value) {
                this.$store.commit('expenditures/suggest',{prop: value});
+            },
+            togglePredictive() {
+                EventBus.$emit('predictive.toggle');
             }
         },
+        watch: {
+            'expense.entry.description': (newValue,oldValue) => {
+                if(newValue.length > 0) {
+                    EventBus.$emit('predictive.open')
+                }
+                else {
+                    this.showPredictive = false;
+                    EventBus.$emit('predictive.close')
+                }
+            }
+        }
     }
 </script>

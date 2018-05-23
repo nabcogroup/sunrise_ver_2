@@ -1,31 +1,33 @@
 <template>
     <v-panel header="RENTAL CONTRACT ENTRY">
-
+        <!-- contract type -->
         <v-input-wrapper label-class="col-md-3 text-right" label="Contract Type" model-name="contract_type">
             <v-combo-box v-model="contract.contract_type" :options="lookups.contract_type" dvalue="code"
                          dtext="name"></v-combo-box>
         </v-input-wrapper>
 
+        <!-- date period -->
         <v-input-wrapper label-class="col-md-3 text-right" label="Period Start" model-name="period_start"
                          :required="true">
-            <dt-picker dp-name="period_start" @pick="contract.period_start = $event"
-                       :value="contract.period_start"></dt-picker>
+            <v-dt-picker v-model="contract.period_start"></v-dt-picker>
             <error-span v-model="errors" name="period_start"></error-span>
         </v-input-wrapper>
-
         <v-input-wrapper label-class="col-md-3 text-right" label="Period End" model-name="period_end" :required="true">
-            <dt-picker dp-name="period_end" @pick="contract.period_end = $event"
-                       :value="contract.period_end"></dt-picker>
+            <v-dt-picker v-model="contract.period_end"></v-dt-picker>
             <error-span v-model="errors" name="period_end"></error-span>
         </v-input-wrapper>
+        <!-- end date period -->
 
+        <!-- extra days -->
         <v-input-wrapper label="Extra Days: " label-class="col-md-3 text-right">
             <input type="text" class="form-control" v-model="contract.extra_days"/>
             <error-span v-model="errors" name="extra_days"></error-span>
         </v-input-wrapper>
+        
+        <!-- line segment -->
         <hr/>
 
-        <div v-if="contract.contract_type === 'legalized'">
+        <template v-if="contract.contract_type === 'legalized'">
             <v-input-wrapper label="Cheque Series:" label-class="col-md-3 text-right">
                 <input type="number" class="form-control" v-model="contract.prep_series"/>
             </v-input-wrapper>
@@ -45,7 +47,7 @@
                 </div>
             </div>
             <hr/>
-        </div>
+        </template>
         <div class="form-group">
             <label for="" class="col-md-3 text-right">Rate Per Month:</label>
             <div class="col-md-4">
@@ -57,7 +59,7 @@
             <div class="col-md-9">
                 <div class='input-group'>
                     <input name="amount" type="text" class="form-control text-right" disabled="true"
-                           placeholder="AMOUNT" v-model='contract.amount'>
+                           placeholder="0.00" v-model='contract.amount'>
                     <div class="input-group-btn">
                         <button class="btn btn-default" type="button" @click.prevent="calc('direct')">
                             <i class="fa fa-calculator"></i>
@@ -79,7 +81,10 @@
         name: "ContractEntry",
         data() {
             return {
-                rate_per_month: 0
+                rate_per_month: 0,
+                configs: {
+                   locale: 'ru'
+                }
             }
         },
         methods: {

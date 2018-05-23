@@ -37,9 +37,6 @@ class CreateVillaLedgersTable extends Migration
 
             $table->integer('year')->index();
 
-
-
-
         });
     }
 
@@ -50,6 +47,6 @@ class CreateVillaLedgersTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('villa_ledger');
     }
 }

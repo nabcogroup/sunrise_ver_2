@@ -17,7 +17,6 @@ class PaymentController extends LaraLibController
     private $paymentModel;
 
 
-
     public function __construct(Payment $paymentModel)
     {
 

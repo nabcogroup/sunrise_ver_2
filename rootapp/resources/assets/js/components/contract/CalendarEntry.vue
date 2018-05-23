@@ -49,7 +49,7 @@
 import Calendar from "../Calendar.vue";
 import Renewal from "./Renewal.vue";
 
-import { ContractRenewModel } from "./ContractListModel";
+//import { ContractRenewModel } from "./ContractListModel";
 import ContractTerminate from './ContractTerminate.vue';
 
 import { EventBus } from "../../eventbus";
@@ -105,7 +105,6 @@ export default {
     },
     data() {
         return {
-            viewModel: new ContractRenewModel(),
             isOpenModal: false,
             dueRoot: {
                 selected: "",
@@ -154,20 +153,7 @@ export default {
 
                 }
             });
-
         },
-        onDismiss(result) {
-            if (result) {
-                this.viewModel.save((id) => {
-                    this.isOpenModal = true;
-                    this.viewModel.redirectToBill(id);
-                });
-            }
-            else {
-                this.isOpenModal = false;
-            }
-
-        }
     }
 }
 </script>

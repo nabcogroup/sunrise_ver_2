@@ -1,5 +1,6 @@
 import { cloneObject, copiedValue, ErrorValidations, Validator,ItemHandler,InstanceStorage } from "../../../helpers/helpers";
 
+
 var moment = moment || require('moment');
 
 
@@ -34,9 +35,7 @@ class Expense {
                     this.snap = element;
                     if(this.count > 0) this.reset();
                 }
-                else {
-                    this.count++;
-                }
+                else { this.count++; }
             },
             reset: function() {
                 this.count = 0;
@@ -59,10 +58,12 @@ class Expense {
 
     create(data) {
         axiosRequest.get('expenses', 'create').then(r => {
+            
             this.instanceStorage = new InstanceStorage(r.data.data);
             this.state.entry = this.instanceStorage.getClone();
             this.validator.setRules(r.data.rules);
             this.lookups = r.data.lookups;
+
         })
     }
 
@@ -157,9 +158,6 @@ class Expense {
             this.registerItem(cloneObject(this.state.entry))
             this.smart.capture(this.state.entry.doc_no);
         }
-            
-
-
         this.resetEntry();
     }
 
@@ -187,7 +185,12 @@ class Expense {
             this.state.entry[prop] = this.smart.snap;
             this.smart.stopCount(3);
         }
-    }   
+    }
+    
+    updateDescription(description,amount) {
+        this.state.entry.description = description;
+        this.state.entry.amount = amount;
+    }
 }
 
 const state = {
@@ -206,7 +209,8 @@ const mutations = {
     reset: (state) => state.expense.resetEntry(),
     new: (state) => state.expense.newTransaction(),
     suggest: (state,payload) => state.expense.suggest(payload.prop),
-    fork: (state,payload) => state.expense.fork(payload.key)
+    fork: (state,payload) => state.expense.fork(payload.key),
+    updateDescription: (state,payload) => state.expense.updateDescription(payload.description,payload.amount)
 }
 
 const actions = {
@@ -214,7 +218,8 @@ const actions = {
     save: ({state}) => state.expense.save(),
     post: ({state}) => state.expense.save(true),
     edit: ({state}, payload) => state.expense.edit(payload.transactionNo),
-    fetch: ({state}) => state.expense.fetch()
+    fetch: ({state}) => state.expense.fetch(),
+    fetchPredictive: ({state}) => state.predictive.fetch()
 }
 
 const getters = {

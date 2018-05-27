@@ -13,6 +13,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+
         'App\Events\NotifyUpdate' => [
             'App\Listeners\UpdateVillaStatus',
             'App\Listeners\RemoveTenant',
@@ -23,21 +24,27 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EmailPayment',
             'App\Listeners\SMSNotification'
         ],
+
         'App\Events\OnCreating' => [
             'App\Listeners\CreateTenant',
             'App\Listeners\GetVilla'
         ],
+
         'App\Events\OnCalculation' => [
             'App\Listeners\GetVillaOnRecalculate'
         ],
+
         'App\Events\OnGetContract' => [
             'App\Listeners\GetContract',
             'App\Listeners\GetContractPayments'],
+
         'App\Events\Verify' => [
             'App\Listeners\VerifyBalance',
             'App\Listeners\VerifyVillaVacancy',
             'App\Listeners\VerifyOutstandingBalance'
-        ]
+        ],
+
+
     ];
 
     /**

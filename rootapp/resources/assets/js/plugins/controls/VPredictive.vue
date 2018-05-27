@@ -1,29 +1,33 @@
 <template>
-    <div class="v-predictive-position" :class="{'v-hide': hide}">
+    <div class="v-predictive-position" :class="{'v-hide': !configs.visible}">
         <table class="table table-bordered">
             <thead>
-            <tr>
-                <th></th>
-                <th style="width:80%">Description</th>
-                <th style="width:20%">Amount</th>
-            </tr>
+                <tr>
+                    <th v-for="(column, index) in configs.columns" 
+                        :key="index" 
+                        :style="column.style">
+                        <template>
+                            {{column.column}}
+                        </template>
+                    </th>
+                </tr>
             </thead>
             <tbody>
-            <tr>
-                <td><i class="fa fa-tags"></i></td>
-                <td style="width:80%">Repair Maintenance</td>
-                <td style="width:20%">3500</td>
-            </tr>
-            <tr>
-                <td><i class="fa fa-tags"></i></td>
-                <td style="width:80%">Water Pump</td>
-                <td style="width:20%">3500</td>
-            </tr>
-            <tr>
-                <td><i class="fa fa-tags"></i></td>
-                <td style="width:80%">Basin Mixer</td>
-                <td style="width:20%">3500</td>
-            </tr>
+                <tr 
+                    v-for="(row,index) in filterData" 
+                    :key="index" 
+                    @click="onClick(row)">
+                    
+                    <td v-for="(column,index) in configs.columns" :key="index" :style="column.style">
+                        <template v-if="column.name === '$icon'">
+                            <span :class="column.value"></span>
+                        </template>
+                        <template v-else>
+                            {{row[column.name]}}
+                        </template>
+                    </td>
+
+                </tr>
             </tbody>
         </table>
     </div>
@@ -33,46 +37,123 @@
 
 import {EventBus} from "./../../eventbus.js";
 
-export default {
-    name: "vPredictive",
-    data() {
-        return {
-            hide: true
+const apiStorage = () => ({
+  
+  store: (key,data,serialize = false) => {
+      if(serialize) {
+          localStorage.setItem(key,JSON.stringify(data));
+      }
+      else {
+          localStorage.setItem(key,data);
+      }
+  },
+
+  get: (key) => {
+      return localStorage.getItem(key);
+  },
+
+  isEmpty(key) {
+      return (localStorage.getItem(key)) ? false : true;
+  }
+})
+
+class Predictive {
+    
+    constructor() {
+        this.state = {
+            predictives : []
         }
-    },
-    mounted() {
-        EventBus.$on('predictive.open', () => {
-            this.open();
-        });
+    }
 
-        EventBus.$on('predictive.close', () => {
-            this.close();
-        });
-
-        EventBus.$on('predictive.toggle', () => {
-            if(this.hide) {
-                this.open();
+    fetch(url) {
+        
+        if(this.state.predictives.length === 0) {
+            //check first if 
+            if(apiStorage().isEmpty('_predictives')) {
+                axiosRequest.dispatchGet(url).then((response) => {
+                    this.state.predictives = response.data.data;
+                    //get json to string
+                    apiStorage().store('_predictives',response.data.data,true);
+                });
             }
             else {
-                this.close();
+                this.state.predictives = JSON.parse(apiStorage().get('_predictives'));
             }
-                
-        });
+        }
+    }
 
-    },
-    methods: {
-        open() {
-            this.hide = false;
+    filter(filterValue,preKey) {
+        
+        let filtered = [];
+
+        if(filterValue && filterValue.length > 0) {
+            //data exist
+            this.state.predictives.forEach((row) => {
+                if (row[preKey].toLowerCase().indexOf(filterValue.toLowerCase()) >= 0) {
+                    filtered.push(row);
+                }
+            })
+        }
+        else {
+            filtered = this.state.predictives;
+        }
+
+        return filtered;
+    }
+}
+
+export default {
+
+    name: "vPredictive",
+
+    props: {
+        filterValue: {
+            required:true,
+            default:null
         },
-        close() {
-            this.hide = true;
+        configs: {
+            required: true,
+            type: Object,
+            default: () => ({})
+        }
+    },
+
+    data() {
+        return {
+            hide: true,
+            focus: false,
+            predictive: new Predictive()
+        }
+    },
+
+    methods: {
+        update(value) 
+        {
+            if(value) {
+                this.predictive.fetch(this.configs.api.url);
+            }
+        },
+        onClick(item) {
+            this.$emit('selected',item);
         }
     },
     
+    computed: {
+        filterData() {
+            return this.predictive.filter(this.filterValue,this.configs.preKey);
+        }
+    },
+
+    watch: {
+        'configs.visible': 'update'
+    }
+
 }
+
 </script>
 
 <style scoped>
+    
     .v-predictive-position {
         background: white;
         position: absolute;
@@ -81,6 +162,7 @@ export default {
         z-index: 3;
         overflow: scroll;
     }
+    
     .v-hide {
         display:none; 
     }
@@ -89,4 +171,5 @@ export default {
         cursor: pointer;
         background: #dce782;
     }
+
 </style>

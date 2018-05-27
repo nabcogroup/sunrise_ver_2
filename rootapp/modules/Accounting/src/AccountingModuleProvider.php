@@ -3,6 +3,7 @@
 
 namespace Accounting;
 
+use Accounting\app\Providers\AccountingEventServiceProvider;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,11 +18,14 @@ class AccountingModuleProvider extends ServiceProvider {
 
     public function register()
     {
+        $this->app->register(AccountingEventServiceProvider::class);
+
         $this->app->bind('accountingRoute','\Accounting\App\Http\Routes\AccountingRoute');
         
         $loader = AliasLoader::getInstance();
         
         $loader->alias('AccountsRoutes',"\Accounting\App\Http\Routes\Facades\AccountingRoute");
+
     }
 
     public function registerPublishableResources() {

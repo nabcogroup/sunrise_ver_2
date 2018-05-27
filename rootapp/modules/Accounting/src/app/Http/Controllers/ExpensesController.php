@@ -3,23 +3,29 @@
 
 namespace Accounting\App\Http\Controllers;
 
+use Accounting\App\Events\OnSaveTransaction;
 use Accounting\App\Models\AccountChart;
 use Accounting\App\Models\AccountsPayee;
 use Accounting\App\Models\AccountsVilla;
 use Accounting\App\Models\Expenditure;
 
-use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use KielPack\LaraLibs\Base\Controller;
 use KielPack\LaraLibs\Selections\SelectionModel as Selection;
+use KielPack\LaraLibs\Supports\Predictive;
 use KielPack\LaraLibs\Supports\Result;
 
 class ExpensesController extends Controller
 {
-    public function __construct()
-    {
 
+    protected $predictive;
+
+
+    public function __construct(Predictive $predictive)
+    {
+        $this->predictive = $predictive;
     }
 
 
@@ -30,7 +36,7 @@ class ExpensesController extends Controller
 
     }
 
-    public function create()
+    public function create(Request $request)
     {
 
         $expenditure = Expenditure::createInstance();
@@ -50,6 +56,8 @@ class ExpensesController extends Controller
             'doc_ref' => 'required',
             'doc_no' => 'required',
             'doc_date' => 'required|date'];
+
+        $request->session()->forget('transaction_no');
 
         return Result::response(["data" => $expenditure, "lookups" => $lookups, "rules" => $rules]);
     }
@@ -82,10 +90,19 @@ class ExpensesController extends Controller
         return $this->batchSave($request, true);
     }
 
+    public function getPredictives() {
+
+        $predictives = $this->predictive->getAllDictionaries();
+
+        return Result::response(['data' => $predictives]);
+    }
+
     protected function batchSave(Request $request, $isPosting = false)
     {
         $transactionSet = $request->input('transaction_set');
+
         $items = isset($transactionSet['items']) ? $transactionSet['items'] : [];
+
         $this->validateRequest($items);
 
         $transactionNo = null;
@@ -117,7 +134,8 @@ class ExpensesController extends Controller
 
                 Expenditure::createWithUser($transaction);
 
-            } else {
+            }
+            else {
 
                 $expenditure = Expenditure::find($transaction['id']);
                 $expenditure->toMap($transaction);
@@ -129,6 +147,9 @@ class ExpensesController extends Controller
                 $expenditure->saveWithUser();
 
             }
+
+            //raise event
+            event(new OnSaveTransaction($this->predictive,$transaction));
         }
 
         if (isset($items['deletedItems'])) {

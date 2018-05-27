@@ -67,15 +67,23 @@
                     <label class="col-md-2 col-form-label">Description:</label>
                     <div class="col-md-10">
                         <div class="input-group">
-                            <input class="form-control" name="description" 
-                                v-model="expense.entry.description"/>
+                            <input class="form-control" name="description"
+                                v-model="expense.entry.description"
+                                @input="descriptionChange($event.target.value)"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" @click="togglePredictive()"><i class="fa fa-angle-down"></i></button>
+                                <button class="btn btn-default" type="button" @click="togglePredictive()">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
                             </span>
                         </div>
-                        
+
                         <div style="position:relative; width:100%">
-                            <v-predictive></v-predictive>
+                            <v-predictive 
+                                :configs="preConfig"
+                                :filter-value="expense.entry.description"
+                                @selected="onPredictiveSelected"
+                                item-text="description">
+                            </v-predictive>
                         </div>
                     </div>
                 </div>
@@ -294,6 +302,18 @@
         data() {
             return {
                 unfold: false,
+                preConfig: {
+                    visible: false,
+                    preKey: 'description',
+                    columns: [
+                        {name: '$icon', value: 'fa fa-tags', style:'width:3%;text-align:center'},
+                        {name: 'description', column: 'Description'},
+                        {name: 'amount',column: 'Amount',  style:'width:20%'}
+                    ],
+                    api: {
+                        url: '/api/expenses/predictives'
+                    }
+                },
                 gridColumn: {
                     excludeIndex: true,
                     columns: [ {
@@ -336,10 +356,22 @@
             payee: 'payee',
             payeeTypes: 'payeeTypes',
             options: 'options',
-            smartState: 'smartState'
+            smartState: 'smartState',
         }),
         components: {TransactionListDialog, PayeeRegister},
         methods: {
+            descriptionChange(value) {
+                if(value.length > 0) {
+                    this.preConfig.visible = true;
+                }
+                else {
+                    this.preConfig.visible = false;
+                }
+            },
+            onPredictiveSelected(item) {
+               this.$store.commit('expenditures/updateDescription',item)
+               this.preConfig.visible = false;
+            },
             save() {
                 confirmation.ExpensesSave((result) => {
                     if (result) {
@@ -368,7 +400,6 @@
                 this.$store.commit('expenditures/insertItem')
             },
             doAction(action,value,index) {
-                
                 if(action === 'remove') {
                     confirmation.RemoveItem((result) => {
                         if(result) {
@@ -405,19 +436,8 @@
                this.$store.commit('expenditures/suggest',{prop: value});
             },
             togglePredictive() {
-                EventBus.$emit('predictive.toggle');
+                this.preConfig.visible = !this.preConfig.visible;
             }
         },
-        watch: {
-            'expense.entry.description': (newValue,oldValue) => {
-                if(newValue.length > 0) {
-                    EventBus.$emit('predictive.open')
-                }
-                else {
-                    this.showPredictive = false;
-                    EventBus.$emit('predictive.close')
-                }
-            }
-        }
     }
 </script>

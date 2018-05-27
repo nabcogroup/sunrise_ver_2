@@ -11,6 +11,8 @@ Route::group(['prefix' => 'api/expenses'], function () use($namespace) {
     Route::post("post", $namespace . "\ExpensesController@storeAndPost");
     Route::get("{transaction_no}/edit", $namespace . "\ExpensesController@edit");
 
+    Route::get("/predictives", $namespace . "\ExpensesController@getPredictives");
+
 });
 
 //payee
@@ -34,4 +36,7 @@ Route::group(['prefix' => 'api/chart'],function() use ($namespace) {
     Route::patch("/update", $namespace . "\AccountChartController@update");
 
 });
+
+
+
 

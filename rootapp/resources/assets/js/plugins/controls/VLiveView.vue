@@ -3,9 +3,9 @@
         <div class="row">
             <div class="col-md-12">
                 <transition name="v-slide-fade">
-                    <div v-if="filter.field" class="live-views-badge">
-                        <span>{{filter.label}}</span>
-                        <a href="#" class="live-views-close" @click="clearFilter">&times;</a>
+                    <div v-if="filterProperty.field" class="live-views-badge">
+                        <span>{{filterProperty.label}}</span>
+                        <a href="#" class="live-views-close" @click="clear()">&times;</a>
                     </div>
                 </transition>
             </div>
@@ -28,29 +28,29 @@
                                     :style="key.style"
                                     @click.self="sortBy(key)"
                                     class="text-left"
-                                    :class="{info:sortKey == key.name}"
+                                    :class="{info:sort.key == key.name}"
                                     :key="index">
                                     {{ key.column }}
                                     
                                     <span
                                             v-if="isArrowVisible(key.name)"
-                                            class="fa fa-fw" :class="sortOrders[key.name] > 0 ?
+                                            class="fa fa-fw" :class="sort.orders[key.name] > 0 ?
                                     'fa-long-arrow-down' : 'fa-long-arrow-up'"></span>
 
                                     <a class="filter"
                                     href="#"
-                                    @click.prevent.stop="filterWrap(index)"
+                                    @click.prevent.stop="filterProperty.toggle(index)"
                                     v-if="key.filter"><i class="fa fa-filter"></i></a>
 
                                     <transition name="v-slide-fade">
-                                        <div v-if="selectedFilter === index" class="filter-wrapper" ref="filterWrapper">
+                                        <div v-if="filterProperty.selectedFilter === index" class="filter-wrapper" ref="filterWrapper">
                                             <div class="panel panel-primary wrap">
                                                 <div class="panel-heading">Filter Panel - {{key.column}}</div>
                                                 <div class="panel-body">
                                                     <div class="form-group">
-                                                        <input type="text" v-model="filter.value" class="form-control">
+                                                        <input type="text" v-model="filterProperty.value" class="form-control">
                                                     </div>
-                                                    <button class="btn btn-info btn-block" @click.stop="doFilter(key.filterBind || key.name ,key.column)">
+                                                    <button class="btn btn-info btn-block" @click.stop="filter(key.filterBind || key.name ,key.column)">
                                                         Filter
                                                     </button>
                                                 </div>
@@ -106,7 +106,9 @@
                         </tfoot>
                     </table>
 
-                    <pagination :param="$store.state.liveviews.items" @click="fetchData({paramUrl:$event,grid:grid})"></pagination>
+                    <pagination 
+                        :param="liveViewModel.state.data" @click="fetchData($event)">
+                    </pagination>
 
                 </div>
             </transition>
@@ -115,64 +117,191 @@
 </template>
 
 <script>
-
     import {EventBus} from "../../eventbus";
     import Pagination from "../controls/Pagination.vue";
     import {cloneObject} from "../../helpers/helpers";
-
-    import {mapGetters, mapActions, mapMutations, mapState} from "vuex";
     
+    class LiveViewModel {
+
+        constructor(configs) {
+
+            this.state = {
+                data: [],
+                cache: [],
+                fetchLoading: false
+            }
+            
+            this.sort = {
+                orders: [],
+                key: ''
+            }
+
+            this.configs = configs;
+
+            this.filterProperty = {
+                field: '',
+                value: '',
+                label: '',
+                selectedFilter: -1,
+                clear() {
+                    this.field = ''
+                    this.value = ''
+                    this.selectedFilter = -1
+                },
+                toggle(index) {
+                    if(this.selectedFilter === index) {
+                        this.selectedFilter = -1;
+                    }
+                    else {
+                        this.selectedFilter = index;
+                    }
+                }
+            }
+
+            this.initSort();
+        }
+
+        initSort() {
+            let sortOrders = {};
+            let sortKey = "";
+            this.configs.columns.forEach((key) => {
+                sortOrders[key.name] = 1;
+                if (key.default !== undefined && key.default === true) {
+                    sortKey = key.name;
+                }
+            });
+            this.sort.key = sortKey;
+            this.sort.orders = sortOrders;
+        }
+
+        filter(field,label) {
+            //this.filterProperty.clear();
+            this.filterProperty.label = label;
+            this.filterProperty.field = field;
+            this.filterProperty.selectedFilter = -1;
+            this.fetchData();
+        }
+
+        clear() {
+            this.filterProperty.clear();
+            this.fetchData();
+        }
+
+        scopeData() {
+            let sortKey = this.sort.key;
+            let data = this.state.data.data || [];
+            let order = this.sort.orders[sortKey] || 1;
+            if (sortKey) {
+                data = data.slice().sort(function (a, b) {
+                    a = a[sortKey]
+                    b = b[sortKey]
+                    return (a === b ? 0 : a > b ? 1 : -1) * order
+                });
+            }
+
+            return data;
+        }
+
+        fetchData(url) {
+            let query = "";
+            
+            if (typeof(url) === 'undefined') {
+                const source = this.configs.source;
+                let params = "";
+                if (source.params) {
+                    _.forEach(source.params, (value, key) => {
+                        params = params + "/" + value;
+                    });
+                }
+
+                if (this.filterProperty.field.length > 0) {
+                    query = "?filter_field=" + this.filterProperty.field + "&filter_value=" + this.filterProperty.value;
+                }
+                
+                url = source.url + params + query;
+                
+                //reseting
+                //this.filterProperty.clear();
+            }
+            
+
+            this.state.fetchLoading = true;
+            axiosRequest.dispatchGet(url)
+                .then(response => {
+                    this.state.fetchLoading = false;
+                    if(this.configs.source.pointer){
+                        this.state.data = response.data[this.configs.source.pointer];
+                    }
+                    else {
+                        this.state.data = response.data;
+                    }
+
+                    EventBus.$emit('liveview.fetched',response.data);
+                })
+                .catch(errors => {
+                    
+                    toastr.error("Loading error")
+                    
+                    this.state.fetchLoading = false;
+                    
+                    //EventBus.$emit('liveview.fetched',this.state.data);
+
+                });
+        }
+    }
+
+
     export default {
         name: "vLiveView",
         props: ["grid"],
         components: {Pagination},
         data() {
             return {
+                liveViewModel: {},
                 editVisible: false,
             }
         },
         beforeMount() {
+            this.liveViewModel = new LiveViewModel(this.grid)
             //listen to view fetch will call by the client
             EventBus.$on("onLiveViewFetch", response => {
-                this.$store.commit('liveviews/clearFilter');
-                this.fetchData({grid: this.grid})
+                this.liveViewModel.fetchData();
             });
 
-            //initialize sorting
-            this.$store.commit('liveviews/initSort', {grid: this.grid});
-
+            
         },
         mounted() {
-
             let lazyLoad = this.grid.lazyLoad || false;
             if(!lazyLoad) {
-                this.fetchData({grid: this.grid});
+                this.fetchData();
             }
         },
         computed: {
-            ...mapGetters('liveviews', {filteredData: 'filteredData'}),
-            ...mapState('liveviews', {
-                filter: state => state.filter,
-                selectedFilter: state => state.selectedFilter,
-                sortKey: state => state.sortKey,
-                sortOrders: state => state.sortOrders,
-                fetchLoading: state => state.fetchLoading
-            }),
-
+            filteredData() {
+                return this.liveViewModel.scopeData();
+            },
+            filterProperty() {
+                return this.liveViewModel.filterProperty;
+            },
+            sort() {
+                return this.liveViewModel.sort;
+            },
+            fetchLoading() {
+                return this.liveViewModel.state.fetchLoading;
+            },
             actionButtons() {
                 return this.grid.actions;
             }
         },
         methods: {
-            fetchData(grid) {
-                this.$emit("beforeFetch",{filter: cloneObject(this.$store.state.liveviews.filter)})
-                this.$store.dispatch("liveviews/fetchData",grid);
+            fetchData(url) {
+                this.$emit("beforeFetch",{filter: cloneObject(this.liveViewModel.filterProperty)})
+                this.liveViewModel.fetchData(url);
             },
-            ...mapMutations('liveviews', ['loadData', 'filterWrap']),
             sortBy: function (key) {
                 if (key.static) return false;
-                this.$store.state.liveviews.sortKey = key.name;
-                this.$store.state.liveviews.sortOrders[key.name] = this.$store.state.liveviews.sortOrders[key.name] * -1;
+                this.liveViewModel.sort.key = key.name
+                this.liveViewModel.sort.orders[key.name] = this.liveViewModel.sort.orders[key.name] * -1;
             },
             tableRender: function (entry, key) {
                 let value = entry[key.name];
@@ -189,19 +318,15 @@
                 this.$emit('action', action, id);
             },
             isArrowVisible(name) {
-                return this.$store.state.liveviews.sortKey === name;
+                return this.liveViewModel.sort.key === name;
             },
-            doFilter(field, label) {
-
-                this.filter.field = field;
-                this.filter.label = label + ' - ' + this.filter.value;
-                this.$emit("onFilter",cloneObject(this.filter));
-                this.fetchData({grid: this.grid});
+            filter(field, label) {
+                this.liveViewModel.filter(field,label + ' - ' + this.liveViewModel.filterProperty.value)
+                this.$emit("onFilter",cloneObject(this.filterProperty));
             },
-            clearFilter() {
-                this.$store.commit('liveviews/clearFilter');
-                this.$emit("onFilter",cloneObject(this.filter));
-                this.fetchData({grid:this.grid});
+            clear() {
+                this.$emit("onFilter",cloneObject(this.filterProperty));
+                this.liveViewModel.clear();
             }
         }
     }
@@ -218,7 +343,6 @@
     }
     .v-slide-fade-enter, .v-slide-fade-leave-to
         /* .slide-fade-leave-active below version 2.1.8 */ {
-
         opacity: 0;
     }
 

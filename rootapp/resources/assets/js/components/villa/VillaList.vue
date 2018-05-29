@@ -12,7 +12,7 @@
             </div>
             <div class="col-md-3">
                 <div class="list-group">
-                    <a href="#" class="list-group-item" v-for="count in cache.status">
+                    <a href="#" class="list-group-item" v-for="(count,index) in villas.status" :key="index">
                         <i class="fa fa-home fa-fw fa-lg"></i> {{count.full_status}}
                         <span class="badge" :class="count.tag_color">{{count.count}}</span>
                     </a>
@@ -24,11 +24,13 @@
 
 <script>
     import {mapGetters} from "vuex";
+import { EventBus } from '../../eventbus';
 
     export default {
         name: 'list',
         data()  {
             return {
+                villas: [],
                 filterKey: "",
                 filterFields: [
                     {name: 'villa_no', text: 'Villa No' },
@@ -61,7 +63,7 @@
             }
         },
         mounted() {
-
+            EventBus.$on('liveview.fetched',(data) => this.villas = data)
         },
         methods: {
             doAction(a,item,index) {
@@ -72,11 +74,6 @@
             addNew() {
                 this.$store.commit('villas/redirectToRegister',0);
             }
-        },
-        computed: {
-            ...mapGetters('liveviews', {
-                cache: 'cache'
-            })
         }
     }
 </script>

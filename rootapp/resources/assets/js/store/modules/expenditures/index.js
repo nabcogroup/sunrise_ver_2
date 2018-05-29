@@ -67,7 +67,7 @@ class Expense {
         })
     }
 
-    save(isPosted = false) {
+    save(isPosted = false,cbSuccess = null) {
 
         let arx = null;
         this.state.progress.saving = true;
@@ -85,6 +85,11 @@ class Expense {
                 toastr.success(r.data.message)
                 this.state.progress.saving = false;
                 this.edit(r.data.data);
+                
+                if(cbSuccess) {
+                    cbSuccess(r.data.data);
+                }
+                    
             })
             .catch(e => {
                 if (e.response.status === 422) {
@@ -143,7 +148,7 @@ class Expense {
         }
     }
 
-    insertItem() {
+    insertItem(callback) {
 
         this.errors.register(this.validator.validate(this.state.entry));
         if (this.errors.hasError())
@@ -156,8 +161,11 @@ class Expense {
             
         else {
             this.registerItem(cloneObject(this.state.entry))
-            this.smart.capture(this.state.entry.doc_no);
+            this.smart.capture(this.state.entry.doc_no);    //capture doc no to present in the future repetitive
         }
+        
+        callback(this.state.entry)
+        
         this.resetEntry();
     }
 
@@ -204,7 +212,7 @@ const state = {
 
 const mutations = {
     removeItem: (state, payload) => state.expense.removeItem(payload.key),
-    insertItem: (state) => state.expense.insertItem(),
+    insertItem: (state,callback) => state.expense.insertItem(callback),
     editItem: (state, payload) => state.expense.editItem(payload.key),
     reset: (state) => state.expense.resetEntry(),
     new: (state) => state.expense.newTransaction(),
@@ -215,8 +223,8 @@ const mutations = {
 
 const actions = {
     create: ({state}) => state.expense.create(),
-    save: ({state}) => state.expense.save(),
-    post: ({state}) => state.expense.save(true),
+    save: ({state},callback) => state.expense.save(false,callback),
+    post: ({state},callback) => state.expense.save(true,callback),
     edit: ({state}, payload) => state.expense.edit(payload.transactionNo),
     fetch: ({state}) => state.expense.fetch(),
     fetchPredictive: ({state}) => state.predictive.fetch()

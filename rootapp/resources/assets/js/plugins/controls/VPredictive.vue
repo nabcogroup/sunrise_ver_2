@@ -17,7 +17,7 @@
                     v-for="(row,index) in filterData" 
                     :key="index" 
                     @click="onClick(row)">
-                    
+
                     <td v-for="(column,index) in configs.columns" :key="index" :style="column.style">
                         <template v-if="column.name === '$icon'">
                             <span :class="column.value"></span>
@@ -26,7 +26,6 @@
                             {{row[column.name]}}
                         </template>
                     </td>
-
                 </tr>
             </tbody>
         </table>
@@ -54,6 +53,10 @@ const apiStorage = () => ({
 
   isEmpty(key) {
       return (localStorage.getItem(key)) ? false : true;
+  },
+
+  clear: (key) => {
+      localStorage.removeItem(key);
   }
 })
 
@@ -68,24 +71,38 @@ class Predictive {
     fetch(url) {
         
         if(this.state.predictives.length === 0) {
-            //check first if 
+            
+            //check first if empty 
             if(apiStorage().isEmpty('_predictives')) {
+
                 axiosRequest.dispatchGet(url).then((response) => {
+                    
                     this.state.predictives = response.data.data;
+                    
                     //get json to string
                     apiStorage().store('_predictives',response.data.data,true);
+
                 });
+
             }
             else {
+
                 this.state.predictives = JSON.parse(apiStorage().get('_predictives'));
+
             }
         }
     }
 
-    filter(filterValue,preKey) {
-        
-        let filtered = [];
+    insert(item) {
 
+        let predPos = _.findIndex(this.state.predictives,(pred) => pred.description.toLowerCase() == item.description.toLowerCase())
+        if(predPos >= 0) return false;
+        
+        this.state.predictives.push(item);
+    }
+
+    filter(filterValue,preKey) {
+        let filtered = [];
         if(filterValue && filterValue.length > 0) {
             //data exist
             this.state.predictives.forEach((row) => {
@@ -97,8 +114,13 @@ class Predictive {
         else {
             filtered = this.state.predictives;
         }
-
         return filtered;
+
+    }
+
+    reset() {
+        this.state.predictives = [];
+        apiStorage().clear('_predictives');
     }
 }
 
@@ -116,6 +138,18 @@ export default {
             type: Object,
             default: () => ({})
         }
+    },
+
+    mounted() {
+
+        EventBus.$on('predictive.reset',(response) => {
+            this.predictive.reset();
+        });
+
+        EventBus.$on('predictive.new',(item) => {
+            this.predictive.insert(item);
+        });
+        
     },
 
     data() {
@@ -171,5 +205,4 @@ export default {
         cursor: pointer;
         background: #dce782;
     }
-
 </style>

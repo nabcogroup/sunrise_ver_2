@@ -1,5 +1,111 @@
 
+
+
+class LiveViewModel {
+
+    constructor() {
+
+        this.state = {
+            data: [],
+            cache: [],
+            fetchLoading: false
+        }
+
+        this.sort = {
+            orders: '',
+            key: ''
+        }
+
+        this.filter = {
+            field: '',
+            value: '',
+            label: '',
+            selectedFilter: -1,
+            clear() {
+                this.value = ''
+                this.selectedFilter = -1
+            },
+            clearAll() {
+                this.field = ''
+                this.value = ''
+                this.selectedFilter = -1
+            },
+            filter(label,value) {
+                this.label = label
+                this.value = value
+            },
+            toggle(index) {
+                if(this.selectedFilter === index) {
+                    this.selectedFilter = -1;
+                }
+                else {
+                    this.selectedFilter = index;
+                }
+            }
+        }
+    }
+
+    sort(configs) {
+        let sortOrders = {};
+        let sortKey = "";
+        configs.columns.forEach((key) => {
+            sortOrders[key.name] = 1;
+            if (key.default !== undefined && key.default === true) {
+                sortKey = key.name;
+            }
+        });
+        this.sort.key = sortKey;
+        this.sort.orders = sortOrders;
+    }
+
+
+    fetchData(configs,url) {
+        let query = "";
+        
+        if (typeof(url) === 'undefined') {
+            const source = configs.source;
+            let params = "";
+            if (source.params) {
+                _.forEach(source.params, (value, key) => {
+                    params = params + "/" + value;
+                });
+            }
+
+            if (this.filter.field.length > 0) {
+                query = "?filter_field=" + this.filter.field + "&filter_value=" + this.filter.value;
+            }
+
+            url = source.url + params + query;
+            
+            //reseting
+            this.filter.clear();
+        }
+        
+
+        this.state.fetchLoading = true;
+        axiosRequest.dispatchGet(url)
+            .then(response => {
+                this.state.fetchLoading = false;
+                if(configs.source.pointer){
+                    this.state.data = response.data[configs.source.pointer];
+                }
+                else {
+                    this.state.data = response.data;
+                }
+                
+                //this.state.cache = this.
+            })
+            .catch(errors => {
+                toastr.error("Loading error")
+                this.state.fetchLoading = false;
+            });
+    }
+
+    
+}
+
 const state = {
+    liveViewModel: new LiveViewModel(),
     filter: {
         field: '',
         value: '',
@@ -14,6 +120,9 @@ const state = {
     sortOrders: '',
     fetchLoading: false
 }
+
+
+
 
 const mutations = {
     loadData(state, payload) {
@@ -66,42 +175,7 @@ const mutations = {
 
 
 const actions = {
-
-    fetchData({ state, commit }, payload) {
-        let url = "";
-        let query = "";
-        if (payload.paramUrl === undefined) {
-            const source = payload.grid.source;
-            let params = "";
-            if (source.params) {
-                _.forEach(source.params, (value, key) => {
-                    params = params + "/" + value;
-                });
-            }
-
-            if (state.filter.field.length > 0) {
-                query = "?filter_field=" + state.filter.field + "&filter_value=" + state.filter.value;
-            }
-
-            url = source.url + params + query;
-            state.selectedFilter = -1;
-            state.filter.value = '';
-        }
-        else {
-            url = payload.paramUrl;
-        }
-
-        state.fetchLoading = true;
-        axiosRequest.dispatchGet(url)
-            .then(response => commit('loadData',{
-                data:response.data,
-                pointer: payload.grid.source.pointer || false
-            }))
-            .catch(errors => {
-                toastr.error("Loading error")
-                state.fetchLoading = false;
-            });
-    }
+    fetchData: ({ state }, payload) => state.liveViewModel.fetchData(payload.grid)
 }
 
 const getters = {

@@ -44662,14 +44662,18 @@ const confirmation = {
         save() {
             confirmation.ExpensesSave(result => {
                 if (result) {
-                    this.$store.dispatch('expenditures/save');
+                    this.$store.dispatch('expenditures/save', response => {
+                        __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('predictive.reset');
+                    });
                 }
             });
         },
         post() {
             confirmation.ExpensesSave(result => {
                 if (result) {
-                    this.$store.dispatch('expenditures/post');
+                    this.$store.dispatch('expenditures/post', response => {
+                        __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('predictive.reset');
+                    });
                 }
             });
         },
@@ -44684,7 +44688,10 @@ const confirmation = {
             this.$store.commit('expenditures/reset');
         },
         insertItem() {
-            this.$store.commit('expenditures/insertItem');
+            //store in memory
+            this.$store.commit('expenditures/insertItem', item => {
+                __WEBPACK_IMPORTED_MODULE_2__eventbus__["a" /* EventBus */].$emit('predictive.new', { description: item.description, amount: item.amount });
+            });
         },
         doAction(action, value, index) {
             if (action === 'remove') {
@@ -46196,32 +46203,32 @@ const confirmation = {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(4);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__eventbus__ = __webpack_require__(3);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -46229,6 +46236,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     name: 'list',
     data() {
         return {
+            villas: [],
             filterKey: "",
             filterFields: [{ name: 'villa_no', text: 'Villa No' }, { name: 'location', text: 'Location' }, { name: 'villa_class', text: 'Class' }, { name: 'rate_per_month', text: 'Rate/Month' }, { name: 'status', text: 'Status' }],
             gridView: {
@@ -46241,7 +46249,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             }
         };
     },
-    mounted() {},
+    mounted() {
+        __WEBPACK_IMPORTED_MODULE_1__eventbus__["a" /* EventBus */].$on('liveview.fetched', data => this.villas = data);
+    },
     methods: {
         doAction(a, item, index) {
             if (a.key == 'edit') {
@@ -46251,10 +46261,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         addNew() {
             this.$store.commit('villas/redirectToRegister', 0);
         }
-    },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_vuex__["a" /* mapGetters */])('liveviews', {
-        cache: 'cache'
-    }))
+    }
 });
 
 /***/ }),
@@ -47589,9 +47596,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controls_Pagination_vue__ = __webpack_require__(388);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__controls_Pagination_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__controls_Pagination_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_helpers__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuex__ = __webpack_require__(4);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 //
 //
 //
@@ -47708,13 +47712,135 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
-
+//
+//
 
 
 
 
 
+class LiveViewModel {
 
+    constructor(configs) {
+
+        this.state = {
+            data: [],
+            cache: [],
+            fetchLoading: false
+        };
+
+        this.sort = {
+            orders: [],
+            key: ''
+        };
+
+        this.configs = configs;
+
+        this.filterProperty = {
+            field: '',
+            value: '',
+            label: '',
+            selectedFilter: -1,
+            clear() {
+                this.field = '';
+                this.value = '';
+                this.selectedFilter = -1;
+            },
+            toggle(index) {
+                if (this.selectedFilter === index) {
+                    this.selectedFilter = -1;
+                } else {
+                    this.selectedFilter = index;
+                }
+            }
+        };
+
+        this.initSort();
+    }
+
+    initSort() {
+        let sortOrders = {};
+        let sortKey = "";
+        this.configs.columns.forEach(key => {
+            sortOrders[key.name] = 1;
+            if (key.default !== undefined && key.default === true) {
+                sortKey = key.name;
+            }
+        });
+        this.sort.key = sortKey;
+        this.sort.orders = sortOrders;
+    }
+
+    filter(field, label) {
+        //this.filterProperty.clear();
+        this.filterProperty.label = label;
+        this.filterProperty.field = field;
+        this.filterProperty.selectedFilter = -1;
+        this.fetchData();
+    }
+
+    clear() {
+        this.filterProperty.clear();
+        this.fetchData();
+    }
+
+    scopeData() {
+        let sortKey = this.sort.key;
+        let data = this.state.data.data || [];
+        let order = this.sort.orders[sortKey] || 1;
+        if (sortKey) {
+            data = data.slice().sort(function (a, b) {
+                a = a[sortKey];
+                b = b[sortKey];
+                return (a === b ? 0 : a > b ? 1 : -1) * order;
+            });
+        }
+
+        return data;
+    }
+
+    fetchData(url) {
+        let query = "";
+
+        if (typeof url === 'undefined') {
+            const source = this.configs.source;
+            let params = "";
+            if (source.params) {
+                _.forEach(source.params, (value, key) => {
+                    params = params + "/" + value;
+                });
+            }
+
+            if (this.filterProperty.field.length > 0) {
+                query = "?filter_field=" + this.filterProperty.field + "&filter_value=" + this.filterProperty.value;
+            }
+
+            url = source.url + params + query;
+
+            //reseting
+            //this.filterProperty.clear();
+        }
+
+        this.state.fetchLoading = true;
+        axiosRequest.dispatchGet(url).then(response => {
+            this.state.fetchLoading = false;
+            if (this.configs.source.pointer) {
+                this.state.data = response.data[this.configs.source.pointer];
+            } else {
+                this.state.data = response.data;
+            }
+
+            __WEBPACK_IMPORTED_MODULE_0__eventbus__["a" /* EventBus */].$emit('liveview.fetched', response.data);
+        }).catch(errors => {
+
+            toastr.error("Loading error");
+
+            this.state.fetchLoading = false;
+
+            //EventBus.$emit('liveview.fetched',this.state.data);
+        });
+    }
+}
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     name: "vLiveView",
@@ -47722,48 +47848,49 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     components: { Pagination: __WEBPACK_IMPORTED_MODULE_1__controls_Pagination_vue___default.a },
     data() {
         return {
+            liveViewModel: {},
             editVisible: false
         };
     },
     beforeMount() {
+        this.liveViewModel = new LiveViewModel(this.grid);
         //listen to view fetch will call by the client
         __WEBPACK_IMPORTED_MODULE_0__eventbus__["a" /* EventBus */].$on("onLiveViewFetch", response => {
-            this.$store.commit('liveviews/clearFilter');
-            this.fetchData({ grid: this.grid });
+            this.liveViewModel.fetchData();
         });
-
-        //initialize sorting
-        this.$store.commit('liveviews/initSort', { grid: this.grid });
     },
     mounted() {
-
         let lazyLoad = this.grid.lazyLoad || false;
         if (!lazyLoad) {
-            this.fetchData({ grid: this.grid });
+            this.fetchData();
         }
     },
-    computed: _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["a" /* mapGetters */])('liveviews', { filteredData: 'filteredData' }), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["b" /* mapState */])('liveviews', {
-        filter: state => state.filter,
-        selectedFilter: state => state.selectedFilter,
-        sortKey: state => state.sortKey,
-        sortOrders: state => state.sortOrders,
-        fetchLoading: state => state.fetchLoading
-    }), {
-
+    computed: {
+        filteredData() {
+            return this.liveViewModel.scopeData();
+        },
+        filterProperty() {
+            return this.liveViewModel.filterProperty;
+        },
+        sort() {
+            return this.liveViewModel.sort;
+        },
+        fetchLoading() {
+            return this.liveViewModel.state.fetchLoading;
+        },
         actionButtons() {
             return this.grid.actions;
         }
-    }),
-    methods: _extends({
-        fetchData(grid) {
-            this.$emit("beforeFetch", { filter: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["g" /* cloneObject */])(this.$store.state.liveviews.filter) });
-            this.$store.dispatch("liveviews/fetchData", grid);
-        }
-    }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3_vuex__["d" /* mapMutations */])('liveviews', ['loadData', 'filterWrap']), {
+    },
+    methods: {
+        fetchData(url) {
+            this.$emit("beforeFetch", { filter: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["g" /* cloneObject */])(this.liveViewModel.filterProperty) });
+            this.liveViewModel.fetchData(url);
+        },
         sortBy: function (key) {
             if (key.static) return false;
-            this.$store.state.liveviews.sortKey = key.name;
-            this.$store.state.liveviews.sortOrders[key.name] = this.$store.state.liveviews.sortOrders[key.name] * -1;
+            this.liveViewModel.sort.key = key.name;
+            this.liveViewModel.sort.orders[key.name] = this.liveViewModel.sort.orders[key.name] * -1;
         },
         tableRender: function (entry, key) {
             let value = entry[key.name];
@@ -47779,21 +47906,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$emit('action', action, id);
         },
         isArrowVisible(name) {
-            return this.$store.state.liveviews.sortKey === name;
+            return this.liveViewModel.sort.key === name;
         },
-        doFilter(field, label) {
-
-            this.filter.field = field;
-            this.filter.label = label + ' - ' + this.filter.value;
-            this.$emit("onFilter", __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["g" /* cloneObject */])(this.filter));
-            this.fetchData({ grid: this.grid });
+        filter(field, label) {
+            this.liveViewModel.filter(field, label + ' - ' + this.liveViewModel.filterProperty.value);
+            this.$emit("onFilter", __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["g" /* cloneObject */])(this.filterProperty));
         },
-        clearFilter() {
-            this.$store.commit('liveviews/clearFilter');
-            this.$emit("onFilter", __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["g" /* cloneObject */])(this.filter));
-            this.fetchData({ grid: this.grid });
+        clear() {
+            this.$emit("onFilter", __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__helpers_helpers__["g" /* cloneObject */])(this.filterProperty));
+            this.liveViewModel.clear();
         }
-    })
+    }
 });
 
 /***/ }),
@@ -47803,7 +47926,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__eventbus_js__ = __webpack_require__(3);
-//
 //
 //
 //
@@ -47858,6 +47980,10 @@ const apiStorage = () => ({
 
     isEmpty(key) {
         return localStorage.getItem(key) ? false : true;
+    },
+
+    clear: key => {
+        localStorage.removeItem(key);
     }
 });
 
@@ -47872,23 +47998,34 @@ class Predictive {
     fetch(url) {
 
         if (this.state.predictives.length === 0) {
-            //check first if 
+
+            //check first if empty 
             if (apiStorage().isEmpty('_predictives')) {
+
                 axiosRequest.dispatchGet(url).then(response => {
+
                     this.state.predictives = response.data.data;
+
                     //get json to string
                     apiStorage().store('_predictives', response.data.data, true);
                 });
             } else {
+
                 this.state.predictives = JSON.parse(apiStorage().get('_predictives'));
             }
         }
     }
 
+    insert(item) {
+
+        let predPos = _.findIndex(this.state.predictives, pred => pred.description.toLowerCase() == item.description.toLowerCase());
+        if (predPos >= 0) return false;
+
+        this.state.predictives.push(item);
+    }
+
     filter(filterValue, preKey) {
-
         let filtered = [];
-
         if (filterValue && filterValue.length > 0) {
             //data exist
             this.state.predictives.forEach(row => {
@@ -47899,8 +48036,12 @@ class Predictive {
         } else {
             filtered = this.state.predictives;
         }
-
         return filtered;
+    }
+
+    reset() {
+        this.state.predictives = [];
+        apiStorage().clear('_predictives');
     }
 }
 
@@ -47918,6 +48059,17 @@ class Predictive {
             type: Object,
             default: () => ({})
         }
+    },
+
+    mounted() {
+
+        __WEBPACK_IMPORTED_MODULE_0__eventbus_js__["a" /* EventBus */].$on('predictive.reset', response => {
+            this.predictive.reset();
+        });
+
+        __WEBPACK_IMPORTED_MODULE_0__eventbus_js__["a" /* EventBus */].$on('predictive.new', item => {
+            this.predictive.insert(item);
+        });
     },
 
     data() {
@@ -49000,7 +49152,7 @@ class Expense {
         });
     }
 
-    save(isPosted = false) {
+    save(isPosted = false, cbSuccess = null) {
 
         let arx = null;
         this.state.progress.saving = true;
@@ -49017,6 +49169,10 @@ class Expense {
                 toastr.success(r.data.message);
                 this.state.progress.saving = false;
                 this.edit(r.data.data);
+
+                if (cbSuccess) {
+                    cbSuccess(r.data.data);
+                }
             }).catch(e => {
                 if (e.response.status === 422) {
                     this.errors.register(e.response.data);
@@ -49070,7 +49226,7 @@ class Expense {
         }
     }
 
-    insertItem() {
+    insertItem(callback) {
 
         this.errors.register(this.validator.validate(this.state.entry));
         if (this.errors.hasError()) return false;
@@ -49080,8 +49236,11 @@ class Expense {
             this.registerItem(this.state.entry, true);
         } else {
             this.registerItem(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_helpers__["g" /* cloneObject */])(this.state.entry));
-            this.smart.capture(this.state.entry.doc_no);
+            this.smart.capture(this.state.entry.doc_no); //capture doc no to present in the future repetitive
         }
+
+        callback(this.state.entry);
+
         this.resetEntry();
     }
 
@@ -49127,7 +49286,7 @@ const state = {
 
 const mutations = {
     removeItem: (state, payload) => state.expense.removeItem(payload.key),
-    insertItem: state => state.expense.insertItem(),
+    insertItem: (state, callback) => state.expense.insertItem(callback),
     editItem: (state, payload) => state.expense.editItem(payload.key),
     reset: state => state.expense.resetEntry(),
     new: state => state.expense.newTransaction(),
@@ -49138,8 +49297,8 @@ const mutations = {
 
 const actions = {
     create: ({ state }) => state.expense.create(),
-    save: ({ state }) => state.expense.save(),
-    post: ({ state }) => state.expense.save(true),
+    save: ({ state }, callback) => state.expense.save(false, callback),
+    post: ({ state }, callback) => state.expense.save(true, callback),
     edit: ({ state }, payload) => state.expense.edit(payload.transactionNo),
     fetch: ({ state }) => state.expense.fetch(),
     fetchPredictive: ({ state }) => state.predictive.fetch()
@@ -49332,7 +49491,105 @@ const store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["e" /* default */].Store({
 
 "use strict";
 
+
+class LiveViewModel {
+
+    constructor() {
+
+        this.state = {
+            data: [],
+            cache: [],
+            fetchLoading: false
+        };
+
+        this.sort = {
+            orders: '',
+            key: ''
+        };
+
+        this.filter = {
+            field: '',
+            value: '',
+            label: '',
+            selectedFilter: -1,
+            clear() {
+                this.value = '';
+                this.selectedFilter = -1;
+            },
+            clearAll() {
+                this.field = '';
+                this.value = '';
+                this.selectedFilter = -1;
+            },
+            filter(label, value) {
+                this.label = label;
+                this.value = value;
+            },
+            toggle(index) {
+                if (this.selectedFilter === index) {
+                    this.selectedFilter = -1;
+                } else {
+                    this.selectedFilter = index;
+                }
+            }
+        };
+    }
+
+    sort(configs) {
+        let sortOrders = {};
+        let sortKey = "";
+        configs.columns.forEach(key => {
+            sortOrders[key.name] = 1;
+            if (key.default !== undefined && key.default === true) {
+                sortKey = key.name;
+            }
+        });
+        this.sort.key = sortKey;
+        this.sort.orders = sortOrders;
+    }
+
+    fetchData(configs, url) {
+        let query = "";
+
+        if (typeof url === 'undefined') {
+            const source = configs.source;
+            let params = "";
+            if (source.params) {
+                _.forEach(source.params, (value, key) => {
+                    params = params + "/" + value;
+                });
+            }
+
+            if (this.filter.field.length > 0) {
+                query = "?filter_field=" + this.filter.field + "&filter_value=" + this.filter.value;
+            }
+
+            url = source.url + params + query;
+
+            //reseting
+            this.filter.clear();
+        }
+
+        this.state.fetchLoading = true;
+        axiosRequest.dispatchGet(url).then(response => {
+            this.state.fetchLoading = false;
+            if (configs.source.pointer) {
+                this.state.data = response.data[configs.source.pointer];
+            } else {
+                this.state.data = response.data;
+            }
+
+            //this.state.cache = this.
+        }).catch(errors => {
+            toastr.error("Loading error");
+            this.state.fetchLoading = false;
+        });
+    }
+
+}
+
 const state = {
+    liveViewModel: new LiveViewModel(),
     filter: {
         field: '',
         value: '',
@@ -49396,39 +49653,7 @@ const mutations = {
 };
 
 const actions = {
-
-    fetchData({ state, commit }, payload) {
-        let url = "";
-        let query = "";
-        if (payload.paramUrl === undefined) {
-            const source = payload.grid.source;
-            let params = "";
-            if (source.params) {
-                _.forEach(source.params, (value, key) => {
-                    params = params + "/" + value;
-                });
-            }
-
-            if (state.filter.field.length > 0) {
-                query = "?filter_field=" + state.filter.field + "&filter_value=" + state.filter.value;
-            }
-
-            url = source.url + params + query;
-            state.selectedFilter = -1;
-            state.filter.value = '';
-        } else {
-            url = payload.paramUrl;
-        }
-
-        state.fetchLoading = true;
-        axiosRequest.dispatchGet(url).then(response => commit('loadData', {
-            data: response.data,
-            pointer: payload.grid.source.pointer || false
-        })).catch(errors => {
-            toastr.error("Loading error");
-            state.fetchLoading = false;
-        });
-    }
+    fetchData: ({ state }, payload) => state.liveViewModel.fetchData(payload.grid)
 };
 
 const getters = {
@@ -62801,7 +63026,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(7)();
-exports.push([module.i, "\n.v-predictive-position[data-v-5cf46166] {\n    background: white;\n    position: absolute;\n    width: 100%;\n    height: 250px;\n    z-index: 3;\n    overflow: scroll;\n}\n.v-hide[data-v-5cf46166] {\n    display:none;\n}\n.table tbody tr[data-v-5cf46166]:hover {\n    cursor: pointer;\n    background: #dce782;\n}\n\n", ""]);
+exports.push([module.i, "\n.v-predictive-position[data-v-5cf46166] {\n    background: white;\n    position: absolute;\n    width: 100%;\n    height: 250px;\n    z-index: 3;\n    overflow: scroll;\n}\n.v-hide[data-v-5cf46166] {\n    display:none;\n}\n.table tbody tr[data-v-5cf46166]:hover {\n    cursor: pointer;\n    background: #dce782;\n}\n", ""]);
 
 /***/ }),
 /* 308 */
@@ -62843,7 +63068,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(7)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Enter and leave animations can use different */\n/* durations and timing functions.              */\n.v-slide-fade-enter-active {\n    transition: all .3s ease;\n}\n.v-slide-fade-leave-active {\n    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.v-slide-fade-enter, .v-slide-fade-leave-to\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n\n    opacity: 0;\n}\n.v-view-loading-container {\n    width: 100%;\n    height: 350px;\n    position:relative;\n}\n.v-view-loading {\n    position:absolute;\n    top:30%;\n    left: 40%;\n    font-size: 40px;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Enter and leave animations can use different */\n/* durations and timing functions.              */\n.v-slide-fade-enter-active {\n    transition: all .3s ease;\n}\n.v-slide-fade-leave-active {\n    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);\n}\n.v-slide-fade-enter, .v-slide-fade-leave-to\n    /* .slide-fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n.v-view-loading-container {\n    width: 100%;\n    height: 350px;\n    position:relative;\n}\n.v-view-loading {\n    position:absolute;\n    top:30%;\n    left: 40%;\n    font-size: 40px;\n}\n", ""]);
 
 /***/ }),
 /* 314 */
@@ -76764,15 +76989,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "name": "v-slide-fade"
     }
-  }, [(_vm.filter.field) ? _c('div', {
+  }, [(_vm.filterProperty.field) ? _c('div', {
     staticClass: "live-views-badge"
-  }, [_c('span', [_vm._v(_vm._s(_vm.filter.label))]), _vm._v(" "), _c('a', {
+  }, [_c('span', [_vm._v(_vm._s(_vm.filterProperty.label))]), _vm._v(" "), _c('a', {
     staticClass: "live-views-close",
     attrs: {
       "href": "#"
     },
     on: {
-      "click": _vm.clearFilter
+      "click": function($event) {
+        _vm.clear()
+      }
     }
   }, [_vm._v("×")])]) : _vm._e()])], 1)]), _vm._v(" "), _c('div', {
     staticClass: "row"
@@ -76802,7 +77029,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       key: index,
       staticClass: "text-left",
       class: {
-        info: _vm.sortKey == key.name
+        info: _vm.sort.key == key.name
       },
       style: (key.style),
       on: {
@@ -76813,7 +77040,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("\n                                " + _vm._s(key.column) + "\n                                \n                                "), (_vm.isArrowVisible(key.name)) ? _c('span', {
       staticClass: "fa fa-fw",
-      class: _vm.sortOrders[key.name] > 0 ?
+      class: _vm.sort.orders[key.name] > 0 ?
         'fa-long-arrow-down' : 'fa-long-arrow-up'
     }) : _vm._e(), _vm._v(" "), (key.filter) ? _c('a', {
       staticClass: "filter",
@@ -76824,7 +77051,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "click": function($event) {
           $event.preventDefault();
           $event.stopPropagation();
-          _vm.filterWrap(index)
+          _vm.filterProperty.toggle(index)
         }
       }
     }, [_c('i', {
@@ -76833,7 +77060,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "name": "v-slide-fade"
       }
-    }, [(_vm.selectedFilter === index) ? _c('div', {
+    }, [(_vm.filterProperty.selectedFilter === index) ? _c('div', {
       ref: "filterWrapper",
       refInFor: true,
       staticClass: "filter-wrapper"
@@ -76849,20 +77076,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       directives: [{
         name: "model",
         rawName: "v-model",
-        value: (_vm.filter.value),
-        expression: "filter.value"
+        value: (_vm.filterProperty.value),
+        expression: "filterProperty.value"
       }],
       staticClass: "form-control",
       attrs: {
         "type": "text"
       },
       domProps: {
-        "value": (_vm.filter.value)
+        "value": (_vm.filterProperty.value)
       },
       on: {
         "input": function($event) {
           if ($event.target.composing) { return; }
-          _vm.filter.value = $event.target.value
+          _vm.filterProperty.value = $event.target.value
         }
       }
     })]), _vm._v(" "), _c('button', {
@@ -76870,7 +77097,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       on: {
         "click": function($event) {
           $event.stopPropagation();
-          _vm.doFilter(key.filterBind || key.name, key.column)
+          _vm.filter(key.filterBind || key.name, key.column)
         }
       }
     }, [_vm._v("\n                                                    Filter\n                                                ")])])])]) : _vm._e()])], 1)
@@ -76955,14 +77182,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     })], 2)
   })], 2), _vm._v(" "), _c('tfoot', [_c('tr', [_vm._t("table-footer")], 2)])], 1), _vm._v(" "), _c('pagination', {
     attrs: {
-      "param": _vm.$store.state.liveviews.items
+      "param": _vm.liveViewModel.state.data
     },
     on: {
       "click": function($event) {
-        _vm.fetchData({
-          paramUrl: $event,
-          grid: _vm.grid
-        })
+        _vm.fetchData($event)
       }
     }
   })], 1)])], 1)])
@@ -78665,8 +78889,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-3"
   }, [_c('div', {
     staticClass: "list-group"
-  }, _vm._l((_vm.cache.status), function(count) {
+  }, _vm._l((_vm.villas.status), function(count, index) {
     return _c('a', {
+      key: index,
       staticClass: "list-group-item",
       attrs: {
         "href": "#"

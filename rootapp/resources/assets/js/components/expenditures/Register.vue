@@ -375,14 +375,18 @@
             save() {
                 confirmation.ExpensesSave((result) => {
                     if (result) {
-                        this.$store.dispatch('expenditures/save')
+                        this.$store.dispatch('expenditures/save', (response) => {
+                            EventBus.$emit('predictive.reset');
+                        });
                     }
                 });
             },
             post() {
                 confirmation.ExpensesSave((result) => {
                     if (result) {
-                        this.$store.dispatch('expenditures/post')
+                        this.$store.dispatch('expenditures/post', (response) => {
+                            EventBus.$emit('predictive.reset');
+                        });
                     }
                 });
             },
@@ -397,7 +401,10 @@
                 this.$store.commit('expenditures/reset');
             },
             insertItem() {
-                this.$store.commit('expenditures/insertItem')
+                //store in memory
+                this.$store.commit('expenditures/insertItem',(item) => {
+                    EventBus.$emit('predictive.new',{description: item.description,amount: item.amount});
+                })
             },
             doAction(action,value,index) {
                 if(action === 'remove') {

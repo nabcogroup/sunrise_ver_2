@@ -113,6 +113,12 @@ class Expenditure extends BaseModel
         }
     }
 
+    public function scopeGetUnposted($query) {
+        return $query->where('posted',0)
+                ->groupBy('transaction_no')
+                ->select('transaction_no','doc_no','posted', \DB::raw('SUM(amount) as total_amount'));
+    }
+
     public function scopeGetTransaction($query,$value) {
 
         return $query->select('*')->where('transaction_no',$value)->orderBy('id');

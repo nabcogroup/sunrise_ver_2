@@ -31,7 +31,8 @@ class ExpensesController extends Controller
 
     public function index(Request $request)
     {
-        $transactions = Expenditure::transactionList()->orderBy('transaction_no')->get();
+        $transactions = Expenditure::getUnposted()->orderBy('doc_no')->get();
+
         return Result::response(["data" => $transactions]);
 
     }

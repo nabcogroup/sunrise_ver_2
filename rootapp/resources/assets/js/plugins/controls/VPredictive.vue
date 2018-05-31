@@ -1,5 +1,6 @@
 <template>
     <div class="v-predictive-position" :class="{'v-hide': !configs.visible}">
+        
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -29,6 +30,13 @@
                 </tr>
             </tbody>
         </table>
+
+        <div class='row'>
+            <div class="col-md-2 col-md-offset-10" style="padding-top: 5px;padding-bottom: 5px">
+                <button class="btn btn-danger btn-xs pull-right" @click="predictive.clearCache()" type="button">
+                    <i class="fa fa-bolt"></i> Reset Cache</button>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -51,7 +59,7 @@ const apiStorage = () => ({
       return localStorage.getItem(key);
   },
 
-  isEmpty(key) {
+  isEmpty: (key) => {
       return (localStorage.getItem(key)) ? false : true;
   },
 
@@ -69,40 +77,32 @@ class Predictive {
     }
 
     fetch(url) {
-        
+
         if(this.state.predictives.length === 0) {
-            
             //check first if empty 
             if(apiStorage().isEmpty('_predictives')) {
-
                 axiosRequest.dispatchGet(url).then((response) => {
-                    
                     this.state.predictives = response.data.data;
-                    
                     //get json to string
                     apiStorage().store('_predictives',response.data.data,true);
-
                 });
-
             }
             else {
-
                 this.state.predictives = JSON.parse(apiStorage().get('_predictives'));
-
             }
         }
     }
 
     insert(item) {
-
         let predPos = _.findIndex(this.state.predictives,(pred) => pred.description.toLowerCase() == item.description.toLowerCase())
         if(predPos >= 0) return false;
-        
         this.state.predictives.push(item);
     }
 
     filter(filterValue,preKey) {
+        
         let filtered = [];
+        
         if(filterValue && filterValue.length > 0) {
             //data exist
             this.state.predictives.forEach((row) => {
@@ -114,13 +114,19 @@ class Predictive {
         else {
             filtered = this.state.predictives;
         }
+
         return filtered;
 
     }
 
-    reset() {
+    clearCache() {
         this.state.predictives = [];
         apiStorage().clear('_predictives');
+    }
+
+    store() {
+        apiStorage().store('_predictives',this.state.predictives,true);
+        //this.state.predictives = [];
     }
 }
 
@@ -142,8 +148,8 @@ export default {
 
     mounted() {
 
-        EventBus.$on('predictive.reset',(response) => {
-            this.predictive.reset();
+        EventBus.$on('predictive.store',(response) => {
+            this.predictive.store();
         });
 
         EventBus.$on('predictive.new',(item) => {

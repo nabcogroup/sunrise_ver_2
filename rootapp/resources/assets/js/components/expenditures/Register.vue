@@ -6,7 +6,8 @@
                 <div class="column-group row">
                     <div class="col-md-6">
                         <label for="expensesTransactionNo">Transaction No:</label>
-                        <input disabled type="text" class="input" 
+                        <input disabled type="text" 
+                                class="input" 
                                 :placeholder="expense.transaction == null ? '(New)' : expense.transaction.transaction_no" 
                                 id="expensesTransactionNo" 
                                 name="expensesTransactionNo" 
@@ -19,7 +20,6 @@
                             <i class="fa fa-fw fa-plus"></i>
                         </button>
                     </div>
-
                     <div class="col-md-3 col-md-offset-3" style="text-align:right">
                         <template v-if="(expense.transaction !== null)">
                             <button v-if="expense.transaction.posted == 0" type="button" class="btn btn-primary btn" 
@@ -32,7 +32,6 @@
                         </template>
                     </div>
                 </div>
-
                 <hr/>
 
                 <!-- Doc Date / Doc No -->
@@ -151,12 +150,15 @@
                     <div class="col-md-4">
                         <select class="form-control" v-model='expense.entry.mode_of_payment'>
                             <option value="">SELECT PAYMENT MODE</option>
-                            <option v-for="look in lookups.payment_term" v-bind:value="look.code" :key="look.code">{{look.name}}</option>
+                            <option v-for="look in lookups.payment_term" 
+                                    v-bind:value="look.code"
+                                    :key="look.code">{{look.name}}</option>
                         </select>
                         <error-span :value="errors" name="mode_of_payment"></error-span>
                     </div>
 
                     <label class="col-md-1 col-form-label">Payment:</label>
+                    
                     <div v-if="expense.entry.mode_of_payment === 'cheque'">
                         <div class="col-md-3">
                             <select class="form-control" v-model='expense.entry.bank_provider'>
@@ -171,13 +173,13 @@
                     <div v-else-if="expense.entry.mode_of_payment === 'credit_card'">
                         <div class="col-md-3">
                             <select class="form-control" v-model='expense.entry.bank_provider'>
-                                <option v-for="look in lookups.bank" v-bind:value="look.id">{{ look.name }}</option>
+                                <option v-for="(look,index) in lookups.bank" 
+                                        v-bind:value="look.id" :key="index">{{ look.name }}</option>
                             </select>
                         </div>
                         <div class="col-md-2">
                             <select class="form-control" v-model='expense.entry.payment_ref'>
-                                <option v-for="look in lookups.bank_provider" v-bind:value="look.id">{{ look.name }}
-                                </option>
+                                <option v-for="(look,index) in lookups.bank_provider" v-bind:value="look.id" :key="index">{{ look.name }}</option>
                             </select>
                         </div>
                     </div>
@@ -211,7 +213,8 @@
                         <div class="col-md-2 col-md-offset-10">
                             <button type="button" class="btn btn-info btn btn-block" 
                                 :disabled="expense.items.all().length == 0 || expense.progress.saving" 
-                                @click.prevent="save">Save <i class="fa " :class="[{'fa-spinner fa-spin': expense.progress.saving}]"></i></button>
+                                @click.prevent="save">Save <i class="fa " :class="[{'fa-spinner fa-spin': expense.progress.saving}]"></i>
+                            </button>
                         </div>
                     </div>
                 </template>
@@ -361,12 +364,7 @@
         components: {TransactionListDialog, PayeeRegister},
         methods: {
             descriptionChange(value) {
-                if(value.length > 0) {
-                    this.preConfig.visible = true;
-                }
-                else {
-                    this.preConfig.visible = false;
-                }
+                this.preConfig.visible = value.length > 0 ? true : false;
             },
             onPredictiveSelected(item) {
                this.$store.commit('expenditures/updateDescription',item)
@@ -376,7 +374,7 @@
                 confirmation.ExpensesSave((result) => {
                     if (result) {
                         this.$store.dispatch('expenditures/save', (response) => {
-                            EventBus.$emit('predictive.reset');
+                            EventBus.$emit('predictive.store');
                         });
                     }
                 });
@@ -385,7 +383,7 @@
                 confirmation.ExpensesSave((result) => {
                     if (result) {
                         this.$store.dispatch('expenditures/post', (response) => {
-                            EventBus.$emit('predictive.reset');
+                            EventBus.$emit('predictive.store');
                         });
                     }
                 });

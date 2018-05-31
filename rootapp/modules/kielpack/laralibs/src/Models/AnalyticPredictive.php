@@ -18,6 +18,8 @@ class AnalyticPredictive extends BaseModel
         parent::__construct($attributes);
     }
 
+
+
 }
 
 

@@ -2,12 +2,17 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Tenant extends BaseModel
 {
     //
 
+    /**
+     * Tenant constructor.
+     * @param array $attributes
+     */
     public function __construct(array $attributes = [])
     {
         $this->type = "individual";
@@ -17,7 +22,7 @@ class Tenant extends BaseModel
         $this->tel_no = "";
         $this->mobile_no = "";
         $this->fax_no = "";
-        $this->reg_date = \Carbon\Carbon::now()->toDateTimeString();
+        $this->reg_date = Carbon::now()->format(config('format.date_format'));
         $this->gender = "male";
         $this->reg_id = "";
         $this->reg_name = "";

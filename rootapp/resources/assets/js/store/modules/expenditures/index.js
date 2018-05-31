@@ -1,5 +1,6 @@
 import { cloneObject, copiedValue, ErrorValidations, Validator,ItemHandler,InstanceStorage } from "../../../helpers/helpers";
 
+
 var moment = moment || require('moment');
 
 
@@ -12,8 +13,14 @@ class Expense {
             current: null,
             entry: {},
             items: new ItemHandler(),
-            expenses: []
+            expenses: [],
+            progress: {
+                saving: false,
+                editing: false
+            }
         };
+        
+        
 
         this.instanceStorage = {};
         this.lookups = {
@@ -28,9 +35,7 @@ class Expense {
                     this.snap = element;
                     if(this.count > 0) this.reset();
                 }
-                else {
-                    this.count++;
-                }
+                else { this.count++; }
             },
             reset: function() {
                 this.count = 0;
@@ -53,35 +58,46 @@ class Expense {
 
     create(data) {
         axiosRequest.get('expenses', 'create').then(r => {
+            
             this.instanceStorage = new InstanceStorage(r.data.data);
             this.state.entry = this.instanceStorage.getClone();
             this.validator.setRules(r.data.rules);
             this.lookups = r.data.lookups;
+
         })
     }
 
-    save() {
-        axiosRequest.post('expenses', 'store', { transactions: this.state.items.all()})
-            .then(r => {
-                toastr.success('Save successfully!!!')
-            })
-            .catch(e => {
-                if (e.response.status === 422) {
-                    this.errors.register(e.response.data);
-                }
-            });
-    }
+    save(isPosted = false,cbSuccess = null) {
 
-    saveAndPost() {
-        axiosRequest.post('expenses', 'post', { transactions: this.state.items.all()})
-            .then(r => { 
-                toastr.success('Save successfully!!!'); 
+        let arx = null;
+        this.state.progress.saving = true;
+        
+        let transactions = {
+            transaction_no: this.state.transaction !== null ? this.state.transaction.transaction_no : null,
+            items: this.state.items.items
+        };
+        
+        if(this.state.progress.saving) {
+
+            arx = (isPosted) ? axiosRequest.post('expenses', 'post', { transaction_set: transactions}) : 
+                                axiosRequest.post('expenses', 'store', { transaction_set: transactions});
+            arx.then(r => {
+                toastr.success(r.data.message)
+                this.state.progress.saving = false;
+                this.edit(r.data.data);
+                
+                if(cbSuccess) {
+                    cbSuccess(r.data.data);
+                }
+                    
             })
             .catch(e => {
                 if (e.response.status === 422) {
                     this.errors.register(e.response.data);
                 }
+                this.state.progress.saving = false;
             });
+        }
     }
     
     edit(transactionNo) {
@@ -98,6 +114,7 @@ class Expense {
     }
 
     resetEntry() {
+
         this.errors.clearAll();
         this.state.current = null;
         copiedValue(this.instanceStorage.get(), this.state.entry);
@@ -105,7 +122,7 @@ class Expense {
 
     newTransaction() {
         this.resetEntry();
-        this.state.transaction = null;
+        this.state.transaction = null;  //destroy transaction
         this.state.items.clear();
     }
 
@@ -131,7 +148,7 @@ class Expense {
         }
     }
 
-    insertItem() {
+    insertItem(callback) {
 
         this.errors.register(this.validator.validate(this.state.entry));
         if (this.errors.hasError())
@@ -144,11 +161,11 @@ class Expense {
             
         else {
             this.registerItem(cloneObject(this.state.entry))
-            this.smart.capture(this.state.entry.doc_no);
+            this.smart.capture(this.state.entry.doc_no);    //capture doc no to present in the future repetitive
         }
-            
-
-
+        
+        callback(this.state.entry)
+        
         this.resetEntry();
     }
 
@@ -159,15 +176,29 @@ class Expense {
     }
 
     removeItem(key) {
+
         this.state.items.remove(key);
     }
 
+    fork(key) {
+        this.resetEntry();
+        let forked = this.state.items.find(key); 
+        //clone
+        copiedValue(forked,this.state.entry,['account', 'id', 'key', 'payee', 'property', 'villa'])
+    }
+
     suggest(prop) {
+        
         if(this.smart.count >= 3) {
             this.state.entry[prop] = this.smart.snap;
             this.smart.stopCount(3);
         }
-    }   
+    }
+    
+    updateDescription(description,amount) {
+        this.state.entry.description = description;
+        this.state.entry.amount = amount;
+    }
 }
 
 const state = {
@@ -181,19 +212,22 @@ const state = {
 
 const mutations = {
     removeItem: (state, payload) => state.expense.removeItem(payload.key),
-    insertItem: (state) => state.expense.insertItem(),
+    insertItem: (state,callback) => state.expense.insertItem(callback),
     editItem: (state, payload) => state.expense.editItem(payload.key),
     reset: (state) => state.expense.resetEntry(),
     new: (state) => state.expense.newTransaction(),
-    suggest: (state,payload) => state.expense.suggest(payload.prop)
+    suggest: (state,payload) => state.expense.suggest(payload.prop),
+    fork: (state,payload) => state.expense.fork(payload.key),
+    updateDescription: (state,payload) => state.expense.updateDescription(payload.description,payload.amount)
 }
 
 const actions = {
     create: ({state}) => state.expense.create(),
-    save: ({state}) => state.expense.save(),
-    post: ({state}) => state.expense.saveAndPost(),
+    save: ({state},callback) => state.expense.save(false,callback),
+    post: ({state},callback) => state.expense.save(true,callback),
     edit: ({state}, payload) => state.expense.edit(payload.transactionNo),
-    fetch: ({state}) => state.expense.fetch()
+    fetch: ({state}) => state.expense.fetch(),
+    fetchPredictive: ({state}) => state.predictive.fetch()
 }
 
 const getters = {

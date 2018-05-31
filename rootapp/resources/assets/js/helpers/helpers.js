@@ -206,7 +206,8 @@ export class ItemHandler {
                 if (item.key === key && item.id) {
                     this.items.deletedItems.push(item.id);
                 }
-                return item.key !== id;
+                
+                return item.key !== key;
             });
         } 
         else {

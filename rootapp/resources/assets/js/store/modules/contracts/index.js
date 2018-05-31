@@ -1,8 +1,26 @@
-import {
-    ErrorValidations,
-    copiedValue
-} from "../../../helpers/helpers";
+import { ErrorValidations, copiedValue} from "../../../helpers/helpers";
 
+
+class Contract {
+
+    constructor() {
+        this.state = {
+            contract: {},
+            tenant: {}
+        }
+    }
+
+    create() {
+
+        axiosRequest.get('contract', 'create').then((r) => {
+            this.state.contract = r.data.data;
+            this.state.tenant = r.data
+            state.contract.rate_per_month = 0;
+            state.lookups = r.data.lookups;
+            state.tenant_default = state.contract.register_tenant;
+        });
+    }
+}
 
 const state = {
     contracts: {
@@ -91,7 +109,6 @@ const actions = {
     },
     create({state}) {
         axiosRequest.get('contract', 'create').then((r) => {
-            state.contract = {};
             state.contract = r.data.data;
             state.contract.rate_per_month = 0;
             state.lookups = r.data.lookups;

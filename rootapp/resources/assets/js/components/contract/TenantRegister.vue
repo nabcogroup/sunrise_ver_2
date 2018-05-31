@@ -7,10 +7,10 @@
         </v-input-wrapper>
 
         <v-input-wrapper label-class="col-md-3 text-right" :label="labels.fullName" :required="true" model-name="register_tenant.full_name">
-            <input type='text' class='form-control' name='register_tenant.full_name' v-model='tenant.full_name'>
-            <error :errorDisplay="stateContractError.get('register_tenant.full_name')">
-                {{stateContractError.get('register_tenant.full_name')}}
-            </error>
+            <input type='text' class='form-control' 
+                    name='register_tenant.full_name' 
+                    v-model='tenant.full_name'>
+            <error-span v-model="stateContractError" name="register_tenant.full_name"></error-span>
         </v-input-wrapper>
 
         <!-- Company / Representative -->
@@ -28,19 +28,14 @@
                     </button>
                 </span>
             </div>
-            <error :errorDisplay="stateContractError.get('register_tenant.reg_id')">
-                {{stateContractError.get('register_tenant.reg_id')}}
-            </error>
+            <error-span v-model="stateContractError" name="register_tenant.reg_id"></error-span>
         </v-input-wrapper>
 
         <!-- Birthday / Validity Date -->
         <v-input-wrapper :label="labels.regDate" label-class="col-md-3 text-right" :required="true" model-name="register_tenant.reg_date">
-            <dt-picker dp-name="register_tenant.reg_date" @pick="tenant.reg_date = $event" :value="tenant.reg_date"></dt-picker>
-            <error :errorDisplay="stateContractError.get('register_tenant.reg_date')">
-                {{stateContractError.get('register_tenant.reg_date')}}
-            </error>
+            <v-dt-picker v-model="tenant.reg_date"></v-dt-picker>
+            <error-span v-model="stateContractError" name="register_tenant.reg_date"></error-span>
         </v-input-wrapper>
-
         <v-input-wrapper v-show="showGender" label="Gender" label-class="col-md-3 text-right" model-name="gender">
             <select class="form-control" name="gender" v-model="tenant.gender">
                 <option value="male" selected="true">Male</option>
@@ -50,11 +45,15 @@
 
         <hr/>
 
-        <v-input-wrapper label-class="col-md-3 text-right" label="Email Address" :required="true" model-name="register_tenant.email_address">
+        <v-input-wrapper 
+            label-class="col-md-3 text-right" 
+            label="Email Address" 
+            :required="true" 
+            model-name="register_tenant.email_address">
+            
             <input name="register_tenant.email_address" type="text" class="form-control" v-model="tenant.email_address">
-            <error :errorDisplay="stateContractError.get('register_tenant.email_address')">
-                {{stateContractError.get('register_tenant.email_address')}}
-            </error>
+            <error-span v-model="stateContractError" name="register_tenant.email_address"></error-span>
+        
         </v-input-wrapper>
 
         <v-input-wrapper label-class="col-md-3 text-right" label="Tel No" model-name="tel_no">
@@ -63,21 +62,18 @@
 
         <v-input-wrapper label-class="col-md-3 text-right" label="Mobile No" :required="true" custom-display="(tel no or mobile)*" model-name="register_tenant.mobile_no">
             <input name="register_tenant.mobile_no" type="text" class="form-control" v-model="tenant.mobile_no">
-            <error :errorDisplay="stateContractError.get('register_tenant.mobile_no')">
-                {{stateContractError.get('register_tenant.mobile_no')}}
-            </error>
+            <error-span v-model="stateContractError" name="register_tenant.mobile_no"></error-span>
         </v-input-wrapper>
 
         <v-input-wrapper label-class="col-md-3 text-right" label="Fax No" model-name="tenant.fax_no">
             <input name="fax_no" type="text" class="form-control" v-model="tenant.fax_no">
         </v-input-wrapper>
+        
         <hr/>
 
         <v-input-wrapper label-class="col-md-3 text-right" :required="true" label="Address" model-name="register_tenant.tenant_address.address_1">
             <input name="register_tenant.tenant_address.address_1" type="text" class="form-control" v-model="tenant.tenant_address.address_1">
-            <error :errorDisplay="stateContractError.get('register_tenant.tenant_address.address_1')">
-                {{stateContractError.get('register_tenant.tenant_address.address_1')}}
-            </error>
+            <error-span v-model="stateContractError" name="register_tenant.tenant_address.address_1"></error-span>
         </v-input-wrapper>
 
         <v-input-wrapper label-class="col-md-3 text-right" label="Address 2" model-name="tenant.tenant_address.address_2">
@@ -87,15 +83,11 @@
         <div class="form-group">
             <v-input-wrapper :exclude-row="true" label-class="col-md-3 text-right" control-class="col-md-3" label="City" :required="true" model-name="register_tenant.tenant_address.city">
                 <input name="register_tenant.tenant_address.city" id="register_tenant.tenant_address.city" type="text" class="form-control" v-model="tenant.tenant_address.city">
-                <error :errorDisplay="stateContractError.get('register_tenant.tenant_address.city')">
-                    {{stateContractError.get('register_tenant.tenant_address.city')}}
-                </error>
+                <error-span v-model="stateContractError" name="register_tenant.tenant_address.city"></error-span>
             </v-input-wrapper>
             <v-input-wrapper :exclude-row="true" label-class="col-md-3 text-right" control-class="col-md-3" label="Postal Code" :required="true" model-name="register_tenant.tenant_address.postal_code">
                 <input name="register_tenant.tenant_address.postal_code" id="register_tenant.tenant_address.postal_code" type="text" class="form-control" v-model="tenant.tenant_address.postal_code">
-                <error :errorDisplay="stateContractError.get('register_tenant.tenant_address.postal_code')">
-                    {{stateContractError.get('register_tenant.tenant_address.postal_code')}}
-                </error>
+                <error-span v-model="stateContractError" name="register_tenant.tenant_address.postal_code"></error-span>
             </v-input-wrapper>
         </div>
     </v-panel>

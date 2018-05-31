@@ -35,6 +35,11 @@ class Villa extends BaseModel
         parent::__construct($attributes);
     }
 
+    //scope
+    public function scopeGetVacant($query) {
+        return $query->where('status','vacant');
+    }
+
 
     public function VillaGalleries() {
 

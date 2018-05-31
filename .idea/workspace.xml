@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Supports/Predictive.php" line="19" mnemonic="4" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6e0bf404-af6a-4897-a37b-c434d86e8e96" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,41 +16,7 @@
     <pharConfigPath>$PROJECT_DIR$/rootapp/composer.json</pharConfigPath>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ExpensesController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="26" column="52" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="52" />
-              <folding>
-                <element signature="e#52#91#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccountingRoute.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Expenditure.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="110" column="48" selection-start-line="110" selection-start-column="48" selection-end-line="110" selection-end-column="48" />
-              <folding>
-                <element signature="e#42#60#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -59,8 +28,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>in</find>
-      <find>module</find>
       <find>paramU</find>
       <find>paramUrl</find>
       <find>filterPayment</find>
@@ -89,6 +56,8 @@
       <find>gulp</find>
       <find>transact_no</find>
       <find>create</find>
+      <find>setdefaultP</find>
+      <find>EX</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -97,27 +66,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Datasource/Villas/VillaMasterMainDatasource.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/views/reports/modules/villa_report/villa_summary.blade.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/BaseModel.php" />
-        <option value="$PROJECT_DIR$/rootapp/.env" />
-        <option value="$PROJECT_DIR$/rootapp/app/Services/CalendarService.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/ContractBill.php" />
-        <option value="$PROJECT_DIR$/rootapp/composer.json" />
-        <option value="$PROJECT_DIR$/rootapp/database/seeds/DatabaseSeeder.php" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue" />
-        <option value="$PROJECT_DIR$/rootapp/resources/assets/js/app.js" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Admin/routes/web.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Admin/src/app/Http/Controllers/ContractController.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Contract/src/app/Models/Contract.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/Http/Requests/ContractForm.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Contract/src/app/Http/Requests/ContractForm.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Contract/src/app/Http/Controllers/ContractController.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Traits/UnsetterTrait.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/database/migrations/2017_08_10_105320_create_expenditures_table.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenses.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/AccountingModuleProvider.php" />
         <option value="$PROJECT_DIR$/rootapp/config/app.php" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/helpers/helpers.js" />
         <option value="$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VInput.vue" />
@@ -136,18 +84,39 @@
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/PayeeController.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Traits/PaginationTrait.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Repositories/ContractRepository.php" />
-        <option value="$PROJECT_DIR$/rootapp/app/AccountChart.php" />
         <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/AccountChartController.php" />
         <option value="$PROJECT_DIR$/rootapp/routes/web.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountsPayeeController.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountChart.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/AccountChartController.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsPayee.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/Traits/BaseModelSaveTrait.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/BaseModel.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php" />
-        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Helpers/AutoTransaction.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/AccountChart.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Villa.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Tenant.php" />
+        <option value="$PROJECT_DIR$/rootapp/config/format.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Contract.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Traits/HelperTrait.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountChart.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Helpers/GAT.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Models/AutoTransaction.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Contract/src/app/Models/Contract.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Predictive/Predictive.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/PredictiveContoller.php" />
+        <option value="$PROJECT_DIR$/rootapp/app/Providers/EventServiceProvider.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Providers/AccountingEventServiceProvider.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Events/OnSaveTransaction.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Listeners/SaveTransactionListener.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/AccountingModuleProvider.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/routes/routes.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Models/AnalyticPredictive.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Supports/Predictive.php" />
         <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php" />
+        <option value="$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php" />
       </list>
     </option>
   </component>
@@ -410,8 +379,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="960" />
-    <option name="height" value="920" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -435,7 +406,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -443,40 +413,11 @@
               <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
               <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="app" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="storage" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="storage" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="framework" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="experiment" type="b2602c69:ProjectViewProjectNode" />
-              <item name="experiment" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="rootapp" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="vendor" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -490,11 +431,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\experiment\rootapp\modules\kielpack\laralibs\src\Supports" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Reports\resources\views\reports" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Admin\resources\views" />
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Admin\src" />
-      <recent name="C:\xampp\htdocs\experiment\rootapp\resources\views\reports\modules\sales_report" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\experiment\rootapp\modules\Accounting\src\database\migrations" />
@@ -918,12 +859,43 @@
       <workItem from="1526545377738" duration="2068000" />
       <workItem from="1526584481469" duration="870000" />
       <workItem from="1526715833015" duration="750000" />
-      <workItem from="1526720996270" duration="125000" />
+      <workItem from="1526720996270" duration="724000" />
+      <workItem from="1526723738520" duration="12000" />
+      <workItem from="1526757887072" duration="1771000" />
+      <workItem from="1526760341364" duration="1156000" />
+      <workItem from="1526764484406" duration="1324000" />
+      <workItem from="1526799871787" duration="1790000" />
+      <workItem from="1526801697702" duration="1995000" />
+      <workItem from="1526840148896" duration="1787000" />
+      <workItem from="1526841979356" duration="1790000" />
+      <workItem from="1526843977135" duration="975000" />
+      <workItem from="1526847141201" duration="1419000" />
+      <workItem from="1526848962455" duration="1368000" />
+      <workItem from="1526889059579" duration="1790000" />
+      <workItem from="1526891096038" duration="1013000" />
+      <workItem from="1526893684630" duration="1287000" />
+      <workItem from="1526895810094" duration="917000" />
+      <workItem from="1526926711367" duration="1240000" />
+      <workItem from="1526928523789" duration="606000" />
+      <workItem from="1526931420428" duration="1257000" />
+      <workItem from="1526933230924" duration="622000" />
+      <workItem from="1527065697957" duration="301000" />
+      <workItem from="1527105580236" duration="1750000" />
+      <workItem from="1527107601224" duration="1792000" />
+      <workItem from="1527109439635" duration="1125000" />
+      <workItem from="1527145612180" duration="1798000" />
+      <workItem from="1527154312277" duration="1789000" />
+      <workItem from="1527197290809" duration="893000" />
+      <workItem from="1527318039250" duration="1788000" />
+      <workItem from="1527319847943" duration="1693000" />
+      <workItem from="1527369585764" duration="1503000" />
+      <workItem from="1527576973815" duration="1712000" />
+      <workItem from="1527666060090" duration="83000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1684958000" />
+    <option name="totallyTimeSpent" value="1725903000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -936,9 +908,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20842217" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18123667" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32928476" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.38539445" side_tool="true" weight="0.24809575" />
@@ -947,7 +918,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" weight="0.17083786" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.61460555" visible="true" weight="0.14472252" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -963,7 +934,7 @@
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20628998" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21481876" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -994,171 +965,10 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="93" />
+      <option name="time" value="96" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Base/Traits/StatusTrait.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="20" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VComboBox.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="13" lean-forward="true" selection-start-line="4" selection-start-column="13" selection-end-line="5" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VInput.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="42" column="37" lean-forward="true" selection-start-line="42" selection-start-column="37" selection-end-line="42" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/contract/ContractEntry.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-204">
-          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/ReplaceModal.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="55" column="12" lean-forward="true" selection-start-line="55" selection-start-column="12" selection-end-line="55" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/BillUpdateForm.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="344" column="6" selection-start-line="344" selection-start-column="6" selection-end-line="344" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/bill/PaymentInfoModal.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1309">
-          <caret line="77" column="30" selection-start-line="77" selection-start-column="30" selection-end-line="77" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/MenuRepository.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="39" column="20" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/ExpenseList.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
-          <caret line="42" column="46" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/VLiveView.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2125">
-          <caret line="198" column="50" lean-forward="true" selection-start-line="198" selection-start-column="16" selection-end-line="198" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="73" column="28" selection-start-line="73" selection-start-column="12" selection-end-line="73" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/plugins/controls/GridView.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="68" column="105" selection-start-line="68" selection-start-column="100" selection-end-line="68" selection-end-column="105" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/TransactionListDialog.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="60" selection-start-line="6" selection-start-column="60" selection-end-line="6" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/components/expenditures/Register.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="26" selection-start-line="22" selection-start-column="26" selection-end-line="22" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Properties/src/database/migrations/2017_11_09_072100_create_properties_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="12" lean-forward="true" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Admin/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="3" lean-forward="true" selection-start-line="13" selection-start-column="3" selection-end-line="13" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountsVilla.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/expenditures/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="309" selection-start-line="309" selection-end-line="309" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/resources/assets/js/store/modules/bills/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/AccountingModuleProvider.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/vendor/laravel/framework/src/Illuminate/Foundation/Validation/ValidatesRequests.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="49" column="20" selection-start-line="49" selection-start-column="20" selection-end-line="49" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Requests/PayeeForm.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="26" column="6" lean-forward="true" selection-start-line="26" selection-start-column="6" selection-end-line="26" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/BaseModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-269">
-          <caret line="60" column="52" lean-forward="true" selection-start-line="60" selection-start-column="52" selection-end-line="60" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Repositories/BaseRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="530">
@@ -1202,13 +1012,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/PayeeController.php" />
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="145" column="12" selection-start-line="145" selection-start-column="12" selection-end-line="145" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/PaginationTrait.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1230,20 +1033,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="23" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/app/AccountChart.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/app/Repositories/AccountChartRepository.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="527">
@@ -1262,13 +1051,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="45" column="30" lean-forward="true" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountChart.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="29" column="37" selection-start-line="29" selection-start-column="37" selection-end-line="29" selection-end-column="37" />
         </state>
       </provider>
     </entry>
@@ -1322,29 +1104,218 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/storage/framework/sessions/ZgFrktwm5ANDOviyVNQFtTZ4c4oNlrIguaU2vUKS" />
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Routes/AccountingRoute.php" />
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Supports/Result.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="374">
+          <caret line="28" column="43" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
+    <entry file="file://$PROJECT_DIR$/rootapp/app/AccountChart.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="26" column="52" selection-start-line="26" selection-start-column="37" selection-end-line="26" selection-end-column="52" />
+        <state relative-caret-position="561">
+          <caret line="33" column="5" lean-forward="true" selection-start-line="31" selection-start-column="2" selection-end-line="33" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Contract/src/app/Http/Controllers/ContractController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ExpenditureController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/PeriodTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="93" selection-start-line="11" selection-start-column="83" selection-end-line="11" selection-end-column="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Traits/HelperTrait.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="731">
+          <caret line="48" column="19" selection-start-line="48" selection-start-column="19" selection-end-line="48" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/config/format.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="25" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Tenant.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="25" column="31" selection-start-line="25" selection-start-column="31" selection-end-line="25" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Http/Controllers/ContractController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="167" column="40" selection-start-line="167" selection-start-column="40" selection-end-line="167" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Villa.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Contract.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="69" column="9" selection-start-line="69" selection-start-column="9" selection-end-line="69" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/AccountChart.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Contract/src/app/Models/Contract.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="88" lean-forward="true" selection-start-line="88" selection-end-line="88" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Models/AutoTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="43" column="52" selection-start-line="43" selection-start-column="52" selection-end-line="43" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Helpers/GAT.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="18" column="21" selection-start-line="18" selection-start-column="21" selection-end-line="18" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/vendor/laravel/framework/src/Illuminate/Foundation/Support/Providers/EventServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="14" column="21" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Providers/EventServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="619">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Events/OnSaveTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
           <folding>
-            <element signature="e#52#91#0#PHP" expanded="true" />
+            <element signature="e#42#80#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Providers/AccountingEventServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Listeners/SaveTransactionListener.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="26" column="8" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/app/Events/NotifyUpdate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="23" column="32" lean-forward="true" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/PredictiveContoller.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="15" column="5" selection-start-line="9" selection-start-column="4" selection-end-line="15" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/AccountingModuleProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="68" selection-start-line="20" selection-start-column="68" selection-end-line="20" selection-end-column="68" />
+          <folding>
+            <element signature="e#31#91#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/AccountingRoute.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="5" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/routes/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="41" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Models/AnalyticPredictive.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <element signature="e#45#84#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/kielpack/laralibs/src/Supports/Predictive.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="34" column="97" selection-start-line="34" selection-start-column="97" selection-end-line="34" selection-end-column="97" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Models/Expenditure.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="110" column="48" selection-start-line="110" selection-start-column="48" selection-end-line="110" selection-end-column="48" />
+        <state relative-caret-position="1955">
+          <caret line="117" column="43" selection-start-line="117" selection-start-column="43" selection-end-line="117" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/rootapp/modules/Accounting/src/app/Http/Controllers/ExpensesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="49" column="18" lean-forward="true" selection-start-line="49" selection-start-column="18" selection-end-line="49" selection-end-column="18" />
           <folding>
-            <element signature="e#42#60#0#PHP" expanded="true" />
+            <element signature="e#52#96#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

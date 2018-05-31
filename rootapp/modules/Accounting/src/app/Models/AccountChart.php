@@ -16,11 +16,12 @@ class AccountChart extends BaseModel
 
     protected $table = "account_charts";
 
+    protected $fillable = ["code","description","account_type","parent"];
+    protected $appends = ["full_account_description"];
+
     public static function createInstance() {
         return new AccountChart();
     }
-
-
 
     public function __construct(array $attributes = [])
     {
@@ -32,5 +33,10 @@ class AccountChart extends BaseModel
         }
 
         parent::__construct($attributes);
+
+    }
+
+    public function getFullAccountDescriptionAttribute() {
+        return $this->attributes['code'] . " - " . $this->attributes['description'];
     }
 }

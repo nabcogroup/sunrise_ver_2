@@ -73,6 +73,7 @@ class ContractController extends Controller
     public function register()
     {
 
+
         //check if the has a vacant villa
         //if not redirect back to list
         $bundle = new Bundle();
@@ -240,9 +241,7 @@ class ContractController extends Controller
     }
 
     public function apiStore(ContractForm $request) {
-
         $inputs = $request->filterInput();
-
 
         try {
 

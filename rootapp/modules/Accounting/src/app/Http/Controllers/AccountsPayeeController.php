@@ -38,6 +38,14 @@ class AccountsPayeeController extends Controller
         return Result::response($payees);
     }
 
+    public function lookups(Request $request) {
+
+        $accountsPayee = AccountsPayee::orderBy('name')->get();
+
+        return Result::response(['data' => $accountsPayee]);
+
+    }
+
     /*******************************
      * HTTP-GET
      *
@@ -94,7 +102,7 @@ class AccountsPayeeController extends Controller
      ******************************/
     public function store(Request $request) {
 
-        $this->requestValidate($request);
+        $this->requestValidate($request,true);
 
         try {
 
@@ -106,21 +114,22 @@ class AccountsPayeeController extends Controller
 
             //save payee
             AccountsPayee::create($data);
-
             return Result::ok('Save Succefully');
-
         }
         catch(\Exception $e) {
-
             return Result::badRequest(['errors' => $e->getMessage()]);
-
         }
     }
 
 
-    protected function requestValidate(Request $request) {
-        $this->validate($request,[
-            'name'  =>  'required'
-        ]);
+
+
+    protected function requestValidate(Request $request,$new = false) {
+        if($new) {
+            $this->validate($request, ['name'  =>  'required|unique:payees']);
+        }
+        else {
+            $this->validate($request, ['name'  =>  'required']);
+        }
     }
 }

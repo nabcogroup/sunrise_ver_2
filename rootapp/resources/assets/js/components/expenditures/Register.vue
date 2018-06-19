@@ -23,7 +23,7 @@
                     <div class="col-md-3 col-md-offset-3" style="text-align:right">
                         <template v-if="(expense.transaction !== null)">
                             <button v-if="expense.transaction.posted == 0" type="button" class="btn btn-primary btn" 
-                                    :disabled="expense.items.all().length == 0 || expense.progress.saving" 
+                                    :disabled="saveDisabled" 
                                     @click="post">Save and Post
                             </button>
                             <label v-else class="text-muted">
@@ -47,10 +47,10 @@
                     </div>
                 </div>
 
-                <!-- Account -->
+                <!-- Expense Type / Account -->
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label">Account:</label>
-                    <div class="col-md-10">
+                    <div class="col-md-4">
                         <v-combo-box 
                             :options="lookups.accounts" 
                             v-model="expense.entry.acct_code" 
@@ -58,6 +58,14 @@
                             :include-default=true>
                         </v-combo-box>
                         <error-span :value="errors" name="acct_code"></error-span>
+                    </div>
+                    <label class="col-md-2 col-form-label">Expense Type:</label>
+                    <div class="col-md-4">
+                        <select name="expense_type" class="form-control" v-model='expense.entry.expense_type'>
+                            <option value="">--SELECT EXPENSE TYPE--</option>
+                            <option v-for="look in lookups.expense_type" v-bind:value="look.code" :key="look.code">{{ look.name }}</option>
+                        </select>
+                        <error-span :value="errors" name="expense_type"></error-span>
                     </div>
                 </div>
 
@@ -89,13 +97,14 @@
 
                 <!-- Property / Villa -->
                 <div class="form-group row">
-
                     <label class="col-md-2 col-form-label">Property:</label>
                     <div class="col-md-4">
+                        
                         <select class="form-control" v-model='expense.entry.location'>
                             <option value="">--SELECT PROPERTY--</option>
                             <option v-for="look in lookups.villa_location" v-bind:value="look.code" :key="look.code">{{ look.name }}</option>
                         </select>
+
                         <error-span :value="errors" name="location"></error-span>
                     </div>
 
@@ -111,18 +120,14 @@
 
                 <!-- Paid To / Doc Ref -->
                 <div class="form-group row">
+                    
                     <label class="col-md-2 col-form-label">Paid to:</label>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <v-input v-model="expense.entry.payee_id"
-                                 :items="lookups.payees"
-                                 item-text="name"
-                                 item-value="id">
+                                :configs="payeeConfig"
+                                @insert="addPayee">
                         </v-input>
                         <error-span :value="errors" name="payee_id"></error-span>
-                    </div>
-
-                    <div class="col-md-1">
-                        <button type="button" class="btn btn-info btn-block" @click="createPayee"><i class="fa fa-plus-circle fa-1x" aria-hidden="true"></i></button>
                     </div>
                     <label class="col-md-2 col-form-label">Doc. Ref:</label>
                     <div class="col-md-4">
@@ -202,8 +207,18 @@
                     <div class="col-md-12">
                         <!-- -->
                         <grid-view :grid="gridColumn" :data="expense.items.all()" @action="doAction">
-                            <span class="text-right">{{expense.items.sum('amount') | toCurrencyFormat }}</span>
+                            <tr slot="footer-slot">
+                                <th colspan="8"></th>
+                                <th class="text-right">
+                                    <span class="text-right">{{expense.items.sum('debit_amount') | toCurrencyFormat }}</span>
+                                </th>
+                                <th class="text-right">
+                                    <span class="text-right">{{expense.items.sum('credit_amount') | toCurrencyFormat }}</span>
+                                </th>
+                                <th></th>
+                            </tr>
                         </grid-view>
+
                     </div>
                 </div>
 
@@ -212,7 +227,7 @@
                     <div class="row">
                         <div class="col-md-2 col-md-offset-10">
                             <button type="button" class="btn btn-info btn btn-block" 
-                                :disabled="expense.items.all().length == 0 || expense.progress.saving" 
+                                :disabled="saveDisabled" 
                                 @click.prevent="save">Save <i class="fa " :class="[{'fa-spinner fa-spin': expense.progress.saving}]"></i>
                             </button>
                         </div>
@@ -221,12 +236,16 @@
 
             </v-panel>
         </form>
+        
+        <!-- transaction list -->
+        <transaction-list-dialog @selected="onSelected"></transaction-list-dialog>
+        <!-- end -->
 
+        <!-- Payee -->
         <v-dialog modal-id="payee" dialog-title="Payee Information" v-model="unfold" @dismiss="dismiss">
             <payee-register type="modal"></payee-register>
         </v-dialog>
-
-        <transaction-list-dialog @selected="onSelected"></transaction-list-dialog>
+        <!-- end Payee -->
     </div>
 
 </template>
@@ -301,10 +320,23 @@
     export default {
         mounted() {
             this.$store.dispatch('expenditures/create');
+            EventBus.$on("payee-register.saved",() => {
+                this.$store.dispatch('expenditures/fetchPayees')
+            });
         },
         data() {
             return {
                 unfold: false,
+                payeeConfig: {
+                    columns: [
+                        {name: 'id', dataType:'key'},
+                        {name: 'name', column: 'Name', dataType:'text'}
+                    ],
+                    option: {key: 'id', label: 'name'},
+                    api: {
+                        url: '/api/payee/lookups'
+                    }
+                },
                 preConfig: {
                     visible: false,
                     preKey: 'description',
@@ -319,48 +351,44 @@
                 },
                 gridColumn: {
                     excludeIndex: true,
-                    columns: [ {
-                            name: 'doc_date',
-                            column: 'Date',
-                            style: 'width:10%',
-                            class: 'text-center',
-                            default: true,
-                            format: 'date'
-                        },
-                        {name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center'},
-                        {name: 'doc_ref', column: 'Doc. Ref#', style: 'width:10%', class: 'text-center'},
-                        {name: 'account', column: 'Account', style: 'width:10%', class: 'text-center'},
-                        {name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center'},
-                        {name: 'description', column: 'Description',},
-                        {name: 'payee', column: 'Payee', class: 'text'},
-                        {name: 'amount', column: 'Amount', class: 'text-center',dtype: 'currency'},
-                        {name: '$action', column: 'Action', style: 'width:10%', class: 'text-center', actionable: true}
+                    columns: [ 
+                        {name: 'handlerStatus',column:'',style:'width:3%,font-size:10px',class:'text-primary'},
+                        {name: 'doc_date', column: 'Date', style: 'width:10%', class: 'text-center', default: true, format: 'date', sorted: true},
+                        {name: 'doc_no', column: 'Doc. No.', style: 'width:10%', class: 'text-center',sorted:true,filter:true},
+                        {name: 'doc_ref', column: 'Doc. Ref#', style: 'width:10%', class: 'text-center',sorted:true},
+                        {name: 'account', column: 'Account', style: 'width:10%', class: 'text-center',sorted:true},
+                        {name: 'villa', column: 'Villa', style: "width:10%", class: 'text-center',sorted:true, filter: true},
+                        {name: 'description', column: 'Description',sorted:true},
+                        {name: 'payee', column: 'Payee', class: 'text',sorted:true},
+                        {name: 'debit_amount', column: 'Debit', class: 'text-center',dtype: 'currency' },
+                        {name: 'credit_amount', column: 'Credit', class: 'text-center',dtype: 'currency'},
+                        {name: '$action', column: 'Action', style: 'width:5%', class: 'text-center', actionable: true}
                     ],
                     actions: [
                         {key: 'edit', name: 'Edit'},
                         {key: 'fork', name: 'Copy'},
                         {key: 'remove', name: 'Remove'},
-                        
                     ],
-                    footers: [
-                        {label: "Grand Total",span:"7"},
-                        {label: "",slot: true, class:'text-right'},
-                        {label: ""}
-                    ]
+                    hasFooter: true
                 }
             }
         },
         props: ['index'],
-        computed: mapGetters('expenditures', {
-            expense: 'expense',
-            lookups: 'lookups',
-            filtered_villas: 'filtered_villas',
-            errors: 'errors',
-            payee: 'payee',
-            payeeTypes: 'payeeTypes',
-            options: 'options',
-            smartState: 'smartState',
-        }),
+        computed: {
+            ...mapGetters('expenditures', {
+                expense: 'expense',
+                lookups: 'lookups',
+                filtered_villas: 'filtered_villas',
+                errors: 'errors',
+                payee: 'payee',
+                payeeTypes: 'payeeTypes',
+                options: 'options',
+                smartState: 'smartState',
+            }),
+            saveDisabled() {
+                return this.expense.items.all().length == 0 || this.expense.progress.saving
+            }
+        },
         components: {TransactionListDialog, PayeeRegister},
         methods: {
             descriptionChange(value) {
@@ -395,6 +423,10 @@
                     }
                 });
             },
+            addPayee(value) {   
+                EventBus.$emit('payee.in.attributes',{option: {name:value}})
+                this.unfold = true
+            },
             reset() {
                 this.$store.commit('expenditures/reset');
             },
@@ -419,16 +451,10 @@
                     this.$store.commit('expenditures/editItem',{key:value.key});
                 }
             },
-            createPayee() {
-                this.unfold = true
-            },
             dismiss(result) {
                 if (result) {
-                    EventBus.$emit("onSavePayee", r => {
-                        this.lookups.payees = r
-                    })
+                    EventBus.$emit("payee.in.saving")
                 }
-
                 this.unfold = false
             },
             searchTransaction() {

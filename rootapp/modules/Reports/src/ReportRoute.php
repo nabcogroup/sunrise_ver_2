@@ -5,7 +5,7 @@ namespace Reports;
 
 class ReportRoute
 {
-    public static function route() {
+    public static function routes() {
 
         $route = __DIR__ . '/../routes/web.php';
         if(fileExists($route)) {

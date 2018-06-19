@@ -187,11 +187,18 @@ export class ItemHandler {
     add(item) {
         this.items.latestKey = this.items.latestKey + 1;
         item.key = this.items.latestKey;
+        if(typeof(item.id) === 'undefined') {
+            item.handlerStatus = 'new';
+        }
         this.items.data.push(item);
     }
 
     update(editValue, key) {
         const temp = _.find(this.items.data, (i) => i.key === key)
+        if(typeof(temp.handlerStatus) === 'undefined') {
+            editValue.handlerStatus = 'edit';
+        }
+        
         copiedValue(editValue, temp);
     }
 
@@ -226,6 +233,23 @@ export class ItemHandler {
 
     all() {
         return this.items.data;
+    }
+
+    pops() {
+        let newData = [];
+        this.items.data.forEach((items) => {
+            if(items.handlerStatus) {
+                newData.push(items);
+            }
+            else {
+
+            }
+        });
+
+        return {
+            deletedItems: this.items.deletedItems,
+            data: newData
+        }
     }
 
     sum(column) {

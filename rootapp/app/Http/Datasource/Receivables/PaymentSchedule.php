@@ -93,7 +93,8 @@ class PaymentSchedule implements IDataSource
             $title = "Summary of Property: Payment Receivable Report";
 
 
-        } else {
+        }
+        else {
 
             //create two queries
             $recordset = $this->createDb('villas')
@@ -105,8 +106,7 @@ class PaymentSchedule implements IDataSource
                     \DB::raw("YEAR(payments.effectivity_date) AS year_schedule"),
                     \DB::raw("MONTH(payments.effectivity_date) AS monthly_schedule"),
                     \DB::raw("SUM(payments.amount) AS monthly_payable"))
-                ->groupBy(
-                    "villas.villa_no",
+                ->groupBy("villas.villa_no",
                     \DB::raw("MONTH(payments.effectivity_date)"),
                     \DB::raw("YEAR(payments.effectivity_date)"),
                     "payment_status")
@@ -119,18 +119,12 @@ class PaymentSchedule implements IDataSource
             $property_name = "All";
 
             if(!is_null($location) && $location != "") {
-
                 $recordset = $recordset->where("villas.location", $location);
-
                 $property_name = Selection::getValue("villa_location", $location);
-
             }
 
-
             $title = "Villa Payment Receivable Report - ".$property_name;
-
             $rows = $this->arrayGroupBy($recordset->get(), null, ["villa_no", "monthly_schedule"]);
-
         }
 
         $column_month = [];

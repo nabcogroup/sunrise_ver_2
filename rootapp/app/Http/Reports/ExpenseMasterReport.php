@@ -11,10 +11,12 @@ namespace App\Http\Reports;
 
 use App\Http\Datasource\Expenses\ExpensesMaster;
 use App\Selection;
+use App\Traits\HelperTrait;
 use App\Villa;
 
 class ExpenseMasterReport extends BaseReport
 {
+    use HelperTrait;
 
     public function __construct($params)
     {
@@ -29,23 +31,25 @@ class ExpenseMasterReport extends BaseReport
     }
 
 
-    public function getLookups()
+    public function getLookups($args = [])
     {
-        $lookups = Selection::getSelections(["villa_location"]);
-
-        $lookups['villas'] = [];
-
-        $villas = Villa::select('id', 'villa_no')->orderBy('villa_no')->get();
-
-        foreach ($villas as $villa) {
-
-            $vdata = ['code' => $villa->id, 'name' => $villa->villa_no];
-
-            array_push($lookups['villas'], $vdata);
-
+        if(count($args) > 0) {
+            if($args['source'] == 'villas') {
+                $lookups['villas'] = Villa::where('location',$args['location'])->select('villa_no')->orderBy('villa_no')->get();
+            }
+        }
+        else {
+            // TODO: Implement getLookups() method.
+            $lookups = Selection::getSelections(["villa_location"]);
+            $lookups["months"] = $this->getMonthLookups();
+            $lookups["report_type"] = [
+                ["code" => "property", "name" => "Per Property"],
+                ["code" => "", "name" => "Per Villa"]
+            ];
         }
 
         return $lookups;
+
     }
 
     public function isApi()

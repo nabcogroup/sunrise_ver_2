@@ -67,6 +67,11 @@ trait ArrayGroupTrait
     }
 
 
+    /**
+     * visit collection
+     * [1,2,3,4,5],[1,2]
+     * [1][2]=[3,4,5]
+    */
     public function arrayGroupBy($collection,$callback = null,$keys = array())
     {
         $_key = $keys[0];
@@ -77,7 +82,7 @@ trait ArrayGroupTrait
             $key = null;
             if (is_object($value) && isset($value->{$_key})) {
                 $key = $value->{$_key};
-            } 
+            }
             elseif (isset($value[$_key])) {
                 $key = $value[$_key];
             }
@@ -91,14 +96,13 @@ trait ArrayGroupTrait
             else {
                 $grouped[$key][] = $callback($value);
             }
-            
         }
 
         
         // Recursively build a nested grouping if more parameters are supplied
         // Each grouped array value is grouped according to the next sequential key
         if (sizeof($keys) > 1) {
-            $args = func_get_args();
+            //$args = func_get_args();
             //dd($args);
             foreach ($grouped as $key => $value) {
                 $ret_keys = array_slice($keys,1,sizeof($keys));

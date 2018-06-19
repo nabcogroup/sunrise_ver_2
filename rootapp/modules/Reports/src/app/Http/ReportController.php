@@ -2,7 +2,7 @@
 
 namespace Reports\App\Http\Controllers;
 
-
+use KielPack\LaraLibs\Supports\Result;
 use PDF;
 use Illuminate\Http\Request;
 use App\Services\ReportService\ReportMapper;
@@ -13,15 +13,18 @@ use Reports\App\Services\ReportParameter;
 
 class ReportController extends KielPackController
 {
-
     public function index() {
 
-        $reportList = ReportManager::getReportList();
+        $reportList = ReportManager::getClients();
 
-        $params = ReportManager::getParameter();
+        return Result::response(['data' => $reportList]);
+    }
 
-        //return compact('reportList','lookups'); 
-        return view('reports::index',compact('reportList','params'));
+    public function showEntry(Request $request) {
+
+        $reportName = $request->get('report_name');
+
+
 
     }
 
@@ -34,7 +37,6 @@ class ReportController extends KielPackController
 
     public function show($reportId,Request $request) {
 
-
         $params = new ReportParameter($request);
 
         $report = ReportManager::get($reportId,$params);
@@ -42,21 +44,6 @@ class ReportController extends KielPackController
         $datasource = $report->datasource->execute();
 
         $template = $report->template;
-
-
-//        if($report->isApi()) {
-//            return $datasource;
-//        }
-//        else if($report->isPdfRender()) {
-//
-//            PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
-//            $dompdf = PDF::loadView('reports.modules.'.$template, compact('datasource'));
-//
-//            return $dompdf->stream();
-//        }
-//        else {
-//            return view('reports::modules.'.$template, compact('datasource'));
-//        }
 
         return view('reports::'.$template, compact('datasource'));
     }

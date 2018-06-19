@@ -30,13 +30,11 @@
                                     class="text-left"
                                     :class="{info:sort.key == key.name}"
                                     :key="index">
+                                    
                                     {{ key.column }}
                                     
-                                    <span
-                                            v-if="isArrowVisible(key.name)"
-                                            class="fa fa-fw" :class="sort.orders[key.name] > 0 ?
-                                    'fa-long-arrow-down' : 'fa-long-arrow-up'"></span>
-
+                                    <span v-if="isArrowVisible(key.name)" class="fa fa-fw" :class="sort.orders[key.name] > 0 ? 'fa-long-arrow-down' : 'fa-long-arrow-up'"></span>
+                                    
                                     <a class="filter"
                                     href="#"
                                     @click.prevent.stop="filterProperty.toggle(index)"

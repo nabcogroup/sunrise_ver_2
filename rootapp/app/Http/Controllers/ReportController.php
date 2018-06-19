@@ -22,10 +22,13 @@ class ReportController extends Controller
         return view('reports.index',compact('reportList','params'));
     }
 
-    public function apiLookups($reportId) {
+    public function apiLookups($reportId,Request $request) {
+
         $report = ReportManager::get($reportId,[]);
 
-        return $report->getLookups();
+        $args = $request->all();
+
+        return $report->getLookups($args);
     }
 
     public function show($reportId,Request $request) {

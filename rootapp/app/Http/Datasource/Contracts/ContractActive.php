@@ -73,6 +73,5 @@ class ContractActive implements IDataSource
         
         return new ReportMapper($title,$this->params->toArray(),$rows);
 
-
     }
 }

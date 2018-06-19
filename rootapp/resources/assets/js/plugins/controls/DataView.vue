@@ -61,6 +61,7 @@
                 let data = this.data;
 
                 let order = this.sortOrders[sortKey] || 1
+                
                 if(sortKey) {
                     data = data.slice().sort(function(a,b) {
                         a = a[sortKey]

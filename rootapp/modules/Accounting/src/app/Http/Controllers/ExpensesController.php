@@ -20,12 +20,22 @@ use KielPack\LaraLibs\Supports\Result;
 class ExpensesController extends Controller
 {
 
-    protected $predictive;
+    protected   $predictive;
+    protected   $accountChart;
+    protected   $payee;
+    protected   $accountsVilla;
 
-
-    public function __construct(Predictive $predictive)
+    public function __construct(Predictive $predictive,
+                                AccountChart $accountChart,
+                                AccountsPayee $payee,
+                                AccountsVilla $accountsVilla)
     {
+
         $this->predictive = $predictive;
+        $this->accountChart = $accountChart;
+        $this->payee = $payee;
+        $this->accountsVilla = $accountsVilla;
+
     }
 
 
@@ -41,26 +51,29 @@ class ExpensesController extends Controller
     {
 
         $expenditure = Expenditure::createInstance();
-        $lookups = Selection::getSelections(["account_type", "payment_term", "bank", "villa_location", "bank_provider"]);
+        $lookups = Selection::getSelections(["account_type", "payment_term", "bank", "villa_location", "bank_provider","expense_type"]);
 
-        $lookups["accounts"] = AccountChart::orderBy('description')->get();
-        $lookups["villas"] = AccountsVilla::orderBy('villa_no')->get();
-        $lookups["payees"] = AccountsPayee::orderBy("payee_code")->get();
+        $lookups["accounts"] = $this->accountChart->orderBy('description')->get();
+        $lookups["villas"] = $this->accountsVilla->orderBy('villa_no')->get();
+        $lookups["payees"] = $this->payee->orderBy("payee_code")->get();
 
         $rules = [
-            'location' => 'required',
-            'villa_id' => 'nonzero|integer',
-            'acct_code' => 'required',
-            'payee_id' => 'required|integer',
-            'payment_date' => 'required|date',
+            'location'      => 'required',
+            'villa_id'      => 'nonzero|integer',
+            'acct_code'     => 'required',
+            'expense_type'  =>  'required',
+            'payee_id'      => 'required|integer',
+            'payment_date'  => 'required|date',
             'mode_of_payment' => 'required',
             'doc_ref' => 'required',
             'doc_no' => 'required',
-            'doc_date' => 'required|date'];
+            'doc_date' => 'required|date'
+        ];
 
         $request->session()->forget('transaction_no');
 
         return Result::response(["data" => $expenditure, "lookups" => $lookups, "rules" => $rules]);
+
     }
 
     public function edit(Request $request, $transaction_no)
@@ -96,6 +109,11 @@ class ExpensesController extends Controller
         $predictives = $this->predictive->getAllDictionaries();
 
         return Result::response(['data' => $predictives]);
+    }
+
+    public function lookups() {
+
+
     }
 
     protected function batchSave(Request $request, $isPosting = false)

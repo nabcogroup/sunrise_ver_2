@@ -31,7 +31,6 @@ class ReportManager
 
     protected static $reports = [];
 
-
     public static function get($key,$params)
     {
 
@@ -55,14 +54,21 @@ class ReportManager
 
 
 
-    public static function getReportList()
+    public static function getClients()
     {
-        $reports = config("report.report");
+        $reports = config("report.list");
 
-        return $reports;
+        return $reports['clients'];
     }
 
-    public static function getParameter() {
+    public static function getReportForm($reportName) {
+
+        $servers = config('report.server');
+
+
+    }
+
+    public static function buildParameters() {
 
         $params = [
             [
@@ -84,9 +90,7 @@ class ReportManager
                 'inputs' => [
                     self::createDropdowns("Status","status","villa_status","code","name"),
                 ],
-                'models' => [
-                    'status' => ''
-                ],
+                'models' => ['status' => ''],
                 'lookups' => []
             ],
             [

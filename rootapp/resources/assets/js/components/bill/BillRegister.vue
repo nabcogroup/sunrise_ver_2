@@ -79,7 +79,14 @@
                 <!-- payment modal -->
                 <payment-modal namespace="bills"></payment-modal>
                 <grid-view :data="payments" :grid="gridColumn" @action="onAction">
-                    <label>{{totalPayment.total_payment | toCurrencyFormat}}</label>
+                    <tr slot="footer-slot">
+                        <th colspan="9"></th>
+                        <th class="text-center">
+                            <label>{{totalPayment.total_payment | toCurrencyFormat}}</label>
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
                 </grid-view>
                 <div class="col-md-4 pull-right">
                     <total-payment :payment="totalPayment"></total-payment>
@@ -170,16 +177,16 @@ const createGridColumn = (value) => {
         switch (value) {
             case 0:
                 grid.columns = [
-                    { name: 'effectivity_date', column: 'Date', style: 'width:10%', class: 'text-center', dtype: 'date' },
-                    { name: 'payment_no', column: 'Payment No', style: 'width:10%', class: 'text-center' },
-                    { name: 'reference_no', column: 'Reference No', style: "width:10%", class: "text-center" },
-                    { name: 'full_bank', column: 'Bank' },
-                    { name: 'full_payment_mode', column: 'Payment Mode', class: 'text-center' },
-                    { name: 'full_payment_type', column: 'Payment Type', class: 'text-center' },
+                    { name: 'effectivity_date', column: 'Date', style: 'width:10%', class: 'text-center', dtype: 'date', sorted: true },
+                    { name: 'payment_no', column: 'Payment No', style: 'width:10%', class: 'text-center',sorted: true },
+                    { name: 'reference_no', column: 'Ref. No', style: "width:8%", class: "text-center",sorted: true,filter:true },
+                    { name: 'full_bank', column: 'Bank',class: "text-center" },
+                    { name: 'full_payment_mode', column: 'Payment Mode',style: "width:8%", class: 'text-center' },
+                    { name: 'full_payment_type', column: 'Payment Type',style: "width:8%", class: 'text-center' },
                     { name: 'period', column: 'Period', class: 'text-center',dtype:'period',from:'period_start',to:'period_end'},
                     { name: 'amount', column: 'Amount', style: "width:10%", class: 'text-right', dtype: 'currency' },
-                    { name: 'full_status', column: 'Status', style: "width:10%", class: 'text-center' },
-                    { name: '$action', column: '', static: true }
+                    { name: 'full_status', column: 'Status', style: "width:8%", class: 'text-center' },
+                    { name: '$action', column: '', style: "width:5%",static: true,class: 'text-center' }
                 ];
 
                 grid.actions = [
@@ -206,6 +213,8 @@ const createGridColumn = (value) => {
             { span: 9 },
             { span: 3, label: "Total Amount", slot: true }
         ];
+        grid.hasFooter = true;
+        
         grid.selected = -1;
 
         return grid

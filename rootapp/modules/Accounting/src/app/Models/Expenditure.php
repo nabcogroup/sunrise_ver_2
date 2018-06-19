@@ -13,26 +13,27 @@ class Expenditure extends BaseModel
 
     protected $fillable = ["transaction_no","description", "location",
                             "villa_id","acct_code","payee_id","payment_date",
-                            "amount","mode_of_payment","bank_provider","payment_ref",
-                            "doc_ref","doc_date","doc_no","posted"];
+                            "expense_type", "mode_of_payment","bank_provider","payment_ref",
+                            "amount", "doc_ref","doc_date","doc_no","posted"];
 
-    protected $appends = ["transaction_status"];
+    protected $appends = ["transaction_status","debit_amount","credit_amount"];
 
     public static function createInstance() {
 
+
         $expenditure = new Expenditure([
-            'villa_id'           => 0,
-            'location'           =>  '',
-            'expense_type'       => '',
-            'acct_code'          =>  '',
-            'payee_id'           =>  null,
-            'description'        => '',
-            'amount'             =>  0,
-            'mode_of_payment'    =>  '',
-            'bank_provider'      =>  '',
-            'payment_ref'        =>  '',
-            'doc_ref'            =>  '',
-            'doc_no'             =>  '',
+            'villa_id'                  =>  0,
+            'location'                  =>  '',
+            'expense_type'              =>  '',
+            'acct_code'                 =>  '',
+            'payee_id'                  =>  null,
+            'description'               =>  '',
+            'amount'                    =>  0,
+            'mode_of_payment'           =>  '',
+            'bank_provider'             =>  '',
+            'payment_ref'               =>  '',
+            'doc_ref'                   =>  '',
+            'doc_no'                    =>  '',
         ]);
 
         $expenditure->payment_date = Carbon::now()->format(config('format.date_format'));
@@ -40,6 +41,19 @@ class Expenditure extends BaseModel
         $expenditure->doc_date = Carbon::now()->format(config('format.date_format'));
 
         return $expenditure;
+    }
+
+
+    public function payees() {
+        return $this->belongsTo('\Accounting\App\Models\AccountsPayee','payee_id','id');
+    }
+
+    public function villas() {
+        return $this->belongsTo('\Accounting\App\Models\AccountsVilla','villa_id','id');
+    }
+
+    public function accountChart() {
+        return $this->belongsTo('\Accounting\App\Models\AccountChart','acct_code','code');
     }
 
     public static function generateNewTransactionNo() {
@@ -84,6 +98,24 @@ class Expenditure extends BaseModel
         }
         else {
             return $value;
+        }
+    }
+
+    protected function getDebitAmountAttribute() {
+        if(isset($this->attributes['expense_type']) && $this->attributes['expense_type'] == 'debit') {
+            return $this->attributes['amount'];
+        }
+        else {
+            return 0;
+        }
+    }
+
+    protected function getCreditAmountAttribute() {
+        if(isset($this->attributes['expense_type']) && $this->attributes['expense_type'] == 'credit') {
+            return $this->attributes['amount'];
+        }
+        else {
+            return 0;
         }
     }
 

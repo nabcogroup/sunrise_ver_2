@@ -1,32 +1,13 @@
 <template>
     <div class="row">
         <div class="col-md-4">
-            <div class="panel panel-info wrap">
-                <div class="panel-heading">
-                    <h5>General Reports</h5>
-                </div>
-                <div class="panel-group wrap" id="bs-collapse">
-                    <div class="panel panel-success active" v-for="(report,i) in reportList" :key="i">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                {{report.title}}
-                            </h4>
-                        </div>
-                        <div id="one" class="panel-collapse">
-                            <div class="panel-body">
-                                <ul>
-                                    <li v-for="(data,index) in report.data">
-                                        <a href="#" @click="onReportClick(data)" :style="data.disabled ? 'color:red': ''  ">{{data.report_title}}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <v-report-list-panel 
+                title-head="General Reports" 
+                :items="list" 
+                @itemClicked="onReportClick"></v-report-list-panel>
         </div>
         <div class="col-md-8">
-            <report-form :params="params" @viewReportClick="viewReport" ></report-form>
+            <report-form @viewReportClick="viewReport" ></report-form>
         </div>
     </div>
 </template>
@@ -57,17 +38,15 @@
 
             },
             onReportClick(value) {
-                EventBus.$emit("onReportSelected",value);
+                const param = this.params.params.find(item => {
+                    return item.report_id === value.id;
+                });
+                
+                EventBus.$emit("report.selected",{param: param,title: value.title,reportName: value.report_name});
             }
         },
         data() {
             return {
-                columns: [
-                    {name: 'report_title', column: 'Report Name',},
-                    {name: '$parameters', column: 'Parameters', style: "width:40%"},
-                    {name: '$action', column: '', static: true, class: 'text-center', style: 'width:5%'},
-                ],
-                reports: [],
                 selected: {
                     report_name: '',
                     params: [],

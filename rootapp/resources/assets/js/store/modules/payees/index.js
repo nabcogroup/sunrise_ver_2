@@ -16,11 +16,14 @@ class Payee {
         });
     }
 
-    create() {
+    create(option = null) {
         if(_.isEmpty(this.payee)) {
             axiosRequest.get('payee','create').then(r => {
                 this.payee = r.data.data;
                 this.lookups = r.data.lookups;
+                if(option) {
+                    this.payee.name = option;
+                }
             });
         }
     }
@@ -49,7 +52,10 @@ class Payee {
         })
     }
 
-   
+    addAttribute(option) {
+
+        this.payee.name = option.name;
+    }
    
 
 }
@@ -61,15 +67,17 @@ const state = {
 
 const mutations = {
     clearPayee(state) {
-        state.payee.single= {};
-    }
+        state.payee.clear();
+    },
+    addPayeeAttribute: (state,payload) => state.payee.addAttribute(payload.option)
 }
 
 const actions = {
     redirectToRegister: (state,payload) => axiosRequest.redirect("payee","edit",payload.id),
-    create: ({state,commit}) => state.payee.create(),
-    save: ({commit,state},payload) =>  {
-        state.payee.save(() => toastr.success("Payee successfully added"));
+    create: ({state,commit},payload) => state.payee.create(payload.option),
+    save: ({commit,state},cb) =>  {
+        state.payee.save(cb);
+
     },
     edit: ({state},payload) => state.payee.fetch(payload.id)
 }

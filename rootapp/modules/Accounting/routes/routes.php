@@ -19,10 +19,12 @@ Route::group(['prefix' => 'api/expenses'], function () use($namespace) {
 Route::group(['prefix' => 'api/payee'],function() use($namespace) {
 
     Route::get("/list", $namespace . "\AccountsPayeeController@index");
+    Route::get("/lookups", $namespace . "\AccountsPayeeController@lookups");
     Route::get("/create",$namespace . "\AccountsPayeeController@create");
     Route::post("/store", $namespace . "\AccountsPayeeController@store");
     Route::get('/edit/{id}',$namespace . "\AccountsPayeeController@edit");
     Route::patch('/update',$namespace . "\AccountsPayeeController@update");
+
 
 });
 

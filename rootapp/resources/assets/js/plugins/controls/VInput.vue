@@ -14,10 +14,20 @@
             </div>
             <ul>
                 <li v-for="option in options">
-                    <a href="#" :data-value="option[itemValue]" @click.prevent="select(option)">{{option[itemText]}}</a>
+                    <a href="#" :data-value="option[configs.option.key]" @click.prevent="select(option)">
+                        <i class="fa fa-cubes fa-fw v-input-icon"></i> {{option[configs.option.label]}}</a>
                 </li>
             </ul>
+
+            <template v-if="showAdd">
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-9">
+                        <button class="btn btn-info btn-xs" @click.prevent="onInsert" type="button"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+            </template>
         </div>
+       
     </div>
 </template>
 
@@ -26,7 +36,7 @@
 export default {
 
     name: "vInput",
-    props: ["value", "items", "itemText", "itemValue"],
+    props: ["value", "itemText", "itemValue","configs"],
     data() {
         return {
             isShowDropdown: false,
@@ -34,10 +44,19 @@ export default {
                 label: '',
                 value: ''
             },
-            search: ''
+            rows:[],
+            search: '',
         }
     },
     methods: {
+        fetch() {
+            const url = this.configs.api.url;
+            if(this.rows.length > 0) return false;
+                
+            axiosRequest.dispatchGet(url).then((resp) => {
+                this.rows = resp.data.data;
+            });
+        },
         update() {
             const val = this.values.value;
             this.$emit('input', val);
@@ -51,37 +70,45 @@ export default {
             }
         },
         select(values) {
-            const option = this.items.find((item) => {
-                return item[this.itemValue] == values[this.itemValue];
+            const option = this.rows.find((item) => {
+                return item[this.configs.option.key] == values[this.configs.option.key];
             });
 
-            this.values.value = option[this.itemValue];
+            this.values.value = option[this.configs.option.key];
             this.$refs.textbox.focus();
             this.update();
         },
         setLabel(nv) {
-            const option = this.items.find((item) => {
-                return item[this.itemValue] == nv;
+            const option = this.rows.find((item) => {
+                return item[this.configs.option.key] == nv;
             });
-            
-            this.values.label = option !== undefined ? option[this.itemText] : '';
-        }
+
+            this.values.label = option !== undefined ? option[this.configs.option.label] : '';
+        },
+        onInsert() {
+            this.rows = [];
+            this.$emit('insert',this.search);
+        },
     },
     computed: {
         options() {
-
-            let options = [];
-
-            if (this.search.length > 0) {
-                this.items.forEach((item) => {
-                    if (item[this.itemText].toLowerCase().indexOf(this.search.toLowerCase()) >= 0) {
+           let options = [];
+           this.showAdd = false;
+           if (this.search.length > 0) {
+                this.rows.forEach((item) => {
+                    if (item[this.configs.option.label].toLowerCase().indexOf(this.search.toLowerCase()) >= 0) {
                         options.push(item);
                     }
                 });
             }
             else {
-                options = this.items;
+                options = this.rows;
             }
+
+            if(options && options.length === 0) {
+                this.showAdd = true;
+            }
+
 
             return options;
 
@@ -98,9 +125,8 @@ export default {
         isShowDropdown(nv) {
             if (nv) {
                 this.search = "";
-                setTimeout(() => {
-                    this.$refs.searchText.focus();
-                }, 500)
+                setTimeout(() => this.$refs.searchText.focus(), 500)
+                this.fetch()    
             }
         }
     }
@@ -108,20 +134,25 @@ export default {
 </script>
 
 <style scoped>
+
 .v-input-container {
     position: relative;
 }
 
+.v-input-icon {
+    margin-right: 15px;
+}
+
 .v-input-list {
     background: #fff;
-    height: 150px;
+    height: 250px;
     overflow: scroll;
     padding: 10px;
     position: absolute;
     top: 35px;
     left: 0;
-    width: 100%;
     z-index: 3;
+    width: 100%;
 }
 
 .v-input-list ul {
@@ -133,12 +164,13 @@ export default {
 
 .v-input-list ul li {
     display: block;
+    border-bottom: 1px solid whitesmoke;
 }
 
-.v-input-list a {
+.v-input-list ul li a {
     text-decoration: none;
     color: #333;
-    padding: 5 0;
+    padding: 5px;
     display: block;
 }
 

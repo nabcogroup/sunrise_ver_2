@@ -1,8 +1,6 @@
 import { cloneObject, copiedValue, ErrorValidations, Validator,ItemHandler,InstanceStorage } from "../../../helpers/helpers";
 
-
 var moment = moment || require('moment');
-
 
 class Expense {
 
@@ -19,8 +17,6 @@ class Expense {
                 editing: false
             }
         };
-        
-        
 
         this.instanceStorage = {};
         this.lookups = {
@@ -56,17 +52,21 @@ class Expense {
         });
     }
 
+    fetchPayees() {
+        axiosRequest.dispatchGet('/api/payee/list').then(r => {
+            this.lookups.payees = [];
+            this.lookups.payees = r.data.data;
+        });
+    }
+
     create(data) {
         axiosRequest.get('expenses', 'create').then(r => {
-            
             this.instanceStorage = new InstanceStorage(r.data.data);
             this.state.entry = this.instanceStorage.getClone();
             this.validator.setRules(r.data.rules);
             this.lookups = r.data.lookups;
-
         })
     }
-
     save(isPosted = false,cbSuccess = null) {
 
         let arx = null;
@@ -74,7 +74,7 @@ class Expense {
         
         let transactions = {
             transaction_no: this.state.transaction !== null ? this.state.transaction.transaction_no : null,
-            items: this.state.items.items
+            items: this.state.items.pops()
         };
         
         if(this.state.progress.saving) {
@@ -128,10 +128,10 @@ class Expense {
 
     registerItem(entry, isEdit = false) {
 
-        var account = _.find(this.lookups.accounts, (item) => item.code == entry.acct_code);
         var property = _.find(this.lookups.villa_location, (item) => item.code == entry.location);
         var villa = _.find(this.lookups.villas, (item) => item.id == entry.villa_id);
         var payee = _.find(this.lookups.payees, (item) => item.id == entry.payee_id);
+        
 
         entry.account = entry.acct_code;
         entry.property = property.name;
@@ -139,6 +139,18 @@ class Expense {
         entry.payee = payee.name;
         entry.payment_date = moment(entry.payment_date).format("L")
         entry.doc_date = moment(entry.doc_date).format("L")
+
+        //wait for the amount to fetch and display it with proper debit credit display
+        if(entry.expense_type == 'debit') {
+            entry.debit_amount = entry.amount;
+            entry.credit_amount = 0;
+        }
+        else {
+            entry.credit_amount = entry.amount;
+            entry.debit_amount = 0;
+        }
+        
+
 
         if (isEdit) {
             this.state.items.update(entry, this.state.current)
@@ -227,6 +239,7 @@ const actions = {
     post: ({state},callback) => state.expense.save(true,callback),
     edit: ({state}, payload) => state.expense.edit(payload.transactionNo),
     fetch: ({state}) => state.expense.fetch(),
+    fetchPayees: ({state}) => state.expense.fetchPayees(),
     fetchPredictive: ({state}) => state.predictive.fetch()
 }
 

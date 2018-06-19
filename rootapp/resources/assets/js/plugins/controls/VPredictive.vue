@@ -45,7 +45,7 @@
 import {EventBus} from "./../../eventbus.js";
 
 const apiStorage = () => ({
-  
+    
   store: (key,data,serialize = false) => {
       if(serialize) {
           localStorage.setItem(key,JSON.stringify(data));
@@ -53,6 +53,10 @@ const apiStorage = () => ({
       else {
           localStorage.setItem(key,data);
       }
+  },
+
+  insertNew: (key,data) => {
+
   },
 
   get: (key) => {
@@ -74,10 +78,11 @@ class Predictive {
         this.state = {
             predictives : []
         }
+
+        this.newInsert = [];
     }
 
     fetch(url) {
-
         if(this.state.predictives.length === 0) {
             //check first if empty 
             if(apiStorage().isEmpty('_predictives')) {
@@ -94,8 +99,10 @@ class Predictive {
     }
 
     insert(item) {
+        
         let predPos = _.findIndex(this.state.predictives,(pred) => pred.description.toLowerCase() == item.description.toLowerCase())
         if(predPos >= 0) return false;
+        this.newInsert.push(item);
         this.state.predictives.push(item);
     }
 
@@ -125,6 +132,7 @@ class Predictive {
     }
 
     store() {
+
         apiStorage().store('_predictives',this.state.predictives,true);
         //this.state.predictives = [];
     }

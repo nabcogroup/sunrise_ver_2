@@ -20,16 +20,20 @@ import VTabGroup from "./containers/VTabGroup.vue";
 import VInputWrapper from "./containers/VInputWrapper.vue";
 import VSwitch from "./controls/VSwitch.vue";
 import VSearch from "./controls/VSearch.vue";
+import VPredictive from "./controls/VPredictive.vue";
+
 
 import VLineChart from "./misc/VLineChart.vue";
 import VListValue from "./misc/VListValue.vue";
 import VTotalSummary from "./misc/VTotalSummary.vue";
-import VPredictive from "./controls/VPredictive.vue";
+import VReportListPanel from "./misc/VReportListPanel.vue";
+
+
+
 
 const MyPlugins = {
 
     install(Vue,options) {
-        
         Vue.component(Accordion.name, Accordion);
         Vue.component('dataView',DataView);
         Vue.component('vSelect',vSelect);
@@ -51,7 +55,7 @@ const MyPlugins = {
         Vue.component(VListValue.name,VListValue);
         Vue.component(VTotalSummary.name,VTotalSummary);
         Vue.component(VPredictive.name,VPredictive);
-        
+        Vue.component(VReportListPanel.name,VReportListPanel);
     }
 }
 

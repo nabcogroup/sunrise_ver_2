@@ -1,14 +1,49 @@
 <template>
     <div>
-        <table id="grid" class="table table-condensed table-hover">
+        <table id="grid" class="table table-condensed table-hover v-gridview-table">
             <thead>
                 <tr class="active">
                     <th v-if="!grid.excludeIndex">No</th>
-                    <th v-for="(key,index) in grid.columns" :style="key.style" @click="sortBy(key)" class="text-center active" :class="{info:sortKey == key.name}" :key="index">
+                    <th v-for="(key,index) in grid.columns" 
+                            :style="key.style" 
+                            class="text-left active" 
+                            :class="{info:gridViewController.sort.key == key.name}" 
+                            :key="index">
+
                         {{ key.column }}
-                        <span v-if="isArrowVisible(key.name)" class="fa fa-fw" :class="sortOrders[key.name] > 0 ?
-                                'fa-long-arrow-down' : 'fa-long-arrow-up'">
-                        </span>
+
+                        <!-- button for sorting -->
+                        <div class='v-gridview-button-group'>
+                            
+                            <span v-if="key.filter"  
+                                @click.prevent.stop="filterProperty.toggle(index)">
+                                <i  class="fa fa-fw fa-filter"></i>
+                            </span>
+                            
+                            <span v-if="key.sorted" @click.prevent="sortBy(key)">
+                                <i v-if="isArrowVisible(key.name)" class="fa fa-fw" :class="gridViewController.sort.orders[key.name] > 0 ?
+                                    'fa-long-arrow-down' : 'fa-long-arrow-up'">
+                                </i>
+                                <i v-else class="fa fa-fw fa-sort"></i>
+                            </span>
+                        </div>
+
+                        <!-- filter -->
+                        <template  v-if="key.filter">
+                        <transition name="v-slide-fade">
+                            <div v-if="filterProperty.selectedFilter === index" class="v-gridview-filter" ref="filterWrapper">
+                                <div class="panel panel-primary wrap">
+                                    <div class="panel-heading">Filter Panel</div>
+                                    <div class="panel-body">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" v-model="gridViewController.filterProperty.value">
+                                        </div>
+                                        <button class="btn btn-info btn-block" @click.prevent="filter(key.name,key.column)" type="button">Filter</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </transition>
+                        </template>
                     </th>
                 </tr>
             </thead>
@@ -64,76 +99,168 @@
                     </td>
                 </tr>
             </tbody>
-            <tfoot v-if="grid.footers">
-                <tr class="active">
-                    <th v-for="(footer,index) in grid.footers" :colspan="footer.span" :key="index" :class="footer.class">
-                        <strong v-if="footer.label">{{footer.label}} :</strong>
-                        <div v-if="footer.slot">
-                            <slot></slot>
-                        </div>
-                    </th>
-                </tr>
+            <tfoot class="v-gridview-footer" v-if="grid.hasFooter">
+                <slot name="footer-slot"></slot>
             </tfoot>
         </table>
-        
+        <div class="row">
+            <div class="col-md-12">
+                <small class="text-primary">Total Row: {{ totalRow }}</small>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 
+class GridViewController {
 
-export default {
-    name: "gridView",
-    props: ['data', 'grid', 'lookups'],
-    data() {
+    constructor(configs) {
+        
+        this.data = []
+        this.filterData = [];
+        this.configs = configs
+
+        this.sort = {
+            key: "",
+            orders: {}
+        }
+
+        this.filterProperty = {
+            field: '',
+            value: '',
+            label: '',
+            selectedFilter: -1,
+            clear() {
+                this.field = ''
+                this.value = ''
+                this.selectedFilter = -1
+            },
+            toggle(index) {
+                if(this.selectedFilter === index) {
+                    this.selectedFilter = -1;
+                }
+                else {
+                    this.selectedFilter = index;
+                }
+            }
+        }
+
+
+        this.init();
+
+    }
+
+    init() {
         let sortOrders = {};
         let sortKey = "";
 
-        this.grid.columns.forEach((key) => {
-
+        this.configs.columns.forEach((key) => {
             sortOrders[key.name] = 1;
             if (key.default !== undefined && key.default == true) {
                 sortKey = key.name;
             }
         });
 
-        return {
-            sortKey: sortKey,
-            editVisible: false,
-            sortOrders: sortOrders
+        this.sort.key = sortKey;
+        this.sort.orders = sortOrders;
+    }
+
+
+    scopeData() {
+        
+        let sortKey = this.sort.key;
+        let order = this.sort.orders[sortKey] || 1
+        let data = [];
+        
+        //filtering
+        if(this.filterProperty.field !== '') {
+            
+            //clear data
+            data = [];
+            
+            //filtering
+            this.data.forEach((item) => {
+                if(item[this.filterProperty.field].toLowerCase().indexOf(this.filterProperty.value.toLowerCase()) >= 0) {
+                    data.push(item);
+                }
+            });
 
         }
+        else {
+            data = this.data;
+        }
+        
+
+        //sorting
+        if (sortKey) {
+            data = data.slice().sort(function(a, b) {
+                a = a[sortKey]
+                b = b[sortKey]
+                return (a === b ? 0 : a > b ? 1 : -1) * order
+            });
+        }
+        
+        return data;
+    }
+
+    sortBy(key) {
+        
+        if (key.static) return false;
+        this.sort.key = key.name;
+        this.sort.orders[key.name] = this.sort.orders[key.name] * -1;
+    }
+
+    fetchData(data) {
+        this.data = data;
+    }
+
+    filter(field,label) {
+        this.filterProperty.field = field;
+
+        this.filterProperty.label = label;
+    }
+}
+
+export default {
+    name: "gridView",
+    props: ['data', 'grid', 'lookups'],
+    data() {
+        return {
+            editVisible: false,
+            gridViewController : new GridViewController(this.grid),
+            totalRow: 0
+        }
+    },
+    mounted() {
+        this.fetchData(this.data);
     },
     computed: {
         filteredData() {
-            let sortKey = this.sortKey;
-            let data;
-            data = this.data;
-
-            let order = this.sortOrders[sortKey] || 1
-            if (sortKey) {
-                data = data.slice().sort(function(a, b) {
-                    a = a[sortKey]
-                    b = b[sortKey]
-                    return (a === b ? 0 : a > b ? 1 : -1) * order
-                });
-            }
-
+            let data = this.gridViewController.scopeData() || [];
             //Emit Event
-            this.$emit('sorted', sortKey);
-
+            this.$emit('sorted', this.gridViewController.sort.key);
+            
+            this.totalRow = data.length;
+            
             return data;
+        },
+        filterProperty() {
+            return this.gridViewController.filterProperty;
         },
         actionButtons() {
             return this.grid.actions;
-        }
+        },
     },
     methods: {
         sortBy: function(key) {
-            if (key.static) return false;
-
-            this.sortKey = key.name;
-            this.sortOrders[key.name] = this.sortOrders[key.name] * -1;
+           this.gridViewController.sortBy(key);
+        },
+        fetchData() {
+            this.gridViewController.fetchData(this.data);
+        },
+        filter(name,label) {
+            this.gridViewController.filter(name,label);
         },
         render: function(entry, key) {
             //check pipe period_start|period_end
@@ -168,7 +295,7 @@ export default {
             this.$emit('action', action, id, index);
         },
         isArrowVisible(name) {
-            return this.sortKey === name;
+            return this.gridViewController.sort.key === name;
         },
         isIncludeEdit(key) {
             return (key.editable && !key.static);
@@ -179,11 +306,49 @@ export default {
         onPaginateClick(url) {
             this.$emit("paginateClick", url);
         }
+    },
+    watch:{
+        'data': 'fetchData'
     }
 }
 </script>
 
 
 <style>
+    .v-gridview-table {
+        font-size: 0.75rem ;
+    }
+    .v-gridview-table th {
+        position: relative;
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        font-size: 12px;
+        
+    }
 
+    .v-gridview-table thead th {
+        border: 1px solid darkgrey;
+    }
+
+    .v-gridview-footer {
+        background: #f5f5f5;
+    }
+
+    .v-gridview-button-group {
+        position: absolute;
+        top: 25%;
+        right: 0;
+        cursor: pointer;
+        color: darkgray;
+        width: auto;    
+    }
+
+    .v-gridview-filter {
+        position: absolute;
+        top: 100%;
+        left: 60%;
+        z-index: 999;
+        width: 250px;
+    }
+    
 </style>

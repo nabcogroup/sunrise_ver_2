@@ -149,32 +149,49 @@ const confirmation = {
 };
 
 export default {
-	beforeMount() {
-		EventBus.$on("onSavePayee", response => {
-			this.save(response);
-    });
-	},
-  mounted() {
-		if(!this.payeeId || this.payeeId === '') {
-			this.$store.dispatch("payees/create");
-		}
-		else {
-			this.$store.dispatch("payees/edit",{id: this.payeeId})
-		}
-  },
-  props: ["type","payeeId"],
+    beforeMount() {
+        EventBus.$on("payee.in.saving", response => {
+            this.save(false);
+        });
+    },
+    mounted() {
+
+        EventBus.$on('payee.in.attributes',(option) => {
+            this.$store.commit('payees/addPayeeAttribute',option);
+        });
+
+        if(!this.payeeId || this.payeeId === '') {
+            this.$store.dispatch("payees/create",{option: this.option || null });
+        }
+        else {
+            this.$store.dispatch("payees/edit",{id: this.payeeId})
+        }
+
+    },
+  props: ["type","payeeId","option"],
   computed: mapGetters("payees", {
     payee: "payee",
     payeeTypes: "payeeTypes",
     errors: "errors"
   }),
   methods: {
-    save() {
-      confirmation.PayeeSave(result => {
-        if (result) {
-					this.$store.dispatch("payees/save");
+    save(hasConfirmation = true) {
+        if(hasConfirmation) {
+            confirmation.PayeeSave(result => {
+                if (result) {
+                    this.$store.dispatch("payees/save",() => {
+                        toastr.success("Payee successfully added")
+                        this.$emit('saved');
+                    });
+                }
+            });
         }
-      });
+        else {
+            this.$store.dispatch("payees/save",() => {
+                toastr.success("Payee successfully added")
+                this.$emit('saved');
+            });
+        }
     }
   }
 };
